@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "266567609824",
+    "firebase_url": "https://quizee-616dd.firebaseio.com",
+    "project_id": "quizee-616dd",
+    "storage_bucket": "quizee-616dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266567609824:android:10b3db9af9573baa",
+        "android_client_info": {
+          "package_name": "com.app.game.quizee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266567609824-ptht8hapumls0cfenfijfduoptlr9afm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuRzKlIMQ5LeO0UUgb6VaZBIAOyMIpwnc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266567609824-ptht8hapumls0cfenfijfduoptlr9afm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
