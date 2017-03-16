@@ -14,12 +14,15 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.app.game.quizee.R.string.categoriesPlay;
+
 /**
  * Created by ggegiya1 on 2/16/17.
  */
 
 public class QuestionActivity extends AppCompatActivity{
 
+    //User interface attributes
     TextView questionText;
     TextView categoryTitle;
     Button answer1;
@@ -32,6 +35,18 @@ public class QuestionActivity extends AppCompatActivity{
     String correctAnswer;
     Timer timer;
     TimerTask elapsedTime;
+    String mode;
+
+    //Categories Game mode Attributes
+    Boolean Computers;
+    Boolean History;
+    Boolean Music;
+    Boolean VideoGames;
+    Boolean Art;
+    Boolean GeneralKnowledge;
+    Boolean Geography;
+    Boolean categories[];
+    Integer trueCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +78,23 @@ public class QuestionActivity extends AppCompatActivity{
         timer = new Timer(true);
         newQuestion();
 
+
+
+        mode = getIntent().getStringExtra("mode");
+        if (mode.equals("categoriesPlay")) {
+            Computers = getIntent().getBooleanExtra("Computers" , true);
+            History = getIntent().getBooleanExtra("History" , true);
+            Music = getIntent().getBooleanExtra("Music" , true);
+            VideoGames = getIntent().getBooleanExtra("VideoGames" , true);
+            Art = getIntent().getBooleanExtra("Art" , true);
+            GeneralKnowledge = getIntent().getBooleanExtra("GeneralKnowledge" , true);
+            Geography = getIntent().getBooleanExtra("Geography" , true);
+            categories = new Boolean[7];
+            trueCategories = 0;
+            for(int i = 0; i < categories.length; i++) {
+                trueCategories ++;
+            }
+        }
     }
 
     public class QuestionFetcher extends AsyncTask<String, Object, Question>{
@@ -115,8 +147,14 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
     private void newQuestion(){
+        if(mode.equals("categoriesPlay")) {
+            QuestionFetcher questionFetcher = new QuestionFetcher();
+            questionFetcher.execute("");
+        }
+        if(mode.equals("quickPlay")) {
         QuestionFetcher questionFetcher = new QuestionFetcher();
         questionFetcher.execute("");
+        }
     }
 
     private void reinitializer(){

@@ -19,4 +19,7 @@
     <string name="message_logged_in">Logged in as %s</string>
     <string name="message_logged_out">Logged out</string>
     <string name="loading">Loading …</string>
+    <string name="Play">Play</string>
+    <string name="quickPlay">Quick play</string>
+    <string name="categoriesPlay">Play with categories</string>
 </resources>
