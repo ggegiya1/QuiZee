@@ -13,40 +13,69 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:id="@+id/avatar" />
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/avatar"
+                android:contentDescription="@string/avatar_contentDescription"
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:id="@+id/fragment_title" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/fragment_title"
+                android:layout_toEndOf="@id/avatar"
+                android:text="name goes here"
+                android:gravity="center"
+                android:textSize="20sp"/>
 
             <TextView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/currency"
+                android:gravity="center"
+                android:layout_toStartOf="@+id/level"
+                android:text="0$"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:id="@+id/level"
-                android:background="@drawable/ic_star" />
+                android:gravity="center"
+                android:background="@drawable/ic_star"
+                android:layout_toStartOf="@+id/settingsButton"
+                android:text="0"
+                android:backgroundTint="@color/starBackground"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:src="@drawable/ic_settings"
                 android:onClick="settingsActivity"
-                android:contentDescription="@string/toolbar_settings"/>
+                android:contentDescription="@string/settingsButton_contentDescription"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/settingsButton"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:layout_below="@+id/my_toolbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -55,13 +84,4 @@
         android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/navigation"
-        android:layout_alignParentTop="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 </RelativeLayout>
