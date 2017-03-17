@@ -79,7 +79,7 @@ public class QuestionActivity extends AppCompatActivity{
         newQuestion();
 
 
-
+        /* ajout de tristan
         mode = getIntent().getStringExtra("mode");
         if (mode.equals("categoriesPlay")) {
             Computers = getIntent().getBooleanExtra("Computers" , true);
@@ -94,7 +94,7 @@ public class QuestionActivity extends AppCompatActivity{
             for(int i = 0; i < categories.length; i++) {
                 trueCategories ++;
             }
-        }
+        }*/
     }
 
     public class QuestionFetcher extends AsyncTask<String, Object, Question>{
@@ -147,14 +147,14 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
     private void newQuestion(){
-        if(mode.equals("categoriesPlay")) {
+        /*if(mode.equals("categoriesPlay")) { //ajout de tristan
             QuestionFetcher questionFetcher = new QuestionFetcher();
             questionFetcher.execute("");
         }
-        if(mode.equals("quickPlay")) {
+        if(mode.equals("quickPlay")) {*/
         QuestionFetcher questionFetcher = new QuestionFetcher();
         questionFetcher.execute("");
-        }
+       // }
     }
 
     private void reinitializer(){
