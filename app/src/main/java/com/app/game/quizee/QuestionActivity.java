@@ -1,13 +1,17 @@
 package com.app.game.quizee;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,7 +28,6 @@ public class QuestionActivity extends AppCompatActivity{
 
     //User interface attributes
     TextView questionText;
-    TextView categoryTitle;
     Button answer1;
     Button answer2;
     Button answer3;
@@ -36,6 +39,12 @@ public class QuestionActivity extends AppCompatActivity{
     Timer timer;
     TimerTask elapsedTime;
     String mode;
+    ProgressBar pb;
+    MyCountDownTimer countDownTimer;
+    long timeRemaining;
+
+
+
 
     //Categories Game mode Attributes
     Boolean Computers;
@@ -60,9 +69,6 @@ public class QuestionActivity extends AppCompatActivity{
                 newQuestion();
             }
         });
-        Button exitButton = (Button) findViewById(R.id.button_question_change_category);
-
-        categoryTitle = (TextView) findViewById(R.id.text_category_title);
         questionText = (TextView) findViewById(R.id.text_question);
         correctlyAnswered = (Button) findViewById(R.id.button_correctly_answered);
         pointsEarned = (Button) findViewById(R.id.button_points_earned);
@@ -75,7 +81,7 @@ public class QuestionActivity extends AppCompatActivity{
         answer3.setOnClickListener(answerValidator());
         answer4 = (Button) findViewById(R.id.button_response_4);
         answer4.setOnClickListener(answerValidator());
-        timer = new Timer(true);
+        //timer = new Timer(true); remplacé par countdown timer
         newQuestion();
 
 
@@ -113,7 +119,6 @@ public class QuestionActivity extends AppCompatActivity{
         protected void onPostExecute(Question question) {
             Log.i("activity.question", "fetched question: " + question.toString());
             questionText.setText(question.getQuestion());
-            categoryTitle.setText(question.getCategory());
             List<String> answers = question.getAnswers(true);
             answer1.setText(answers.get(0));
             answer2.setText(answers.get(1));
@@ -152,9 +157,11 @@ public class QuestionActivity extends AppCompatActivity{
             questionFetcher.execute("");
         }
         if(mode.equals("quickPlay")) {*/
+        countDownTimer = new MyCountDownTimer(5000,50);
+
         QuestionFetcher questionFetcher = new QuestionFetcher();
         questionFetcher.execute("");
-       // }
+        // }
     }
 
     private void reinitializer(){
@@ -169,5 +176,62 @@ public class QuestionActivity extends AppCompatActivity{
         UserProfile userProfile = UserProfile.getUserProfile("1");
         correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered()));
         pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
+    }
+
+    //custom countdownTimer class
+    public class MyCountDownTimer extends CountDownTimer {
+
+        public MyCountDownTimer(long startTime, long timeBetweenTicks) {
+            super(startTime, timeBetweenTicks);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            timeRemaining = millisUntilFinished;
+            pb.setProgress((int) millisUntilFinished / 50);
+            if(millisUntilFinished <= 1000) {
+                pb.getIndeterminateDrawable().setColorFilter((Color.RED), PorterDuff.Mode.SRC_ATOP);
+            } else if (millisUntilFinished <= 3000){
+                pb.getIndeterminateDrawable().setColorFilter((Color.YELLOW), PorterDuff.Mode.SRC_ATOP);
+            } else {
+                pb.getIndeterminateDrawable().setColorFilter((Color.GREEN), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    }
+
+
+    public void addTime(View v) {
+        countDownTimer.cancel();
+        countDownTimer = new MyCountDownTimer(timeRemaining =+ 5000, 100);
+    }
+
+
+
+
+
+    //prevents quiting game accidently on back pressed
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder Ad = new AlertDialog.Builder(this);
+        Ad.setIcon(android.R.drawable.ic_dialog_alert);
+        Ad.setMessage(R.string.AlertDialog_message);
+        Ad.setTitle(R.string.AlertDialog_title);
+
+        //actions when user says yes
+        Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        } );
+        Log.i("activity question", "user left activity");
+
+        Ad.setNegativeButton(R.string.no,null);
+        Ad.show();
     }
 }

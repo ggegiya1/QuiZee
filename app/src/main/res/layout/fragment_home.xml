@@ -9,29 +9,46 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_Play_Categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/categoriesPlay"
-        android:layout_weight="0.3"
-        android:onClick="categoriesPlay"/>
-
-    <Button
-        android:id="@+id/button_quickPlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/quickPlay"
-        android:layout_weight="0.3"
-        android:onClick="quickPlay"/>
+        <Button
+            android:textSize="20sp"
+            android:id="@+id/button_Play_Categories"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="@string/categoriesPlay"
+            android:layout_weight="0.1"
+            android:onClick="categoriesPlay"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableLeft="@drawable/ic_play"/>
 
         <Button
+            android:textSize="20sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:text="@string/multiPlay"
-            android:layout_weight="0.3"
-            android:onClick="multiPlay"/>
+            android:layout_weight="0.1"
+            android:onClick="multiPlay"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
+        <Button
+            android:textSize="20sp"
+            android:id="@+id/button_quickPlay"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="@string/quickPlay"
+            android:layout_weight="0.1"
+            android:onClick="quickPlay"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableLeft="@drawable/ic_practice"/>
+
+
 
     </android.support.v7.widget.LinearLayoutCompat>
 </FrameLayout>

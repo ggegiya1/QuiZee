@@ -1,16 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    xmlns:style="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/caterogy_Icon"
+                android:contentDescription="@string/avatar_contentDescription"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/caterogy_Textview"
+                android:layout_toEndOf="@id/caterogy_Icon"
+                android:text="Caterogy"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_alignStartOf="@id/level"/>
+
+
+
+            <TextView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/level"
+                android:gravity="center"
+                android:background="@drawable/ic_star"
+                android:layout_toStartOf="@+id/currency"
+                android:text="0"
+                android:backgroundTint="@color/starBackground"/>
+
+            <TextView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/currency"
+                android:gravity="center"
+                android:layout_alignParentEnd="true"
+                android:text="0$"
+                android:textSize="30sp"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        android:layout_below="@id/my_toolbar"
+        android:id="@+id/GameStatus">
 
         <Button
             android:layout_width="wrap_content"
@@ -33,84 +87,106 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_category_title"
-        android:layout_weight="0.07"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="normal|bold"
-        android:textAlignment="center"
-        android:paddingTop="2sp"
-        android:paddingBottom="2sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:id="@+id/text_question"
-        android:layout_weight="0.58"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:lineSpacingExtra="8sp"
         android:textAlignment="textStart"
         android:paddingLeft="8sp"
-        android:paddingRight="8sp" />
+        android:paddingRight="8sp"
+        android:layout_below="@+id/GameStatus"/>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_response_1"
-        style="@style/Widget.AppCompat.Button" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_response_2"
-        style="@style/Widget.AppCompat.Button" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_response_3"
-        style="@style/Widget.AppCompat.Button" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_response_4"
-        style="@style/Widget.AppCompat.Button" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.19" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.07">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/answer_buttons"
+        android:layout_below="@+id/text_question"
+        android:layout_above="@+id/progressBar">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_1"
+            android:layout_weight="0.25"
+            style="@style/Widget.AppCompat.Button" />
 
         <Button
-            android:text="Exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_question_change_category"
-            android:layout_alignBaseline="@+id/button_question_skip"
-            android:layout_alignBottom="@+id/button_question_skip"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="71dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_2"
+            android:layout_weight="0.25"
+            style="@style/Widget.AppCompat.Button" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_3"
+            android:layout_weight="0.25"
+            style="@style/Widget.AppCompat.Button" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_4"
+            android:layout_weight="0.25"
+            style="@style/Widget.AppCompat.Button" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/progressBar"
+        android:layout_above="@+id/bottom_buttons"
+    />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom_buttons">
+
+        <Button
+            android:text="@string/Bomb_Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_bomb"
+            android:layout_weight="0.25"
             android:background="@android:drawable/btn_default"
             android:backgroundTint="@android:color/transparent" />
 
         <Button
-            android:text="Skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
+            android:text="@string/Hint_Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_hint"
+            android:layout_weight="0.25"
+            android:background="@android:drawable/btn_default"
+            android:backgroundTint="@android:color/transparent" />
+
+        <Button
+            android:text="@string/addTime_Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_add_time"
+            android:layout_weight="0.25"
+            android:onClick="addTime"
+            android:background="@android:drawable/btn_default"
+            android:backgroundTint="@android:color/transparent" />
+
+        <Button
+            android:text="@string/Skip_Button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/button_question_skip"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
+            android:layout_weight="0.25"
             style="@style/Widget.AppCompat.Button.Colored"
             android:background="@android:drawable/btn_default"
             android:textColor="?android:attr/textColorPrimary"
             android:backgroundTint="@android:color/transparent" />
-    </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

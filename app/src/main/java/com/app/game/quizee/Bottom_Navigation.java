@@ -32,8 +32,6 @@ public class Bottom_Navigation extends AppCompatActivity {
         setContentView(R.layout.activity_bottom__navigation);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
-
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         navigation.setOnNavigationItemSelectedListener(
@@ -118,21 +116,26 @@ public class Bottom_Navigation extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+
+    //on play button pressed
     public void categoriesPlay(View v) {
         Intent intent = new Intent(getApplicationContext(), CategorySelectionActivity.class);
         startActivity(intent);
     }
 
+    //on practice button pressed
     public void quickPlay(View v) {
         Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
         startActivity(intent);
     }
 
+    //on play with friends button pressed
     public void multiPlay(View v) {
         Intent intent = new Intent(getApplicationContext(), MultiplayerLobbyActivity.class);
         startActivity(intent);
     }
 
+    //on settings button pressed
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);

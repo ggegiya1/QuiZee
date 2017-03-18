@@ -13,7 +13,8 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiplayer_lobby);
     }
 
-    private void multiPlay(View v) {
+    //on play button pressed
+    public void multiPlay(View v) {
         Intent intent = new Intent(getApplicationContext(), MultiplayerQuestionActivity.class);
         startActivity(intent);
     }

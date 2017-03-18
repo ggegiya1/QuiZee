@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_archivements"
         android:icon="@drawable/ic_check"
-        android:title="@string/title_archivements" />
+        android:title="@string/title_achivements" />
 
     <item
         android:id="@+id/navigation_stats"

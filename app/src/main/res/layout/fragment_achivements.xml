@@ -4,10 +4,63 @@
     android:layout_height="match_parent"
     tools:context="com.app.game.quizee.AchivementsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Achivements" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckedTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Career_Achivements"
+                android:id="@+id/Career_Achivements_Button"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Career_Achivements_List">
+            </ListView>
+
+            <CheckedTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Category_Based_Achivements"
+                android:id="@+id/Category_Achivements_Button"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Category_Achivements_List">
+            </ListView>
+
+            <CheckedTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Mode_Based_Achivements"
+                android:id="@+id/Mode_Achivements_Button"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Mode_Achivements_List">
+            </ListView>
+
+            <CheckedTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Epic_Achivements"
+                android:id="@+id/Epic_Achivements_Button"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Epic_Achivements_List">
+            </ListView>
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
