@@ -15,7 +15,7 @@ import layout.HomeFragment;
 import layout.StatsFragment;
 
 public class Bottom_Navigation extends AppCompatActivity {
-    //inspiré de https://github.com/jaisonfdo/BottomNavigation pour les view pager et le buttom navigation
+    //inspiré de https://github.com/jaisonfdo/BottomNavigation pour les view pager et le buttom bottom_navigation
 
 
     private ViewPager viewPager;

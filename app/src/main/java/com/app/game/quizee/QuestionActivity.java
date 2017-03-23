@@ -1,23 +1,40 @@
 package com.app.game.quizee;
 
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.R.id.list;
+import static android.os.Build.VERSION_CODES.N;
 import static com.app.game.quizee.R.string.categoriesPlay;
 
 /**
@@ -27,7 +44,12 @@ import static com.app.game.quizee.R.string.categoriesPlay;
 public class QuestionActivity extends AppCompatActivity{
 
     //User interface attributes
-    TextView questionText;
+    TextSwitcher questionTextSwitcher;
+
+    TextSwitcher answer1TextSwitcher;
+    TextSwitcher answer2TextSwitcher;
+    TextSwitcher answer3TextSwitcher;
+    TextSwitcher answer4TextSwitcher;
     Button answer1;
     Button answer2;
     Button answer3;
@@ -41,10 +63,9 @@ public class QuestionActivity extends AppCompatActivity{
     String mode;
     ProgressBar pb;
     MyCountDownTimer countDownTimer;
-    long timeRemaining;
-
-
-
+    List<TextSwitcher> TextSwitchers;
+    TextView category;
+    ImageView icon;
 
     //Categories Game mode Attributes
     Boolean Computers;
@@ -69,23 +90,62 @@ public class QuestionActivity extends AppCompatActivity{
                 newQuestion();
             }
         });
-        questionText = (TextView) findViewById(R.id.text_question);
+        questionTextSwitcher = (TextSwitcher) findViewById(R.id.text_question);
+        pb = (ProgressBar) findViewById(R.id.progressBar);
+        pb.setRotation(180);
+        //ajoute les view a créé lors de lanimation de changement de texte du questionTextSwitcher
+        //viewfactory tiré de la page http://www.androhub.com/android-textswitcher/
+        questionTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+
+            public View makeView() {
+                //crer un TextView avec des caractéristiques
+                TextView myText = new TextView(QuestionActivity.this);
+                myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+                myText.setTextSize(30);
+                return myText;
+            }
+        });
+
+        category = (TextView) findViewById(R.id.caterogy_Textview);
+
+        icon = (ImageView) findViewById(R.id.caterogy_Icon);
         correctlyAnswered = (Button) findViewById(R.id.button_correctly_answered);
         pointsEarned = (Button) findViewById(R.id.button_points_earned);
 
-        answer1 = (Button) findViewById(R.id.button_response_1);
-        answer1.setOnClickListener(answerValidator());
-        answer2 = (Button) findViewById(R.id.button_response_2);
-        answer2.setOnClickListener(answerValidator());
-        answer3 = (Button) findViewById(R.id.button_response_3);
-        answer3.setOnClickListener(answerValidator());
-        answer4 = (Button) findViewById(R.id.button_response_4);
-        answer4.setOnClickListener(answerValidator());
-        //timer = new Timer(true); remplacé par countdown timer
+        answer1TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_1);
+        answer2TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_2);
+        answer3TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_3);
+        answer4TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_4);
+
+        TextSwitchers = new ArrayList<TextSwitcher>();
+        TextSwitchers.add(answer1TextSwitcher);
+        TextSwitchers.add(answer2TextSwitcher);
+        TextSwitchers.add(answer3TextSwitcher);
+        TextSwitchers.add(answer4TextSwitcher);
+
+        //ajoute le viewFactory pour les animations des boutons
+        for (TextSwitcher ts: TextSwitchers) {
+            ts.setFactory(
+                    new ViewSwitcher.ViewFactory() {
+
+                        public View makeView() {
+                            //crer un Button avec des caractéristiques
+                            Button myButton = new Button(QuestionActivity.this);
+                            myButton.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                            myButton.setTextSize(15);
+                            myButton.setOnClickListener(answerValidator());
+                            final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            myButton.setLayoutParams(lp);
+                            return myButton;
+                        }
+                    });
+        }
+
+        //timer = new Timer(true); TODO effacer si inutile
         newQuestion();
 
 
-        /* ajout de tristan
+        /* ajout de tristan TODO effacer si inutile
         mode = getIntent().getStringExtra("mode");
         if (mode.equals("categoriesPlay")) {
             Computers = getIntent().getBooleanExtra("Computers" , true);
@@ -103,7 +163,7 @@ public class QuestionActivity extends AppCompatActivity{
         }*/
     }
 
-    public class QuestionFetcher extends AsyncTask<String, Object, Question>{
+    private class QuestionFetcher extends AsyncTask<String, Object, Question>{
         @Override
         protected Question doInBackground(String... params) {
             Question question = null;
@@ -118,12 +178,33 @@ public class QuestionActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Question question) {
             Log.i("activity.question", "fetched question: " + question.toString());
-            questionText.setText(question.getQuestion());
+            questionTextSwitcher.setText(question.getQuestion());
             List<String> answers = question.getAnswers(true);
-            answer1.setText(answers.get(0));
-            answer2.setText(answers.get(1));
-            answer3.setText(answers.get(2));
-            answer4.setText(answers.get(3));
+
+            //efface les couleurs sur les boutons et mets le texte correspondant aux boutons
+            for (int i=0; i<TextSwitchers.size(); i++){
+                TextSwitcher ts = TextSwitchers.get(i);
+                ts.setText(answers.get(i));
+                ts.getChildAt(0).getBackground().clearColorFilter();
+                ts.getChildAt(1).getBackground().clearColorFilter();
+                category.setText(question.getCategory());
+                switch (question.getCategory()) {
+                    case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
+                        break;
+                    case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);
+                        break;
+                    case "Geography" : icon.setBackgroundResource(R.drawable.ic_geography);
+                        break;
+                    case "Art" : icon.setBackgroundResource(R.drawable.ic_art);
+                        break;
+                    case "History" : icon.setBackgroundResource(R.drawable.ic_history);
+                        break;
+                    case "Entertainment: Music" : icon.setBackgroundResource(R.drawable.music_category_icon);
+                        break;
+                    case "Entertainment: Video Games" : icon.setBackgroundResource(R.drawable.videogames_category_icon);
+                        break;
+                }
+            }
             correctAnswer = question.getCorrectAnswer();
             reinitializer();
         }
@@ -137,6 +218,7 @@ public class QuestionActivity extends AppCompatActivity{
                 Log.i("activity.question", String.format("answer: %s", answer));
                 if (answer.equals(correctAnswer)){
                     Log.i("activity.question", "answer is correct");
+
                     v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                     UserProfile.getUserProfile("1").addCorrectAnswer();
 //                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
@@ -157,57 +239,65 @@ public class QuestionActivity extends AppCompatActivity{
             questionFetcher.execute("");
         }
         if(mode.equals("quickPlay")) {*/
-        countDownTimer = new MyCountDownTimer(5000,50);
-
         QuestionFetcher questionFetcher = new QuestionFetcher();
         questionFetcher.execute("");
         // }
     }
 
     private void reinitializer(){
-//        Animation mAnimation = new AlphaAnimation(1, 0);
-//        mAnimation.setDuration(200);
-//        mAnimation.setInterpolator(new LinearInterpolator());
-//                v.startAnimation(mAnimation);
-        answer1.getBackground().clearColorFilter();
-        answer2.getBackground().clearColorFilter();
-        answer3.getBackground().clearColorFilter();
-        answer4.getBackground().clearColorFilter();
         UserProfile userProfile = UserProfile.getUserProfile("1");
         correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered()));
         pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
+        if (countDownTimer != null) {
+            countDownTimer.cancel();}
+        countDownTimer = new MyCountDownTimer(5000, 50);
+        countDownTimer.start();
     }
 
     //custom countdownTimer class
-    public class MyCountDownTimer extends CountDownTimer {
+    private class MyCountDownTimer extends CountDownTimer {
+        private long timeRemaining;
 
-        public MyCountDownTimer(long startTime, long timeBetweenTicks) {
+        private MyCountDownTimer(long startTime, long timeBetweenTicks) {
             super(startTime, timeBetweenTicks);
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
             timeRemaining = millisUntilFinished;
-            pb.setProgress((int) millisUntilFinished / 50);
             if(millisUntilFinished <= 1000) {
-                pb.getIndeterminateDrawable().setColorFilter((Color.RED), PorterDuff.Mode.SRC_ATOP);
+                pb.setProgressTintList(ColorStateList.valueOf(Color.RED));
             } else if (millisUntilFinished <= 3000){
-                pb.getIndeterminateDrawable().setColorFilter((Color.YELLOW), PorterDuff.Mode.SRC_ATOP);
+                int colorTransition = (int) (millisUntilFinished - 1000) * 255 /2000;
+                pb.setProgressTintList(ColorStateList.valueOf(0xFFFF0000 + (colorTransition << 8)));
+                Log.i("couleur", "" + colorTransition);
+            } else if (millisUntilFinished <= 5000){
+                int colorTransition = (int) (millisUntilFinished - 3000) * 255 /2000;
+                pb.setProgressTintList(ColorStateList.valueOf(0xFFFFFF00 - (colorTransition << 16)));
             } else {
-                pb.getIndeterminateDrawable().setColorFilter((Color.GREEN), PorterDuff.Mode.SRC_ATOP);
+                pb.setProgressTintList(ColorStateList.valueOf(0xFF00FF00));
             }
+            pb.setProgress((int) millisUntilFinished / 50);
         }
 
         @Override
         public void onFinish() {
+            newQuestion();
+            //TODO que faire dautre lorsquil ne reste plus de temps
+        }
 
+        public long getTimeRemaining() {
+            return timeRemaining;
         }
     }
 
 
+    //ce quil se passe lorsque lon clique sur +5 sec
     public void addTime(View v) {
+        long newTime = countDownTimer.getTimeRemaining() + 5000;
         countDownTimer.cancel();
-        countDownTimer = new MyCountDownTimer(timeRemaining =+ 5000, 100);
+        countDownTimer = new MyCountDownTimer(newTime, 50);
+        countDownTimer.start();
     }
 
 
@@ -229,9 +319,9 @@ public class QuestionActivity extends AppCompatActivity{
                 finish();
             }
         } );
-        Log.i("activity question", "user left activity");
+        Log.i("activity question", "user left question activity");
 
-        Ad.setNegativeButton(R.string.no,null);
+        Ad.setNegativeButton(R.string.no, null);
         Ad.show();
     }
 }

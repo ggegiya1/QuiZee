@@ -81,7 +81,7 @@ public class ShopFragment extends Fragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             // throw new RuntimeException(context.toString()+ " must implement OnFragmentInteractionListener");
-            // TODO trouver pourquoi cette ligne existe
+            // TODO trouver pourquoi la ligne precedante existe par default
         }
     }
 

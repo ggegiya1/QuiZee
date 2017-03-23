@@ -14,7 +14,16 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -52,8 +61,7 @@
                 android:gravity="center"
                 android:background="@drawable/ic_star"
                 android:layout_toStartOf="@+id/settingsButton"
-                android:text="0"
-                android:backgroundTint="@color/starBackground"/>
+                android:text="0"/>
 
             <ImageButton
                 android:layout_width="?attr/actionBarSize"
@@ -62,7 +70,8 @@
                 android:onClick="settingsActivity"
                 android:contentDescription="@string/settingsButton_contentDescription"
                 android:layout_alignParentEnd="true"
-                android:id="@+id/settingsButton"/>
+                android:id="@+id/settingsButton"
+                android:backgroundTint="@color/colorPrimary"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
@@ -83,5 +92,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/bottom_navigation" />
 </RelativeLayout>

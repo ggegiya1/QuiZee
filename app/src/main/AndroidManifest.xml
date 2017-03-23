@@ -37,10 +37,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MultiplayerLobbyActivity" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity android:name=".MultiplayerQuestionActivity"></activity>
+        <activity android:name=".MultiplayerQuestionActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

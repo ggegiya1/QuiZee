@@ -26,13 +26,14 @@
             android:textSize="20sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:text="@string/multiPlay"
             android:layout_weight="0.1"
             android:onClick="multiPlay"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"/>
+            android:layout_marginRight="30dp"
+            android:drawableLeft="@drawable/ic_multi_player"/>
 
         <Button
             android:textSize="20sp"

@@ -8,10 +8,11 @@
         android:text="Select Category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="40sp"
         android:id="@+id/textView2"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textAlignment="center"
-        android:layout_weight="0.15" />
+        android:layout_weight="0.10" />
 
     <CheckedTextView
         android:text="Music"
@@ -19,8 +20,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_music"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:drawableLeft="@drawable/music_category_icon"
+        android:drawableStart="@drawable/music_category_icon"
         android:layout_weight="0.1"/>
 
     <CheckedTextView
@@ -29,8 +31,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_video_games"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:drawableLeft="@drawable/videogames_category_icon"
+        android:drawableStart="@drawable/videogames_category_icon"
         android:layout_weight="0.1"/>
 
     <CheckedTextView
@@ -39,8 +42,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_computers"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1"
+        android:drawableStart="@drawable/ic_computer"/>
 
     <CheckedTextView
         android:text="History"
@@ -48,8 +53,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_history"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1"
+        android:drawableLeft="@drawable/ic_history"/>
 
     <CheckedTextView
         android:text="Geography"
@@ -57,8 +64,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_geography"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1"
+        android:drawableStart="@drawable/ic_geography"/>
 
     <CheckedTextView
         android:text="Art"
@@ -66,8 +75,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_art"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.1"
+        android:drawableStart="@drawable/ic_art"/>
 
     <CheckedTextView
         android:text="General Knowledge"
@@ -75,8 +86,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_knowledge"
         android:checked="false"
+        android:textSize="30sp"
         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1"
+        android:drawableStart="@drawable/ic_general_knowledge"/>
 
     <Button
         android:id="@+id/button_start"
@@ -85,6 +98,6 @@
         android:layout_weight="0.15"
         android:onClick="Play"
         android:text="@string/Play"
-        android:drawableLeft="@mipmap/play"/>
+        android:drawableStart="@mipmap/play"/>
 
 </LinearLayout>

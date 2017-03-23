@@ -16,49 +16,49 @@
             <CheckedTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/Career_Achivements"
+                android:text="@string/Career_Achievements"
                 android:id="@+id/Career_Achivements_Button"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Career_Achivements_List">
+                android:id="@+id/Career_Achievements_List">
             </ListView>
 
             <CheckedTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/Category_Based_Achivements"
-                android:id="@+id/Category_Achivements_Button"/>
+                android:text="@string/Category_Based_Achievements"
+                android:id="@+id/Category_Achievements_Button"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Category_Achivements_List">
+                android:id="@+id/Category_Achievements_List">
             </ListView>
 
             <CheckedTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/Mode_Based_Achivements"
-                android:id="@+id/Mode_Achivements_Button"/>
+                android:text="@string/Mode_Based_Achievements"
+                android:id="@+id/Mode_Achievements_Button"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Mode_Achivements_List">
+                android:id="@+id/Mode_Achievements_List">
             </ListView>
 
             <CheckedTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/Epic_Achivements"
-                android:id="@+id/Epic_Achivements_Button"/>
+                android:text="@string/Epic_Achievements"
+                android:id="@+id/Epic_Achievements_Button"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Epic_Achivements_List">
+                android:id="@+id/Epic_Achievements_List">
             </ListView>
 
         </LinearLayout>

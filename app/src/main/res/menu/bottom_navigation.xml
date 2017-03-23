@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_archivements"
         android:icon="@drawable/ic_check"
-        android:title="@string/title_achivements" />
+        android:title="@string/title_achievements" />
 
     <item
         android:id="@+id/navigation_stats"
@@ -25,7 +25,5 @@
     android:id="@+id/navigation_contacts"
     android:icon="@drawable/ic_contacts"
     android:title="@string/title_contacts" />
-
-
 
 </menu>
