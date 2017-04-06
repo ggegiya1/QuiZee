@@ -39,7 +39,22 @@
     <string name="multiPlay">Play with friends</string>
 
     <!-- strings related to category selection activity -->
+    <string name="categorySelection">Select categories</string>
     <string name="categoriesPlay">Play</string>
+
+    <!-- Strings related to contacts-->
+    <string name="hint_search_friends">SEARCH A FRIEND</string>
+    <string name="search_results">Search results</string>
+    <string name="suggested_players">Suggested players</string>
+    <string name="favorite_contacts">Favorite contacts</string>
+
+    <!-- Strings related to multiplayer-->
+    <string name="VS">VS</string>
+    <string name="pref_title_notification_friend_request_accepted">Friend request accepted notification</string>
+    <string name="pref_title_gaming_request_notifications">Gaming request notification</string>
+    <string name="pref_title_reset_account">Reset account</string>
+    <string name="pref_header_account">Account</string>
+    <string name="pref_header_about">About</string>
 
     <!-- Strings related to achivements-->
     <string name="Epic_Achievements">Epic Achivements</string>
@@ -147,19 +162,7 @@
     <!-- TODO: Remove or change this placeholder text -->
 
 
-    <!-- Strings related to contacts-->
-    <string name="hint_search_friends">SEARCH A FRIEND</string>
-    <string name="search_results">Search results</string>
-    <string name="suggested_players">Suggested players</string>
-    <string name="favorite_contacts">Favorite contacts</string>
 
-    <!-- Strings related to multiplayer-->
-    <string name="VS">VS</string>
-    <string name="pref_title_notification_friend_request_accepted">Friend request accepted notification</string>
-    <string name="pref_title_gaming_request_notifications">Gaming request notification</string>
-    <string name="pref_title_reset_account">Reset account</string>
-    <string name="pref_header_account">Account</string>
-    <string name="pref_header_about">About</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
