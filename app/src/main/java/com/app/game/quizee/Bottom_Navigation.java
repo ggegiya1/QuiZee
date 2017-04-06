@@ -13,7 +13,6 @@ import android.view.View;
 
 import layout.CareerFragment;
 import layout.HomeFragment;
-import layout.StatsFragment;
 
 public class Bottom_Navigation extends AppCompatActivity {
     //inspiré de https://github.com/jaisonfdo/BottomNavigation
@@ -21,9 +20,7 @@ public class Bottom_Navigation extends AppCompatActivity {
 
     private ViewPager viewPager;
     Fragment homeFragment;
-    Fragment statsFragment;
     Fragment contactsFragment;
-    Fragment archivementsFragment;
     Fragment shopFragment;
     Fragment careerFragment;
     MenuItem prevMenuItem;
@@ -41,23 +38,17 @@ public class Bottom_Navigation extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.navigation_home:
-                                viewPager.setCurrentItem(1);
-                                break;
                             case R.id.navigation_shop:
                                 viewPager.setCurrentItem(0);
                                 break;
-                       /*     case R.id.navigation_achievements: TODO remove later
-                                viewPager.setCurrentItem(2);
-                                break;
-                            case R.id.navigation_stats:
-                                viewPager.setCurrentItem(3);
-                                break;*/
-                            case R.id.navigation_career:
-                                viewPager.setCurrentItem(3);
+                            case R.id.navigation_home:
+                                viewPager.setCurrentItem(1);
                                 break;
                             case R.id.navigation_contacts:
                                 viewPager.setCurrentItem(2);
+                                break;
+                            case R.id.navigation_career:
+                                viewPager.setCurrentItem(3);
                                 break;
                         }
                         return false;
@@ -67,7 +58,6 @@ public class Bottom_Navigation extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -91,48 +81,26 @@ public class Bottom_Navigation extends AppCompatActivity {
             }
         });
 
-       /*  //Disable ViewPager Swipe TODO remove later
-       viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
-        */
 
-        setupViewPager(viewPager);
-        viewPager.setCurrentItem(1);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         shopFragment = new ShopFragment();
         homeFragment = new HomeFragment();
-        //archivementsFragment = new AchivementsFragment();
-        //statsFragment = new StatsFragment();
         contactsFragment = new ContactsFragment();
         careerFragment = new CareerFragment();
 
-
-
         adapter.addFragment(shopFragment);
         adapter.addFragment(homeFragment);
-
-        //adapter.addFragment(archivementsFragment);
-        //adapter.addFragment(statsFragment);
         adapter.addFragment(contactsFragment);
         adapter.addFragment(careerFragment);
 
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1); //fait partir sur le home
     }
 
-    //on settings button pressed
+    //on settings button clicked
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);
     }
-
 }

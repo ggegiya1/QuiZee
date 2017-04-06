@@ -7,10 +7,11 @@
 
     <SearchView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:padding="15dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
         android:queryHint="@string/hint_search_friends"
-        android:id="@+id/contact_search"/>
+        android:id="@+id/contact_search"
+        android:background="@drawable/button_tertiary_default"/>
 
     <View
         android:layout_width="match_parent"

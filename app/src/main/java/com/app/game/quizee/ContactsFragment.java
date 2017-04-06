@@ -46,12 +46,11 @@ public class ContactsFragment extends Fragment {
         contactSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(searching == false) {
+                if(!searching) {
                     contactViewSwitcher.showNext();
                     search(contactSearch.getQuery());
                 }
                 searching = true;
-
                 return false;
             }
 
@@ -64,8 +63,10 @@ public class ContactsFragment extends Fragment {
         contactSearch.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                searching = false;
-                contactViewSwitcher.showPrevious();
+                if(searching) {
+                    searching = false;
+                    contactViewSwitcher.showPrevious();
+                }
                 return false;
             }
         });
@@ -79,7 +80,7 @@ public class ContactsFragment extends Fragment {
         int[] suggestedLevels = new int[] {10, 1, 14, 87, 76, 4, 31};
         String[] suggested = new String[] {"Britney", "Hug", "Max","Stephen", "Bob", "Jimmy"};
 
-        ContactAdapter adapterFavorite = new ContactAdapter(getActivity(), favorite, favoriteImageId, favoriteLevels, false);
+        ContactAdapter adapterFavorite = new ContactAdapter(getActivity(), favorite, favoriteImageId, favoriteLevels, true);
         favoriteList.setAdapter(adapterFavorite);
 
         ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), suggested, suggestedImageId, suggestedLevels, false);
@@ -88,6 +89,7 @@ public class ContactsFragment extends Fragment {
         return ll;
     }
 
+    //contien temporairement un view pour la réutiliser
     private static class ViewHolder {
         TextView contactName;
         ImageView contactIcon;
@@ -170,8 +172,10 @@ public class ContactsFragment extends Fragment {
         }
     }
 
+
+    //ce qui se passe lors dune recherche
     private void search (CharSequence search) {
-        //TODO aller chercher la recherche automatiquement
+        //TODO aller chercher les resultats de recherche automatiquement
         int[] favoriteImageId = new int[] {R.drawable.ic_notifications_black_24dp, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
         int[] favoriteLevels = new int[] {5, 3, 21, 11 , 76, 99};
         String[] favorite = new String[] {"Stephen", "Bob", "Jimmy", "Britney", "Hug", "Max"};

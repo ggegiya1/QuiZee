@@ -38,10 +38,6 @@ public class QuestionActivity extends AppCompatActivity{
     TextSwitcher answer4TextSwitcher;
 
     //answer buttons
-    Button answer1;
-    Button answer2;
-    Button answer3;
-    Button answer4;
     Button correctlyAnswered;
     Button pointsEarned;
 
