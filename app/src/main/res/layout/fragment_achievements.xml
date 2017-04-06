@@ -1,66 +1,67 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.game.quizee.AchivementsFragment">
+    tools:context="com.app.game.quizee.ShopFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/title_stats"
+            android:textSize="30sp"
+            android:background="@drawable/button_tertiary_default"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:checked="false"
+            android:id="@+id/stats_button"/>
 
-            <CheckedTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Career_Achievements"
-                android:id="@+id/Career_Achivements_Button"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Career_Achievements"
+            android:textSize="30sp"
+            android:background="@drawable/button_tertiary_default"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:checked="false"
+            android:id="@+id/career_achievements_button"/>
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Career_Achievements_List">
-            </ListView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Category_Based_Achievements"
+            android:textSize="30sp"
+            android:background="@drawable/button_tertiary_default"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:checked="false"
+            android:id="@+id/caterogy_achievements_button"/>
 
-            <CheckedTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Category_Based_Achievements"
-                android:id="@+id/Category_Achievements_Button"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Mode_Based_Achievements"
+            android:textSize="30sp"
+            android:background="@drawable/button_tertiary_default"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:checked="false"
+            android:id="@+id/mode_achievements_button"/>
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Category_Achievements_List">
-            </ListView>
-
-            <CheckedTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Mode_Based_Achievements"
-                android:id="@+id/Mode_Achievements_Button"/>
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Mode_Achievements_List">
-            </ListView>
-
-            <CheckedTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Epic_Achievements"
-                android:id="@+id/Epic_Achievements_Button"/>
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/Epic_Achievements_List">
-            </ListView>
-
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Epic_Achievements"
+            android:textSize="30sp"
+            android:background="@drawable/button_tertiary_default"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:checked="false"
+            android:id="@+id/epic_achievements_button"/>
+    </LinearLayout>
+</ScrollView>

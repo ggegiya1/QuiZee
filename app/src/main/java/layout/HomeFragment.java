@@ -1,14 +1,27 @@
 package layout;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.icu.util.ULocale;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
+import com.app.game.quizee.CategorySelectionActivity;
+import com.app.game.quizee.MultiplayerLobbyActivity;
+import com.app.game.quizee.Question;
+import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
+import com.app.game.quizee.UserProfile;
+
+import static com.app.game.quizee.R.mipmap.play;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +36,10 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    Button quickPlay;
+    Button multiPlay;
+    Button categoryPlay;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,8 +83,37 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
+
+        quickPlay = (Button) fl.findViewById(R.id.button_quickPlay);
+        multiPlay = (Button) fl.findViewById(R.id.button_multiPlay);
+        categoryPlay = (Button) fl.findViewById(R.id.button_Play_Categories);
+        quickPlay.setOnClickListener(play());
+        categoryPlay.setOnClickListener(play());
+        multiPlay.setOnClickListener(play());
+        return fl;
+    }
+
+    private View.OnClickListener play(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.button_quickPlay:
+                        Intent iquick = new Intent(getContext(), QuestionActivity.class);
+                        startActivity(iquick);
+                        break;
+                    case R.id.button_Play_Categories:
+                        Intent icat = new Intent(getContext(), CategorySelectionActivity.class);
+                        startActivity(icat);
+                        break;
+                    case R.id.button_multiPlay:
+                        Intent imulti = new Intent(getContext(), MultiplayerLobbyActivity.class);
+                        startActivity(imulti);
+                        break;
+                }
+            }
+        };
     }
 
     // TODO: Rename method, update argument and hook method into UI event

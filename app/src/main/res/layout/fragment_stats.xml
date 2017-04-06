@@ -1,13 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.StatsFragment">
+    tools:context="com.app.game.quizee.ShopFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:text="@string/title_stats" />
+        android:layout_height="wrap_content"
+        android:text="@string/title_stats"
+        android:textSize="30sp"
+        android:background="@drawable/button_secondary_default"
+        android:layout_margin="15dp"
+        android:padding="10dp"/>
 
-</FrameLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stats_list"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+    </ListView>
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:background="@drawable/button_secondary_default"
+    android:padding="3dp">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="Achievement icon"
+        android:id="@+id/achievement_item_icon"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/achievement_item_name"
+        android:text="achievement item name"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/achievement_item_icon" />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="12dp"
+        android:layout_below="@+id/achievement_item_name"
+        android:text="Gold given"
+        android:id="@+id/achievement_gold_given"
+        android:layout_toRightOf="@id/achievement_item_icon"
+        android:layout_centerVertical="true"
+        android:textSize="12sp"
+        android:drawableRight="@drawable/ic_currency" />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/achievement_progress"/>
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="12dp"
+        android:text="10 xp"
+        android:id="@+id/achievement_exp_given"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/achievement_gold_given"
+        android:layout_below="@+id/achievement_item_name"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_check"
+        android:id="@+id/achievement_check"
+        android:contentDescription="obtention"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="12dp"
+        android:text="10 xp"
+        android:id="@+id/achievement_information"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/achievement_gold_given"
+        android:layout_below="@+id/achievement_item_name"/>
+
+</RelativeLayout>

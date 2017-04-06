@@ -11,12 +11,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import layout.CareerFragment;
 import layout.HomeFragment;
 import layout.StatsFragment;
 
 public class Bottom_Navigation extends AppCompatActivity {
-    //inspiré de https://github.com/jaisonfdo/BottomNavigation pour les view pager et le buttom bottom_navigation
-
+    //inspiré de https://github.com/jaisonfdo/BottomNavigation
+    // pour le view pager et le bottom_navigation
 
     private ViewPager viewPager;
     Fragment homeFragment;
@@ -24,12 +25,13 @@ public class Bottom_Navigation extends AppCompatActivity {
     Fragment contactsFragment;
     Fragment archivementsFragment;
     Fragment shopFragment;
+    Fragment careerFragment;
     MenuItem prevMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bottom__navigation);
+        setContentView(R.layout.activity_bottom_navigation);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -40,19 +42,22 @@ public class Bottom_Navigation extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                viewPager.setCurrentItem(0);
-                                break;
-                            case R.id.navigation_shop:
                                 viewPager.setCurrentItem(1);
                                 break;
-                            case R.id.navigation_archivements:
+                            case R.id.navigation_shop:
+                                viewPager.setCurrentItem(0);
+                                break;
+                       /*     case R.id.navigation_achievements: TODO remove later
                                 viewPager.setCurrentItem(2);
                                 break;
                             case R.id.navigation_stats:
                                 viewPager.setCurrentItem(3);
+                                break;*/
+                            case R.id.navigation_career:
+                                viewPager.setCurrentItem(3);
                                 break;
                             case R.id.navigation_contacts:
-                                viewPager.setCurrentItem(4);
+                                viewPager.setCurrentItem(2);
                                 break;
                         }
                         return false;
@@ -86,7 +91,7 @@ public class Bottom_Navigation extends AppCompatActivity {
             }
         });
 
-       /*  //Disable ViewPager Swipe
+       /*  //Disable ViewPager Swipe TODO remove later
        viewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -98,41 +103,30 @@ public class Bottom_Navigation extends AppCompatActivity {
         */
 
         setupViewPager(viewPager);
+        viewPager.setCurrentItem(1);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        homeFragment = new HomeFragment();
+
         shopFragment = new ShopFragment();
-        archivementsFragment = new AchivementsFragment();
-        statsFragment = new StatsFragment();
+        homeFragment = new HomeFragment();
+        //archivementsFragment = new AchivementsFragment();
+        //statsFragment = new StatsFragment();
         contactsFragment = new ContactsFragment();
+        careerFragment = new CareerFragment();
 
-        adapter.addFragment(homeFragment);
+
+
         adapter.addFragment(shopFragment);
-        adapter.addFragment(archivementsFragment);
-        adapter.addFragment(statsFragment);
+        adapter.addFragment(homeFragment);
+
+        //adapter.addFragment(archivementsFragment);
+        //adapter.addFragment(statsFragment);
         adapter.addFragment(contactsFragment);
+        adapter.addFragment(careerFragment);
+
         viewPager.setAdapter(adapter);
-    }
-
-
-    //on play button pressed
-    public void categoriesPlay(View v) {
-        Intent intent = new Intent(getApplicationContext(), CategorySelectionActivity.class);
-        startActivity(intent);
-    }
-
-    //on practice button pressed
-    public void quickPlay(View v) {
-        Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
-        startActivity(intent);
-    }
-
-    //on play with friends button pressed
-    public void multiPlay(View v) {
-        Intent intent = new Intent(getApplicationContext(), MultiplayerLobbyActivity.class);
-        startActivity(intent);
     }
 
     //on settings button pressed

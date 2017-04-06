@@ -35,6 +35,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements View
             }
         });
 
+
+
         Music = (CheckedTextView) findViewById(R.id.button_music);
         Art = (CheckedTextView) findViewById(R.id.button_art);
         Computers = (CheckedTextView) findViewById(R.id.button_computers);
