@@ -10,6 +10,12 @@ public class Category {
     private double price;
     private int imageId;
 
+    public Category(int c_id, String c_name, double c_price){
+        id = c_id;
+        name = c_name;
+        price = c_price;
+    }
+    
     public Category(int c_id, String c_name, double c_price, int c_imageId){
         id = c_id;
         name = c_name;
