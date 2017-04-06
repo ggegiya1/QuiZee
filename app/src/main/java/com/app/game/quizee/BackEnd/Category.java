@@ -8,11 +8,13 @@ public class Category {
     private int id;
     private String name;
     private double price;
+    private int imageId;
 
-    public Category(int c_id, String c_name, double c_price){
+    public Category(int c_id, String c_name, double c_price, int c_imageId){
         id = c_id;
         name = c_name;
         price = c_price;
+        imageId = c_imageId;
     }
 
     //Getters
@@ -28,4 +30,7 @@ public class Category {
         return price;
     }
 
+    public int get_imageId(){
+        return imageId;
+    }
 }
