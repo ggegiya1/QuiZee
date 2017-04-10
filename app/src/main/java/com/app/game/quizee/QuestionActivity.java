@@ -1,8 +1,10 @@
 package com.app.game.quizee;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -115,8 +117,12 @@ public class QuestionActivity extends AppCompatActivity{
 
                         public View makeView() {
                             //crer un Button avec des caractéristiques
-                            Button myButton = (Button)getLayoutInflater().inflate(R.layout.answer_button_template, null);
+                            Button myButton = new Button(QuestionActivity.this);
+                            myButton.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                            myButton.setTextSize(15);
                             myButton.setOnClickListener(answerValidator());
+                            final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            myButton.setLayoutParams(lp);
                             return myButton;
                         }
                     });
@@ -153,6 +159,7 @@ public class QuestionActivity extends AppCompatActivity{
                 tv2.setTextSize(40 - question.getQuestion().length() / 6);
             }
 
+            questionTextSwitcher.setText(question.getText_question());
             List<String> answers = question.getAnswers(true);
 
             //efface les couleurs sur les boutons et mets le texte correspondant aux boutons
@@ -240,6 +247,7 @@ public class QuestionActivity extends AppCompatActivity{
         }
 
         @Override
+        @TargetApi(21)
         public void onTick(long millisUntilFinished) {
 
             timeRemaining = millisUntilFinished;
