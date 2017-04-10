@@ -2,7 +2,7 @@ package com.app.game.quizee;
 
 import android.text.Html;
 import android.util.Log;
-
+import com.app.game.quizee.BackEnd.BackEndManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +20,7 @@ import okhttp3.Response;
 public class TriviaApi {
 
     private static final String API_URL = "https://opentdb.com/api.php?amount=1&category=%s&type=multiple";
-
+    private static int q_id = 0;
     private static OkHttpClient http;
 
     private static JSONObject getJSON(String categoryId) throws IOException, JSONException {
@@ -39,19 +39,17 @@ public class TriviaApi {
     }
 
 
-    public static Question getQuestion(String categoryId) throws IOException, JSONException{
+    public static Question getQuestion(String categoryName) throws IOException, JSONException{
 
-        JSONObject json = getJSON(categoryId);
+        JSONObject json = getJSON(categoryName);
         JSONArray questions = json.getJSONArray("results");
         if (questions.length() == 0){
             return null;
         }
+        q_id +=1;
         JSONObject jsonQuestion = (JSONObject)questions.get(0);
-        Question question = new Question();
-        question.setCategory(Html.fromHtml(jsonQuestion.getString("category")).toString());
-        question.setQuestion(Html.fromHtml(jsonQuestion.getString("question")).toString());
-        question.setDifficulty(Html.fromHtml(jsonQuestion.getString("difficulty")).toString());
-        question.setCorrectAnswer(Html.fromHtml(jsonQuestion.getString("correct_answer")).toString());
+        //String[] json_array = {"category", "question", "difficulty", "correct_answer"};
+        Question question = new Question(q_id,BackEndManager.find_cate(Html.fromHtml(jsonQuestion.getString("category")).toString()),Html.fromHtml(jsonQuestion.getString("question")).toString(),Html.fromHtml(jsonQuestion.getString("difficulty")).toString(),Html.fromHtml(jsonQuestion.getString("correct_answer")).toString());
         JSONArray incorrectAnswers = jsonQuestion.getJSONArray("incorrect_answers");
         for (int i=0; i<incorrectAnswers.length(); i++){
             question.addIncorrectAnswers(Html.fromHtml((String)incorrectAnswers.get(i)).toString());

@@ -1,17 +1,13 @@
 package com.app.game.quizee;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,21 +17,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static android.R.id.list;
-import static android.os.Build.VERSION_CODES.N;
-import static com.app.game.quizee.R.string.categoriesPlay;
 
 /**
  * Created by ggegiya1 on 2/16/17.
@@ -178,7 +168,7 @@ public class QuestionActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Question question) {
             Log.i("activity.question", "fetched question: " + question.toString());
-            questionTextSwitcher.setText(question.getQuestion());
+            questionTextSwitcher.setText(question.getText_question());
             List<String> answers = question.getAnswers(true);
 
             //efface les couleurs sur les boutons et mets le texte correspondant aux boutons
@@ -187,8 +177,8 @@ public class QuestionActivity extends AppCompatActivity{
                 ts.setText(answers.get(i));
                 ts.getChildAt(0).getBackground().clearColorFilter();
                 ts.getChildAt(1).getBackground().clearColorFilter();
-                category.setText(question.getCategory());
-                switch (question.getCategory()) {
+                category.setText(question.getCategory().get_name());
+                switch (question.getCategory().get_name()) {
                     case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
                         break;
                     case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);
@@ -263,6 +253,7 @@ public class QuestionActivity extends AppCompatActivity{
         }
 
         @Override
+        @TargetApi(21)
         public void onTick(long millisUntilFinished) {
             timeRemaining = millisUntilFinished;
             if(millisUntilFinished <= 1000) {
