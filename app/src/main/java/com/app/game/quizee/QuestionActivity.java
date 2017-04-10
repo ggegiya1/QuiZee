@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -28,9 +29,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class QuestionActivity extends AppCompatActivity{
-
-
-
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -145,18 +143,18 @@ public class QuestionActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(Question question) {
-            Log.i("activity.question", "fetched question: " + question.toString());
+            // TODO trouver le bug de la ligne :Log.i("activity.question", "fetched question: " + question.toString());
 
             //change le texte de la question
-            questionTextSwitcher.setText(question.getQuestion());
+            questionTextSwitcher.setText(question.getText_question());
 
             //ajuste le taille du texte pour que le texte ne depasse pas
             TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
             TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
             if(questionCount%2 == 1) {
-                tv1.setTextSize(40 - question.getQuestion().length() / 6);
+                tv1.setTextSize(40 - question.getText_question().length() / 6);
             } else {
-                tv2.setTextSize(40 - question.getQuestion().length() / 6);
+                tv2.setTextSize(40 - question.getText_question().length() / 6);
             }
 
             questionTextSwitcher.setText(question.getText_question());
@@ -174,8 +172,8 @@ public class QuestionActivity extends AppCompatActivity{
                 }
 
                 //met un icone correspondant a la category TODO aller cherche licone programaticallement
-                category.setText(question.getCategory());
-                switch (question.getCategory()) {
+                category.setText(question.getCategory().get_name());
+                switch (question.getCategory().get_name()) {
                     case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
                         break;
                     case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);

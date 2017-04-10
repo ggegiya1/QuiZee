@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +37,8 @@ public class ContactsFragment extends Fragment {
 
         searching = false;
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_contacts, container, false);
+
+
 
         contactSearch = (SearchView) ll.findViewById(R.id.contact_search);
         favoriteList = (ListView) ll.findViewById(R.id.favorite_contacts_list);
@@ -85,6 +88,11 @@ public class ContactsFragment extends Fragment {
 
         ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), suggested, suggestedImageId, suggestedLevels, false);
         suggestedList.setAdapter(adapterSuggested);
+
+        //sassure que le linear layout du fragment ne se compresse pas lorsque lon sort le clavier
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ll.getMeasuredHeight(), FrameLayout.LayoutParams.MATCH_PARENT);
+
+        ll.setLayoutParams(lp);
 
         return ll;
     }

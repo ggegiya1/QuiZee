@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.app.game.quizee.ContactsFragment">
 
@@ -20,7 +21,7 @@
 
     <ViewSwitcher
         android:layout_width="wrap_content"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
         android:id="@+id/contact_view_switcher"
         android:inAnimation="@android:anim/slide_in_left"
         android:outAnimation="@android:anim/slide_out_right">
@@ -38,7 +39,8 @@
                 android:textSize="30sp"
                 android:layout_weight="0.10"
                 android:background="@drawable/button_primary_default"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:padding="2dp"/>
 
             <ListView
@@ -49,7 +51,7 @@
                 android:layout_weight="0.40"
                 android:id="@+id/favorite_contacts_list"
                 android:fadeScrollbars="false"
-                android:dividerHeight="5dp"/>
+                android:dividerHeight="2dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -59,7 +61,8 @@
                 android:layout_weight="0.10"
                 android:gravity="center"
                 android:background="@drawable/button_primary_default"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:padding="2dp"/>
 
             <ListView
@@ -70,7 +73,7 @@
                 android:layout_weight="0.40"
                 android:id="@+id/suggested_players_list"
                 android:fadeScrollbars="false"
-                android:dividerHeight="5dp"/>
+                android:dividerHeight="2dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +95,9 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/contact_search_list"/>
+                android:id="@+id/contact_search_list"
+                android:padding="10dp"
+                android:dividerHeight="2dp"/>
 
         </LinearLayout>
     </ViewSwitcher>

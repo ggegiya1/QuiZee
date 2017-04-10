@@ -13,7 +13,10 @@ public class BackEndManager {
 
     }
 
-    public static Category find_cate(String categoryName){
+    public static Category find_cate(String categoryName) {
+        //TODO add to database
+
+        /*
         for (int i = 0; i < CategorySelectionActivity.mes_cate.size(); ++i){
             System.out.println(CategorySelectionActivity.mes_cate.get(i).get_name());
             System.out.println(categoryName);
@@ -21,6 +24,8 @@ public class BackEndManager {
                 return CategorySelectionActivity.mes_cate.get(i);
             }
         }
+        */
         return null;
+
     }
 }

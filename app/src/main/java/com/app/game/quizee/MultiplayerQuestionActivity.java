@@ -122,15 +122,15 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
             Log.i("activity.question", "fetched question: " + question.toString());
 
             //change le texte de la question
-            questionTextSwitcher.setText(question.getQuestion());
+            questionTextSwitcher.setText(question.getText_question());
 
             //ajuste le taille du texte pour que le texte ne depasse pas
             TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
             TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
             if(questionCount%2 == 1) {
-                tv1.setTextSize(40 - question.getQuestion().length() / 6);
+                tv1.setTextSize(40 - question.getText_question().length() / 6);
             } else {
-                tv2.setTextSize(40 - question.getQuestion().length() / 6);
+                tv2.setTextSize(40 - question.getText_question().length() / 6);
             }
 
             List<String> answers = question.getAnswers(true);
@@ -147,8 +147,8 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                 }
 
                 //met un icone correspondant a la category TODO aller cherche licone programaticallement
-                category.setText(question.getCategory());
-                switch (question.getCategory()) {
+                category.setText(question.getCategory().get_name());
+                switch (question.getCategory().get_name()) {
                     case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
                         break;
                     case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);

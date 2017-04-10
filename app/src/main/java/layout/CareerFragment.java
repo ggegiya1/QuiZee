@@ -1,29 +1,26 @@
 package layout;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.app.game.quizee.CareerDetails;
 import com.app.game.quizee.R;
-import com.app.game.quizee.UserProfile;
 
 public class CareerFragment extends Fragment {
 
-    Button careerButton;
-    Button categoryButton;
-    Button epicButton;
-    Button statsButton;
-    Button modeButton;
+    ListView statsList;
+    ListView achievementsList;
 
     public CareerFragment() {
         // Required empty public constructor
@@ -33,35 +30,85 @@ public class CareerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ScrollView sv = (ScrollView) inflater.inflate(R.layout.fragment_career, container, false);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_career, container, false);
 
-        //obtaint buttons
-        careerButton = (Button) sv.findViewById(R.id.career_achievements_button);
-        epicButton = (Button) sv.findViewById(R.id.epic_achievements_button);
-        statsButton = (Button) sv.findViewById(R.id.stats_button);
-        modeButton = (Button) sv.findViewById(R.id.mode_achievements_button);
-        categoryButton = (Button) sv.findViewById(R.id.category_achievements_button);
+        achievementsList = (ListView) ll.findViewById(R.id.achievements_list);
+        statsList = (ListView) ll.findViewById(R.id.stats_list);
 
-        //set on click listeners
-        careerButton.setOnClickListener(careerDetails());
-        epicButton.setOnClickListener(careerDetails());
-        statsButton.setOnClickListener(careerDetails());
-        modeButton.setOnClickListener(careerDetails());
-        categoryButton.setOnClickListener(careerDetails());
+        String[] stats = new String[]{"favorite mode", "Games played", "Questions answered"};
 
-        return sv;
+        //TODO aller chercher les informations dachievement programmaticallement
+
+        int[] detailsImageId = new int[]{R.drawable.ic_contacts, R.drawable.ic_multi_player, R.drawable.ic_art, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
+        boolean[] detailsCompletion = new boolean[]{false, false, true, false};
+        boolean[] nominal = new boolean[]{true, true, false, true};
+        String[] detailsString = new String[]{"favorite mode", "Games played", "Questions answered", "favorite category"};
+        int[] progression = new int[]{10, 60, 70, 90};
+        String[] detailsNominalString = new String[]{"practice", "15", "150", "Video Games"};
+
+
+        DetailsAdapter adapter = new DetailsAdapter(getActivity(), detailsString, detailsImageId, progression, nominal, detailsCompletion, detailsNominalString);
+        statsList.setAdapter(adapter);
+        achievementsList.setAdapter(adapter);
+        return ll;
     }
 
-    //define onclick actions (go to career details)
-    private View.OnClickListener careerDetails(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Button buttonPressed = (Button) v;
-                Intent i = new Intent(getContext(), CareerDetails.class);
-                i.putExtra("career details", buttonPressed.getText());
-                startActivity(i);
+    private static class ViewHolder {
+        TextView achievementName;
+        ImageView achievementIcon;
+        ImageView check;
+        TextView nominalInformation;
+        ProgressBar pb;
+        TextView expGiven;
+        TextView goldGiven;
+    }
+
+    //Adapter inspiré de
+    // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
+    private class DetailsAdapter extends ArrayAdapter<String> {
+
+        String[] detailsName;
+        int[] detailsImageId;
+        int[] progression;
+        Activity context;
+        boolean[] nominal;
+        boolean[] completed;
+
+        public DetailsAdapter (Activity context, String[] itemname, int[] imgid, int[] progress, boolean[] nomin, boolean[] complete, String[] nomDetails) {
+            super(context, R.layout.contacts_item_list_layout, itemname);
+
+            this.detailsName = itemname;
+            this.context=context;
+            this.detailsImageId=imgid;
+            this.progression=progress;
+            this.nominal=nomin;
+            this.completed=complete;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater=context.getLayoutInflater();
+
+            ViewHolder holder;
+
+            if(convertView == null) {
+                convertView = inflater.inflate(R.layout.achievements_item_list_layout, null, true);
+                holder = new ViewHolder();
+                holder.achievementName = (TextView) convertView.findViewById(R.id.achievement_item_name);
+                holder.achievementIcon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
+                holder.expGiven = (TextView) convertView.findViewById(R.id.achievement_exp_given);
+                holder.goldGiven = (TextView) convertView.findViewById(R.id.achievement_gold_given);
+                holder.check = (ImageView) convertView.findViewById(R.id.achievement_check);
+                holder.nominalInformation = (TextView) convertView.findViewById(R.id.achievement_information);
+                holder.pb = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
-        };
+
+            holder.achievementName.setText(detailsName[position]);
+
+            return convertView;
+        }
     }
 }

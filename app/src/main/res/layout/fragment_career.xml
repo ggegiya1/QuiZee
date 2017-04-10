@@ -1,72 +1,50 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.game.quizee.ShopFragment">
+    tools:context="com.app.game.quizee.ShopFragment"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="@string/title_stats"
+        android:textSize="30sp"
+        android:background="@drawable/button_primary_default"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="5dp"
+        android:id="@+id/stats_button"
+        android:drawableStart="@drawable/ic_stats"
+        android:layout_weight="0.15"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_stats"
-            android:textSize="30sp"
-            android:background="@drawable/button_tertiary_default"
-            android:layout_margin="5dp"
-            android:padding="10dp"
-            android:checked="false"
-            android:id="@+id/stats_button"
-            android:drawableLeft="@drawable/ic_stats"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stats_list"
+        android:layout_weight="0.35"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Career_Achievements"
-            android:textSize="30sp"
-            android:background="@drawable/button_tertiary_default"
-            android:layout_margin="5dp"
-            android:padding="10dp"
-            android:checked="false"
-            android:id="@+id/career_achievements_button"
-            android:drawableLeft="@drawable/ic_check"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_achievements"
+        android:textSize="30sp"
+        android:background="@drawable/button_primary_default"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="5dp"
+        android:id="@+id/category_achievements_button"
+        android:drawableStart="@drawable/ic_category"
+        android:layout_weight="0.15"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Category_Based_Achievements"
-            android:textSize="30sp"
-            android:background="@drawable/button_tertiary_default"
-            android:layout_margin="5dp"
-            android:padding="10dp"
-            android:checked="false"
-            android:id="@+id/category_achievements_button"
-            android:drawableLeft="@drawable/ic_category"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/achievements_list"
+        android:layout_weight="0.35"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Mode_Based_Achievements"
-            android:textSize="30sp"
-            android:background="@drawable/button_tertiary_default"
-            android:layout_margin="5dp"
-            android:padding="10dp"
-            android:checked="false"
-            android:id="@+id/mode_achievements_button"
-            android:drawableLeft="@drawable/ic_multi_player"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Epic_Achievements"
-            android:textSize="30sp"
-            android:background="@drawable/button_tertiary_default"
-            android:layout_margin="5dp"
-            android:padding="10dp"
-            android:checked="false"
-            android:id="@+id/epic_achievements_button"
-            android:drawableLeft="@drawable/ic_star"/>
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

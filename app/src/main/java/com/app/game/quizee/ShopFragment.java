@@ -11,6 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.app.game.quizee.BackEnd.Category;
+import com.app.game.quizee.Bottom_Navigation;
+import com.app.game.quizee.R;
+
 public class ShopFragment extends Fragment {
 
     public ShopFragment() {
@@ -49,10 +53,10 @@ public class ShopFragment extends Fragment {
         }
 
         //ajoute une liste de toutes les categories achetables dans le magasin
-        for (String category : categories) {
+        for (Category category : Bottom_Navigation.mes_cate) {
             RelativeLayout relL = (RelativeLayout) inflater.inflate(R.layout.shop_item_list_layout, container, false);
             TextView catName = (TextView) relL.findViewById(R.id.shop_item);
-            catName.setText(category);
+            catName.setText(category.get_name());
             categoriesShop.addView(relL);
         }
 
