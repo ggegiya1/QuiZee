@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="50dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
     android:background="@drawable/button_secondary_default"
     android:padding="3dp">
 
@@ -20,26 +19,34 @@
         android:layout_height="wrap_content"
         android:id="@+id/achievement_item_name"
         android:text="achievement item name"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:layout_toRightOf="@+id/achievement_item_icon" />
 
     <TextView
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="12dp"
         android:layout_below="@+id/achievement_item_name"
         android:text="Gold given"
         android:id="@+id/achievement_gold_given"
         android:layout_toRightOf="@id/achievement_item_icon"
-        android:layout_centerVertical="true"
-        android:textSize="12sp"
-        android:drawableRight="@drawable/ic_currency" />
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:src="@drawable/ic_currency"
+        android:layout_toRightOf="@id/achievement_gold_given"
+        android:layout_below="@id/achievement_item_name"
+        android:id="@+id/currency_image"/>
 
     <ProgressBar
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_alignParentBottom="true"
-        android:id="@+id/achievement_progress"/>
+        android:id="@+id/achievement_progress"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <TextView
         android:layout_width="60dp"
@@ -49,7 +56,7 @@
         android:textSize="12sp"
         android:gravity="center_vertical"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/achievement_gold_given"
+        android:layout_toRightOf="@id/currency_image"
         android:layout_below="@+id/achievement_item_name"/>
 
     <ImageView
@@ -63,12 +70,11 @@
     <TextView
         android:layout_width="60dp"
         android:layout_height="12dp"
-        android:text="10 xp"
+        android:text="information"
         android:id="@+id/achievement_information"
         android:textSize="12sp"
         android:gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/achievement_gold_given"
-        android:layout_below="@+id/achievement_item_name"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

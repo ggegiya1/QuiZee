@@ -1,11 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- A 'parent' preference, which enables/disables child preferences (below)
-         when checked/unchecked. -->
     <SwitchPreference
         android:defaultValue="true"
         android:key="notifications_friend_request_accepted"
         android:title="@string/pref_title_notification_friend_request_accepted" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="notifications_friend_request_accepted"
+        android:key="notifications_vibration_friend_request_accepted"
+        android:title="@string/pref_title_notification_friend_accepted" />
 
     <SwitchPreference
         android:defaultValue="true"
@@ -14,8 +18,8 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:dependency="notifications_new_message"
-        android:key="notifications_new_message_vibrate"
-        android:title="@string/pref_title_vibrate" />
+        android:dependency="notifications_gaming_request"
+        android:key="notifications_vibration_gaming_request"
+        android:title="@string/pref_title_notification_gaming_request" />
 
 </PreferenceScreen>
