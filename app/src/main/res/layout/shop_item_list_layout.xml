@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:background="@drawable/button_secondary_default"
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shop_item_icon"
-        android:id="@+id/shop_item"
+        android:id="@+id/shop_item_name"
         android:text="Shop item name"
         android:textSize="20sp"
         android:layout_toEndOf="@id/shop_item_icon" />
@@ -29,7 +29,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/shop_item"
+        android:layout_below="@+id/shop_item_name"
         android:text="Price"
         android:id="@+id/shop_item_price"
         android:drawableEnd="@drawable/ic_currency"

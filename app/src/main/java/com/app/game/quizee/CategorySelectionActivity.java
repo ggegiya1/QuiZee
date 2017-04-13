@@ -1,5 +1,4 @@
 package com.app.game.quizee;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import com.app.game.quizee.BackEnd.BackEndManager;
 import com.app.game.quizee.BackEnd.Category;
-
-import java.util.ArrayList;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import static com.app.game.quizee.Bottom_Navigation.mes_cate;
 
 public class CategorySelectionActivity extends AppCompatActivity {
 
@@ -42,11 +35,19 @@ public class CategorySelectionActivity extends AppCompatActivity {
 
         categoryList = (ListView) findViewById(R.id.category_list);
 
-
-        //TODO obtaint category programmatically
         int[] categoryImageId = new int[] {R.drawable.ic_geography, R.drawable.ic_computer, R.drawable.ic_art,
                 R.drawable.ic_general_knowledge, R.drawable.ic_art, R.drawable.ic_history};
-        String[] categories = new String[] {"Geography", "Computers", "Art","Art", "Bob", "History"};
+
+        String[] categories = new String[20];
+        int i =0;
+        for (Category category : BackEndManager.mes_cate) {
+            //TODO Compliqué pour pas grand chose..ici on n'a pas besoin des fonctions des catégories
+            //Je propose de simplement utiliser un array de string
+            if (category.get_name().equals("Geography") || (category.get_name().equals("Computers") || (category.get_name().equals("Art") || (category.get_name().equals("History"))))){
+                categories[i] = category.get_name();
+                i+=1;
+            }
+        }
 
         ContactAdapter adapterCategory = new ContactAdapter(this, categories, categoryImageId);
         categoryList.setAdapter(adapterCategory);

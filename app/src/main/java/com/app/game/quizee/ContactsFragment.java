@@ -1,6 +1,7 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -74,7 +74,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        //TODO aller chercher programmaticallement images, niveaux ,et noms de contacts
+        //TODO aller chercher programmaticallement images, niveaux ,et noms de contacts et les passer directement dans ladapteur
         int[] favoriteImageId = new int[] {R.drawable.ic_notifications_black_24dp, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
         int[] favoriteLevels = new int[] {5, 3, 21, 11 , 76, 99};
         String[] favorite = new String[] {"Stephen", "Bob", "Jimmy", "Britney", "Hug", "Max"};
@@ -88,11 +88,6 @@ public class ContactsFragment extends Fragment {
 
         ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), suggested, suggestedImageId, suggestedLevels, false);
         suggestedList.setAdapter(adapterSuggested);
-
-        //sassure que le linear layout du fragment ne se compresse pas lorsque lon sort le clavier
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ll.getMeasuredHeight(), FrameLayout.LayoutParams.MATCH_PARENT);
-
-        ll.setLayoutParams(lp);
 
         return ll;
     }
@@ -118,6 +113,7 @@ public class ContactsFragment extends Fragment {
         Activity context;
         boolean alreadyAddedContacts;
 
+        //TODO passer les contacts directements dans ladapteur
         public ContactAdapter (Activity context, String[] itemname, int[] imgid, int[] lvl, boolean alreadyAddedContacts) {
             super(context, R.layout.contacts_item_list_layout, itemname);
 
@@ -152,7 +148,11 @@ public class ContactsFragment extends Fragment {
             holder.playRequestButton.setVisibility(Button.INVISIBLE);
 
             if (alreadyAddedContacts) {
-                holder.addContact.setVisibility(ImageButton.INVISIBLE);
+                Matrix matrix = new Matrix();
+                holder.addContact.setScaleType(ImageView.ScaleType.MATRIX);   //required
+                matrix.postRotate((float) 45, 0, 0);
+                holder.addContact.setImageMatrix(matrix);
+                holder.addContact.setVisibility(View.VISIBLE);
                 holder.removeContact.setVisibility(View.VISIBLE);
                 holder.removeContact.setOnClickListener(new View.OnClickListener() {
 

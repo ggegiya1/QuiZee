@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.game.quizee.ShopFragment">
+    tools:context="com.app.game.quizee.ShopFragment"
+    android:scrollbarThumbVertical="@drawable/button_tertiary_default"
+    android:fadeScrollbars="false">
 
     <LinearLayout
         android:layout_width="match_parent"

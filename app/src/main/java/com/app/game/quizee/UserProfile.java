@@ -1,5 +1,9 @@
 package com.app.game.quizee;
 
+import com.app.game.quizee.BackEnd.BackEndManager;
+
+import java.util.Hashtable;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -13,13 +17,17 @@ public class UserProfile {
     private AtomicInteger correctlyAnswered;
 
     private AtomicInteger points;
-
+    //TODO : Mettre en atomic integer
+    private Hashtable<String,Integer> nb_items = new Hashtable <String,Integer>();
     private String id;
 
     private UserProfile(String id){
         this.id = id;
         correctlyAnswered = new AtomicInteger(0);
         points = new AtomicInteger(0);
+        nb_items.put("Bomb", 0);
+        nb_items.put("Skip", 0);
+        nb_items.put("Time", 0);
     }
 
     public static UserProfile getUserProfile(String id){
@@ -27,6 +35,14 @@ public class UserProfile {
             userProfile = new UserProfile(id);
         }
         return userProfile;
+    }
+
+    public int get_amount(String name){
+        return nb_items.get(name);
+    }
+
+    public void buy_one (String name){
+        nb_items.put(name, nb_items.get(name)+1);
     }
 
     public void addCorrectAnswer(){
