@@ -37,6 +37,7 @@ public class ShopFragment extends Fragment {
         for (String name : keys) {
             RelativeLayout relL = (RelativeLayout) inflater.inflate(R.layout.shop_item_list_layout, container, false);
             TextView powUpName = (TextView) relL.findViewById(R.id.shop_item_name);
+            TextView powUpPrice = (TextView) relL.findViewById(R.id.shop_item_price);
             ImageButton buy = (ImageButton) relL.findViewById(R.id.shop_buy_button);
 
             buy.setOnClickListener(new View.OnClickListener() {
