@@ -15,15 +15,15 @@
         android:padding="5dp"
         android:id="@+id/stats_button"
         android:drawableStart="@drawable/ic_stats"
-        android:layout_weight="0.15"
+        android:layout_weight="0.1"
         android:gravity="center"/>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:id="@+id/stats_list"
-        android:layout_weight="0.35"
-        android:paddingEnd="10dp"
+        android:layout_weight="0.4"
+        android:paddingRight="10dp"
         android:layout_marginStart="10dp"
         android:scrollbarThumbVertical="@drawable/button_tertiary_default"
         android:fadeScrollbars="false"/>
@@ -40,15 +40,15 @@
         android:padding="5dp"
         android:id="@+id/category_achievements_button"
         android:drawableStart="@drawable/ic_trophe"
-        android:layout_weight="0.15"
+        android:layout_weight="0.1"
         android:gravity="center"/>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:id="@+id/achievements_list"
-        android:layout_weight="0.35"
-        android:paddingEnd="10dp"
+        android:layout_weight="0.4"
+        android:paddingRight="10dp"
         android:layout_marginStart="10dp"
         android:scrollbarThumbVertical="@drawable/button_tertiary_default"
         android:fadeScrollbars="false"/>
