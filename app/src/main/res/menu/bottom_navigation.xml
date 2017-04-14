@@ -31,7 +31,7 @@
 
     <item
         android:id="@+id/navigation_career"
-        android:icon="@drawable/ic_check"
+        android:icon="@drawable/ic_trophe"
         android:title="@string/title_career" />
 
 </menu>

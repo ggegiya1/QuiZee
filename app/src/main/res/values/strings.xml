@@ -167,5 +167,6 @@
     <string name="AlertDialog_shop">Buy category?</string>
     <string name="dontbuy">Dont buy</string>
     <string name="buy">Buy</string>
+    <string name="shop_you_own">You own</string>
 
 </resources>

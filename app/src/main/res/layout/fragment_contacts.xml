@@ -71,7 +71,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="0.40"
                 android:id="@+id/suggested_players_list"

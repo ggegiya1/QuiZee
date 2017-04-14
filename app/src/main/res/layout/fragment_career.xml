@@ -39,7 +39,7 @@
         android:layout_marginBottom="10dp"
         android:padding="5dp"
         android:id="@+id/category_achievements_button"
-        android:drawableStart="@drawable/ic_category"
+        android:drawableStart="@drawable/ic_trophe"
         android:layout_weight="0.15"
         android:gravity="center"/>
 

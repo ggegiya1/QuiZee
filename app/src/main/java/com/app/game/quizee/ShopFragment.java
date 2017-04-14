@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,7 +36,7 @@ public class ShopFragment extends Fragment {
 
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_shop, container, false);
 
-        /*
+        /*TODO supprimer plus tard utiliser le listview a la place
         LinearLayout categoriesShop = (LinearLayout) fl.findViewById(R.id.categories_linear_layout);
         LinearLayout powUpShop = (LinearLayout) fl.findViewById(R.id.power_ups_linear_layout);
 
@@ -217,7 +218,14 @@ public class ShopFragment extends Fragment {
                 ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
 
                 //montre le bouton dachat
+                boughtSwitch.setInAnimation(null);
                 boughtSwitch.setDisplayedChild(1);
+
+                powUpCount.setVisibility(View.VISIBLE);
+
+                //TODO get item count programmatically
+                powUpCount.setText(getText(R.string.shop_you_own).toString() + 3);
+
 
                 //ajoute une action lorsque lon achete un power up
                 buy.setOnClickListener(new View.OnClickListener() {
@@ -247,11 +255,15 @@ public class ShopFragment extends Fragment {
                 catName.setText(parts[parts.length-1]);
                 catIcon.setImageResource(category.get_imageId());
 
+                boughtSwitch.setInAnimation(null);
 
                 //verifie si la categorie a deja ete acheté TODO programmaticallement
                 if(false) {
 
                 }   else {
+
+
+
                     //verifie si la categorie est achetable TODO programmaticallement
                     if(true) {
                         boughtSwitch.setDisplayedChild(1);
@@ -268,6 +280,7 @@ public class ShopFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
+                                        boughtSwitch.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left));
                                         boughtSwitch.setDisplayedChild(0);
                                         //que faire lorsque lon achete la categorie TODO
                                         Toast.makeText(getActivity(), "You bought " + category.get_name() + ", have fun!", Toast.LENGTH_SHORT).show();
@@ -278,6 +291,8 @@ public class ShopFragment extends Fragment {
                                 Ad.show();
                             }
                         });
+                    } else {
+                        //la categorie nest pas achetable TODO
                     }
                 }
 
