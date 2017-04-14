@@ -1,6 +1,6 @@
 package com.app.game.quizee.BackEnd;
 
-import com.app.game.quizee.CategorySelectionActivity;
+import com.app.game.quizee.R;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -23,21 +23,21 @@ public class BackEndManager {
     public static void create_category() {
         //TODO PUT IN DB
 
-        Category category = new Category(0, "General Knowledge", 0);
+        Category category = new Category(0, "General Knowledge", 0, R.drawable.ic_general_knowledge);
         mes_cate.add(category);
-        Category category1 = new Category(1, "Entertainment: Music", 200);
+        Category category1 = new Category(1, "Entertainment: Music", 200, R.drawable.music_category_icon);
         mes_cate.add(category1);
-        Category category2 = new Category(2, "Entertainment: Video Games", 500);
+        Category category2 = new Category(2, "Entertainment: Video Games", 500, R.drawable.videogames_category_icon);
         mes_cate.add(category2);
-        Category category3 = new Category(3, "Science: Computers", 300);
+        Category category3 = new Category(3, "Science: Computers", 300, R.drawable.videogames_category_icon);
         mes_cate.add(category3);
-        Category category4 = new Category(4, "Geography", 100);
+        Category category4 = new Category(4, "Geography", 100, R.drawable.ic_geography);
         mes_cate.add(category4);
         Category category5 = new Category(5, "History", 150);
         mes_cate.add(category5);
-        Category category6 = new Category(6, "Art", 50);
+        Category category6 = new Category(6, "Art", 50, R.drawable.ic_art);
         mes_cate.add(category6);
-        Category category7 = new Category(7,"Entertainment: Books",100);
+        Category category7 = new Category(7,"Entertainment: Books",100, R.drawable.ic_practice);
         mes_cate.add(category7);
         Category category8 = new Category(8,"Entertainment: Film",50);
         mes_cate.add(category8);

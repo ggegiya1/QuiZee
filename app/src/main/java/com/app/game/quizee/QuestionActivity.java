@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -25,8 +24,6 @@ import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class QuestionActivity extends AppCompatActivity{
 
@@ -54,7 +51,7 @@ public class QuestionActivity extends AppCompatActivity{
     ImageView icon;
     int questionCount;
 
-    int baseTime = 10000; // temps entre les questions en milisecondes
+    final int baseTime = 10000; // temps entre les questions en milisecondes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +83,7 @@ public class QuestionActivity extends AppCompatActivity{
                 myText.setLayoutParams(new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT));
-                myText.setBackground(getResources().getDrawable((R.drawable.button_secondary_default)));
+                myText.setBackgroundDrawable(getResources().getDrawable((R.drawable.button_secondary_default)));
                 return myText;
             }
         });
@@ -121,12 +118,12 @@ public class QuestionActivity extends AppCompatActivity{
                             myButton.setOnClickListener(answerValidator());
                             final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                             myButton.setLayoutParams(lp);
+                            myButton.setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
                             return myButton;
                         }
                     });
         }
         newQuestion();
-
     }
 
     private class QuestionFetcher extends AsyncTask<String, Object, Question>{
@@ -160,36 +157,24 @@ public class QuestionActivity extends AppCompatActivity{
             questionTextSwitcher.setText(question.getText_question());
             List<String> answers = question.getAnswers(true);
 
-            //efface les couleurs sur les boutons et mets le texte correspondant aux boutons
-            for (int i=0; i<TextSwitchers.size(); i++){
+            //efface les couleurs sur les boutons et mets le texte correspondant aux reponses sur les boutons
+            for (int i=0; i<TextSwitchers.size(); i++) {
                 TextSwitcher ts = TextSwitchers.get(i);
                 ts.setText(answers.get(i));
-                if(questionCount % 2 == 0) {
+                if (questionCount % 2 == 0) {
                     ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-                }
-                else {
+                } else {
                     ts.getChildAt(1).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
                 }
-
-                //met un icone correspondant a la category TODO aller cherche licone programaticallement
-                category.setText(question.getCategory().get_name());
-                switch (question.getCategory().get_name()) {
-                    case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
-                        break;
-                    case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);
-                        break;
-                    case "Geography" : icon.setBackgroundResource(R.drawable.ic_geography);
-                        break;
-                    case "Art" : icon.setBackgroundResource(R.drawable.ic_art);
-                        break;
-                    case "History" : icon.setBackgroundResource(R.drawable.ic_history);
-                        break;
-                    case "Entertainment: Music" : icon.setBackgroundResource(R.drawable.music_category_icon);
-                        break;
-                    case "Entertainment: Video Games" : icon.setBackgroundResource(R.drawable.videogames_category_icon);
-                        break;
-                }
             }
+
+            //met un icone et un texte correspondant a la category
+            category.setText(question.getCategory().get_name());
+
+            //TODO sassurer que toutes les categories aient des images puis enlever le if?
+            if(getDrawable(question.getCategory().get_imageId()) != null) {
+                icon.setBackground(getDrawable(question.getCategory().get_imageId()));
+            };
             correctAnswer = question.getCorrectAnswer();
             reinitializer();
         }
@@ -224,6 +209,8 @@ public class QuestionActivity extends AppCompatActivity{
         questionFetcher.execute("");
     }
 
+
+    //reinitialise laffichage
     private void reinitializer(){
         addTimeButton.setClickable(true);
         UserProfile userProfile = UserProfile.getUserProfile("1");
@@ -236,7 +223,7 @@ public class QuestionActivity extends AppCompatActivity{
 
     }
 
-    //custom countdownTimer class
+    //custom countdownTimer class pour la progress bar et le temps pour repondre
     private class MyCountDownTimer extends CountDownTimer {
         private long timeRemaining;
 
@@ -270,12 +257,10 @@ public class QuestionActivity extends AppCompatActivity{
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
-
         public long getTimeRemaining() {
             return timeRemaining;
         }
     }
-
 
     //ce quil se passe lorsque lon clique sur +5 sec
     public void addTime(View v) {

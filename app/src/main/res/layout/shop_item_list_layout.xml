@@ -32,7 +32,8 @@
         android:id="@+id/shop_item_price"
         android:textSize="30sp"
         android:gravity="center_vertical"
-        android:layout_toStartOf="@+id/shop_buy_button"
+        android:drawableEnd="@drawable/ic_currency"
+        android:layout_toStartOf="@+id/shop_item_viewswitcher"
         android:layout_centerVertical="true"/>
 
     <TextView
@@ -42,18 +43,31 @@
         android:textSize="15sp"
         android:id="@+id/shop_item_quantity"
         android:text="you own 99"
-        android:drawableEnd="@drawable/ic_currency"
-        android:layout_toRightOf="@id/shop_item_icon"
-        android:layout_centerVertical="true"        />
+        android:layout_toRightOf="@id/shop_item_icon" />
 
-    <ImageButton
+    <ViewSwitcher
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/add"
-        android:id="@+id/shop_buy_button"
-        android:contentDescription="Buy button"
-        android:background="@drawable/button_tertiary_default"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+        android:id="@+id/shop_item_viewswitcher"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true">
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_check"
+            android:id="@+id/shop_buy_bought"
+            android:contentDescription="Bought image"
+            android:background="@drawable/button_tertiary_default" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/add"
+            android:id="@+id/shop_buy_button"
+            android:contentDescription="Buy button"
+            android:background="@drawable/button_tertiary_default" />
+    </ViewSwitcher>
 </RelativeLayout>
