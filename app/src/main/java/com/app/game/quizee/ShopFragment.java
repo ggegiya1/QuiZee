@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class ShopFragment extends Fragment {
             TextView powUpName = (TextView) relL.findViewById(R.id.shop_item_name);
             TextView powUpPrice = (TextView) relL.findViewById(R.id.shop_item_price);
             TextView powUpCount = (TextView) relL.findViewById(R.id.shop_item_quantity);
+            ImageView powUpIcon = (ImageView) relL.findViewById(R.id.shop_item_icon);
             ViewSwitcher boughtSwitch = (ViewSwitcher) relL.findViewById(R.id.shop_item_viewswitcher);
             ImageButton buy = (ImageButton) relL.findViewById(R.id.shop_buy_button);
 
@@ -76,6 +78,7 @@ public class ShopFragment extends Fragment {
             TextView catName = (TextView) relL.findViewById(R.id.shop_item_name);
             TextView catPrice = (TextView) relL.findViewById(R.id.shop_item_price);
             TextView catCount = (TextView) relL.findViewById(R.id.shop_item_quantity);
+            ImageView catIcon = (ImageView) relL.findViewById(R.id.shop_item_icon);
             ImageButton catBuyButton = (ImageButton) relL.findViewById(R.id.shop_buy_button);
             final ViewSwitcher boughtSwitch = (ViewSwitcher) relL.findViewById(R.id.shop_item_viewswitcher);
             catCount.setVisibility(View.INVISIBLE);
@@ -83,6 +86,8 @@ public class ShopFragment extends Fragment {
             catPrice.setText(Integer.toString((int)category.get_price()));
             catName.setText(parts[parts.length-1]);
             categoriesShop.addView(relL);
+            catIcon.setImageResource(category.get_imageId());
+
 
             //verifie si la categorie a deja ete acheté TODO programmaticallement
             if(false) {

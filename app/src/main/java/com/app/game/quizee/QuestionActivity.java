@@ -42,7 +42,7 @@ public class QuestionActivity extends AppCompatActivity{
     ImageButton skipButton;
     ImageButton addTimeButton;
 
-
+    Boolean anserable;
     String correctAnswer;
     ProgressBar pb;
     MyCountDownTimer countDownTimer;
@@ -52,9 +52,11 @@ public class QuestionActivity extends AppCompatActivity{
     int questionCount;
 
     final int baseTime = 10000; // temps entre les questions en milisecondes
+    final int preventTime = 1000; // temps entre les questions ou on ne peut pas clicker en milisecondes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        anserable = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
@@ -170,41 +172,45 @@ public class QuestionActivity extends AppCompatActivity{
 
             //met un icone et un texte correspondant a la category
             category.setText(question.getCategory().get_name());
-
-            //TODO sassurer que toutes les categories aient des images puis enlever le if?
-            if(getDrawable(question.getCategory().get_imageId()) != null) {
-                icon.setBackground(getDrawable(question.getCategory().get_imageId()));
-            };
+            icon.setImageResource(question.getCategory().get_imageId());
             correctAnswer = question.getCorrectAnswer();
             reinitializer();
         }
     }
 
     private View.OnClickListener answerValidator(){
+
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String answer = ((Button)v).getText().toString();
-                Log.i("activity.question", String.format("answer: %s", answer));
-                if (answer.equals(correctAnswer)){
-                    Log.i("activity.question", "answer is correct");
+                if(anserable) {
+                    String answer = ((Button)v).getText().toString();
+                    Log.i("activity.question", String.format("answer: %s", answer));
+                    if (answer.equals(correctAnswer)){
+                        Log.i("activity.question", "answer is correct");
 
-                    v.setBackgroundColor(Color.GREEN);
-                    UserProfile.getUserProfile("1").addCorrectAnswer();
+                        v.setBackgroundColor(Color.GREEN);
+                        UserProfile.getUserProfile("1").addCorrectAnswer();
 //                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
-                }else {
-                    Log.i("activity.question", "answer is incorrect");
-                    v.setBackgroundColor(Color.RED);
+                    }else {
+                        Log.i("activity.question", "answer is incorrect");
+                        v.setBackgroundColor(Color.RED);
 //                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                    UserProfile.getUserProfile("1").addIncorrectAnswer();
+                        UserProfile.getUserProfile("1").addIncorrectAnswer();
+                    }
+                    newQuestion();
                 }
-                newQuestion();
             }
         };
     }
 
     private void newQuestion(){
         questionCount++;
+
+        //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
+        // pas avoir accrocher de bouton
+        new PreventClickCountDownTimer(preventTime, preventTime).start();
+
         QuestionFetcher questionFetcher = new QuestionFetcher();
         questionFetcher.execute("");
     }
@@ -261,6 +267,26 @@ public class QuestionActivity extends AppCompatActivity{
             return timeRemaining;
         }
     }
+
+    //custom countdownTimer class empecher de clicker sur une reponse trop rapidement
+    private class PreventClickCountDownTimer extends CountDownTimer {
+
+        private PreventClickCountDownTimer(long startTime, long timeBetweenTicks) {
+            super(startTime, timeBetweenTicks);
+            anserable = false;
+        }
+
+        @Override
+        @TargetApi(21)
+        public void onTick(long millisUntilFinished) {
+
+        }
+        @Override
+        public void onFinish() {
+            anserable = true;
+        }
+    }
+
 
     //ce quil se passe lorsque lon clique sur +5 sec
     public void addTime(View v) {
