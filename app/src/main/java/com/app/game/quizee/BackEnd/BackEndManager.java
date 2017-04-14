@@ -3,21 +3,20 @@ package com.app.game.quizee.BackEnd;
 import com.app.game.quizee.R;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 /**
  * Created by Maude on 2017-04-06.
  */
 
 public class BackEndManager {
-    public static Hashtable<String,Integer> item_cost = new Hashtable <String,Integer>();
+    public static ArrayList<Item> mes_item = new ArrayList<>();
     public static ArrayList<Category> mes_cate = new ArrayList<>();
 
     public static void create_item(){
-        item_cost.put("Bomb", 50);
-        item_cost.put("Skip", 250);
-        item_cost.put("Time", 150);
-        item_cost.put("Hint", 100);
+        mes_item.add(new Item("Bomb", 50, R.drawable.ic_bomb));
+        mes_item.add(new Item("Skip", 250, R.drawable.ic_skip));
+        mes_item.add(new Item("Time", 150, R.drawable.ic_addtime));
+        mes_item.add(new Item("Hint", 100, R.drawable.ic_hint));
     }
 
     public static void create_category() {
