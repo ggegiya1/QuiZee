@@ -100,22 +100,22 @@ public class ShopFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder Ad = new AlertDialog.Builder(getActivity());
-                            Ad.setIcon(android.R.drawable.ic_dialog_alert);
-                            Ad.setMessage("Do you want to buy the category : " + category.get_name());
-                            Ad.setTitle(R.string.AlertDialog_shop);
+                            Ad.setIcon(getResources().getDrawable(category.get_imageId()));
+                            Ad.setMessage("Do you want to buy the category : " + category.get_name() + " for " + ((int) category.get_price()) + " Quizee Dollars?");
+                            Ad.setTitle("Buy " + category.get_name());
 
-                            //actions when user says yes
-                            Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
+                            //actions when user buys a category
+                            Ad.setPositiveButton(R.string.buy , new DialogInterface.OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     boughtSwitch.showPrevious();
                                     //que faire lorsque lon achete la categorie TODO
-
+                                    Toast.makeText(getActivity(), "You bought " + category.get_name() + ", have fun!", Toast.LENGTH_SHORT).show();
 
                                 }
                             } );
-                            Ad.setNegativeButton(R.string.no, null);
+                            Ad.setNegativeButton(R.string.dontbuy, null);
                             Ad.show();
                         }
                     });
@@ -136,12 +136,6 @@ public class ShopFragment extends Fragment {
 
     //TODO complete this
     private void add_powerups(){
-
-
+        
     }
-
-
-
-
-
 }

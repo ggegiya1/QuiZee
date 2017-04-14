@@ -128,6 +128,7 @@ public class QuestionActivity extends AppCompatActivity{
         newQuestion();
     }
 
+
     private class QuestionFetcher extends AsyncTask<String, Object, Question>{
         @Override
         protected Question doInBackground(String... params) {
