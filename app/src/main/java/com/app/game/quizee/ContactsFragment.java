@@ -1,107 +1,195 @@
 package com.app.game.quizee;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ContactsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ContactsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ContactsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ListView favoriteList;
+    ListView suggestedList;
+    SearchView contactSearch;
+    boolean searching;
+    ViewSwitcher contactViewSwitcher;
+    ListView contactSearchList;
 
-    private OnFragmentInteractionListener mListener;
-
+    // Required empty public constructor
     public ContactsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ContactsFragment newInstance(String param1, String param2) {
-        ContactsFragment fragment = new ContactsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contacts, container, false);
+
+        searching = false;
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_contacts, container, false);
+
+
+
+        contactSearch = (SearchView) ll.findViewById(R.id.contact_search);
+        favoriteList = (ListView) ll.findViewById(R.id.favorite_contacts_list);
+        suggestedList = (ListView) ll.findViewById(R.id.suggested_players_list);
+        contactViewSwitcher = (ViewSwitcher) ll.findViewById(R.id.contact_view_switcher);
+        contactSearchList = (ListView) ll.findViewById(R.id.contact_search_list);
+
+        contactSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(!searching) {
+                    contactViewSwitcher.showNext();
+                    search(contactSearch.getQuery());
+                }
+                searching = true;
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        contactSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if(searching) {
+                    searching = false;
+                    contactViewSwitcher.showPrevious();
+                }
+                return false;
+            }
+        });
+
+        //TODO aller chercher programmaticallement images, niveaux ,et noms de contacts
+        int[] favoriteImageId = new int[] {R.drawable.ic_notifications_black_24dp, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
+        int[] favoriteLevels = new int[] {5, 3, 21, 11 , 76, 99};
+        String[] favorite = new String[] {"Stephen", "Bob", "Jimmy", "Britney", "Hug", "Max"};
+
+        int[] suggestedImageId = new int[] {R.drawable.ic_contacts, R.drawable.ic_multi_player, R.drawable.ic_art, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
+        int[] suggestedLevels = new int[] {10, 1, 14, 87, 76, 4, 31};
+        String[] suggested = new String[] {"Britney", "Hug", "Max","Stephen", "Bob", "Jimmy"};
+
+        ContactAdapter adapterFavorite = new ContactAdapter(getActivity(), favorite, favoriteImageId, favoriteLevels, true);
+        favoriteList.setAdapter(adapterFavorite);
+
+        ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), suggested, suggestedImageId, suggestedLevels, false);
+        suggestedList.setAdapter(adapterSuggested);
+
+        //sassure que le linear layout du fragment ne se compresse pas lorsque lon sort le clavier
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ll.getMeasuredHeight(), FrameLayout.LayoutParams.MATCH_PARENT);
+
+        ll.setLayoutParams(lp);
+
+        return ll;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    //contien temporairement un view pour la réutiliser
+    private static class ViewHolder {
+        TextView contactName;
+        ImageView contactIcon;
+        TextView levelTv;
+        ImageButton addContact;
+        ImageButton removeContact;
+        Button playRequestButton;
+        ProgressBar pb;
+    }
+
+    //Adapter inspiré de
+    // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
+    private class ContactAdapter extends ArrayAdapter<String> {
+
+        String[] itemname;
+        int[] imgid;
+        int[] level;
+        Activity context;
+        boolean alreadyAddedContacts;
+
+        public ContactAdapter (Activity context, String[] itemname, int[] imgid, int[] lvl, boolean alreadyAddedContacts) {
+            super(context, R.layout.contacts_item_list_layout, itemname);
+
+            this.alreadyAddedContacts = alreadyAddedContacts;
+            this.context=context;
+            this.itemname=itemname;
+            this.imgid=imgid;
+            this.level=lvl;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater=context.getLayoutInflater();
+
+            ViewHolder holder;
+
+            if(convertView == null) {
+                convertView = inflater.inflate(R.layout.contacts_item_list_layout, null, true);
+                holder = new ViewHolder();
+                holder.contactName = (TextView) convertView.findViewById(R.id.contact_item_name);
+                holder.contactIcon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
+                holder.levelTv = (TextView) convertView.findViewById(R.id.contact_level);
+                holder.addContact = (ImageButton) convertView.findViewById(R.id.contact_add_button);
+                holder.removeContact = (ImageButton) convertView.findViewById(R.id.contact_remove_button);
+                holder.playRequestButton = (Button) convertView.findViewById(R.id.play_request_button);
+                holder.pb = (ProgressBar) convertView.findViewById(R.id.play_request_progressbar);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            holder.pb.setVisibility(View.INVISIBLE);
+            holder.playRequestButton.setVisibility(Button.INVISIBLE);
+
+            if (alreadyAddedContacts) {
+                holder.addContact.setVisibility(ImageButton.INVISIBLE);
+                holder.removeContact.setVisibility(View.VISIBLE);
+                holder.removeContact.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        //TODO ajouter une action lorsque lon enleve un contact
+                    }
+                });
+            } else {
+                holder.removeContact.setVisibility(ImageButton.INVISIBLE);
+                holder.addContact.setVisibility(View.VISIBLE);
+                holder.addContact.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        //TODO ajouter une action lorsque lon ajoute un contact
+                    }
+                });
+            }
+
+            holder.contactName.setText(itemname[position]);
+            holder.contactIcon.setImageResource(imgid[position]);
+            holder.levelTv.setText(Integer.toString(level[position]));
+            return convertView;
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            // throw new RuntimeException(context.toString()+ " must implement OnFragmentInteractionListener");
-        }
+
+    //ce qui se passe lors dune recherche
+    private void search (CharSequence search) {
+        //TODO aller chercher les resultats de recherche automatiquement
+        int[] favoriteImageId = new int[] {R.drawable.ic_notifications_black_24dp, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
+        int[] favoriteLevels = new int[] {5, 3, 21, 11 , 76, 99};
+        String[] favorite = new String[] {"Stephen", "Bob", "Jimmy", "Britney", "Hug", "Max"};
+
+        ContactAdapter adapterSearch = new ContactAdapter(getActivity(), favorite, favoriteImageId, favoriteLevels, false);
+        contactSearchList.setAdapter(adapterSearch);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

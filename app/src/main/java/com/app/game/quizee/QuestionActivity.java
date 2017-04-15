@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
@@ -27,53 +28,42 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by ggegiya1 on 2/16/17.
- */
-
 public class QuestionActivity extends AppCompatActivity{
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
-
     TextSwitcher answer1TextSwitcher;
     TextSwitcher answer2TextSwitcher;
     TextSwitcher answer3TextSwitcher;
     TextSwitcher answer4TextSwitcher;
-    Button answer1;
-    Button answer2;
-    Button answer3;
-    Button answer4;
+
+    //answer buttons
     Button correctlyAnswered;
     Button pointsEarned;
-    Button skipButton;
+
+    //power ups buttons
+    ImageButton skipButton;
+    ImageButton addTimeButton;
+
+
     String correctAnswer;
-    Timer timer;
-    TimerTask elapsedTime;
-    String mode;
     ProgressBar pb;
     MyCountDownTimer countDownTimer;
     List<TextSwitcher> TextSwitchers;
     TextView category;
     ImageView icon;
+    int questionCount;
 
-    //Categories Game mode Attributes
-    Boolean Computers;
-    Boolean History;
-    Boolean Music;
-    Boolean VideoGames;
-    Boolean Art;
-    Boolean GeneralKnowledge;
-    Boolean Geography;
-    Boolean categories[];
-    Integer trueCategories;
+    int baseTime = 10000; // temps entre les questions en milisecondes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        skipButton = (Button) findViewById(R.id.button_question_skip);
+        addTimeButton = (ImageButton) findViewById(R.id.button_add_time);
+
+        skipButton = (ImageButton) findViewById(R.id.button_question_skip);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +73,8 @@ public class QuestionActivity extends AppCompatActivity{
         questionTextSwitcher = (TextSwitcher) findViewById(R.id.text_question);
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setRotation(180);
+        questionCount = -1;
+
         //ajoute les view a créé lors de lanimation de changement de texte du questionTextSwitcher
         //viewfactory tiré de la page http://www.androhub.com/android-textswitcher/
         questionTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -91,7 +83,10 @@ public class QuestionActivity extends AppCompatActivity{
                 //crer un TextView avec des caractéristiques
                 TextView myText = new TextView(QuestionActivity.this);
                 myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-                myText.setTextSize(30);
+                myText.setLayoutParams(new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT));
+                myText.setBackground(getResources().getDrawable((R.drawable.button_secondary_default)));
                 return myText;
             }
         });
@@ -130,27 +125,8 @@ public class QuestionActivity extends AppCompatActivity{
                         }
                     });
         }
-
-        //timer = new Timer(true); TODO effacer si inutile
         newQuestion();
 
-
-        /* ajout de tristan TODO effacer si inutile
-        mode = getIntent().getStringExtra("mode");
-        if (mode.equals("categoriesPlay")) {
-            Computers = getIntent().getBooleanExtra("Computers" , true);
-            History = getIntent().getBooleanExtra("History" , true);
-            Music = getIntent().getBooleanExtra("Music" , true);
-            VideoGames = getIntent().getBooleanExtra("VideoGames" , true);
-            Art = getIntent().getBooleanExtra("Art" , true);
-            GeneralKnowledge = getIntent().getBooleanExtra("GeneralKnowledge" , true);
-            Geography = getIntent().getBooleanExtra("Geography" , true);
-            categories = new Boolean[7];
-            trueCategories = 0;
-            for(int i = 0; i < categories.length; i++) {
-                trueCategories ++;
-            }
-        }*/
     }
 
     private class QuestionFetcher extends AsyncTask<String, Object, Question>{
@@ -167,7 +143,20 @@ public class QuestionActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(Question question) {
-            Log.i("activity.question", "fetched question: " + question.toString());
+            // TODO trouver le bug de la ligne :Log.i("activity.question", "fetched question: " + question.toString());
+
+            //change le texte de la question
+            questionTextSwitcher.setText(question.getText_question());
+
+            //ajuste le taille du texte pour que le texte ne depasse pas
+            TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
+            TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
+            if(questionCount%2 == 1) {
+                tv1.setTextSize(40 - question.getText_question().length() / 6);
+            } else {
+                tv2.setTextSize(40 - question.getText_question().length() / 6);
+            }
+
             questionTextSwitcher.setText(question.getText_question());
             List<String> answers = question.getAnswers(true);
 
@@ -175,8 +164,14 @@ public class QuestionActivity extends AppCompatActivity{
             for (int i=0; i<TextSwitchers.size(); i++){
                 TextSwitcher ts = TextSwitchers.get(i);
                 ts.setText(answers.get(i));
-                ts.getChildAt(0).getBackground().clearColorFilter();
-                ts.getChildAt(1).getBackground().clearColorFilter();
+                if(questionCount % 2 == 0) {
+                    ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
+                }
+                else {
+                    ts.getChildAt(1).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
+                }
+
+                //met un icone correspondant a la category TODO aller cherche licone programaticallement
                 category.setText(question.getCategory().get_name());
                 switch (question.getCategory().get_name()) {
                     case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
@@ -209,12 +204,12 @@ public class QuestionActivity extends AppCompatActivity{
                 if (answer.equals(correctAnswer)){
                     Log.i("activity.question", "answer is correct");
 
-                    v.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                    v.setBackgroundColor(Color.GREEN);
                     UserProfile.getUserProfile("1").addCorrectAnswer();
 //                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
                 }else {
                     Log.i("activity.question", "answer is incorrect");
-                    v.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+                    v.setBackgroundColor(Color.RED);
 //                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
                     UserProfile.getUserProfile("1").addIncorrectAnswer();
                 }
@@ -224,24 +219,21 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
     private void newQuestion(){
-        /*if(mode.equals("categoriesPlay")) { //ajout de tristan
-            QuestionFetcher questionFetcher = new QuestionFetcher();
-            questionFetcher.execute("");
-        }
-        if(mode.equals("quickPlay")) {*/
+        questionCount++;
         QuestionFetcher questionFetcher = new QuestionFetcher();
         questionFetcher.execute("");
-        // }
     }
 
     private void reinitializer(){
+        addTimeButton.setClickable(true);
         UserProfile userProfile = UserProfile.getUserProfile("1");
         correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered()));
         pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
         if (countDownTimer != null) {
             countDownTimer.cancel();}
-        countDownTimer = new MyCountDownTimer(5000, 50);
+        countDownTimer = new MyCountDownTimer(baseTime, 50);
         countDownTimer.start();
+
     }
 
     //custom countdownTimer class
@@ -255,20 +247,22 @@ public class QuestionActivity extends AppCompatActivity{
         @Override
         @TargetApi(21)
         public void onTick(long millisUntilFinished) {
+
             timeRemaining = millisUntilFinished;
+
+            //change la couleur en fonction du temps restant
             if(millisUntilFinished <= 1000) {
                 pb.setProgressTintList(ColorStateList.valueOf(Color.RED));
             } else if (millisUntilFinished <= 3000){
                 int colorTransition = (int) (millisUntilFinished - 1000) * 255 /2000;
                 pb.setProgressTintList(ColorStateList.valueOf(0xFFFF0000 + (colorTransition << 8)));
-                Log.i("couleur", "" + colorTransition);
             } else if (millisUntilFinished <= 5000){
                 int colorTransition = (int) (millisUntilFinished - 3000) * 255 /2000;
                 pb.setProgressTintList(ColorStateList.valueOf(0xFFFFFF00 - (colorTransition << 16)));
             } else {
                 pb.setProgressTintList(ColorStateList.valueOf(0xFF00FF00));
             }
-            pb.setProgress((int) millisUntilFinished / 50);
+            pb.setProgress((int) millisUntilFinished / (baseTime/100));
         }
 
         @Override
@@ -285,6 +279,7 @@ public class QuestionActivity extends AppCompatActivity{
 
     //ce quil se passe lorsque lon clique sur +5 sec
     public void addTime(View v) {
+        addTimeButton.setClickable(false);
         long newTime = countDownTimer.getTimeRemaining() + 5000;
         countDownTimer.cancel();
         countDownTimer = new MyCountDownTimer(newTime, 50);
@@ -310,8 +305,6 @@ public class QuestionActivity extends AppCompatActivity{
                 finish();
             }
         } );
-        Log.i("activity question", "user left question activity");
-
         Ad.setNegativeButton(R.string.no, null);
         Ad.show();
     }
