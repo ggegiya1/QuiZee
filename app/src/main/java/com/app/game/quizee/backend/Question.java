@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.backend;
 
 import java.util.ArrayList;
 import java.util.Collections;

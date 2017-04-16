@@ -20,11 +20,15 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MultiplayerQuestionActivity extends AppCompatActivity{
+
+    private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -110,7 +114,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
     private class QuestionFetcher extends AsyncTask<Category, Object, Question>{
         @Override
         protected Question doInBackground(Category... params) {
-            Question question = TriviaApi.getQuestion(params[0]);
+            Question question = triviaApi.getQuestion();
             return question;
         }
 
