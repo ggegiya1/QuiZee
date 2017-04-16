@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+
 
     <item
         android:id="@+id/navigation_shop"
@@ -12,7 +9,13 @@
         android:title="@string/title_shop" />
 
     <item
-        android:id="@+id/navigation_archivements"
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <!--
+    <item
+        android:id="@+id/navigation_achievements"
         android:icon="@drawable/ic_check"
         android:title="@string/title_achievements" />
 
@@ -20,10 +23,15 @@
         android:id="@+id/navigation_stats"
         android:icon="@drawable/ic_stats"
         android:title="@string/title_stats" />
+ -->
+    <item
+        android:id="@+id/navigation_contacts"
+        android:icon="@drawable/ic_contacts"
+        android:title="@string/title_contacts" />
 
     <item
-    android:id="@+id/navigation_contacts"
-    android:icon="@drawable/ic_contacts"
-    android:title="@string/title_contacts" />
+        android:id="@+id/navigation_career"
+        android:icon="@drawable/ic_trophe"
+        android:title="@string/title_career" />
 
 </menu>

@@ -1,13 +1,113 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.app.game.quizee.ContactsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <SearchView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/title_contacts" />
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:queryHint="@string/hint_search_friends"
+        android:id="@+id/contact_search"
+        android:background="@drawable/button_tertiary_default"/>
 
-</FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/complementaryBackground"/>
+
+    <ViewSwitcher
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/contact_view_switcher"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_contacts"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:layout_weight="0.10"
+                android:background="@drawable/button_primary_default"
+                android:layout_margin="5dp"
+                android:padding="2dp"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.40"
+                android:id="@+id/favorite_contacts_list"
+                android:fadeScrollbars="false"
+                android:scrollbarStyle="outsideOverlay"
+                android:dividerHeight="2dp"
+                android:scrollbarThumbVertical="@drawable/button_tertiary_default"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/suggested_players"
+                android:textSize="30sp"
+                android:layout_weight="0.10"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/button_primary_default"
+                android:layout_marginBottom="5dp"
+                android:padding="2dp"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:paddingRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.40"
+                android:id="@+id/suggested_players_list"
+                android:fadeScrollbars="false"
+                android:scrollbarStyle="outsideOverlay"
+                android:dividerHeight="2dp"
+                android:scrollbarThumbVertical="@drawable/button_tertiary_default"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_results"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:background="@drawable/button_primary_default"
+                android:layout_margin="5dp"
+                android:padding="2dp"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/contact_search_list"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:dividerHeight="2dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbVertical="@drawable/button_tertiary_default"/>
+
+        </LinearLayout>
+    </ViewSwitcher>
+</LinearLayout>

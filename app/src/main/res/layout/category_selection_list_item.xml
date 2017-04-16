@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:text="category"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/category_item_list"
+    android:checked="false"
+    android:textSize="30sp"
+    android:background="@drawable/button_tertiary_style"
+    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+    android:visibility="gone"/>

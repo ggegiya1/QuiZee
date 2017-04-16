@@ -1,74 +1,74 @@
 package com.app.game.quizee.BackEnd;
 
-import com.app.game.quizee.CategorySelectionActivity;
+import com.app.game.quizee.R;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 /**
  * Created by Maude on 2017-04-06.
  */
 
 public class BackEndManager {
-    public static Hashtable<String,Integer> item_cost = new Hashtable <String,Integer>();
+    public static ArrayList<Item> mes_item = new ArrayList<>();
     public static ArrayList<Category> mes_cate = new ArrayList<>();
 
     public static void create_item(){
-        item_cost.put("Bomb", 50);
-        item_cost.put("Skip", 250);
-        item_cost.put("Time", 150);
+        mes_item.add(new Item("Bomb", 50, R.drawable.ic_bomb));
+        mes_item.add(new Item("Skip", 250, R.drawable.ic_skip));
+        mes_item.add(new Item("Time", 150, R.drawable.ic_addtime));
+        mes_item.add(new Item("Hint", 100, R.drawable.ic_hint));
     }
 
     public static void create_category() {
         //TODO PUT IN DB
 
-        Category category = new Category(0, "General Knowledge", 0);
+        Category category = new Category(0, "General Knowledge", 0, R.drawable.ic_general_knowledge);
         mes_cate.add(category);
-        Category category1 = new Category(1, "Entertainment: Music", 200);
+        Category category1 = new Category(1, "Entertainment: Music", 200, R.drawable.music_category_icon);
         mes_cate.add(category1);
-        Category category2 = new Category(2, "Entertainment: Video Games", 500);
+        Category category2 = new Category(2, "Entertainment: Video Games", 500, R.drawable.videogames_category_icon);
         mes_cate.add(category2);
-        Category category3 = new Category(3, "Science: Computers", 300);
+        Category category3 = new Category(3, "Science: Computers", 300, R.drawable.ic_computer);
         mes_cate.add(category3);
-        Category category4 = new Category(4, "Geography", 100);
+        Category category4 = new Category(4, "Geography", 100, R.drawable.ic_geography);
         mes_cate.add(category4);
-        Category category5 = new Category(5, "History", 150);
+        Category category5 = new Category(5, "History", 150 , R.mipmap.ic_launcher);
         mes_cate.add(category5);
-        Category category6 = new Category(6, "Art", 50);
+        Category category6 = new Category(6, "Art", 50, R.drawable.ic_art);
         mes_cate.add(category6);
-        Category category7 = new Category(7,"Entertainment: Books",100);
+        Category category7 = new Category(7,"Entertainment: Books",100, R.drawable.ic_practice);
         mes_cate.add(category7);
-        Category category8 = new Category(8,"Entertainment: Film",50);
+        Category category8 = new Category(8,"Entertainment: Film",50, R.drawable.ic_movie);
         mes_cate.add(category8);
-        Category category9 = new Category(9,"Entertainment: Musicals & Theatres",50);
+        Category category9 = new Category(9,"Entertainment: Musicals & Theatres",50 , R.mipmap.ic_launcher);
         mes_cate.add(category9);
-        Category category10 = new Category(10,"Entertainment: Television",100);
+        Category category10 = new Category(10,"Entertainment: Television",100 , R.drawable.ic_television);
         mes_cate.add(category10);
-        Category category11 = new Category(11,"Entertainment: Board Games",100);
+        Category category11 = new Category(11,"Entertainment: Board Games",100, R.mipmap.ic_launcher);
         mes_cate.add(category11);
-        Category category12 = new Category(12,"Science & Nature",200);
+        Category category12 = new Category(12,"Science & Nature",200, R.drawable.ic_nature);
         mes_cate.add(category12);
-        Category category13 = new Category(13,"Celebrities",200);
+        Category category13 = new Category(13,"Celebrities",200 , R.mipmap.ic_launcher);
         mes_cate.add(category13);
-        Category category14 = new Category(14,"Animals",100);
+        Category category14 = new Category(14,"Animals",100 , R.mipmap.ic_launcher);
         mes_cate.add(category14);
-        Category category15 = new Category(15,"Politics",300);
+        Category category15 = new Category(15,"Politics",300 , R.mipmap.ic_launcher);
         mes_cate.add(category15);
-        Category category16 = new Category(16,"Science: Mathematics",400);
+        Category category16 = new Category(16,"Science: Mathematics",400 ,R.mipmap.ic_launcher);
         mes_cate.add(category16);
-        Category category17 = new Category(17,"Mythology",0);
+        Category category17 = new Category(17,"Mythology",0 ,R.mipmap.ic_launcher);
         mes_cate.add(category17);
-        Category category18 = new Category(18,"Sports",0);
+        Category category18 = new Category(18,"Sports",0 ,R.mipmap.ic_launcher);
         mes_cate.add(category18);
-        Category category19 = new Category(19,"Vehicles",0);
+        Category category19 = new Category(19,"Vehicles",0 ,R.mipmap.ic_launcher);
         mes_cate.add(category19);
-        Category category20 = new Category(20,"Entertainment: Comics",0);
+        Category category20 = new Category(20,"Entertainment: Comics",0, R.mipmap.ic_launcher);
         mes_cate.add(category20);
-        Category category21 = new Category(21,"Entertainment: Japanese Anime & Manga",0);
+        Category category21 = new Category(21,"Entertainment: Japanese Anime & Manga",0, R.mipmap.ic_launcher);
         mes_cate.add(category21);
-        Category category22 = new Category(22,"Entertainment: Cartoon & Animations",0);
+        Category category22 = new Category(22,"Entertainment: Cartoon & Animations",0, R.mipmap.ic_launcher);
         mes_cate.add(category22);
-        Category category23 = new Category(23,"Science: Gadgets",0);
+        Category category23 = new Category(23,"Science: Gadgets",0, R.mipmap.ic_launcher);
         mes_cate.add(category23);
     }
 
