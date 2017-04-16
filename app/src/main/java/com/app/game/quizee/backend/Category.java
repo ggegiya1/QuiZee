@@ -1,5 +1,7 @@
 package com.app.game.quizee.backend;
 
+import com.app.game.quizee.R;
+
 /**
  * Created by Maude on 2017-04-03.
  */
@@ -10,7 +12,7 @@ public class Category {
     private double price;
     private int imageId;
     
-    public Category(int c_id, String c_name, double c_price, int c_imageId){
+    Category(int c_id, String c_name, double c_price, int c_imageId){
         id = c_id;
         name = c_name;
         price = c_price;
@@ -32,5 +34,9 @@ public class Category {
 
     public int getImageId(){
         return imageId;
+    }
+
+    public static Category any(){
+        return new Category(0, "", 0,  R.mipmap.ic_launcher);
     }
 }

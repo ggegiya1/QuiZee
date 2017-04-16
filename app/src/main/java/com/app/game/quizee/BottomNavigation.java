@@ -37,7 +37,6 @@ public class BottomNavigation extends AppCompatActivity {
 
         //Do not touch! Load the classes
         BackEndManager.create_item();
-        BackEndManager.create_category();
 
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {

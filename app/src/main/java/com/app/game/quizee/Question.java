@@ -11,19 +11,18 @@ import com.app.game.quizee.backend.Category;
  */
 
 public class Question {
-    private int id_question;
+
     private Category category;
     private String text_question;
     private String difficulty;
     private String correctAnswer;
     private List<String> incorrectAnswers;
 
-    public Question(int q_id, Category q_category, String q_text, String q_difficulty, String q_correct){
-        id_question = q_id;
-        category = q_category;
-        text_question = q_text;
-        difficulty = q_difficulty;
-        correctAnswer = q_correct;
+    public Question(Category category, String text, String difficulty, String correct){
+        this.category = category;
+        this.text_question = text;
+        this.difficulty = difficulty;
+        this.correctAnswer = correct;
     }
 
     public Category getCategory() {

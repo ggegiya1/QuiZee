@@ -22,6 +22,8 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.app.game.quizee.backend.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,15 +131,10 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
 
-    private class QuestionFetcher extends AsyncTask<String, Object, Question>{
+    private class QuestionFetcher extends AsyncTask<Category, Object, Question>{
         @Override
-        protected Question doInBackground(String... params) {
-            Question question = null;
-            try {
-                question = TriviaApi.getQuestion(params[0]);
-            } catch (Exception e) {
-                Log.e("activity.question", "Error fetching question", e);
-            }
+        protected Question doInBackground(Category... params) {
+            Question question = TriviaApi.getQuestion(params[0]);
             return question;
         }
 
@@ -213,7 +210,7 @@ public class QuestionActivity extends AppCompatActivity{
         new PreventClickCountDownTimer(preventTime, preventTime).start();
 
         QuestionFetcher questionFetcher = new QuestionFetcher();
-        questionFetcher.execute("");
+        questionFetcher.execute(Category.any());
     }
 
 
