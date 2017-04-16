@@ -18,19 +18,19 @@ public class Category {
     }
 
     //Getters
-    public int get_id(){
+    public int getId(){
         return id;
     }
 
-    public String get_name(){
+    public String getName(){
         return name;
     }
 
-    public double get_price(){
+    public double getPrice(){
         return price;
     }
 
-    public int get_imageId(){
+    public int getImageId(){
         return imageId;
     }
 }

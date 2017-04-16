@@ -75,9 +75,9 @@ public class BackEndManager {
     public static Category find_cate(String categoryName) {
 
         for (int i = 0; i < mes_cate.size(); ++i){
-            System.out.println(mes_cate.get(i).get_name());
+            System.out.println(mes_cate.get(i).getName());
             System.out.println(categoryName);
-            if (mes_cate.get(i).get_name().equals(categoryName)){
+            if (mes_cate.get(i).getName().equals(categoryName)){
                 return mes_cate.get(i);
             }
         }

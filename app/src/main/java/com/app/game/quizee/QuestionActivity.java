@@ -172,8 +172,8 @@ public class QuestionActivity extends AppCompatActivity{
             }
 
             //met un icone et un texte correspondant a la category
-            category.setText(question.getCategory().get_name());
-            icon.setImageResource(question.getCategory().get_imageId());
+            category.setText(question.getCategory().getName());
+            icon.setImageResource(question.getCategory().getImageId());
             correctAnswer = question.getCorrectAnswer();
             reinitializer();
         }

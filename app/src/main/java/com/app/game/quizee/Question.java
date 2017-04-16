@@ -69,7 +69,7 @@ public class Question {
     @Override
     public String toString() {
         return "Question{" +
-                "category='" + category.get_name() + '\'' +
+                "category='" + category.getName() + '\'' +
                 ", text_question='" + text_question + '\'' +
                 ", difficulty='" + difficulty + '\'' +
                 ", correctAnswer='" + correctAnswer + '\'' +

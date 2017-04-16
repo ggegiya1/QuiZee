@@ -147,8 +147,8 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                 }
 
                 //met un icone correspondant a la category TODO aller cherche licone programaticallement
-                category.setText(question.getCategory().get_name());
-                switch (question.getCategory().get_name()) {
+                category.setText(question.getCategory().getName());
+                switch (question.getCategory().getName()) {
                     case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
                         break;
                     case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);

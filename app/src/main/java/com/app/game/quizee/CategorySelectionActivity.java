@@ -44,8 +44,8 @@ public class CategorySelectionActivity extends AppCompatActivity {
         for (Category category : BackEndManager.mes_cate) {
             //TODO Compliqué pour pas grand chose..ici on n'a pas besoin des fonctions des catégories
             //Je propose de simplement utiliser un array de string
-            if (category.get_name().equals("Geography") || (category.get_name().equals("Computers") || (category.get_name().equals("Art") || (category.get_name().equals("History"))))){
-                categories[i] = category.get_name();
+            if (category.getName().equals("Geography") || (category.getName().equals("Computers") || (category.getName().equals("Art") || (category.getName().equals("History"))))){
+                categories[i] = category.getName();
                 i+=1;
             }
         }
