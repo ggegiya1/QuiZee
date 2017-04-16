@@ -18,9 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.app.game.quizee.BackEnd.BackEndManager;
-import com.app.game.quizee.BackEnd.Category;
-import com.app.game.quizee.BackEnd.Item;
+import com.app.game.quizee.backend.BackEndManager;
+import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Item;
 
 import java.util.ArrayList;
 
@@ -89,7 +89,7 @@ public class ShopFragment extends Fragment {
             final ViewSwitcher boughtSwitch = (ViewSwitcher) relL.findViewById(R.id.shop_item_viewswitcher);
             catCount.setVisibility(View.INVISIBLE);
             String[] parts = category.get_name().split("\\s+");
-            catPrice.setText(Integer.toString((int)category.get_price()));
+            catPrice.setText(Integer.toString((int)category.getPrice()));
             catName.setText(parts[parts.length-1]);
             categoriesShop.addView(relL);
             catIcon.setImageResource(category.get_imageId());
@@ -107,7 +107,7 @@ public class ShopFragment extends Fragment {
                         public void onClick(View v) {
                             AlertDialog.Builder Ad = new AlertDialog.Builder(getActivity());
                             Ad.setIcon(getResources().getDrawable(category.get_imageId()));
-                            Ad.setMessage("Do you want to buy the category : " + category.get_name() + " for " + ((int) category.get_price()) + " Quizee Dollars?");
+                            Ad.setMessage("Do you want to buy the category : " + category.get_name() + " for " + ((int) category.getPrice()) + " Quizee Dollars?");
                             Ad.setTitle("Buy " + category.get_name());
 
                             //actions when user buys a category
@@ -236,9 +236,9 @@ public class ShopFragment extends Fragment {
                         Toast.makeText(getContext(), "You bought a powerup!", Toast.LENGTH_LONG).show();
                     }
                 });
-                powUpName.setText(rowItem.getI_type());
-                powUpPrice.setText(Integer.toString(rowItem.getI_cost()));
-                powUpIcon.setImageResource(rowItem.getI_imgId());
+                powUpName.setText(rowItem.getType());
+                powUpPrice.setText(Integer.toString(rowItem.getCost()));
+                powUpIcon.setImageResource(rowItem.getImageId());
 
             } else if (position >5) {
                 final Category category = (Category) getItem(position);
@@ -250,10 +250,10 @@ public class ShopFragment extends Fragment {
                 ImageButton catBuyButton = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
                 final ViewSwitcher boughtSwitch = (ViewSwitcher) convertView.findViewById(R.id.shop_item_viewswitcher);
                 catCount.setVisibility(View.INVISIBLE);
-                String[] parts = category.get_name().split("\\s+");
-                catPrice.setText(Integer.toString((int)category.get_price()));
+                String[] parts = category.getName().split("\\s+");
+                catPrice.setText(Integer.toString((int)category.getPrice()));
                 catName.setText(parts[parts.length-1]);
-                catIcon.setImageResource(category.get_imageId());
+                catIcon.setImageResource(category.getImageId());
 
                 boughtSwitch.setInAnimation(null);
 
@@ -271,9 +271,9 @@ public class ShopFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder Ad = new AlertDialog.Builder(getActivity());
-                                Ad.setIcon(getResources().getDrawable(category.get_imageId()));
-                                Ad.setMessage("Do you want to buy the category : " + category.get_name() + " for " + ((int) category.get_price()) + " Quizee Dollars?");
-                                Ad.setTitle("Buy " + category.get_name());
+                                Ad.setIcon(getResources().getDrawable(category.getImageId()));
+                                Ad.setMessage("Do you want to buy the category : " + category.getName() + " for " + ((int) category.getPrice()) + " Quizee Dollars?");
+                                Ad.setTitle("Buy " + category.getName());
 
                                 //actions when user buys a category
                                 Ad.setPositiveButton(R.string.buy , new DialogInterface.OnClickListener(){
@@ -283,7 +283,7 @@ public class ShopFragment extends Fragment {
                                         boughtSwitch.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left));
                                         boughtSwitch.setDisplayedChild(0);
                                         //que faire lorsque lon achete la categorie TODO
-                                        Toast.makeText(getActivity(), "You bought " + category.get_name() + ", have fun!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "You bought " + category.getName() + ", have fun!", Toast.LENGTH_SHORT).show();
 
                                     }
                                 } );

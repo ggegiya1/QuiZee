@@ -1,6 +1,7 @@
 package com.app.game.quizee;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -20,12 +21,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Question;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity{
+
+    private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -129,53 +138,16 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
 
-    private class QuestionFetcher extends AsyncTask<String, Object, Question>{
+    private class QuestionFetcher extends AsyncTask<Object, Object, Question>{
+
         @Override
-        protected Question doInBackground(String... params) {
-            Question question = null;
-            try {
-                question = TriviaApi.getQuestion(params[0]);
-            } catch (Exception e) {
-                Log.e("activity.question", "Error fetching question", e);
-            }
-            return question;
+        protected Question doInBackground(Object... params) {
+            return triviaApi.getQuestion();
         }
 
         @Override
-        protected void onPostExecute(Question question) {
-            // TODO trouver le bug de la ligne :Log.i("activity.question", "fetched question: " + question.toString());
-
-            //change le texte de la question
-            questionTextSwitcher.setText(question.getText_question());
-
-            //ajuste le taille du texte pour que le texte ne depasse pas
-            TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
-            TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
-            if(questionCount%2 == 1) {
-                tv1.setTextSize(40 - question.getText_question().length() / 6);
-            } else {
-                tv2.setTextSize(40 - question.getText_question().length() / 6);
-            }
-
-            questionTextSwitcher.setText(question.getText_question());
-            List<String> answers = question.getAnswers(true);
-
-            //efface les couleurs sur les boutons et mets le texte correspondant aux reponses sur les boutons
-            for (int i=0; i<TextSwitchers.size(); i++) {
-                TextSwitcher ts = TextSwitchers.get(i);
-                ts.setText(answers.get(i));
-                if (questionCount % 2 == 0) {
-                    ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-                } else {
-                    ts.getChildAt(1).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-                }
-            }
-
-            //met un icone et un texte correspondant a la category
-            category.setText(question.getCategory().get_name());
-            icon.setImageResource(question.getCategory().get_imageId());
-            correctAnswer = question.getCorrectAnswer();
-            reinitializer();
+        protected void onPostExecute(Question newQuestion) {
+            setQuestion(newQuestion);
         }
     }
 
@@ -211,11 +183,53 @@ public class QuestionActivity extends AppCompatActivity{
         //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
         // pas avoir accrocher de bouton
         new PreventClickCountDownTimer(preventTime, preventTime).start();
-
         QuestionFetcher questionFetcher = new QuestionFetcher();
-        questionFetcher.execute("");
+        questionFetcher.execute();
     }
 
+
+    private void setQuestion(Question question){
+        if (question == null){
+            Context context = getApplicationContext();
+            CharSequence text = "Error fetching question";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+        //change le texte de la question
+        questionTextSwitcher.setText(question.getText_question());
+
+        //ajuste le taille du texte pour que le texte ne depasse pas
+        TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
+        TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
+        if(questionCount%2 == 1) {
+            tv1.setTextSize(40 - question.getText_question().length() / 6);
+        } else {
+            tv2.setTextSize(40 - question.getText_question().length() / 6);
+        }
+
+        questionTextSwitcher.setText(question.getText_question());
+        List<String> answers = question.getAnswers(true);
+
+        //efface les couleurs sur les boutons et mets le texte correspondant aux reponses sur les boutons
+        for (int i=0; i<TextSwitchers.size(); i++) {
+            TextSwitcher ts = TextSwitchers.get(i);
+            ts.setText(answers.get(i));
+            if (questionCount % 2 == 0) {
+                ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
+            } else {
+                ts.getChildAt(1).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
+            }
+        }
+
+        //met un icone et un texte correspondant a la category
+        category.setText(question.getCategory().getName());
+        icon.setImageResource(question.getCategory().getImageId());
+        correctAnswer = question.getCorrectAnswer();
+        reinitializer();
+    }
 
     //reinitialise laffichage
     private void reinitializer(){
