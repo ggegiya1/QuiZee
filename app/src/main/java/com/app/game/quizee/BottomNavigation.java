@@ -11,15 +11,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.app.game.quizee.BackEnd.BackEndManager;
-import com.app.game.quizee.BackEnd.Category;
-
-import java.util.ArrayList;
+import com.app.game.quizee.backend.BackEndManager;
 
 import layout.CareerFragment;
 import layout.HomeFragment;
 
-public class Bottom_Navigation extends AppCompatActivity {
+public class BottomNavigation extends AppCompatActivity {
     //inspiré de https://github.com/jaisonfdo/BottomNavigation
     // pour le view pager et le bottom_navigation
 
@@ -45,8 +42,8 @@ public class Bottom_Navigation extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem playMenuItem) {
+                        switch (playMenuItem.getItemId()) {
                             case R.id.navigation_shop:
                                 viewPager.setCurrentItem(0);
                                 break;

@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
-import com.app.game.quizee.BackEnd.BackEndManager;
-import com.app.game.quizee.BackEnd.Category;
+import com.app.game.quizee.backend.BackEndManager;
+import com.app.game.quizee.backend.Category;
 import android.widget.ListView;
 
 

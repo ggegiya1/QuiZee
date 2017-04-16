@@ -2,7 +2,7 @@ package com.app.game.quizee;
 
 import android.text.Html;
 import android.util.Log;
-import com.app.game.quizee.BackEnd.BackEndManager;
+import com.app.game.quizee.backend.BackEndManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

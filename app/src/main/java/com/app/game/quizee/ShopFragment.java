@@ -18,9 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.app.game.quizee.BackEnd.BackEndManager;
-import com.app.game.quizee.BackEnd.Category;
-import com.app.game.quizee.BackEnd.Item;
+import com.app.game.quizee.backend.BackEndManager;
+import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Item;
 
 import java.util.ArrayList;
 
