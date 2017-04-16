@@ -236,9 +236,9 @@ public class ShopFragment extends Fragment {
                         Toast.makeText(getContext(), "You bought a powerup!", Toast.LENGTH_LONG).show();
                     }
                 });
-                powUpName.setText(rowItem.getI_type());
-                powUpPrice.setText(Integer.toString(rowItem.getI_cost()));
-                powUpIcon.setImageResource(rowItem.getI_imgId());
+                powUpName.setText(rowItem.getType());
+                powUpPrice.setText(Integer.toString(rowItem.getCost()));
+                powUpIcon.setImageResource(rowItem.getImageId());
 
             } else if (position >5) {
                 final Category category = (Category) getItem(position);
