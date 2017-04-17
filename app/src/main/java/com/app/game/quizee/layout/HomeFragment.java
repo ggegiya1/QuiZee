@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.app.game.quizee.CategorySelectionActivity;
 import com.app.game.quizee.MultiplayerLobbyActivity;
+import com.app.game.quizee.PracticeActivity;
 import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
 
@@ -52,7 +53,7 @@ public class HomeFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iquick = new Intent(getContext(), QuestionActivity.class);
+                Intent iquick = new Intent(getContext(), PracticeActivity.class);
                 startActivity(iquick);
             }
         };
