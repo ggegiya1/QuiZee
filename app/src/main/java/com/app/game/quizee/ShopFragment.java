@@ -35,110 +35,6 @@ public class ShopFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_shop, container, false);
-
-        /*TODO supprimer plus tard utiliser le listview a la place
-        LinearLayout categoriesShop = (LinearLayout) fl.findViewById(R.id.categories_linear_layout);
-        LinearLayout powUpShop = (LinearLayout) fl.findViewById(R.id.power_ups_linear_layout);
-
-
-        //ajoute une liste de toutes les powerUps achetables dans le magasin et laffiche
-        for (Item item : BackEndManager.mes_item) {
-            RelativeLayout relL = (RelativeLayout) inflater.inflate(R.layout.shop_item_list_layout, container, false);
-            TextView powUpName = (TextView) relL.findViewById(R.id.shop_item_name);
-            TextView powUpPrice = (TextView) relL.findViewById(R.id.shop_item_price);
-            TextView powUpCount = (TextView) relL.findViewById(R.id.shop_item_quantity);
-            ImageView powUpIcon = (ImageView) relL.findViewById(R.id.shop_item_icon);
-            ViewSwitcher boughtSwitch = (ViewSwitcher) relL.findViewById(R.id.shop_item_viewswitcher);
-            ImageButton buy = (ImageButton) relL.findViewById(R.id.shop_buy_button);
-
-            //montre le bouton dachat
-            boughtSwitch.showNext();
-
-            //ajoute une action lorsque lon achete un power up
-            buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO Trouver QUEL item on a cliqué (bombe, temps, etc.)
-                    //TODO Esnuite caller UserProfile.buy_one("Bombe");
-                    Toast.makeText(getContext(), "You bought a powerup!", Toast.LENGTH_LONG).show();
-                }
-            });
-
-
-            //ajoute un espace entre les views
-            View view = new View(getActivity());
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, 15
-
-            );
-            view.setLayoutParams(params);
-
-            powUpName.setText(item.getI_type());
-            powUpShop.addView(relL);
-            powUpShop.addView(view);
-        }
-
-        //ajoute une liste de toutes les categories achetables dans le magasin et laffiche
-        for (final Category category : BackEndManager.mes_cate) {
-            RelativeLayout relL = (RelativeLayout) inflater.inflate(R.layout.shop_item_list_layout, container, false);
-            TextView catName = (TextView) relL.findViewById(R.id.shop_item_name);
-            TextView catPrice = (TextView) relL.findViewById(R.id.shop_item_price);
-            TextView catCount = (TextView) relL.findViewById(R.id.shop_item_quantity);
-            ImageView catIcon = (ImageView) relL.findViewById(R.id.shop_item_icon);
-            ImageButton catBuyButton = (ImageButton) relL.findViewById(R.id.shop_buy_button);
-            final ViewSwitcher boughtSwitch = (ViewSwitcher) relL.findViewById(R.id.shop_item_viewswitcher);
-            catCount.setVisibility(View.INVISIBLE);
-            String[] parts = category.get_name().split("\\s+");
-            catPrice.setText(Integer.toString((int)category.getPrice()));
-            catName.setText(parts[parts.length-1]);
-            categoriesShop.addView(relL);
-            catIcon.setImageResource(category.get_imageId());
-
-
-            //verifie si la categorie a deja ete acheté TODO programmaticallement
-            if(false) {
-
-            }   else {
-                //verifie si la categorie est achetable TODO programmaticallement
-                if(true) {
-                    boughtSwitch.showNext();
-                    catBuyButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlertDialog.Builder Ad = new AlertDialog.Builder(getActivity());
-                            Ad.setIcon(getResources().getDrawable(category.get_imageId()));
-                            Ad.setMessage("Do you want to buy the category : " + category.get_name() + " for " + ((int) category.getPrice()) + " Quizee Dollars?");
-                            Ad.setTitle("Buy " + category.get_name());
-
-                            //actions when user buys a category
-                            Ad.setPositiveButton(R.string.buy , new DialogInterface.OnClickListener(){
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    boughtSwitch.showPrevious();
-                                    //que faire lorsque lon achete la categorie TODO
-                                    Toast.makeText(getActivity(), "You bought " + category.get_name() + ", have fun!", Toast.LENGTH_SHORT).show();
-
-                                }
-                            } );
-                            Ad.setNegativeButton(R.string.dontbuy, null);
-                            Ad.show();
-                        }
-                    });
-                }
-            }
-
-            View view = new View(getActivity());
-            //ajoute un espace entre les views
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT, 15
-
-            );
-            view.setLayoutParams(params);
-            categoriesShop.addView(view);
-        }*/
-
-
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
         ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item, BackEndManager. mes_cate);
         shopListView.setAdapter(sa);
@@ -224,7 +120,7 @@ public class ShopFragment extends Fragment {
                 powUpCount.setVisibility(View.VISIBLE);
 
                 //TODO get item count programmatically
-                powUpCount.setText(getText(R.string.shop_you_own).toString() + 3);
+                powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + 3);
 
 
                 //ajoute une action lorsque lon achete un power up

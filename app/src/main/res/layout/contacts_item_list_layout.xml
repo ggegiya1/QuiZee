@@ -35,8 +35,7 @@
         android:src="@drawable/ic_connection_circle"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/contact_item_name"
-        android:layout_centerVertical="true"
-        android:visibility="invisible"/>
+        android:layout_centerVertical="true" />
 
     <TextView
         android:layout_width="40dp"

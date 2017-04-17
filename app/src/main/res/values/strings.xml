@@ -41,6 +41,7 @@
     <!-- strings related to category selection activity -->
     <string name="categorySelection">Select categories</string>
     <string name="categoriesPlay">Play</string>
+    <string name="buy_category">Buy Category</string>
 
     <!-- Strings related to contacts-->
     <string name="hint_search_friends">SEARCH A FRIEND</string>
@@ -63,6 +64,9 @@
     <string name="Category_Based_Achievements">Category Based Achivements</string>
     <string name="Career">Career</string>
     <string name="title_career">Career</string>
+    <string name="career_xp">xp</string>
+    <string name="career_gives">Gives</string>
+    <string name="career_and">and</string>
 
     <!-- Strings related to Question Activity -->
     <string name="yes">Yes</string>
@@ -73,8 +77,15 @@
     <string name="Hint_Button">Hint</string>
     <string name="Bomb_Button">50/100</string>
     <string name="Skip_Button">Skip</string>
+
+    <!-- String related to shop -->
+    <string name="AlertDialog_shop">Buy category?</string>
+    <string name="dontbuy">Dont buy</string>
+    <string name="buy">Buy</string>
+    <string name="shop_you_own">You own</string>
     <string name="shop_power_ups">POWER UPS</string>
     <string name="shop_Caterogies">CATEGORIES</string>
+
 
     <!-- strings related to settings -->
     <string name="change_avatar">Change avatar</string>
@@ -158,16 +169,5 @@
     <string name="pref_title_notification_friend_accepted">Vibrate on friend request accepted</string>
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
         <!-- TODO: Remove or change this placeholder text -->
-
-
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="AlertDialog_shop">Buy category?</string>
-    <string name="dontbuy">Dont buy</string>
-    <string name="buy">Buy</string>
-    <string name="shop_you_own">You own</string>
-    <string name="buy_category">Buy Category</string>
 
 </resources>

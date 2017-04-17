@@ -2,54 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.game.quizee.ShopFragment"
-    >
-
-    <!--TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/shop_power_ups"
-        android:textSize="30sp"
-        android:background="@drawable/button_primary_default"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center"
-        android:padding="10dp"/-->
-
-    <!--LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/power_ups_linear_layout"
-        android:orientation="vertical"
-        android:layout_margin="10dp"/-->
-
-
-    <!--TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/shop_Caterogies"
-        android:textSize="30sp"
-        android:background="@drawable/button_primary_default"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center"
-        android:padding="10dp"/-->
-
-    <!--LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/categories_linear_layout"
-        android:orientation="vertical"
-        android:layout_margin="10dp"-->
+    tools:context="com.app.game.quizee.ShopFragment">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/shop_listview"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="10dp"
         android:dividerHeight="3dp"
         android:scrollbarThumbVertical="@drawable/button_tertiary_default"
         android:fadeScrollbars="false"
-        android:padding="10dp"/>
+        android:scrollbarStyle="outsideOverlay"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
 </LinearLayout>
