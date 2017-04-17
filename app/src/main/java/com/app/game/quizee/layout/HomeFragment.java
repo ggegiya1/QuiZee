@@ -1,4 +1,4 @@
-package layout;
+package com.app.game.quizee.layout;
 
 import android.content.Intent;
 import android.os.Bundle;
