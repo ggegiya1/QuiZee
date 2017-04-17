@@ -18,6 +18,13 @@ public class Player {
         image_pth = p_img;
     }
 
+    public Player(String p_id, String p_name, String p_img, int p_level){
+        ID = p_id;
+        name = p_name;
+        image_pth = p_img;
+        level = p_level;
+    }
+
     public boolean isFriend(Player p){
         return friends.contains(p);
     }

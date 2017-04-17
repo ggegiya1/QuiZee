@@ -26,7 +26,8 @@
         android:paddingRight="10dp"
         android:layout_marginStart="10dp"
         android:scrollbarThumbVertical="@drawable/button_tertiary_default"
-        android:fadeScrollbars="false"/>
+        android:scrollbarStyle="outsideOverlay"
+        android:fadeScrollbars="false" />
 
     <TextView
         android:layout_width="match_parent"
@@ -49,6 +50,7 @@
         android:id="@+id/achievements_list"
         android:layout_weight="0.4"
         android:paddingRight="10dp"
+        android:scrollbarStyle="outsideOverlay"
         android:layout_marginStart="10dp"
         android:scrollbarThumbVertical="@drawable/button_tertiary_default"
         android:fadeScrollbars="false"/>

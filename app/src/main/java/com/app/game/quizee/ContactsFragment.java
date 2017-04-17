@@ -1,7 +1,7 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import com.app.game.quizee.backend.Player;
+
+import java.util.ArrayList;
 
 public class ContactsFragment extends Fragment {
 
@@ -74,19 +78,20 @@ public class ContactsFragment extends Fragment {
             }
         });
 
+        ArrayList<Player> playerListFiller = new ArrayList<Player>();
+        playerListFiller.add(new Player("Britney", "Britney", null, 10));
+        playerListFiller.add(new Player("Britney", "Britney", null, 11));
+        playerListFiller.add(new Player("Britney", "Britney", null, 12));
+        playerListFiller.add(new Player("Britney", "Britney", null, 13));
+        playerListFiller.add(new Player("Britney", "Britney", null, 14));
+        playerListFiller.add(new Player("Britney", "Britney", null, 15));
+
         //TODO aller chercher programmaticallement images, niveaux ,et noms de contacts et les passer directement dans ladapteur
-        int[] favoriteImageId = new int[] {R.drawable.ic_notifications_black_24dp, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
-        int[] favoriteLevels = new int[] {5, 3, 21, 11 , 76, 99};
-        String[] favorite = new String[] {"Stephen", "Bob", "Jimmy", "Britney", "Hug", "Max"};
 
-        int[] suggestedImageId = new int[] {R.drawable.ic_contacts, R.drawable.ic_multi_player, R.drawable.ic_art, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
-        int[] suggestedLevels = new int[] {10, 1, 14, 87, 76, 4, 31};
-        String[] suggested = new String[] {"Britney", "Hug", "Max","Stephen", "Bob", "Jimmy"};
-
-        ContactAdapter adapterFavorite = new ContactAdapter(getActivity(), favorite, favoriteImageId, favoriteLevels, true);
+        ContactAdapter adapterFavorite = new ContactAdapter(getActivity(), playerListFiller);
         favoriteList.setAdapter(adapterFavorite);
 
-        ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), suggested, suggestedImageId, suggestedLevels, false);
+        ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), playerListFiller);
         suggestedList.setAdapter(adapterSuggested);
 
         return ll;
@@ -96,6 +101,7 @@ public class ContactsFragment extends Fragment {
     private static class ViewHolder {
         TextView contactName;
         ImageView contactIcon;
+        ImageView contactOnline;
         TextView levelTv;
         ImageButton addContact;
         ImageButton removeContact;
@@ -105,23 +111,16 @@ public class ContactsFragment extends Fragment {
 
     //Adapter inspiré de
     // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
-    private class ContactAdapter extends ArrayAdapter<String> {
+    private class ContactAdapter extends ArrayAdapter<Player> {
 
-        String[] itemname;
-        int[] imgid;
-        int[] level;
         Activity context;
         boolean alreadyAddedContacts;
 
         //TODO passer les contacts directements dans ladapteur
-        public ContactAdapter (Activity context, String[] itemname, int[] imgid, int[] lvl, boolean alreadyAddedContacts) {
-            super(context, R.layout.contacts_item_list_layout, itemname);
+        public ContactAdapter (Activity context, ArrayList<Player> players) {
+            super(context, R.layout.contacts_item_list_layout, players);
 
-            this.alreadyAddedContacts = alreadyAddedContacts;
             this.context=context;
-            this.itemname=itemname;
-            this.imgid=imgid;
-            this.level=lvl;
         }
 
         @Override
@@ -130,11 +129,14 @@ public class ContactsFragment extends Fragment {
 
             ViewHolder holder;
 
+            Player p = getItem(position);
+
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.contacts_item_list_layout, null, true);
                 holder = new ViewHolder();
                 holder.contactName = (TextView) convertView.findViewById(R.id.contact_item_name);
                 holder.contactIcon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
+                holder.contactOnline = (ImageView) convertView.findViewById(R.id.contact_connected);
                 holder.levelTv = (TextView) convertView.findViewById(R.id.contact_level);
                 holder.addContact = (ImageButton) convertView.findViewById(R.id.contact_add_button);
                 holder.removeContact = (ImageButton) convertView.findViewById(R.id.contact_remove_button);
@@ -148,10 +150,6 @@ public class ContactsFragment extends Fragment {
             holder.playRequestButton.setVisibility(Button.INVISIBLE);
 
             if (alreadyAddedContacts) {
-                Matrix matrix = new Matrix();
-                holder.addContact.setScaleType(ImageView.ScaleType.MATRIX);   //required
-                matrix.postRotate((float) 45, 0, 0);
-                holder.addContact.setImageMatrix(matrix);
                 holder.addContact.setVisibility(View.VISIBLE);
                 holder.removeContact.setVisibility(View.VISIBLE);
                 holder.removeContact.setOnClickListener(new View.OnClickListener() {
@@ -173,9 +171,18 @@ public class ContactsFragment extends Fragment {
                 });
             }
 
-            holder.contactName.setText(itemname[position]);
-            holder.contactIcon.setImageResource(imgid[position]);
-            holder.levelTv.setText(Integer.toString(level[position]));
+            if(p.isOnline()) {
+                holder.contactOnline.setColorFilter(Color.GREEN);
+            } else {
+                holder.contactOnline.setColorFilter(Color.RED);
+            }
+
+            holder.contactName.setText(p.getName());
+
+            if(p.getImg() != null) {
+                //holder.contactIcon.setImageResource(p.getImg()); TODO arranger la facon dont on trouve les images
+            }
+            holder.levelTv.setText(Integer.toString((p.getLevel())));
             return convertView;
         }
     }
@@ -184,12 +191,16 @@ public class ContactsFragment extends Fragment {
     //ce qui se passe lors dune recherche
     private void search (CharSequence search) {
         //TODO aller chercher les resultats de recherche automatiquement
-        int[] favoriteImageId = new int[] {R.drawable.ic_notifications_black_24dp, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_skip, R.drawable.ic_geography, R.drawable.ic_notifications_black_24dp};
-        int[] favoriteLevels = new int[] {5, 3, 21, 11 , 76, 99};
-        String[] favorite = new String[] {"Stephen", "Bob", "Jimmy", "Britney", "Hug", "Max"};
 
-        ContactAdapter adapterSearch = new ContactAdapter(getActivity(), favorite, favoriteImageId, favoriteLevels, false);
+        ArrayList<Player> playerListFiller = new ArrayList<Player>();
+        playerListFiller.add(new Player("Britney", "Britney", null, 10));
+        playerListFiller.add(new Player("Britney", "Britney", null, 11));
+        playerListFiller.add(new Player("Britney", "Britney", null, 12));
+        playerListFiller.add(new Player("Britney", "Britney", null, 13));
+        playerListFiller.add(new Player("Britney", "Britney", null, 14));
+        playerListFiller.add(new Player("Britney", "Britney", null, 15));
+
+        ContactAdapter adapterSearch = new ContactAdapter(getActivity(), playerListFiller);
         contactSearchList.setAdapter(adapterSearch);
     }
-
 }
