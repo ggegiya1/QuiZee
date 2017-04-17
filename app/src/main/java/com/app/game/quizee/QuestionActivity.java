@@ -25,6 +25,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ import java.util.List;
 public class QuestionActivity extends AppCompatActivity{
 
     private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
+
+    // TODO pass player as parameter on start
+    private Player player = new Player("1", "Bob", null);
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -163,13 +167,11 @@ public class QuestionActivity extends AppCompatActivity{
                         Log.i("activity.question", "answer is correct");
 
                         v.setBackgroundColor(Color.GREEN);
-                        UserProfile.getUserProfile("1").addCorrectAnswer();
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                        player.addCorrectAnswer();
                     }else {
                         Log.i("activity.question", "answer is incorrect");
                         v.setBackgroundColor(Color.RED);
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                        UserProfile.getUserProfile("1").addIncorrectAnswer();
+                        player.addIncorrectAnswer();
                     }
                     newQuestion();
                 }
@@ -234,9 +236,8 @@ public class QuestionActivity extends AppCompatActivity{
     //reinitialise laffichage
     private void reinitializer(){
         addTimeButton.setClickable(true);
-        UserProfile userProfile = UserProfile.getUserProfile("1");
-        correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered()));
-        pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
+        correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
+        pointsEarned.setText(String.valueOf(player.getPointsEarned()));
         if (countDownTimer != null) {
             countDownTimer.cancel();}
         countDownTimer = new MyCountDownTimer(baseTime, 50);

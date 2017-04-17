@@ -179,7 +179,7 @@ public class ContactsFragment extends Fragment {
 
             holder.contactName.setText(p.getName());
 
-            if(p.getImg() != null) {
+            if(p.getImage() != null) {
                 //holder.contactIcon.setImageResource(p.getImg()); TODO arranger la facon dont on trouve les images
             }
             holder.levelTv.setText(Integer.toString((p.getLevel())));

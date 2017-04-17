@@ -1,7 +1,9 @@
 package com.app.game.quizee.backend;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Maude on 2017-04-03.
@@ -14,17 +16,25 @@ public class Player implements Serializable {
     private boolean online;
     private List<Player> friends;
     private int level;
-    private final List<Category> categories;
-    private final List<Achievement> achievements;
+    private final List<Category> categories = new ArrayList<>();
+    private final List<Achievement> achievements = new ArrayList<>();
     private int score;
 
+    private AtomicInteger correctlyAnswered;
+
+    private AtomicInteger points;
+
     public Player(String playerId, String name, String image){
-        id = playerId;
-        this.name = name;
-        this.image = image;
-        this.categories = new ArrayList<>();
-        this.achievements = new ArrayList<>();
+        new Player(playerId, name, image, 0);
     }
+
+    public Player(String p_id, String p_name, String p_img, int p_level){
+        this.id = p_id;
+        this.name = p_name;
+        this.image = p_img;
+        this.level = p_level;
+    }
+
 
     public void addScore(int score){
         this.score += score;
@@ -62,13 +72,6 @@ public class Player implements Serializable {
         return friends;
     }
 
-    public Player(String p_id, String p_name, String p_img, int p_level){
-        ID = p_id;
-        name = p_name;
-        image_pth = p_img;
-        level = p_level;
-    }
-
     public boolean isFriend(Player p){
         return friends.contains(p);
     }
@@ -95,6 +98,24 @@ public class Player implements Serializable {
     }
     public String getImage(){
         return image;
+    }
+
+    public void addCorrectAnswer(){
+        points.addAndGet(correctlyAnswered.incrementAndGet() * 5);
+    }
+
+    public void addIncorrectAnswer(){
+        if (points.get() > 0) {
+            points.decrementAndGet();
+        }
+    }
+
+    public int getCorrectlyAnswered(){
+        return this.correctlyAnswered.get();
+    }
+
+    public int getPointsEarned(){
+        return points.get();
     }
 
 }
