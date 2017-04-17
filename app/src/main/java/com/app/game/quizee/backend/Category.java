@@ -39,4 +39,20 @@ public class Category {
     public static Category any(){
         return new Category(0, "", 0,  R.mipmap.ic_launcher);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        return id == category.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

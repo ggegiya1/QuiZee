@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,21 +11,32 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
-import com.app.game.quizee.backend.BackEndManager;
+
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.CategoryManager;
+import com.app.game.quizee.backend.Player;
+
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
 
 
 public class CategorySelectionActivity extends AppCompatActivity {
 
-
+    private final CategoryManager categoryManager = CategoryManager.getInstance();
+    private Player player;
     ListView categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_menu);
+        addStartButton();
+        addCategoriesList();
+    }
 
+    private void addStartButton(){
         Button startButton = (Button) findViewById(R.id.button_start);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,26 +45,12 @@ public class CategorySelectionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    private void addCategoriesList(){
         categoryList = (ListView) findViewById(R.id.category_list);
-
-        int[] categoryImageId = new int[] {R.drawable.ic_geography, R.drawable.ic_computer, R.drawable.ic_art,
-                R.drawable.ic_general_knowledge, R.drawable.ic_art, R.drawable.ic_history};
-
-        String[] categories = new String[20];
-        int i =0;
-        for (Category category : BackEndManager.mes_cate) {
-            //TODO Compliqué pour pas grand chose..ici on n'a pas besoin des fonctions des catégories
-            //Je propose de simplement utiliser un array de string
-            if (category.getName().equals("Geography") || (category.getName().equals("Computers") || (category.getName().equals("Art") || (category.getName().equals("History"))))){
-                categories[i] = category.getName();
-                i+=1;
-            }
-        }
-
-        ContactAdapter adapterCategory = new ContactAdapter(this, categories, categoryImageId);
+        CategoryListAdapter adapterCategory = new CategoryListAdapter(this, categoryManager.getAllCategoriesSortedByPrice());
         categoryList.setAdapter(adapterCategory);
-
     }
 
     //contien temporairement un chekedTextView pour le réutiliser
@@ -62,17 +60,15 @@ public class CategorySelectionActivity extends AppCompatActivity {
 
     //Adapter inspiré de
     // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
-    private class ContactAdapter extends ArrayAdapter<String> {
+    private class CategoryListAdapter extends ArrayAdapter<Category> {
 
-        String[] itemname;
-        int[] imgid;
+        List<Category> categories;
         Activity context;
 
-        public ContactAdapter (Activity context, String[] itemname, int[] imgid) {
-            super(context, R.layout.contacts_item_list_layout, itemname);
+        public CategoryListAdapter(Activity context, List<Category> categories) {
+            super(context, R.layout.contacts_item_list_layout, categories);
             this.context=context;
-            this.itemname=itemname;
-            this.imgid=imgid;
+            this.categories=categories;
         }
 
         @NonNull
@@ -91,13 +87,31 @@ public class CategorySelectionActivity extends AppCompatActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
+            final Category category = categories.get(position);
             holder.categoryListItem.setVisibility(View.VISIBLE);
-            holder.categoryListItem.setText(itemname[position]);
-            holder.categoryListItem.setCompoundDrawablesWithIntrinsicBounds(getDrawable(imgid[position]), null, null, null);
+            holder.categoryListItem.setText(category.getName() + "   " + category.getPrice());
+            holder.categoryListItem.setCompoundDrawablesWithIntrinsicBounds(getDrawable(category.getImageId()), null, null, null);
             holder.categoryListItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (category.getPrice() > 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        View view = getLayoutInflater().inflate(R.layout.instant_buy_category_dialog, null);
+                        TextView categoryName = (TextView) view.findViewById(R.id.instant_buy_category_name);
+                        TextView categoryPrice = (TextView) view.findViewById(R.id.instant_buy_category_price);
+                        Button buyCategoryButton = (Button) view.findViewById(R.id.instant_buy_category_button);
+                        categoryName.setText(category.getName());
+                        categoryPrice.setText(String.valueOf(category.getPrice()));
+                        buyCategoryButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // TODO add buy component
+                            }
+                        });
+                        builder.setView(view);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
                     if(holder.categoryListItem.isChecked()) {
                         holder.categoryListItem.setChecked(false);
                     }   else {

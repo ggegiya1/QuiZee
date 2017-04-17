@@ -19,20 +19,21 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="408dp"
         android:id="@+id/category_list"
         android:dividerHeight="5dp"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:layout_weight="0.32" />
 
     <Button
         android:id="@+id/button_start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="Play"
-        android:text="@string/Play"
-        android:drawableStart="@drawable/ic_start"
+        android:layout_height="32dp"
         android:background="@drawable/button_tertiary_style"
+        android:drawableStart="@drawable/ic_start"
+        android:onClick="Play"
+        android:paddingEnd="20dp"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"/>
+        android:text="@string/Play" />
 
 </LinearLayout>
