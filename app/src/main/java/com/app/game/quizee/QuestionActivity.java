@@ -38,7 +38,7 @@ public class QuestionActivity extends AppCompatActivity{
     private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
 
     // TODO pass player as parameter on start
-    private Player player = new Player("1", "Bob", null);
+    private Player player;
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;

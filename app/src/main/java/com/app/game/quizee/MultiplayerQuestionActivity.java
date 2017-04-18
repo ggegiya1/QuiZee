@@ -31,7 +31,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
 
     private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
 
-    private Player player =  new Player("1", "Bob", null);
+    private Player player;
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;

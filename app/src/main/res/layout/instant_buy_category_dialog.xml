@@ -28,9 +28,23 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/instant_buy_category_button"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/buy" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/instant_buy_category_button"
+            android:layout_width="198dp"
+            android:layout_height="wrap_content"
+            android:text="@string/buy" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+    </RelativeLayout>
+
 </LinearLayout>

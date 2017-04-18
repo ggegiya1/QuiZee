@@ -9,10 +9,11 @@ import com.app.game.quizee.R;
 public class Category {
     private int id;
     private String name;
-    private double price;
+    private int price;
     private int imageId;
+    private boolean isChecked;
     
-    Category(int c_id, String c_name, double c_price, int c_imageId){
+    Category(int c_id, String c_name, int c_price, int c_imageId){
         id = c_id;
         name = c_name;
         price = c_price;
@@ -28,12 +29,20 @@ public class Category {
         return name;
     }
 
-    public double getPrice(){
+    public int getPrice(){
         return price;
     }
 
     public int getImageId(){
         return imageId;
+    }
+
+    public void setChecked(boolean value){
+        this.isChecked=value;
+    }
+
+    public boolean isChecked(){
+        return this.isChecked;
     }
 
     public static Category any(){

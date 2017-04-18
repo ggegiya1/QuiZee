@@ -1,33 +1,23 @@
 package com.app.game.quizee;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Question;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,17 +29,15 @@ public class PracticeActivity extends AppCompatActivity{
     TextView questionCountLabel;
 
     //User interface attributes
-    TextSwitcher questionTextSwitcher;
-    TextSwitcher answer1TextSwitcher;
-    TextSwitcher answer2TextSwitcher;
-    TextSwitcher answer3TextSwitcher;
-    TextSwitcher answer4TextSwitcher;
+    TextView questionTextSwitcher;
+    Button answer1TextSwitcher;
+    Button answer2TextSwitcher;
+    Button answer3TextSwitcher;
+    Button answer4TextSwitcher;
 
     Button skipButton;
 
-    Boolean answerable;
     String correctAnswer;
-    List<TextSwitcher> TextSwitchers;
     TextView category;
     ImageView icon;
     int questionCount;
@@ -57,27 +45,10 @@ public class PracticeActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        answerable = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice);
-        questionTextSwitcher = (TextSwitcher) findViewById(R.id.text_question);
+        questionTextSwitcher = (TextView) findViewById(R.id.text_question);
         questionCount = -1;
-
-        //ajoute les view a créé lors de lanimation de changement de texte du questionTextSwitcher
-        //viewfactory tiré de la page http://www.androhub.com/android-textswitcher/
-        questionTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-
-            public View makeView() {
-                //crer un TextView avec des caractéristiques
-                TextView myText = new TextView(PracticeActivity.this);
-                myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-                myText.setLayoutParams(new FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT));
-                myText.setBackgroundDrawable(getResources().getDrawable((R.drawable.button_secondary_default)));
-                return myText;
-            }
-        });
 
         category = (TextView) findViewById(R.id.caterogy_Textview);
 
@@ -92,35 +63,14 @@ public class PracticeActivity extends AppCompatActivity{
             }
         });
 
-        answer1TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_1);
-        answer2TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_2);
-        answer3TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_3);
-        answer4TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_4);
-
-        TextSwitchers = new ArrayList<>();
-        TextSwitchers.add(answer1TextSwitcher);
-        TextSwitchers.add(answer2TextSwitcher);
-        TextSwitchers.add(answer3TextSwitcher);
-        TextSwitchers.add(answer4TextSwitcher);
-
-        //ajoute le viewFactory pour les animations des boutons
-        for (TextSwitcher ts: TextSwitchers) {
-            ts.setFactory(
-                    new ViewSwitcher.ViewFactory() {
-
-                        public View makeView() {
-                            //crer un Button avec des caractéristiques
-                            Button myButton = new Button(PracticeActivity.this);
-                            myButton.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                            myButton.setTextSize(15);
-                            myButton.setOnClickListener(answerValidator());
-                            final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                            myButton.setLayoutParams(lp);
-                            myButton.setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-                            return myButton;
-                        }
-                    });
-        }
+        answer1TextSwitcher = (Button) findViewById(R.id.practice_button_response_1);
+        answer1TextSwitcher.setOnClickListener(answerValidator());
+        answer2TextSwitcher = (Button) findViewById(R.id.practice_button_response_2);
+        answer2TextSwitcher.setOnClickListener(answerValidator());
+        answer3TextSwitcher = (Button) findViewById(R.id.practice_button_response_3);
+        answer3TextSwitcher.setOnClickListener(answerValidator());
+        answer4TextSwitcher = (Button) findViewById(R.id.practice_button_response_4);
+        answer4TextSwitcher.setOnClickListener(answerValidator());
         newQuestion();
     }
 
@@ -143,20 +93,14 @@ public class PracticeActivity extends AppCompatActivity{
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(answerable) {
-                    String answer = ((Button)v).getText().toString();
-                    Log.i("activity.question", String.format("answer: %s", answer));
-                    if (answer.equals(correctAnswer)){
-                        Log.i("activity.question", "answer is correct");
-
-                        v.setBackgroundColor(Color.GREEN);
-                        correctlyAnswered++;
-                    }else {
-                        Log.i("activity.question", "answer is incorrect");
-                        v.setBackgroundColor(Color.RED);
-                    }
-                    newQuestion();
+                String answer = ((Button)v).getText().toString();
+                if (answer.equals(correctAnswer)){
+                    buttonEffect(v, Color.GREEN);
+                    correctlyAnswered++;
+                }else {
+                    buttonEffect(v, Color.RED);
                 }
+                newQuestion();
             }
         };
     }
@@ -181,29 +125,11 @@ public class PracticeActivity extends AppCompatActivity{
         //change le texte de la question
         questionTextSwitcher.setText(question.getText_question());
 
-        //ajuste le taille du texte pour que le texte ne depasse pas
-        TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
-        TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
-        if(questionCount%2 == 1) {
-            tv1.setTextSize(40 - question.getText_question().length() / 6);
-        } else {
-            tv2.setTextSize(40 - question.getText_question().length() / 6);
-        }
-
-        questionTextSwitcher.setText(question.getText_question());
         List<String> answers = question.getAnswers(true);
-
-        //efface les couleurs sur les boutons et mets le texte correspondant aux reponses sur les boutons
-        for (int i=0; i<TextSwitchers.size(); i++) {
-            TextSwitcher ts = TextSwitchers.get(i);
-            ts.setText(answers.get(i));
-            if (questionCount % 2 == 0) {
-                ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-            } else {
-                ts.getChildAt(1).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-            }
-        }
-
+        answer1TextSwitcher.setText(answers.get(0));
+        answer2TextSwitcher.setText(answers.get(1));
+        answer3TextSwitcher.setText(answers.get(2));
+        answer4TextSwitcher.setText(answers.get(3));
         //met un icone et un texte correspondant a la category
         category.setText(question.getCategory().getName());
         icon.setImageResource(question.getCategory().getImageId());
@@ -229,5 +155,27 @@ public class PracticeActivity extends AppCompatActivity{
         } );
         Ad.setNegativeButton(R.string.no, null);
         Ad.show();
+    }
+
+    // inspired by http://stackoverflow.com/questions/7175873/click-effect-on-button-in-android
+    public void buttonEffect(View button, final int color){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }

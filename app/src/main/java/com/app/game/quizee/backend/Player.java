@@ -16,56 +16,56 @@ public class Player implements Serializable {
     private boolean online;
     private List<Player> friends;
     private int level;
-    private final List<Category> categories = new ArrayList<>();
+    private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Achievement> achievements = new ArrayList<>();
-    private int score;
 
     private AtomicInteger correctlyAnswered;
 
     private AtomicInteger points;
 
-    public Player(String playerId, String name, String image){
-        new Player(playerId, name, image, 0);
+    public Player(String playerId, String name, String image, int points, int level){
+        this.id = playerId;
+        this.name = name;
+        this.image = image;
+        this.level = level;
+        this.points = new AtomicInteger(points);
     }
 
-    public Player(String p_id, String p_name, String p_img, int p_level){
-        this.id = p_id;
-        this.name = p_name;
-        this.image = p_img;
-        this.level = p_level;
+    public Player(String playerId, String name, String image, int level){
+       new Player(playerId, name, image, 0, level);
     }
 
+    public static Player defaultPlayer(){
+        return new Player("1", "Bob", null, 1000, 5);
+    }
 
-    public void addScore(int score){
-        this.score += score;
+    public void addPoints(int points){
+        this.points.addAndGet(points);
     }
 
     public boolean buyCategory(Category category){
-        if (category.getPrice() > this.score){
+        if (category.getPrice() > this.getPointsEarned()){
             return false;
         }
-        this.score -= category.getPrice();
+        this.points.getAndAdd(0 - category.getPrice());
+        categoriesPurchased.add(category);
         return true;
     }
 
     public boolean canBuy(Category category){
-        return this.score >= category.getPrice();
+        return this.getPointsEarned() >= category.getPrice();
     }
 
-    public List<Category> getCategories() {
-        return categories;
+    public List<Category> getCategoriesPurchased() {
+        return categoriesPurchased;
     }
 
     public boolean hasCategory(Category category){
-        return  categories.contains(category);
+        return  categoriesPurchased.contains(category);
     }
 
     public List<Achievement> getAchievements() {
         return achievements;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public List<Player> getFriends() {
