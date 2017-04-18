@@ -77,6 +77,23 @@
     <string name="Bomb_Button">50/100</string>
     <string name="Skip_Button">Skip</string>
 
+    <string name="achivements_earned">Achievements obtained</string>
+    <string name="goodAnswers">Good answers</string>
+    <string name="dont_replay">Do not replay</string>
+    <string name="replay">Replay</string>
+    <string-array name="game_end_felicitation">
+        <item>Noob!</item>
+        <item>Better Luck Next Time!</item>
+        <item>Nice try!</item>
+        <item>QuadraQuizee!</item>
+        <item>PentaQuizee!</item>
+        <item>Well Played!</item>
+        <item>Good Game!</item>
+        <item>So much knowledge!</item>
+        <item>You only missed one!</item>
+        <item>Epic!</item>
+    </string-array>
+
     <!-- String related to shop -->
     <string name="AlertDialog_shop">Buy category?</string>
     <string name="dontbuy">Dont buy</string>
@@ -167,6 +184,7 @@
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_notification_friend_accepted">Vibrate on friend request accepted</string>
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
-        <!-- TODO: Remove or change this placeholder text -->
+
+    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
