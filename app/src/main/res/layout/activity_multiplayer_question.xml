@@ -1,9 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:style="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.game.quizee.MultiplayerQuestionActivity">
+    android:splitMotionEvents="false"
+    android:background="@android:color/background_light">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/caterogy_Icon"
+                android:contentDescription="@string/category_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/caterogy_Textview"
+                android:layout_toEndOf="@id/caterogy_Icon"
+                android:text="Caterogy"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_toStartOf="@+id/level"/>
+
+
+
+            <TextView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/level"
+                android:gravity="center"
+                android:background="@drawable/ic_star2"
+                android:backgroundTint="@color/yellow"
+                android:layout_toStartOf="@+id/currency"
+                android:text="56"/>
+
+            <TextView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/currency"
+                android:gravity="center"
+                android:text="0$"
+                android:textSize="30sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_toolbar"
+        android:id="@+id/GameVSStatus">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ennemy_avatar"
+            android:layout_toLeftOf="@+id/vs"
+            android:layout_marginRight="10dp"
+            android:text="2 points"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="Ennemy avatar"
+            android:id="@+id/player_avatar"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"
+            android:layout_toLeftOf="@+id/vs"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player Name"
+            android:layout_toLeftOf="@id/vs"
+            android:layout_alignParentTop="true"
+            android:id="@+id/player_Name" />
+
+        <TextView
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/VS"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/vs" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ennemy_avatar"
+            android:layout_toRightOf="@id/vs"
+            android:layout_marginLeft="10dp"
+            android:text="4 points"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:contentDescription="Ennemy avatar"
+            android:id="@+id/ennemy_avatar"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_toRightOf="@id/vs"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ennemy Name"
+            android:layout_toRightOf="@id/vs"
+            android:layout_alignParentTop="true"
+            android:id="@+id/vsName" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Question 7 out of 10"
+        android:id="@+id/question_count_textview"
+        android:layout_below="@id/GameVSStatus"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:layout_margin="5dp"/>
+
+    <TextSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/text_question"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:lineSpacingExtra="8sp"
+        android:textAlignment="textStart"
+        android:layout_below="@+id/question_count_textview"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+        android:background="@drawable/button_secondary_default"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/answer_buttons"
+        android:layout_below="@+id/text_question"
+        android:layout_above="@+id/progressBar"
+        android:splitMotionEvents="false"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextSwitcher
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_1"
+            android:layout_weight="0.25"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"
+            android:layout_marginBottom="5dp"/>
+
+        <TextSwitcher
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_2"
+            android:layout_weight="0.25"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"
+            android:layout_marginBottom="5dp"/>
+
+        <TextSwitcher
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_3"
+            android:layout_weight="0.25"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"
+            android:layout_marginBottom="5dp"/>
+
+        <TextSwitcher
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_response_4"
+            android:layout_weight="0.25"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"/>
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/progressBar"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        />
+
+</RelativeLayout>

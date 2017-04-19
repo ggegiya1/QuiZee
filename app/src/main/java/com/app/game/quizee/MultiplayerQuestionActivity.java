@@ -19,10 +19,19 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.Question;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MultiplayerQuestionActivity extends AppCompatActivity{
+
+    private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
+
+    private Player player;
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -105,15 +114,10 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
 
     }
 
-    private class QuestionFetcher extends AsyncTask<String, Object, Question>{
+    private class QuestionFetcher extends AsyncTask<Category, Object, Question>{
         @Override
-        protected Question doInBackground(String... params) {
-            Question question = null;
-            try {
-                question = TriviaApi.getQuestion(params[0]);
-            } catch (Exception e) {
-                Log.e("activity.question", "Error fetching question", e);
-            }
+        protected Question doInBackground(Category... params) {
+            Question question = triviaApi.getQuestion();
             return question;
         }
 
@@ -147,8 +151,8 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                 }
 
                 //met un icone correspondant a la category TODO aller cherche licone programaticallement
-                category.setText(question.getCategory().get_name());
-                switch (question.getCategory().get_name()) {
+                category.setText(question.getCategory().getName());
+                switch (question.getCategory().getName()) {
                     case "General Knowledge" : icon.setBackgroundResource(R.drawable.ic_general_knowledge);
                         break;
                     case "Science: Computers" : icon.setBackgroundResource(R.drawable.ic_computer);
@@ -180,13 +184,11 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                     Log.i("activity.question", "answer is correct");
 
                     v.setBackgroundColor(Color.GREEN);
-                    UserProfile.getUserProfile("1").addCorrectAnswer();
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    player.addCorrectAnswer();
                 }else {
                     Log.i("activity.question", "answer is incorrect");
                     v.setBackgroundColor(Color.RED);
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                    UserProfile.getUserProfile("1").addIncorrectAnswer();
+                    player.addIncorrectAnswer();
                 }
                 newQuestion();
             }
@@ -196,13 +198,10 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
     private void newQuestion(){
         questionCount++;
         QuestionFetcher questionFetcher = new QuestionFetcher();
-        questionFetcher.execute("");
+        questionFetcher.execute(Category.any());
     }
 
     private void reinitializer(){
-        UserProfile userProfile = UserProfile.getUserProfile("1");
-        //correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered())); TODO remove if unused
-        //pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
         if (countDownTimer != null) {
             countDownTimer.cancel();}
         countDownTimer = new MyCountDownTimer(baseTime, 50);

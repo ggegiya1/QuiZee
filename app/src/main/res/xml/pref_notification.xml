@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications_friend_request_accepted"
+        android:title="@string/pref_title_notification_friend_request_accepted" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="notifications_friend_request_accepted"
+        android:key="notifications_vibration_friend_request_accepted"
+        android:title="@string/pref_title_notification_friend_accepted" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications_gaming_request"
+        android:title="@string/pref_title_gaming_request_notifications" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="notifications_gaming_request"
+        android:key="notifications_vibration_gaming_request"
+        android:title="@string/pref_title_notification_gaming_request" />
+
+</PreferenceScreen>

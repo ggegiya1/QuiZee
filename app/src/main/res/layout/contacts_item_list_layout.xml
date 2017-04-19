@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/button_secondary_default"
+    android:padding="3dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="contact icon"
+        android:id="@+id/contact_avatar_icon"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_item_name"
+        android:text="Contact item name"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp"
+        android:layout_toRightOf="@id/contact_avatar_icon"
+        android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_connected"
+        android:src="@drawable/ic_connection_circle"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/contact_item_name"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/contact_level"
+        android:contentDescription="contact_level"
+        android:background="@drawable/ic_star2"
+        android:layout_toLeftOf="@+id/contact_add_button"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/yellow"
+        android:gravity="center"/>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/add"
+        android:id="@+id/contact_add_button"
+        android:contentDescription="add contact button"
+        android:background="@drawable/button_tertiary_default"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_remove"
+        android:id="@+id/contact_remove_button"
+        android:contentDescription="Remove contact button"
+        android:background="@drawable/button_tertiary_default"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/play_request_button"
+        android:text="Play"
+        android:background="@drawable/button_tertiary_default"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/play_request_progressbar"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:progress="1"/>
+
+</RelativeLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/button_secondary_default"
+    android:padding="3dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/category_item_icon"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="category" />
+
+    <com.app.game.quizee.util.AutoResizeTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_item_name"
+        android:text="category"
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:layout_weight="0.77" />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/category_item_price"
+        android:layout_marginStart="10dp"
+        android:text="0"
+        android:textSize="20sp"
+        android:drawableEnd="@drawable/ic_currency"
+        android:gravity="center"
+        android:layout_weight="0.17" />
+
+    <CheckBox
+        android:id="@+id/select_category_item"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

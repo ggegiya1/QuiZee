@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.app.game.quizee.BottomNavigation"
+    android:background="@color/primaryBackground">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:id="@+id/avatar"
+                android:contentDescription="@string/avatar_contentDescription"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_alignParentTop="true"
+                android:text="name goes here"
+                android:gravity="center"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/level"
+                android:gravity="center"
+                android:background="@drawable/ic_star2"
+                android:backgroundTint="@color/yellow"
+                android:layout_toStartOf="@+id/settingsButton"
+                android:text="0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/currency"
+                android:gravity="left"
+                android:layout_toRightOf="@+id/avatar"
+                android:layout_below="@id/name"
+                android:text="0"
+                android:drawableEnd="@drawable/ic_currency"
+                android:textSize="20sp"
+                />
+
+            <ImageButton
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_settings"
+                android:onClick="settingsActivity"
+                android:contentDescription="@string/settingsButton_contentDescription"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/settingsButton"
+                android:layout_margin="10dp"
+                android:padding="0dp"
+                android:background="@drawable/button_tertiary_default"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/barreNoire"
+        android:layout_below="@+id/my_toolbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <View android:id="@+id/barreNoire"
+        android:layout_height="2dp"
+        android:layout_width="fill_parent"
+        android:background="@color/complementaryBackground"
+        android:layout_above="@+id/navigation"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation"
+        app:itemTextColor="@color/bottom_nav_colors_selector"
+        app:itemIconTint="@color/bottom_nav_colors_selector"/>
+
+</RelativeLayout>

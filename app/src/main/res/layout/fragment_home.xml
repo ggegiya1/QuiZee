@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.HomeFragment">
+    tools:context=".layout.HomeFragment">
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -10,46 +10,49 @@
         android:orientation="vertical">
 
         <Button
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:id="@+id/button_Play_Categories"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="@string/categoriesPlay"
             android:layout_weight="0.1"
-            android:onClick="categoriesPlay"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:drawableLeft="@drawable/ic_play"/>
+            android:drawableStart="@drawable/ic_play"
+            android:background="@drawable/button_tertiary_style"/>
 
         <Button
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="@string/multiPlay"
             android:layout_weight="0.1"
-            android:onClick="multiPlay"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:drawableLeft="@drawable/ic_multi_player"/>
+            android:drawableStart="@drawable/ic_multi_player"
+            android:background="@drawable/button_tertiary_style"/>
 
         <Button
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:id="@+id/button_quickPlay"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="@string/quickPlay"
             android:layout_weight="0.1"
-            android:onClick="quickPlay"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:layout_marginTop="70dp"
             android:layout_marginBottom="70dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:drawableLeft="@drawable/ic_practice"/>
-
-
-
+            android:drawableStart="@drawable/ic_practice"
+            android:background="@drawable/button_tertiary_style"/>
     </android.support.v7.widget.LinearLayoutCompat>
 </FrameLayout>

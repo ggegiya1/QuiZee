@@ -1,36 +1,20 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.app.game.quizee.ShopFragment">
 
-    <LinearLayout
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:id="@+id/shop_listview"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:dividerHeight="3dp"
+        android:scrollbarThumbVertical="@drawable/button_tertiary_default"
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="outsideOverlay"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/shop_power_ups"
-            android:textSize="30sp" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/power_ups_list"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/shop_Caterogies"
-            android:textSize="30sp" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/categories_list"/>
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

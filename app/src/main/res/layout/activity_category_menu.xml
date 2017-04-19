@@ -1,103 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/primaryBackground">
+
+    <include layout="@layout/toolbar_no_settings"/>
 
     <TextView
-        android:text="Select Category"
+        android:text="@string/categorySelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
+        android:padding="10dp"
+        android:textSize="20sp"
         android:id="@+id/textView2"
+        android:background="@drawable/button_primary_default"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textAlignment="center"
-        android:layout_weight="0.10" />
+        android:textColor="@color/complementaryBackground"
+        android:layout_margin="10dp"/>
 
-    <CheckedTextView
-        android:text="Music"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_music"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:drawableStart="@drawable/music_category_icon"
-        android:layout_weight="0.1"/>
 
-    <CheckedTextView
-        android:text="Video Games"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_video_games"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:drawableStart="@drawable/videogames_category_icon"
-        android:layout_weight="0.1"/>
-
-    <CheckedTextView
-        android:text="Computers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_computers"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"
-        android:drawableStart="@drawable/ic_computer"/>
-
-    <CheckedTextView
-        android:text="History"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_history"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"
-        android:drawableLeft="@drawable/ic_history"/>
-
-    <CheckedTextView
-        android:text="Geography"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_geography"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"
-        android:drawableStart="@drawable/ic_geography"/>
-
-    <CheckedTextView
-        android:text="Art"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_art"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"
-        android:drawableStart="@drawable/ic_art"/>
-
-    <CheckedTextView
-        android:text="General Knowledge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_knowledge"
-        android:checked="false"
-        android:textSize="30sp"
-        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-        android:layout_weight="0.1"
-        android:drawableStart="@drawable/ic_general_knowledge"/>
+        android:layout_height="0dp"
+        android:id="@+id/category_list"
+        android:layout_margin="10dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/button_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.15"
-        android:onClick="Play"
+        android:drawableStart="@drawable/ic_start"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:layout_margin="10dp"
         android:text="@string/Play"
-        android:drawableStart="@mipmap/play"/>
+        android:background="@drawable/button_tertiary_default"/>
 
 </LinearLayout>

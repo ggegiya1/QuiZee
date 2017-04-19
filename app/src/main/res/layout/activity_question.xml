@@ -4,7 +4,9 @@
     xmlns:style="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:splitMotionEvents="false"
+    android:background="@android:color/background_light">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -32,7 +34,7 @@
                 android:text="Caterogy"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:layout_toStartOf="@id/level"/>
+                android:layout_toStartOf="@+id/level"/>
 
 
 
@@ -41,19 +43,21 @@
                 android:layout_height="match_parent"
                 android:id="@+id/level"
                 android:gravity="center"
-                android:background="@drawable/ic_star"
+                android:background="@drawable/ic_star2"
+                android:backgroundTint="@color/yellow"
                 android:layout_toStartOf="@+id/currency"
-                android:text="0"/>
+                android:text="56"/>
 
             <TextView
-                android:layout_width="?attr/actionBarSize"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:id="@+id/currency"
                 android:gravity="center"
-                android:text="0$"
-                android:textSize="30sp"
+                android:text="13"
+                android:textSize="20sp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:drawableRight="@drawable/ic_currency"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
@@ -93,7 +97,9 @@
         android:textAlignment="textStart"
         android:layout_below="@+id/GameStatus"
         android:inAnimation="@android:anim/slide_in_left"
-        android:outAnimation="@android:anim/fade_out"/>
+        android:outAnimation="@android:anim/slide_out_right"
+        android:background="@drawable/button_secondary_default"
+        android:layout_margin="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,7 +107,10 @@
         android:orientation="vertical"
         android:id="@+id/answer_buttons"
         android:layout_below="@+id/text_question"
-        android:layout_above="@+id/progressBar">
+        android:layout_above="@+id/progressBar"
+        android:splitMotionEvents="false"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextSwitcher
             android:layout_width="match_parent"
@@ -109,7 +118,8 @@
             android:id="@+id/button_response_1"
             android:layout_weight="0.25"
             android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/fade_out" />
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"/>
 
         <TextSwitcher
             android:layout_width="match_parent"
@@ -117,7 +127,8 @@
             android:id="@+id/button_response_2"
             android:layout_weight="0.25"
             android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/fade_out"/>
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"/>
 
         <TextSwitcher
             android:layout_width="match_parent"
@@ -125,7 +136,8 @@
             android:id="@+id/button_response_3"
             android:layout_weight="0.25"
             android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/fade_out"/>
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"/>
 
         <TextSwitcher
             android:layout_width="match_parent"
@@ -133,7 +145,8 @@
             android:id="@+id/button_response_4"
             android:layout_weight="0.25"
             android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/fade_out"/>
+            android:outAnimation="@android:anim/slide_out_right"
+            android:splitMotionEvents="false"/>
     </LinearLayout>
 
     <ProgressBar
@@ -142,9 +155,9 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:id="@+id/progressBar"
         android:layout_above="@+id/bottom_buttons"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
     />
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,44 +166,46 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/bottom_buttons">
 
-        <Button
-            android:text="@string/Bomb_Button"
+        <ImageButton
+            android:contentDescription="@string/Bomb_Button"
+            android:src="@drawable/ic_bomb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/button_bomb"
             android:layout_weight="0.25"
-            android:background="@android:drawable/btn_default"
-            android:backgroundTint="@android:color/transparent" />
+            android:background="@drawable/button_tertiary_style"
+            android:layout_margin="10dp"/>
 
-        <Button
-            android:text="@string/Hint_Button"
+        <ImageButton
+            android:contentDescription="@string/Hint_Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@drawable/ic_hint"
             android:id="@+id/button_hint"
             android:layout_weight="0.25"
-            android:background="@android:drawable/btn_default"
-            android:backgroundTint="@android:color/transparent" />
+            android:background="@drawable/button_tertiary_style"
+            android:layout_margin="10dp"/>
 
-        <Button
-            android:text="@string/addTime_Button"
+        <ImageButton
+            android:contentDescription="@string/addTime_Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/button_add_time"
+            android:src="@drawable/ic_addtime"
             android:layout_weight="0.25"
             android:onClick="addTime"
-            android:background="@android:drawable/btn_default"
-            android:backgroundTint="@android:color/transparent" />
+            android:background="@drawable/button_tertiary_style"
+            android:layout_margin="10dp"/>
 
-        <Button
-            android:text="@string/Skip_Button"
+        <ImageButton
+            android:contentDescription="@string/Skip_Button"
+            android:src="@drawable/ic_skip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/button_question_skip"
             android:layout_weight="0.25"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:background="@android:drawable/btn_default"
-            android:textColor="?android:attr/textColorPrimary"
-            android:backgroundTint="@android:color/transparent" />
+            android:background="@drawable/button_tertiary_style"
+            android:layout_margin="10dp"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -39,13 +39,35 @@
     <string name="multiPlay">Play with friends</string>
 
     <!-- strings related to category selection activity -->
+    <string name="categorySelection">Select categories</string>
     <string name="categoriesPlay">Play</string>
+    <string name="buy_category">Buy Category</string>
+    <string name="discard">Discard</string>
+
+    <!-- Strings related to contacts-->
+    <string name="hint_search_friends">SEARCH A FRIEND</string>
+    <string name="search_results">Search results</string>
+    <string name="suggested_players">Suggested players</string>
+    <string name="favorite_contacts">Favorite contacts</string>
+
+    <!-- Strings related to multiplayer-->
+    <string name="VS">VS</string>
+    <string name="pref_title_notification_friend_request_accepted">Friend request accepted notification</string>
+    <string name="pref_title_gaming_request_notifications">Gaming request notification</string>
+    <string name="pref_title_reset_account">Reset account</string>
+    <string name="pref_header_account">Account</string>
+    <string name="pref_header_about">About</string>
 
     <!-- Strings related to achivements-->
     <string name="Epic_Achievements">Epic Achivements</string>
     <string name="Mode_Based_Achievements">Mode Based Achievements</string>
     <string name="Career_Achievements">Career Achievements</string>
     <string name="Category_Based_Achievements">Category Based Achivements</string>
+    <string name="Career">Career</string>
+    <string name="title_career">Career</string>
+    <string name="career_xp">xp</string>
+    <string name="career_gives">Gives</string>
+    <string name="career_and">and</string>
 
     <!-- Strings related to Question Activity -->
     <string name="yes">Yes</string>
@@ -56,13 +78,116 @@
     <string name="Hint_Button">Hint</string>
     <string name="Bomb_Button">50/100</string>
     <string name="Skip_Button">Skip</string>
+
+    <string name="achivements_earned">Achievements obtained</string>
+    <string name="goodAnswers">Good answers</string>
+    <string name="dont_replay">Do not replay</string>
+    <string name="replay">Replay</string>
+    <string-array name="game_end_felicitation">
+        <item>Noob!</item>
+        <item>Better Luck Next Time!</item>
+        <item>Nice try!</item>
+        <item>QuadraQuizee!</item>
+        <item>PentaQuizee!</item>
+        <item>Well Played!</item>
+        <item>Good Game!</item>
+        <item>So much knowledge!</item>
+        <item>You only missed one!</item>
+        <item>Epic!</item>
+    </string-array>
+
+    <!-- String related to shop -->
+    <string name="AlertDialog_shop">Buy category?</string>
+    <string name="dontbuy">Dont buy</string>
+    <string name="buy">Buy</string>
+    <string name="shop_you_own">You own</string>
     <string name="shop_power_ups">POWER UPS</string>
     <string name="shop_Caterogies">CATEGORIES</string>
+
 
     <!-- strings related to settings -->
     <string name="change_avatar">Change avatar</string>
     <string name="change_name">Change name</string>
     <string name="change_password">Change password</string>
     <string name="category_icon">Caterory icon</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="logout">Logout</string>
+
+
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_ringtone_silent">Silent</string>
+    <string name="pref_title_notification_friend_accepted">Vibrate on friend request accepted</string>
+    <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
+    <string name="no_category_selected">Please select at least one category to play</string>
+    <string name="not_enough_points_category">You need more points to buy this category</string>
+    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
