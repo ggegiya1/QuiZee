@@ -197,12 +197,13 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
     private void newQuestion(){
-        if(questionCount >= questionsPerGame) {
+        if(questionCount >= QUESTIONS_NUMBER) {
             gameEnded = true;
             countDownTimer.cancel();
             endDialog();
         } else {
             questionCount++;
+        }
 
         //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
         // pas avoir accrocher de bouton
