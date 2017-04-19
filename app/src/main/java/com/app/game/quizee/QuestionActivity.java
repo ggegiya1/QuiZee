@@ -69,10 +69,12 @@ public class QuestionActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        anserable = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
+        anserable = true;
+        Bundle bundle = getIntent().getExtras();
+        player = (Player)bundle.getSerializable("player");
+        Log.i("question.activity", "starting game for player: " + player);
         addTimeButton = (ImageButton) findViewById(R.id.button_add_time);
 
         skipButton = (ImageButton) findViewById(R.id.button_question_skip);

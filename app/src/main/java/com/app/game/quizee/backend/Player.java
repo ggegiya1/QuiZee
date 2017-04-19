@@ -2,24 +2,29 @@ package com.app.game.quizee.backend;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Maude on 2017-04-03.
  */
 
-public class Player implements Serializable {
+public class Player extends Observable implements Serializable {
     private String id;
     private String name;
     private String image;
     private boolean online;
     private List<Player> friends;
     private int level;
-    private final List<Category> categoriesPurchased = new ArrayList<>();
+    private final Set<Category> categoriesPurchased = new HashSet<>();
+    private final Set<Category> categoriesSelected = new HashSet<>();
     private final List<Achievement> achievements = new ArrayList<>();
 
-    private AtomicInteger correctlyAnswered;
+    private AtomicInteger correctlyAnswered = new AtomicInteger(0);
 
     private AtomicInteger points;
 
@@ -41,6 +46,8 @@ public class Player implements Serializable {
 
     public void addPoints(int points){
         this.points.addAndGet(points);
+        setChanged();
+        notifyObservers();
     }
 
     public boolean buyCategory(Category category){
@@ -49,6 +56,8 @@ public class Player implements Serializable {
         }
         this.points.getAndAdd(0 - category.getPrice());
         categoriesPurchased.add(category);
+        setChanged();
+        notifyObservers();
         return true;
     }
 
@@ -56,7 +65,7 @@ public class Player implements Serializable {
         return this.getPointsEarned() >= category.getPrice();
     }
 
-    public List<Category> getCategoriesPurchased() {
+    public Set<Category> getCategoriesPurchased() {
         return categoriesPurchased;
     }
 
@@ -107,6 +116,8 @@ public class Player implements Serializable {
     public void addIncorrectAnswer(){
         if (points.get() > 0) {
             points.decrementAndGet();
+            setChanged();
+            notifyObservers();
         }
     }
 
@@ -118,4 +129,36 @@ public class Player implements Serializable {
         return points.get();
     }
 
+    public Set<Category> getCategoriesSelected(){
+        return this.categoriesSelected;
+    }
+
+    public void addSelectedCategory(Category category){
+        this.categoriesSelected.add(category);
+    }
+
+    public void removeSelectedCategory(Category category){
+        this.categoriesSelected.remove(category);
+    }
+
+    public void clearSelectedCategories(){
+        this.categoriesSelected.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", online=" + online +
+                ", friends=" + friends +
+                ", level=" + level +
+                ", categoriesPurchased=" + categoriesPurchased +
+                ", categoriesSelected=" + categoriesSelected +
+                ", achievements=" + achievements +
+                ", correctlyAnswered=" + correctlyAnswered +
+                ", points=" + points +
+                '}';
+    }
 }

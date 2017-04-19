@@ -2,18 +2,19 @@ package com.app.game.quizee.backend;
 
 import com.app.game.quizee.R;
 
+import java.io.Serializable;
+
 /**
  * Created by Maude on 2017-04-03.
  */
 
-public class Category {
+public class Category implements Serializable{
     private int id;
     private String name;
     private int price;
     private int imageId;
-    private boolean isChecked;
-    
-    Category(int c_id, String c_name, int c_price, int c_imageId){
+
+    public Category(int c_id, String c_name, int c_price, int c_imageId){
         id = c_id;
         name = c_name;
         price = c_price;
@@ -37,14 +38,6 @@ public class Category {
         return imageId;
     }
 
-    public void setChecked(boolean value){
-        this.isChecked=value;
-    }
-
-    public boolean isChecked(){
-        return this.isChecked;
-    }
-
     public static Category any(){
         return new Category(0, "", 0,  R.mipmap.ic_launcher);
     }
@@ -63,5 +56,15 @@ public class Category {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", imageId=" + imageId +
+                '}';
     }
 }
