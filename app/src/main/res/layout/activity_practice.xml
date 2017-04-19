@@ -150,7 +150,8 @@
             android:id="@+id/practice_button_response_1"
             android:inAnimation="@android:anim/slide_in_left"
             android:outAnimation="@android:anim/slide_out_right"
-            android:splitMotionEvents="false"/>
+            android:splitMotionEvents="false"
+            android:background="@drawable/button_tertiary_default"/>
 
         <Button
             android:layout_width="match_parent"
@@ -159,7 +160,8 @@
             android:id="@+id/practice_button_response_2"
             android:inAnimation="@android:anim/slide_in_left"
             android:outAnimation="@android:anim/slide_out_right"
-            android:splitMotionEvents="false"/>
+            android:splitMotionEvents="false"
+            android:background="@drawable/button_tertiary_default"/>
 
         <Button
             android:layout_width="match_parent"
@@ -168,7 +170,8 @@
             android:id="@+id/practice_button_response_3"
             android:inAnimation="@android:anim/slide_in_left"
             android:outAnimation="@android:anim/slide_out_right"
-            android:splitMotionEvents="false"/>
+            android:splitMotionEvents="false"
+            android:background="@drawable/button_tertiary_default"/>
 
         <Button
             android:layout_width="match_parent"
@@ -177,7 +180,8 @@
             android:id="@+id/practice_button_response_4"
             android:inAnimation="@android:anim/slide_in_left"
             android:outAnimation="@android:anim/slide_out_right"
-            android:splitMotionEvents="false">
+            android:splitMotionEvents="false"
+            android:background="@drawable/button_tertiary_default">
 
         </Button>
     </LinearLayout>
@@ -193,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:backgroundTint="@color/green"
+                android:background="@drawable/button_tertiary_default"
                 android:drawableStart="@drawable/ic_skip"
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"

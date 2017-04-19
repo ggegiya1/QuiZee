@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/my_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
@@ -8,8 +9,7 @@
     android:contentInsetStart="0dp"
     android:contentInsetLeft="0dp"
     android:contentInsetRight="0dp"
-    android:contentInsetEnd="0dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:contentInsetEnd="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,54 +36,24 @@
         <TextView
             android:layout_width="?attr/actionBarSize"
             android:layout_height="match_parent"
-            android:id="@+id/currency"
+            android:id="@+id/level"
             android:gravity="center"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_star2"
+            android:backgroundTint="@color/yellow"
+            android:layout_alignParentEnd="true"
+            android:text="0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/currency"
+            android:gravity="left"
+            android:layout_toRightOf="@+id/avatar"
+            android:layout_below="@id/name"
             android:text="0"
             android:drawableEnd="@drawable/ic_currency"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/avatar"
-            android:layout_below="@id/name"
-            android:layout_toLeftOf="@id/currency"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/level_text"
-                android:gravity="center"
-                android:text="5"
-                android:textSize="15sp"
-                />
-
-
-            <ProgressBar
-                android:layout_width="150dp"
-                android:layout_height="5dp"
-                android:progress="60"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:id="@+id/progressBar"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/next_level_text"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:text="6"
-                android:textSize="15sp"
-                />
-
-        </RelativeLayout>
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

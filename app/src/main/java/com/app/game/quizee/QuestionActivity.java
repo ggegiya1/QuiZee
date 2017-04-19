@@ -1,7 +1,6 @@
 package com.app.game.quizee;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,16 +21,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Achievement;
-import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
+import com.app.game.quizee.util.AutoResizeTextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity{
@@ -102,7 +99,7 @@ public class QuestionActivity extends AppCompatActivity{
 
             public View makeView() {
                 //crer un TextView avec des caractéristiques
-                TextView myText = new TextView(QuestionActivity.this);
+                AutoResizeTextView myText = new AutoResizeTextView(QuestionActivity.this);
                 myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 myText.setLayoutParams(new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
@@ -255,8 +252,8 @@ public class QuestionActivity extends AppCompatActivity{
                 finish();
             }
         });
-
-        endDialog.show();
+        //TODO reparer le bug qui fait que ca part nimporte quand
+        //endDialog.show();
         endDialog.setCancelable(false);
     }
 
@@ -274,11 +271,6 @@ public class QuestionActivity extends AppCompatActivity{
         //ajuste le taille du texte pour que le texte ne depasse pas
         TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
         TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
-        if(questionCount%2 == 1) {
-            tv1.setTextSize(40 - question.getText_question().length() / 6);
-        } else {
-            tv2.setTextSize(40 - question.getText_question().length() / 6);
-        }
 
         questionTextSwitcher.setText(question.getText_question());
         List<String> answers = question.getAnswers(true);

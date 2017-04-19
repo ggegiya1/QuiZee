@@ -20,9 +20,11 @@ import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Item;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShopFragment extends Fragment {
 
@@ -36,7 +38,8 @@ public class ShopFragment extends Fragment {
 
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_shop, container, false);
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
-        ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item, BackEndManager. mes_cate);
+        List<Category> categories = CategoryManager.getInstance().getAllCategoriesSortedByPrice();
+        ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item, categories);
         shopListView.setAdapter(sa);
 
 
@@ -46,10 +49,10 @@ public class ShopFragment extends Fragment {
     private class ShopAdapter extends BaseAdapter {
         private Context context; //context
         private ArrayList<Item> items; //data source of the list adapter
-        private ArrayList<Category> categories;
+        private List<Category> categories;
 
         //public constructor
-        public ShopAdapter(Context context, ArrayList<Item> items, ArrayList<Category> categories) {
+        public ShopAdapter(Context context, ArrayList<Item> items, List<Category> categories) {
             this.context = context;
             this.items = items;
             this.categories = categories;
