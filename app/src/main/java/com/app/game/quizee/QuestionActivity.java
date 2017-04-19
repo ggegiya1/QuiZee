@@ -18,16 +18,20 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.app.game.quizee.backend.Achievement;
+import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity{
@@ -43,6 +47,11 @@ public class QuestionActivity extends AppCompatActivity{
     TextSwitcher answer2TextSwitcher;
     TextSwitcher answer3TextSwitcher;
     TextSwitcher answer4TextSwitcher;
+    ProgressBar pb;
+
+    List<TextSwitcher> TextSwitchers;
+    TextView category;
+    ImageView icon;
 
     //answer buttons
     Button correctlyAnswered;
@@ -52,18 +61,18 @@ public class QuestionActivity extends AppCompatActivity{
     ImageButton skipButton;
     ImageButton addTimeButton;
 
-    Boolean anserable;
-    String correctAnswer;
-    ProgressBar pb;
+    //game Attributes
     MyCountDownTimer countDownTimer;
-    List<TextSwitcher> TextSwitchers;
-    TextView category;
-    ImageView icon;
+    boolean gameEnded;
+    boolean anserable;
     int questionCount;
+    int goodAnswers;
+    String correctAnswer;
+
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
-    static final int PREVENT_TIME_MILLIS = 1000; // temps entre les questions ou on ne peut pas clicker en milisecondes
-    static final int QUESTIONS_NUMBER = 5;
+    static final int PREVENT_TIME_MILLIS = 3000; // temps entre les questions ou on ne peut pas clicker en milisecondes
+    static final int QUESTIONS_NUMBER = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +95,6 @@ public class QuestionActivity extends AppCompatActivity{
         questionTextSwitcher = (TextSwitcher) findViewById(R.id.text_question);
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setRotation(180);
-        questionCount = -1;
 
         //ajoute les view a créé lors de lanimation de changement de texte du questionTextSwitcher
         //viewfactory tiré de la page http://www.androhub.com/android-textswitcher/
@@ -139,6 +147,14 @@ public class QuestionActivity extends AppCompatActivity{
                         }
                     });
         }
+        init();
+    }
+
+    //TODO trouver les autres choses a initialiser
+    public void init() {
+        gameEnded = false;
+        questionCount = -1;
+        goodAnswers = 0;
         newQuestion();
     }
 
@@ -181,7 +197,12 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
     private void newQuestion(){
-        questionCount++;
+        if(questionCount >= questionsPerGame) {
+            gameEnded = true;
+            countDownTimer.cancel();
+            endDialog();
+        } else {
+            questionCount++;
 
         //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
         // pas avoir accrocher de bouton
@@ -190,12 +211,60 @@ public class QuestionActivity extends AppCompatActivity{
         questionFetcher.execute();
     }
 
+    //cré le dialog de fin de jeu et laffiche
+    private void endDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = (View)  getLayoutInflater().inflate(R.layout.single_play_game_end,null);
+        builder.setView(dialogView);
+        final AlertDialog endDialog = builder.create();
+
+        //felicitations
+        TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
+        String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
+        felicitations.setText(fel[goodAnswers]);
+
+        TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
+        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + goodAnswers);
+
+        ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
+
+        //TODO get achievements earned programmatically
+        ArrayList<Achievement> achievements = new ArrayList<Achievement>();
+        achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
+        achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
+        achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
+
+        AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);
+        achievementsEarned.setAdapter(adapter);
+
+        Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
+        replay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endDialog.cancel();
+                init();
+            }
+        });
+
+        Button dontReplay = (Button) dialogView.findViewById(R.id.end_play_again_button_no);
+        dontReplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endDialog.cancel();
+                finish();
+            }
+        });
+
+        endDialog.show();
+        endDialog.setCancelable(false);
+    }
+
 
     private void setQuestion(Question question){
         if (question == null){
-            // no more questions
-            Toast.makeText(getApplicationContext(), "GAME OVER", Toast.LENGTH_LONG).show();
-            finish();
+            gameEnded = true;
+            countDownTimer.cancel();
+            endDialog();
             return;
         }
         //change le texte de la question
