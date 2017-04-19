@@ -13,8 +13,8 @@ import android.view.View;
 
 import com.app.game.quizee.backend.BackEndManager;
 
-import layout.CareerFragment;
-import layout.HomeFragment;
+import com.app.game.quizee.layout.CareerFragment;
+import com.app.game.quizee.layout.HomeFragment;
 
 public class BottomNavigation extends AppCompatActivity {
     //inspiré de https://github.com/jaisonfdo/BottomNavigation

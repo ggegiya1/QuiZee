@@ -1,38 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
     android:background="@color/primaryBackground"
-    android:padding="20dp">
+    android:padding="10dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:contentInsetEnd="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetStart="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@string/avatar_contentDescription"
+                android:src="@mipmap/ic_launcher" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_toEndOf="@+id/avatar"
+                android:layout_toStartOf="@+id/level">
+
+                <com.app.game.quizee.util.AutoResizeTextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="start"
+                    android:text="name goes here"
+                    android:textSize="20sp"
+                    android:layout_height="0dp" />
+
+                <com.app.game.quizee.util.AutoResizeTextView
+                    android:id="@+id/currency"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:drawableEnd="@drawable/ic_currency"
+                    android:gravity="end"
+                    android:text="0"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_star2"
+                android:backgroundTint="@color/yellow"
+                android:gravity="center"
+                android:text="0" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:text="@string/categorySelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:id="@+id/textView2"
+        android:background="@drawable/button_tertiary_default"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textAlignment="center"
         android:textColor="@color/complementaryBackground"/>
 
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:id="@+id/category_list"
-        android:dividerHeight="5dp"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/button_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="Play"
-        android:text="@string/Play"
         android:drawableStart="@drawable/ic_start"
-        android:background="@drawable/button_tertiary_style"
+        android:paddingEnd="20dp"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"/>
+        android:text="@string/Play" />
 
 </LinearLayout>

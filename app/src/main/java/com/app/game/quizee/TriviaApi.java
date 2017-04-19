@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +35,8 @@ public class TriviaApi {
     private final int amount;
     private final boolean repeatForever;
 
-    public TriviaApi(List<Category> categories, int amount, boolean repeatForever) {
-        this.categories = categories;
+    public TriviaApi(Collection<Category> categories, int amount, boolean repeatForever) {
+        this.categories = new ArrayList<>(categories);
         this.amount = amount;
         this.repeatForever = repeatForever;
         this.httpClient = new OkHttpClient();

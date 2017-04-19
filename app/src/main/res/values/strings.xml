@@ -41,6 +41,8 @@
     <!-- strings related to category selection activity -->
     <string name="categorySelection">Select categories</string>
     <string name="categoriesPlay">Play</string>
+    <string name="buy_category">Buy Category</string>
+    <string name="discard">Discard</string>
 
     <!-- Strings related to contacts-->
     <string name="hint_search_friends">SEARCH A FRIEND</string>
@@ -184,7 +186,8 @@
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_notification_friend_accepted">Vibrate on friend request accepted</string>
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
-
+    <string name="no_category_selected">Please select at least one category to play</string>
+    <string name="not_enough_points_category">You need more points to buy this category</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

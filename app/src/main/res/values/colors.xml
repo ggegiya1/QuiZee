@@ -15,5 +15,6 @@
     <color name="complementaryBackground">#000000</color>
     <color name="black">#000000</color>
     <color name="yellow">#ffeb34</color>
+    <color name="green">#00ff00</color>
     <color name="colorAccent">#FF4081</color>
 </resources>

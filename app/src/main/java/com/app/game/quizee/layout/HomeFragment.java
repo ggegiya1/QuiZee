@@ -1,4 +1,4 @@
-package layout;
+package com.app.game.quizee.layout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,10 @@ import android.widget.FrameLayout;
 
 import com.app.game.quizee.CategorySelectionActivity;
 import com.app.game.quizee.MultiplayerLobbyActivity;
+import com.app.game.quizee.PracticeActivity;
 import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
+import com.app.game.quizee.backend.Player;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +22,8 @@ import com.app.game.quizee.R;
  * to handle interaction events.
  */
 public class HomeFragment extends Fragment {
+
+    Player player = Player.defaultPlayer();
 
     Button quickPlay;
     Button multiPlay;
@@ -52,7 +56,7 @@ public class HomeFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iquick = new Intent(getContext(), QuestionActivity.class);
+                Intent iquick = new Intent(getContext(), PracticeActivity.class);
                 startActivity(iquick);
             }
         };
@@ -73,6 +77,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent icat = new Intent(getContext(), CategorySelectionActivity.class);
+                Bundle params = new Bundle();
+                params.putSerializable("player", player);
+                icat.putExtras(params);
                 startActivity(icat);
             }
         };

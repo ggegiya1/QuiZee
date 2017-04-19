@@ -27,6 +27,7 @@ import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
@@ -35,7 +36,10 @@ import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity{
 
-    private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
+    private TriviaApi triviaApi;
+
+    // TODO pass player as parameter on start
+    private Player player;
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -62,21 +66,23 @@ public class QuestionActivity extends AppCompatActivity{
     boolean gameEnded;
     boolean anserable;
     int questionCount;
+    int goodAnswers;
     String correctAnswer;
 
-    int goodAnswers;
-    final int questionsPerGame = 10; //nombre de questions par parties
-    final int baseTime = 10000; // temps entre les questions en milisecondes
-    final int preventTime = 300; // temps entre les questions ou on ne peut pas clicker en milisecondes
+
+    static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
+    static final int PREVENT_TIME_MILLIS = 3000; // temps entre les questions ou on ne peut pas clicker en milisecondes
+    static final int QUESTIONS_NUMBER = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-        anserable = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
+        anserable = true;
+        Bundle bundle = getIntent().getExtras();
+        player = (Player)bundle.getSerializable("player");
+        Log.i("question.activity", "starting game for player: " + player);
+        triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
         addTimeButton = (ImageButton) findViewById(R.id.button_add_time);
 
         skipButton = (ImageButton) findViewById(R.id.button_question_skip);
@@ -178,13 +184,11 @@ public class QuestionActivity extends AppCompatActivity{
                         Log.i("activity.question", "answer is correct");
 
                         v.setBackgroundColor(Color.GREEN);
-                        UserProfile.getUserProfile("1").addCorrectAnswer();
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                        player.addCorrectAnswer();
                     }else {
                         Log.i("activity.question", "answer is incorrect");
                         v.setBackgroundColor(Color.RED);
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                        UserProfile.getUserProfile("1").addIncorrectAnswer();
+                        player.addIncorrectAnswer();
                     }
                     newQuestion();
                 }
@@ -193,20 +197,19 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
     private void newQuestion(){
-        if(questionCount >= questionsPerGame) {
+        if(questionCount >= QUESTIONS_NUMBER) {
             gameEnded = true;
             countDownTimer.cancel();
             endDialog();
         } else {
             questionCount++;
-
-            //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
-            // pas avoir accrocher de bouton
-            new PreventClickCountDownTimer(preventTime, preventTime).start();
-
-            QuestionFetcher questionFetcher = new QuestionFetcher();
-            questionFetcher.execute();
         }
+
+        //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
+        // pas avoir accrocher de bouton
+        new PreventClickCountDownTimer(PREVENT_TIME_MILLIS, PREVENT_TIME_MILLIS).start();
+        QuestionFetcher questionFetcher = new QuestionFetcher();
+        questionFetcher.execute();
     }
 
     //cré le dialog de fin de jeu et laffiche
@@ -260,12 +263,9 @@ public class QuestionActivity extends AppCompatActivity{
 
     private void setQuestion(Question question){
         if (question == null){
-            Context context = getApplicationContext();
-            CharSequence text = "Error fetching question";
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            gameEnded = true;
+            countDownTimer.cancel();
+            endDialog();
             return;
         }
         //change le texte de la question
@@ -304,12 +304,11 @@ public class QuestionActivity extends AppCompatActivity{
     //reinitialise laffichage
     private void reinitializer(){
         addTimeButton.setClickable(true);
-        UserProfile userProfile = UserProfile.getUserProfile("1");
-        correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered()));
-        pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
+        correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
+        pointsEarned.setText(String.valueOf(player.getPointsEarned()));
         if (countDownTimer != null) {
             countDownTimer.cancel();}
-        countDownTimer = new MyCountDownTimer(baseTime, 50);
+        countDownTimer = new MyCountDownTimer(BASE_TIME_MILLIS, 50);
         countDownTimer.start();
 
     }
@@ -340,7 +339,7 @@ public class QuestionActivity extends AppCompatActivity{
             } else {
                 pb.setProgressTintList(ColorStateList.valueOf(0xFF00FF00));
             }
-            pb.setProgress((int) millisUntilFinished / (baseTime/100));
+            pb.setProgress((int) millisUntilFinished / (BASE_TIME_MILLIS /100));
         }
 
         @Override

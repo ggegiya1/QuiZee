@@ -2,7 +2,11 @@ package com.app.game.quizee.backend;
 
 import com.app.game.quizee.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,5 +64,17 @@ public class CategoryManager {
 
     public Category getCategoryByName(String categoryName) {
         return this.allCategories.get(categoryName);
+    }
+
+    public List<Category> getAllCategoriesSortedByPrice() {
+        List<Category> categories = new ArrayList<>(allCategories.values());
+        // sor categories by price
+        Collections.sort(categories, new Comparator<Category>() {
+            @Override
+            public int compare(Category o1, Category o2) {
+                return Double.compare(o1.getPrice(), o2.getPrice());
+            }
+        });
+        return categories;
     }
 }

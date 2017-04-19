@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import java.util.List;
 public class MultiplayerQuestionActivity extends AppCompatActivity{
 
     private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
+
+    private Player player;
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -181,13 +184,11 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                     Log.i("activity.question", "answer is correct");
 
                     v.setBackgroundColor(Color.GREEN);
-                    UserProfile.getUserProfile("1").addCorrectAnswer();
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    player.addCorrectAnswer();
                 }else {
                     Log.i("activity.question", "answer is incorrect");
                     v.setBackgroundColor(Color.RED);
-//                    v.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                    UserProfile.getUserProfile("1").addIncorrectAnswer();
+                    player.addIncorrectAnswer();
                 }
                 newQuestion();
             }
@@ -201,9 +202,6 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
     }
 
     private void reinitializer(){
-        UserProfile userProfile = UserProfile.getUserProfile("1");
-        //correctlyAnswered.setText(String.valueOf(userProfile.getCorrectlyAnswered())); TODO remove if unused
-        //pointsEarned.setText(String.valueOf(userProfile.getPointsEarned()));
         if (countDownTimer != null) {
             countDownTimer.cancel();}
         countDownTimer = new MyCountDownTimer(baseTime, 50);
