@@ -30,13 +30,6 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
     private final Context activityContext;
     private final Player player;
 
-    private class ViewHolder{
-        ImageView categoryImage;
-        TextView categoryName;
-        TextView categoryPrice;
-        CheckBox checkBox;
-    }
-
     CategoryListAdapter(Activity activityContext, List<Category> categories, Player player) {
         super(activityContext, R.layout.category_selection_list_item, categories);
         this.categories=new ArrayList<>();
@@ -51,28 +44,27 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
     @Override
     public View getView(int position, View convertView, @NonNull final ViewGroup parent) {
         SelectableCategory category = categories.get(position);
-        View view;
         LayoutInflater inflater=LayoutInflater.from(activityContext);
+        ViewHolder holder;
         if(convertView == null) {
-            view = inflater.inflate(R.layout.category_selection_list_item, null);
-            final ViewHolder holder = new ViewHolder();
-            holder.categoryImage = (ImageView) view.findViewById(R.id.category_item_icon);
-            holder.categoryName = (TextView) view.findViewById(R.id.category_item_name);
-            holder.categoryPrice = (TextView) view.findViewById(R.id.category_item_price);
-            holder.checkBox = (CheckBox) view.findViewById(R.id.select_category_item);
+            convertView = inflater.inflate(R.layout.category_selection_list_item, null);
+            holder = new ViewHolder();
+            holder.categoryImage = (ImageView) convertView.findViewById(R.id.category_item_icon);
+            holder.categoryName = (TextView) convertView.findViewById(R.id.category_item_name);
+            holder.categoryPrice = (TextView) convertView.findViewById(R.id.category_item_price);
+            holder.checkBox = (CheckBox) convertView.findViewById(R.id.select_category_item);
             holder.checkBox.setTag(categories.get(position));
             holder.checkBox.setOnCheckedChangeListener(categoryRowCheckBoxListener(holder, activityContext));
-            view.setTag(holder);
+            convertView.setTag(holder);
         }else {
-            view = convertView;
-            ((ViewHolder)view.getTag()).checkBox.setTag(categories.get(position));
+            holder = (ViewHolder)convertView.getTag();
+            holder.checkBox.setTag(categories.get(position));
         }
-        ViewHolder holder = (ViewHolder)view.getTag();
         holder.categoryImage.setImageResource(category.getImageId());
         holder.categoryName.setText(category.getName());
         holder.categoryPrice.setText(String.valueOf(category.getPrice()));
         holder.checkBox.setChecked(category.isSelected());
-        return view;
+        return convertView;
     }
 
     private CompoundButton.OnCheckedChangeListener categoryRowCheckBoxListener(final CategoryListAdapter.ViewHolder holder, final Context context){
@@ -133,5 +125,12 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
     private void unSelectCategory(SelectableCategory category){
         player.removeSelectedCategory(category);
         category.setSelected(false);
+    }
+
+    private static class ViewHolder{
+        ImageView categoryImage;
+        TextView categoryName;
+        TextView categoryPrice;
+        CheckBox checkBox;
     }
 }
