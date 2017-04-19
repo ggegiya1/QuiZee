@@ -91,7 +91,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
                     }else {
                         // do not select when not enough points to unlock category
                         holder.checkBox.setChecked(false);
-                        Toast.makeText(context, "You need more points to buy this category", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.not_enough_points_category, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     unSelectCategory(category);

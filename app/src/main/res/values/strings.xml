@@ -169,6 +169,8 @@
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_notification_friend_accepted">Vibrate on friend request accepted</string>
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
-        <!-- TODO: Remove or change this placeholder text -->
+    <string name="no_category_selected">Please select at least one category to play</string>
+    <string name="not_enough_points_category">You need more points to buy this category</string>
+    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
