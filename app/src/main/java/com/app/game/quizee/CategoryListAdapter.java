@@ -63,7 +63,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
             holder.checkBox.setTag(categories.get(position));
         }
         holder.categoryImage.setImageResource(category.getImageId());
-        holder.categoryName.setText(category.getName());
+        holder.categoryName.setText(category.getDisplayName());
         holder.categoryPrice.setText(String.valueOf(category.getPrice()));
         holder.checkBox.setChecked(category.isSelected());
         return convertView;

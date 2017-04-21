@@ -14,7 +14,7 @@ public class SelectableCategory extends Category {
     private boolean selected;
 
     SelectableCategory(Category category) {
-        super(category.getId(), category.getName(), category.getPrice(), category.getImageId());
+        super(category.getId(), category.getName(), category.getDisplayName(), category.getPrice(), category.getImageId());
     }
 
     boolean isSelected() {
