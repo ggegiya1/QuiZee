@@ -19,9 +19,9 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.app.game.quizee.backend.Category;
-import com.app.game.quizee.backend.Player;
-import com.app.game.quizee.backend.Question;
+import com.app.game.quizee.BackEnd.Category;
+import com.app.game.quizee.BackEnd.Player;
+import com.app.game.quizee.BackEnd.Question;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -180,6 +180,8 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String answer = ((Button)v).getText().toString();
                 Log.i("activity.question", String.format("answer: %s", answer));
+                //Temporaire :
+                player = new Player ("0","Bob", "c:img.png", 0, 0);
                 if (answer.equals(correctAnswer)){
                     Log.i("activity.question", "answer is correct");
 
