@@ -39,7 +39,7 @@ public class QuestionActivity extends AppCompatActivity{
     private Player player;
 
     //User interface attributes
-    TextSwitcher questionTextSwitcher;
+    AutoResizeTextView questionTextSwitcher;
     TextSwitcher answer1TextSwitcher;
     TextSwitcher answer2TextSwitcher;
     TextSwitcher answer3TextSwitcher;
@@ -89,25 +89,10 @@ public class QuestionActivity extends AppCompatActivity{
                 newQuestion();
             }
         });
-        questionTextSwitcher = (TextSwitcher) findViewById(R.id.text_question);
+        questionTextSwitcher = (AutoResizeTextView) findViewById(R.id.text_question);
+        questionTextSwitcher.setMinTextSize(10);
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setRotation(180);
-
-        //ajoute les view a créé lors de lanimation de changement de texte du questionTextSwitcher
-        //viewfactory tiré de la page http://www.androhub.com/android-textswitcher/
-        questionTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-
-            public View makeView() {
-                //crer un TextView avec des caractéristiques
-                AutoResizeTextView myText = new AutoResizeTextView(QuestionActivity.this);
-                myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-                myText.setLayoutParams(new FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT));
-                myText.setBackgroundDrawable(getResources().getDrawable((R.drawable.button_secondary_default)));
-                return myText;
-            }
-        });
 
         category = (TextView) findViewById(R.id.caterogy_Textview);
 
@@ -268,11 +253,6 @@ public class QuestionActivity extends AppCompatActivity{
         //change le texte de la question
         questionTextSwitcher.setText(question.getText_question());
 
-        //ajuste le taille du texte pour que le texte ne depasse pas
-        TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
-        TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
-
-        questionTextSwitcher.setText(question.getText_question());
         List<String> answers = question.getAnswers(true);
 
         //efface les couleurs sur les boutons et mets le texte correspondant aux reponses sur les boutons
