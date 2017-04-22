@@ -121,7 +121,7 @@
 
         </RelativeLayout>
 
-        <com.app.game.quizee.util.AutoResizeTextView
+        <com.app.game.quizee.util.AutofitTextView
             android:layout_width="match_parent"
             android:layout_height="97dp"
             android:id="@+id/text_question"

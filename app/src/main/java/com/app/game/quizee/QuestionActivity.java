@@ -25,7 +25,7 @@ import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
-import com.app.game.quizee.util.AutoResizeTextView;
+import com.app.game.quizee.util.AutofitTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private GameManager gameManager;
 
     //User interface attributes
-    AutoResizeTextView questionTextView;
+    TextView questionTextView;
     Button answer1Button;
     Button answer2Button;
     Button answer3Button;
@@ -120,8 +120,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             }
         });
 
-        questionTextView = (AutoResizeTextView) findViewById(R.id.text_question);
-        questionTextView.setMinTextSize(10);
+        questionTextView = (AutofitTextView) findViewById(R.id.text_question);
 
         categoryNameView = (TextView) findViewById(R.id.caterogy_Textview);
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:splitMotionEvents="false"
-    android:background="@android:color/background_dark">
+    android:background="@color/background">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -139,7 +139,7 @@
         android:id="@+id/question_count_label"
         android:layout_weight="0.33" />
 </LinearLayout>
-    <com.app.game.quizee.util.AutoResizeTextView
+    <com.app.game.quizee.util.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"
@@ -151,7 +151,7 @@
         android:textSize="20sp"
         android:text="Welcome to QueZee"
         android:padding="10dp"
-        android:maxLines="6"
+        android:maxLines="5"
         android:background="@android:color/background_light"
         android:layout_margin="15dp"/>
 

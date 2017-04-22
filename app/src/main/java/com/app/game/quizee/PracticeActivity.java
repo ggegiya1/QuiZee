@@ -19,6 +19,7 @@ import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Question;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class PracticeActivity extends AppCompatActivity{
     Button answer2TextSwitcher;
     Button answer3TextSwitcher;
     Button answer4TextSwitcher;
-    List<Button> answerButtons;
+    List<Button> answerButtons = new ArrayList<>();
 
     Button skipButton;
 

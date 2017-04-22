@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Player;
-import com.app.game.quizee.util.AutoResizeTextView;
+import com.app.game.quizee.util.AutofitTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +51,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
             convertView = inflater.inflate(R.layout.category_selection_list_item, null);
             holder = new ViewHolder();
             holder.categoryImage = (ImageView) convertView.findViewById(R.id.category_item_icon);
-            holder.categoryName = (AutoResizeTextView) convertView.findViewById(R.id.category_item_name);
-            holder.categoryName.setMinTextSize(10);
+            holder.categoryName = (AutofitTextView) convertView.findViewById(R.id.category_item_name);
             holder.categoryPrice = (TextView) convertView.findViewById(R.id.category_item_price);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.select_category_item);
             holder.checkBox.setTag(categories.get(position));
@@ -131,7 +130,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
 
     private static class ViewHolder{
         ImageView categoryImage;
-        AutoResizeTextView categoryName;
+        TextView categoryName;
         TextView categoryPrice;
         CheckBox checkBox;
     }
