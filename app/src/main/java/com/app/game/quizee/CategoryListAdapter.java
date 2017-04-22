@@ -17,10 +17,11 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Player;
-import com.app.game.quizee.util.AutofitTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.grantland.widget.AutofitTextView;
 
 /**
  * Created by gia on 18/04/17.

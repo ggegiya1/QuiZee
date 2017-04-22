@@ -139,7 +139,7 @@
         android:id="@+id/question_count_label"
         android:layout_weight="0.33" />
 </LinearLayout>
-    <com.app.game.quizee.util.AutofitTextView
+    <me.grantland.widget.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"

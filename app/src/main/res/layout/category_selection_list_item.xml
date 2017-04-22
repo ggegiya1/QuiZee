@@ -17,7 +17,7 @@
         android:src="@mipmap/ic_launcher"
         android:contentDescription="category" />
 
-    <com.app.game.quizee.util.AutofitTextView
+    <me.grantland.widget.AutofitTextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/category_item_name"
