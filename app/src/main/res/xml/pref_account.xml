@@ -4,8 +4,8 @@
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <Preference
-        android:title="Change avatar"
-        />
+        android:title="@string/pref_account_change_avater_title"
+        android:key="change_avatar" />
 
     <EditTextPreference
         android:capitalize="words"

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:splitMotionEvents="false"
-    android:background="@android:color/background_light">
+    android:id="@+id/activity_question_container"
+    android:background="@color/primaryBackground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"

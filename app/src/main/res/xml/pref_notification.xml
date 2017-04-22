@@ -1,25 +1,41 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_title_notification_friend_request">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notifications_friend_request_accepted"
+            android:title="@string/pref_title_notification_friend_request_accepted" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="notifications_friend_request_accepted"
-        android:title="@string/pref_title_notification_friend_request_accepted" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="notifications_friend_request_accepted"
+            android:key="notifications_vibration_friend_request_accepted"
+            android:title="@string/pref_title_notification_friend_accepted" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:dependency="notifications_friend_request_accepted"
-        android:key="notifications_vibration_friend_request_accepted"
-        android:title="@string/pref_title_notification_friend_accepted" />
+    </PreferenceCategory>
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="notifications_gaming_request"
-        android:title="@string/pref_title_gaming_request_notifications" />
+    <PreferenceCategory android:title="@string/gaming_request">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notifications_gaming_request"
+            android:title="@string/pref_title_gaming_request_notifications" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:dependency="notifications_gaming_request"
-        android:key="notifications_vibration_gaming_request"
-        android:title="@string/pref_title_notification_gaming_request" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="notifications_gaming_request"
+            android:key="notifications_vibration_gaming_request"
+            android:title="@string/pref_title_notification_gaming_request" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/achivements_earned">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="notifications_achievement"
+            android:title="@string/pref_title_notification_achievement" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="notifications_achievement"
+            android:key="notifications_vibration_achievement"
+            android:title="@string/pref_title_notification_vibrate_achievement" />
+    </PreferenceCategory>
 </PreferenceScreen>

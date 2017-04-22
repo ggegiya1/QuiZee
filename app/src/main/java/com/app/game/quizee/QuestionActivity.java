@@ -2,11 +2,13 @@ package com.app.game.quizee;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -44,6 +47,7 @@ public class QuestionActivity extends AppCompatActivity{
     TextSwitcher answer2TextSwitcher;
     TextSwitcher answer3TextSwitcher;
     TextSwitcher answer4TextSwitcher;
+    RelativeLayout container;
     ProgressBar pb;
 
     List<TextSwitcher> TextSwitchers;
@@ -70,6 +74,7 @@ public class QuestionActivity extends AppCompatActivity{
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int PREVENT_TIME_MILLIS = 3000; // temps entre les questions ou on ne peut pas clicker en milisecondes
     static final int QUESTIONS_NUMBER = 10;
+    static final int BACKGROUND_COLOR_CHANGE_DELAY = 1000; //temps ou laffichage reste de la couleur pour la bonne ou mauvaise reponse
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +86,15 @@ public class QuestionActivity extends AppCompatActivity{
         Log.i("question.activity", "starting game for player: " + player);
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
         addTimeButton = (ImageButton) findViewById(R.id.button_add_time);
+        container = (RelativeLayout) findViewById(R.id.activity_question_container);
 
         skipButton = (ImageButton) findViewById(R.id.button_question_skip);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuestion();
+                if(anserable) {
+                    newQuestion();
+                }
             }
         });
         questionTextSwitcher = (TextSwitcher) findViewById(R.id.text_question);
@@ -177,16 +185,26 @@ public class QuestionActivity extends AppCompatActivity{
                 if(anserable) {
                     String answer = ((Button)v).getText().toString();
                     Log.i("activity.question", String.format("answer: %s", answer));
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    boolean colorBlind = prefs.getBoolean("colorblind_mode", false);
                     if (answer.equals(correctAnswer)){
                         Log.i("activity.question", "answer is correct");
-
-                        v.setBackgroundColor(Color.GREEN);
+                        if(colorBlind) {
+                            container.setBackgroundColor(Color.WHITE);
+                        } else {
+                            container.setBackgroundColor(Color.GREEN);
+                        }
                         player.addCorrectAnswer();
                     }else {
                         Log.i("activity.question", "answer is incorrect");
-                        v.setBackgroundColor(Color.RED);
+                        if(colorBlind) {
+                            container.setBackgroundColor(Color.BLACK);
+                        } else {
+                            container.setBackgroundColor(Color.RED);
+                        }
                         player.addIncorrectAnswer();
                     }
+                    new BackgroundColorCountDownTimer(BACKGROUND_COLOR_CHANGE_DELAY, BACKGROUND_COLOR_CHANGE_DELAY).start();
                     newQuestion();
                 }
             }
@@ -226,7 +244,7 @@ public class QuestionActivity extends AppCompatActivity{
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
-        //TODO get achievements earned programmatically
+        //TODO get achievements earned during game programmatically
         ArrayList<Achievement> achievements = new ArrayList<Achievement>();
         achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
         achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
@@ -360,6 +378,24 @@ public class QuestionActivity extends AppCompatActivity{
         @Override
         public void onFinish() {
             anserable = true;
+        }
+    }
+
+    //custom countdownTimer class empecher de clicker sur une reponse trop rapidement
+    private class BackgroundColorCountDownTimer extends CountDownTimer {
+
+        private BackgroundColorCountDownTimer(long startTime, long timeBetweenTicks) {
+            super(startTime, timeBetweenTicks);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            container.setBackgroundColor(getResources().getColor(R.color.primaryBackground));
         }
     }
 
