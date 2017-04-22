@@ -167,7 +167,7 @@
             android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
-            android:background="@color/answerButton"/>
+            android:background="@drawable/button_secondary_default"/>
 
         <Button
             android:layout_width="match_parent"
@@ -176,7 +176,7 @@
             android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
-            android:background="@color/answerButton"/>
+            android:background="@drawable/button_secondary_default"/>
 
         <Button
             android:layout_width="match_parent"
@@ -185,7 +185,7 @@
             android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
-            android:background="@color/answerButton"/>
+            android:background="@drawable/button_secondary_default"/>
 
         <Button
             android:layout_width="match_parent"
@@ -194,7 +194,7 @@
             android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
-            android:background="@color/answerButton"/>
+            android:background="@drawable/button_secondary_default"/>
     </LinearLayout>
 
     <LinearLayout
@@ -207,7 +207,9 @@
 
         <Button
             android:contentDescription="@string/Bomb_Button"
-            android:drawableEnd="@drawable/ic_bomb"
+            android:drawableStart="@drawable/ic_bomb"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/button_bomb"
@@ -221,7 +223,9 @@
             android:contentDescription="@string/Hint_Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawableEnd="@drawable/ic_hint"
+            android:drawableStart="@drawable/ic_hint"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:id="@+id/button_hint"
             android:layout_weight="0.25"
             android:text="0"
@@ -233,8 +237,10 @@
             android:contentDescription="@string/addTime_Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:id="@+id/button_add_time"
-            android:drawableEnd="@drawable/ic_addtime"
+            android:drawableStart="@drawable/ic_addtime"
             android:text="0"
             android:layout_weight="0.25"
             android:background="@android:color/holo_orange_light"
@@ -243,9 +249,11 @@
 
         <Button
             android:contentDescription="@string/Skip_Button"
-            android:drawableEnd="@drawable/ic_skip"
+            android:drawableStart="@drawable/ic_skip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:id="@+id/button_question_skip"
             android:layout_weight="0.25"
             android:text="0"

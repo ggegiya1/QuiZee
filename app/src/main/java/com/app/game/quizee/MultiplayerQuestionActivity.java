@@ -127,15 +127,15 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
             Log.i("activity.question", "fetched question: " + question.toString());
             currentQuestion = question;
             //change le texte de la question
-            questionTextSwitcher.setText(question.getText_question());
+            questionTextSwitcher.setText(question.getTextQuestion());
 
             //ajuste le taille du texte pour que le texte ne depasse pas
             TextView tv1 = (TextView) questionTextSwitcher.getChildAt(0);
             TextView tv2 = (TextView) questionTextSwitcher.getChildAt(1);
             if(questionCount%2 == 1) {
-                tv1.setTextSize(40 - question.getText_question().length() / 6);
+                tv1.setTextSize(40 - question.getTextQuestion().length() / 6);
             } else {
-                tv2.setTextSize(40 - question.getText_question().length() / 6);
+                tv2.setTextSize(40 - question.getTextQuestion().length() / 6);
             }
 
             List<Answer> answers = question.getAnswers(true);

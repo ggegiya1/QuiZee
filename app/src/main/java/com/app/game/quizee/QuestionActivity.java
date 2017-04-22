@@ -4,20 +4,19 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.app.game.quizee.backend.Achievement;
@@ -79,8 +78,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         Bundle bundle = getIntent().getExtras();
         player = (Player)bundle.getSerializable("player");
         gameManager = new GameManager(this, player);
-        Log.i("question.activity", "starting game for player: " + player);
-        triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
+
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -142,6 +140,8 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     public void init() {
         player.prepareForGame();
         questionCount = 0;
+        triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
+        Log.i("question.activity", "starting game for player: " + player);
         newQuestion();
     }
 
@@ -167,22 +167,72 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     }
 
     private View.OnClickListener answerValidator(){
-
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 if (answer.isCorrect()){
-                    buttonEffect(v, Color.GREEN);
                     player.addCorrectAnswer(currentQuestion);
+                    onAnswerButtonEffect(v, Color.GREEN);
+
                 }else {
-                    buttonEffect(v, Color.RED);
                     player.addIncorrectAnswer(currentQuestion);
+                    onAnswerButtonEffect(v, Color.RED);
                 }
-                newQuestion();
             }
         };
     }
+
+    private void onAnswerButtonEffect(View button, int color){
+        button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+        animation.setDuration(500); // duration - half a second
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(0);
+        animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
+        animation.setAnimationListener(new Animation.AnimationListener(){
+
+            @Override
+            public void onAnimationStart(Animation animation){}
+
+            @Override
+            public void onAnimationRepeat(Animation animation){}
+
+            @Override
+            public void onAnimationEnd(Animation animation){
+                // load new question only when animation finished
+                newQuestion();
+            }
+        });
+        button.startAnimation(animation);
+    }
+
+    private void changeTextAnimation(final TextView view, final String text){
+        final Animation animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
+        animation.setDuration(300);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(0);
+        animation.setAnimationListener(new Animation.AnimationListener(){
+
+            @Override
+            public void onAnimationStart(Animation animation){
+                // set question
+                view.setText(text);
+                view.setClickable(false);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation){}
+
+            @Override
+            public void onAnimationEnd(Animation animation){
+                view.setClickable(true);
+            }
+        });
+        view.startAnimation(animation);
+    }
+
 
     public void newQuestion(){
         if(questionCount >= QUESTIONS_NUMBER) {
@@ -198,7 +248,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     //cré le dialog de fin de jeu et laffiche
     private void endDialog(Player player) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = (View)  getLayoutInflater().inflate(R.layout.single_play_game_end,null);
+        View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
         final AlertDialog endDialog = builder.create();
 
@@ -239,7 +289,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
             }
         });
         //TODO reparer le bug qui fait que ca part nimporte quand
-        //endDialog.show();
+        endDialog.show();
         endDialog.setCancelable(false);
     }
 
@@ -248,20 +298,23 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         questionCount++;
         currentQuestion = question;
         //change le texte de la question
-        questionText.setText(question.getText_question());
+        changeTextAnimation(questionText, question.getTextQuestion());
 
         List<Answer> answers = question.getAnswers(true);
         for (int i=0; i<answers.size(); i++){
-            this.answerButtons.get(i).setText(answers.get(i).getText());
-            this.answerButtons.get(i).setTag(answers.get(i));
-            this.answerButtons.get(i).setBackground(getResources().getDrawable(R.color.answerButton));
-            this.answerButtons.get(i).setClickable(true);
+            Button button = this.answerButtons.get(i);
+            Answer answer = answers.get(i);
+            button.clearAnimation();
+            button.setTag(answer);
+            // restore the button colors and view
+            button.getBackground().clearColorFilter();
+            changeTextAnimation(button, answer.getText());
         }
 
         //met un icone et un texte correspondant a la category
         category.setText(question.getCategory().getDisplayName());
         icon.setImageResource(question.getCategory().getImageId());
-        addTimeButton.setClickable(true);
+
         questionsLeft.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
         correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
 //        pointsEarned.setText(String.valueOf(player.getPointsEarned()));
@@ -315,7 +368,6 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     @Override
     public void addTime() {
         updatePowerUpButtons();
-        addTimeButton.setClickable(false);
         long newTime = countDownTimer.getTimeRemaining() + 5000;
         countDownTimer.cancel();
         countDownTimer = new MyCountDownTimer(newTime, 50);
@@ -329,7 +381,8 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         int marked = 0;
         for(Button button: answerButtons){
             if (!((Answer)button.getTag()).isCorrect() && marked<2){
-                button.setBackgroundColor(Color.TRANSPARENT);
+                button.getBackground().setColorFilter(Color.DKGRAY,  PorterDuff.Mode.SRC_ATOP);
+                // prevent accidental click
                 button.setClickable(false);
                 marked++;
             }
@@ -340,17 +393,24 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     public void showHint() {
         updatePowerUpButtons();
         boolean marked = false;
-        Drawable color = getResources().getDrawable(R.color.colorAccent);
+        int color = getResources().getColor(R.color.green);
         Random random = new Random(System.nanoTime());
+        final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+        animation.setDuration(500); // duration - half a second
+        animation.setRepeatCount(Animation.INFINITE); // Repeat animation infinitely
+        animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
         for(Button button: answerButtons){
             if (((Answer)button.getTag()).isCorrect() && random.nextBoolean()){
-                button.setBackground(color);
+                button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                button.startAnimation(animation);
                 marked = true;
                 break;
             }
         }
         if (! marked){
-            answerButtons.get(random.nextInt(4)).setBackground(color);
+            Button randomButton = answerButtons.get(random.nextInt(4));
+            randomButton.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            randomButton.startAnimation(animation);
         }
     }
 
@@ -373,25 +433,4 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         Ad.show();
     }
 
-    // inspired by http://stackoverflow.com/questions/7175873/click-effect-on-button-in-android
-    public void buttonEffect(View button, final int color){
-        button.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        v.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                        v.invalidate();
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP: {
-                        v.getBackground().clearColorFilter();
-                        v.invalidate();
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
-    }
 }

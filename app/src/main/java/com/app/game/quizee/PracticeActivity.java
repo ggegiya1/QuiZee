@@ -128,7 +128,7 @@ public class PracticeActivity extends AppCompatActivity{
             return;
         }
         //change le texte de la question
-        questionTextSwitcher.setText(question.getText_question());
+        questionTextSwitcher.setText(question.getTextQuestion());
 
         List<Answer> answers = question.getAnswers(true);
         for (int i=0; i<answers.size(); i++){

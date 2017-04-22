@@ -50,10 +50,15 @@ public class Player extends Observable implements Serializable {
     }
 
     public static Player defaultPlayer(){
-        Player bob = new Player("1", "Bob", null, 1000, 5);
+        Player bob = new Player("1", "Bob", null, 5, 1000);
         bob.getAddTimes().add(new AddTime());
         bob.getSkips().add(new Skip());
         bob.getHints().add(new Hint());
+        bob.getHints().add(new Hint());
+        bob.getHints().add(new Hint());
+        bob.getHints().add(new Hint());
+        bob.getBombs().add(new Bomb());
+        bob.getBombs().add(new Bomb());
         bob.getBombs().add(new Bomb());
         return bob;
     }

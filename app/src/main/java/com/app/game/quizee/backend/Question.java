@@ -54,7 +54,7 @@ public class Question {
         return category;
     }
 
-    public String getText_question() {
+    public String getTextQuestion() {
         return text_question;
     }
 
