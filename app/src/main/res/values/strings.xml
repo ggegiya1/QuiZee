@@ -188,6 +188,19 @@
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
     <string name="no_category_selected">Please select at least one category to play</string>
     <string name="not_enough_points_category">You need more points to buy this category</string>
+    <string name="pref_display">Display</string>
+    <string name="colorblind_mode">Colorblind Mode</string>
+    <string name="pref_account_change_avatar_key">avatar_key</string>
+    <string name="pref_account_change_avater_title">Change avatar</string>
+    <string name="pref_account_no_image_selected">No image selected</string>
+    <string name="pref_header_sounds">Sounds</string>
+    <string name="pref_title_notification_achievement">Achievement erned notification</string>
+    <string name="pref_title_notification_vibrate_achievement">Vibrate on new achievement earned</string>
+    <string name="gaming_request">Gaming request</string>
+    <string name="pref_title_notification_friend_request">Friend request</string>
+    <string name="pref_sound_music">Music</string>
+    <string name="pref_sound_good_answer">Play sound on good answer</string>
+    <string name="pref_sound_wrong_answer">Play sound on wrong answer</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
