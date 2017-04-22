@@ -1,10 +1,15 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +26,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
 
     final long requestLength = 10000; //Les requetes pours jouer durent 10 secondes
     ListView multiplayerList;
+    int notif_id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,29 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void simpleNotification(){
+        NotificationCompat.Builder notifBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_action_name)
+                        .setContentTitle("Want to play?")
+                        .setContentText("A friend has invited you to play!")
+                        .setAutoCancel(true)
+                        .setPriority(2);
+
+        Intent resultIntent = new Intent(this, MultiplayerQuestionActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(QuestionActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        notifBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(notif_id,notifBuilder.build());
+    }
 
     //Adapter inspiré de
     // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
@@ -104,6 +133,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
                         }
                     }.start();
                     //TODO que faire lorsque lon demande a un joueur de jouer
+                    simpleNotification();
                 }
             });
 
