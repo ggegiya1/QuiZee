@@ -11,7 +11,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_weight="0.15"
+        android:layout_height="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -69,7 +70,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
         android:orientation="horizontal"
         android:id="@+id/GameStatus">
 
@@ -139,7 +141,8 @@
 </LinearLayout>
     <com.app.game.quizee.util.AutoResizeTextView
         android:layout_width="match_parent"
-        android:layout_height="144dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
         android:id="@+id/text_question"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:lineSpacingExtra="8sp"
@@ -154,7 +157,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="211dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/answer_buttons"
         android:splitMotionEvents="false"
@@ -163,36 +166,32 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/button_response_1"
-            android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
             android:background="@drawable/button_secondary_default"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/button_response_2"
-            android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
             android:background="@drawable/button_secondary_default"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/button_response_3"
-            android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
             android:background="@drawable/button_secondary_default"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/button_response_4"
-            android:layout_weight="0.25"
             android:layout_margin="5dp"
             android:textAlignment="center"
             android:background="@drawable/button_secondary_default"/>
@@ -200,7 +199,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:orientation="horizontal"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -216,9 +216,7 @@
             android:id="@+id/button_bomb"
             android:text="0"
             android:layout_weight="0.25"
-            android:background="@android:color/holo_red_light"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_margin="5dp"/>
+            android:backgroundTint="@android:color/holo_red_light" />
 
         <Button
             android:contentDescription="@string/Hint_Button"
@@ -230,9 +228,7 @@
             android:id="@+id/button_hint"
             android:layout_weight="0.25"
             android:text="0"
-            android:background="@android:color/holo_green_light"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_margin="5dp"/>
+            android:backgroundTint="@android:color/holo_green_light" />
 
         <Button
             android:contentDescription="@string/addTime_Button"
@@ -244,9 +240,7 @@
             android:drawableStart="@drawable/ic_addtime"
             android:text="0"
             android:layout_weight="0.25"
-            android:background="@android:color/holo_orange_light"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_margin="5dp"/>
+            android:backgroundTint="@android:color/holo_orange_light" />
 
         <Button
             android:contentDescription="@string/Skip_Button"
@@ -258,13 +252,13 @@
             android:id="@+id/button_question_skip"
             android:layout_weight="0.25"
             android:text="0"
-            android:background="@android:color/holo_blue_bright"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_margin="5dp"/>
+            android:backgroundTint="@android:color/holo_blue_bright" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="0.01"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:orientation="horizontal">
