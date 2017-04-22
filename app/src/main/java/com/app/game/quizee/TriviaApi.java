@@ -2,6 +2,8 @@ package com.app.game.quizee;
 
 import android.text.Html;
 import android.util.Log;
+
+import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Question;
@@ -106,11 +108,11 @@ public class TriviaApi {
         Question question = new Question(CategoryManager.getInstance().getCategoryByName(
                 Html.fromHtml(jsonQuestion.getString("category")).toString()),
                 Html.fromHtml(jsonQuestion.getString("question")).toString(),
-                Html.fromHtml(jsonQuestion.getString("difficulty")).toString(),
-                Html.fromHtml(jsonQuestion.getString("correct_answer")).toString());
+                Html.fromHtml(jsonQuestion.getString("difficulty")).toString());
+        question.addAnswer(new Answer(Html.fromHtml(jsonQuestion.getString("correct_answer")).toString(), true));
         JSONArray incorrectAnswers = jsonQuestion.getJSONArray("incorrect_answers");
         for (int i=0; i<incorrectAnswers.length(); i++){
-            question.addIncorrectAnswers(Html.fromHtml((String)incorrectAnswers.get(i)).toString());
+            question.addAnswer(new Answer(Html.fromHtml((String)incorrectAnswers.get(i)).toString(), false));
         }
         return question;
     }

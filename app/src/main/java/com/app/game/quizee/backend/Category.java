@@ -11,14 +11,16 @@ import java.io.Serializable;
 public class Category implements Serializable{
     private int id;
     private String name;
+    private String displayName;
     private int price;
     private int imageId;
 
-    public Category(int c_id, String c_name, int c_price, int c_imageId){
-        id = c_id;
-        name = c_name;
-        price = c_price;
-        imageId = c_imageId;
+    public Category(int id, String name, String displayName, int price, int imageId){
+        this.id = id;
+        this.name = name;
+        this.displayName = displayName;
+        this.price = price;
+        this.imageId = imageId;
     }
 
     //Getters
@@ -39,7 +41,13 @@ public class Category implements Serializable{
     }
 
     public static Category any(){
-        return new Category(0, "", 0,  R.mipmap.ic_launcher);
+        return new Category(0, "", "", 0,  R.mipmap.ic_launcher);
+    }
+
+
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     @Override
