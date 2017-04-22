@@ -21,7 +21,7 @@ import android.widget.ViewSwitcher;
 import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
-import com.app.game.quizee.backend.Item;
+import com.app.game.quizee.backend.GameItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +48,11 @@ public class ShopFragment extends Fragment {
 
     private class ShopAdapter extends BaseAdapter {
         private Context context; //context
-        private ArrayList<Item> items; //data source of the list adapter
+        private ArrayList<GameItem> items; //data source of the list adapter
         private List<Category> categories;
 
         //public constructor
-        public ShopAdapter(Context context, ArrayList<Item> items, List<Category> categories) {
+        public ShopAdapter(Context context, ArrayList<GameItem> items, List<Category> categories) {
             this.context = context;
             this.items = items;
             this.categories = categories;
@@ -107,7 +107,7 @@ public class ShopFragment extends Fragment {
                 };
                 return title;
             } else if (position > 0 && position < 5) {
-                Item rowItem = (Item) getItem(position);
+                GameItem rowItem = (GameItem) getItem(position);
                 //si le row est un power up
                 TextView powUpName = (TextView) convertView.findViewById(R.id.shop_item_name);
                 TextView powUpPrice = (TextView) convertView.findViewById(R.id.shop_item_price);
@@ -136,7 +136,7 @@ public class ShopFragment extends Fragment {
                     }
                 });
                 powUpName.setText(rowItem.getType());
-                powUpPrice.setText(Integer.toString(rowItem.getCost()));
+                powUpPrice.setText(Integer.toString(rowItem.getPrice()));
                 powUpIcon.setImageResource(rowItem.getImageId());
 
             } else if (position >5) {

@@ -1,13 +1,13 @@
 package com.app.game.quizee.backend;
 
 import java.io.Serializable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
+import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Maude on 2017-04-03.
@@ -19,21 +19,30 @@ public class Player extends Observable implements Serializable {
     private String image;
     private boolean online;
     private List<Player> friends;
-    private int level;
+
     private final Set<Category> categoriesPurchased = new HashSet<>();
     private final Set<Category> categoriesSelected = new HashSet<>();
     private final List<Achievement> achievements = new ArrayList<>();
+    private final Queue<Skip> skips = new ArrayDeque<>();
+    private final Queue<AddTime> addTimes = new ArrayDeque<>();
+    private final Queue<Hint> hints = new ArrayDeque<>();
+    private final Queue<Bomb> bombs = new ArrayDeque<>();
 
-    private AtomicInteger correctlyAnswered = new AtomicInteger(0);
+    private List<Question> correctlyAnswered;
+    private List<Question> wronglyAnswered;
 
-    private AtomicInteger points;
+    private int points;
+    private int level;
+    private int score;
 
-    public Player(String playerId, String name, String image, int points, int level){
+    public Player(String playerId, String name, String image, int level, int points){
         this.id = playerId;
         this.name = name;
         this.image = image;
         this.level = level;
-        this.points = new AtomicInteger(points);
+        this.points = points;
+        this.correctlyAnswered = new ArrayList<>();
+        this.wronglyAnswered = new ArrayList<>();
     }
 
     public Player(String playerId, String name, String image, int level){
@@ -41,20 +50,38 @@ public class Player extends Observable implements Serializable {
     }
 
     public static Player defaultPlayer(){
-        return new Player("1", "Bob", null, 1000, 5);
+        Player bob = new Player("1", "Bob", null, 1000, 5);
+        bob.getAddTimes().add(new AddTime());
+        bob.getSkips().add(new Skip());
+        bob.getHints().add(new Hint());
+        bob.getBombs().add(new Bomb());
+        return bob;
     }
 
-    public void addPoints(int points){
-        this.points.addAndGet(points);
+    public void prepareForGame(){
+        this.correctlyAnswered = new ArrayList<>();
+        this.wronglyAnswered = new ArrayList<>();
+    }
+
+    private void addScore(int score){
+        this.score += score;
+        this.points += score;
+        setChanged();
+        notifyObservers();
+    }
+
+    private void removeScore(int score){
+        this.score = this.score > score? this.score - score: 0;
+        this.points = this.points > score? this.points - score: 0;
         setChanged();
         notifyObservers();
     }
 
     public boolean buyCategory(Category category){
-        if (category.getPrice() > this.getPointsEarned()){
+        if (category.getPrice() > this.getPoints()){
             return false;
         }
-        this.points.getAndAdd(0 - category.getPrice());
+        this.points -= category.getPrice();
         categoriesPurchased.add(category);
         setChanged();
         notifyObservers();
@@ -62,7 +89,7 @@ public class Player extends Observable implements Serializable {
     }
 
     public boolean canBuy(Category category){
-        return this.getPointsEarned() >= category.getPrice();
+        return this.getPoints() >= category.getPrice();
     }
 
     public Set<Category> getCategoriesPurchased() {
@@ -109,24 +136,33 @@ public class Player extends Observable implements Serializable {
         return image;
     }
 
-    public void addCorrectAnswer(){
-        points.addAndGet(correctlyAnswered.incrementAndGet() * 5);
+    public void addCorrectAnswer(Question question){
+        this.correctlyAnswered.add(question);
+        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1);
+        addScore(score);
     }
 
-    public void addIncorrectAnswer(){
-        if (points.get() > 0) {
-            points.decrementAndGet();
-            setChanged();
-            notifyObservers();
-        }
+    public void addIncorrectAnswer(Question question){
+        this.wronglyAnswered.add(question);
+        // penalize incorrect question
+        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1) / 5;
+        removeScore(score);
     }
 
     public int getCorrectlyAnswered(){
-        return this.correctlyAnswered.get();
+        return this.correctlyAnswered.size();
     }
 
-    public int getPointsEarned(){
-        return points.get();
+    public int getWronglyAnswered(){
+        return this.wronglyAnswered.size();
+    }
+
+    public int getPoints(){
+        return points;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public Set<Category> getCategoriesSelected(){
@@ -143,6 +179,49 @@ public class Player extends Observable implements Serializable {
 
     public void clearSelectedCategories(){
         this.categoriesSelected.clear();
+    }
+
+
+    public Queue<Skip> getSkips() {
+        return skips;
+    }
+
+    public Queue<AddTime> getAddTimes() {
+        return addTimes;
+    }
+
+    public Queue<Hint> getHints() {
+        return hints;
+    }
+
+    public Queue<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public boolean canPurchase(GameItem gameItem){
+        return this.points >= gameItem.getPrice();
+    }
+
+    public boolean purchase(GameItem gameItem){
+        if (!canPurchase(gameItem)){
+            return false;
+        }
+        if (gameItem instanceof Skip){
+            this.skips.add((Skip)gameItem);
+        }
+        if (gameItem instanceof Hint){
+            this.hints.add((Hint)gameItem);
+        }
+        if (gameItem instanceof AddTime){
+            this.addTimes.add((AddTime) gameItem);
+        }
+        if (gameItem instanceof Bomb){
+            this.bombs.add((Bomb) gameItem);
+        }
+        this.points -= gameItem.getPrice();
+        setChanged();
+        notifyObservers();
+        return true;
     }
 
     @Override

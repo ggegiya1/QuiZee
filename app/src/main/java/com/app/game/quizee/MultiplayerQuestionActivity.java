@@ -19,6 +19,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
@@ -44,13 +45,13 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
     //Button pointsEarned; TODO remove if unused
 
 
-    String correctAnswer;
     ProgressBar pb;
     MyCountDownTimer countDownTimer;
     List<TextSwitcher> TextSwitchers;
     TextView category;
     ImageView icon;
     int questionCount;
+    Question currentQuestion;
 
     int baseTime = 10000; // 5 seconds
 
@@ -83,7 +84,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
         category = (TextView) findViewById(R.id.caterogy_Textview);
 
         icon = (ImageView) findViewById(R.id.caterogy_Icon);
-        correctlyAnswered = (Button) findViewById(R.id.button_correctly_answered);
+        //correctlyAnswered = (Button) findViewById(R.id.button_correctly_answered);
         //pointsEarned = (Button) findViewById(R.id.button_points_earned); TODO remove if unused
 
         answer1TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_1);
@@ -124,7 +125,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Question question) {
             Log.i("activity.question", "fetched question: " + question.toString());
-
+            currentQuestion = question;
             //change le texte de la question
             questionTextSwitcher.setText(question.getText_question());
 
@@ -137,12 +138,12 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                 tv2.setTextSize(40 - question.getText_question().length() / 6);
             }
 
-            List<String> answers = question.getAnswers(true);
+            List<Answer> answers = question.getAnswers(true);
 
             //efface les couleurs sur les boutons et mets le texte correspondant aux boutons
             for (int i=0; i<TextSwitchers.size(); i++){
                 TextSwitcher ts = TextSwitchers.get(i);
-                ts.setText(answers.get(i));
+                ts.setText(answers.get(i).getText());
                 if(questionCount % 2 == 0) {
                     ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
                 }
@@ -169,7 +170,6 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
                         break;
                 }
             }
-            correctAnswer = question.getCorrectAnswer();
             reinitializer();
         }
     }
@@ -178,17 +178,17 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String answer = ((Button)v).getText().toString();
+                Answer answer = (Answer)v.getTag();
                 Log.i("activity.question", String.format("answer: %s", answer));
-                if (answer.equals(correctAnswer)){
+                if (answer.isCorrect()){
                     Log.i("activity.question", "answer is correct");
 
                     v.setBackgroundColor(Color.GREEN);
-                    player.addCorrectAnswer();
+                    player.addCorrectAnswer(currentQuestion);
                 }else {
                     Log.i("activity.question", "answer is incorrect");
                     v.setBackgroundColor(Color.RED);
-                    player.addIncorrectAnswer();
+                    player.addIncorrectAnswer(currentQuestion);
                 }
                 newQuestion();
             }

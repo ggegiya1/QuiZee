@@ -73,13 +73,13 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         avatar = (ImageView) findViewById(R.id.avatar);
         playerName.setText(player.getName());
         level.setText(String.valueOf(player.getLevel()));
-        points.setText(String.valueOf(player.getPointsEarned()));
+        points.setText(String.valueOf(player.getPoints()));
         //TODO pass real image here
         avatar.setImageResource(R.drawable.ic_multi_player);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        points.setText(String.valueOf(((Player)o).getPointsEarned()));
+        points.setText(String.valueOf(((Player)o).getPoints()));
     }
 }

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Question;
 
@@ -34,10 +35,10 @@ public class PracticeActivity extends AppCompatActivity{
     Button answer2TextSwitcher;
     Button answer3TextSwitcher;
     Button answer4TextSwitcher;
+    List<Button> answerButtons;
 
     Button skipButton;
 
-    String correctAnswer;
     TextView category;
     ImageView icon;
     int questionCount;
@@ -65,12 +66,16 @@ public class PracticeActivity extends AppCompatActivity{
 
         answer1TextSwitcher = (Button) findViewById(R.id.practice_button_response_1);
         answer1TextSwitcher.setOnClickListener(answerValidator());
+        answerButtons.add(answer1TextSwitcher);
         answer2TextSwitcher = (Button) findViewById(R.id.practice_button_response_2);
         answer2TextSwitcher.setOnClickListener(answerValidator());
+        answerButtons.add(answer2TextSwitcher);
         answer3TextSwitcher = (Button) findViewById(R.id.practice_button_response_3);
         answer3TextSwitcher.setOnClickListener(answerValidator());
+        answerButtons.add(answer3TextSwitcher);
         answer4TextSwitcher = (Button) findViewById(R.id.practice_button_response_4);
         answer4TextSwitcher.setOnClickListener(answerValidator());
+        answerButtons.add(answer4TextSwitcher);
         newQuestion();
     }
 
@@ -93,8 +98,8 @@ public class PracticeActivity extends AppCompatActivity{
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String answer = ((Button)v).getText().toString();
-                if (answer.equals(correctAnswer)){
+                Answer answer = (Answer)v.getTag();
+                if (answer.isCorrect()){
                     buttonEffect(v, Color.GREEN);
                     correctlyAnswered++;
                 }else {
@@ -125,15 +130,15 @@ public class PracticeActivity extends AppCompatActivity{
         //change le texte de la question
         questionTextSwitcher.setText(question.getText_question());
 
-        List<String> answers = question.getAnswers(true);
-        answer1TextSwitcher.setText(answers.get(0));
-        answer2TextSwitcher.setText(answers.get(1));
-        answer3TextSwitcher.setText(answers.get(2));
-        answer4TextSwitcher.setText(answers.get(3));
+        List<Answer> answers = question.getAnswers(true);
+        for (int i=0; i<answers.size(); i++){
+            this.answerButtons.get(i).setText(answers.get(i).getText());
+            this.answerButtons.get(i).setTag(answers.get(i));
+            this.answerButtons.get(i).setBackground(getResources().getDrawable(R.color.answerButton));
+        }
         //met un icone et un texte correspondant a la category
         category.setText(question.getCategory().getName());
         icon.setImageResource(question.getCategory().getImageId());
-        correctAnswer = question.getCorrectAnswer();
         correctlyAnsweredLabel.setText(String.valueOf(correctlyAnswered));
         questionCountLabel.setText(String.valueOf(questionCount));
     }

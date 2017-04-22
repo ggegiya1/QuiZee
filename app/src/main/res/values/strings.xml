@@ -75,9 +75,9 @@
     <string name="AlertDialog_title">Quit playing?</string>
     <string name="AlertDialog_message">Are you sure you want to stop playing?</string>
     <string name="addTime_Button">+ 5 sec</string>
-    <string name="Hint_Button">Hint</string>
-    <string name="Bomb_Button">50/100</string>
-    <string name="Skip_Button">Skip</string>
+    <string name="Hint_Button">hint</string>
+    <string name="Bomb_Button">50/50</string>
+    <string name="Skip_Button">skip</string>
 
     <string name="achivements_earned">Achievements obtained</string>
     <string name="goodAnswers">Good answers</string>
@@ -188,6 +188,5 @@
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
     <string name="no_category_selected">Please select at least one category to play</string>
     <string name="not_enough_points_category">You need more points to buy this category</string>
-    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

@@ -17,4 +17,5 @@
     <color name="yellow">#ffeb34</color>
     <color name="green">#00ff00</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="answerButton">#E0F7FA</color>
 </resources>

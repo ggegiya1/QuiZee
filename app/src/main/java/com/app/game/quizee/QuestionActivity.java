@@ -2,144 +2,156 @@ package com.app.game.quizee;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Achievement;
+import com.app.game.quizee.backend.Answer;
+import com.app.game.quizee.backend.Game;
+import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
 import com.app.game.quizee.util.AutoResizeTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
-public class QuestionActivity extends AppCompatActivity{
+public class QuestionActivity extends AppCompatActivity implements Game{
 
     private TriviaApi triviaApi;
 
     // TODO pass player as parameter on start
     private Player player;
+    private GameManager gameManager;
 
     //User interface attributes
-    AutoResizeTextView questionTextSwitcher;
-    TextSwitcher answer1TextSwitcher;
-    TextSwitcher answer2TextSwitcher;
-    TextSwitcher answer3TextSwitcher;
-    TextSwitcher answer4TextSwitcher;
-    ProgressBar pb;
+    AutoResizeTextView questionText;
+    Button answer1Button;
+    Button answer2Button;
+    Button answer3Button;
+    Button answer4Button;
 
-    List<TextSwitcher> TextSwitchers;
+    List<Button> answerButtons;
+
     TextView category;
     ImageView icon;
 
     //answer buttons
-    Button correctlyAnswered;
-    Button pointsEarned;
+    TextView correctlyAnswered;
+    TextView timer;
+    TextView questionsLeft;
 
     //power ups buttons
-    ImageButton skipButton;
-    ImageButton addTimeButton;
+    Button skipButton;
+    Button addTimeButton;
+    Button bombButton;
+    Button hintButton;
 
     //game Attributes
     MyCountDownTimer countDownTimer;
-    boolean gameEnded;
-    boolean anserable;
     int questionCount;
-    int goodAnswers;
-    String correctAnswer;
-
+    Question currentQuestion;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
-    static final int PREVENT_TIME_MILLIS = 3000; // temps entre les questions ou on ne peut pas clicker en milisecondes
     static final int QUESTIONS_NUMBER = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        anserable = true;
         Bundle bundle = getIntent().getExtras();
         player = (Player)bundle.getSerializable("player");
+        gameManager = new GameManager(this, player);
         Log.i("question.activity", "starting game for player: " + player);
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
-        addTimeButton = (ImageButton) findViewById(R.id.button_add_time);
 
-        skipButton = (ImageButton) findViewById(R.id.button_question_skip);
+        // power-ups
+        addTimeButton = (Button) findViewById(R.id.button_add_time);
+        addTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameManager.executeTime();
+            }
+        });
+        skipButton = (Button) findViewById(R.id.button_question_skip);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuestion();
+                gameManager.executeSkip();
             }
         });
-        questionTextSwitcher = (AutoResizeTextView) findViewById(R.id.text_question);
-        questionTextSwitcher.setMinTextSize(10);
-        pb = (ProgressBar) findViewById(R.id.progressBar);
-        pb.setRotation(180);
+        bombButton = (Button) findViewById(R.id.button_bomb);
+        bombButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameManager.executeBomb();
+            }
+        });
+        hintButton = (Button) findViewById(R.id.button_hint);
+        hintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameManager.executeHint();
+            }
+        });
+
+        questionText = (AutoResizeTextView) findViewById(R.id.text_question);
+        questionText.setMinTextSize(10);
 
         category = (TextView) findViewById(R.id.caterogy_Textview);
 
         icon = (ImageView) findViewById(R.id.caterogy_Icon);
-        correctlyAnswered = (Button) findViewById(R.id.button_correctly_answered);
-        pointsEarned = (Button) findViewById(R.id.button_points_earned);
+        correctlyAnswered = (TextView) findViewById(R.id.correct_answer_count);
+        questionsLeft = (TextView) findViewById(R.id.question_count);
+        timer = (TextView) findViewById(R.id.timer);
 
-        answer1TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_1);
-        answer2TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_2);
-        answer3TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_3);
-        answer4TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_4);
+        answerButtons = new ArrayList<>();
+        answer1Button = (Button) findViewById(R.id.button_response_1);
+        answer1Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer1Button);
+        answer2Button = (Button) findViewById(R.id.button_response_2);
+        answer2Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer2Button);
+        answer3Button = (Button) findViewById(R.id.button_response_3);
+        answer3Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer3Button);
+        answer4Button = (Button) findViewById(R.id.button_response_4);
+        answer4Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer4Button);
 
-        TextSwitchers = new ArrayList<TextSwitcher>();
-        TextSwitchers.add(answer1TextSwitcher);
-        TextSwitchers.add(answer2TextSwitcher);
-        TextSwitchers.add(answer3TextSwitcher);
-        TextSwitchers.add(answer4TextSwitcher);
-
-        //ajoute le viewFactory pour les animations des boutons
-        for (TextSwitcher ts: TextSwitchers) {
-            ts.setFactory(
-                    new ViewSwitcher.ViewFactory() {
-
-                        public View makeView() {
-                            //crer un Button avec des caractéristiques
-                            Button myButton = new Button(QuestionActivity.this);
-                            myButton.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                            myButton.setTextSize(15);
-                            myButton.setOnClickListener(answerValidator());
-                            final FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                            myButton.setLayoutParams(lp);
-                            myButton.setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-                            return myButton;
-                        }
-                    });
-        }
         init();
     }
 
-    //TODO trouver les autres choses a initialiser
     public void init() {
-        gameEnded = false;
-        questionCount = -1;
-        goodAnswers = 0;
+        player.prepareForGame();
+        questionCount = 0;
         newQuestion();
     }
 
+
+    private void updatePowerUpButtons(){
+        addTimeButton.setText(String.valueOf(player.getAddTimes().size()));
+        hintButton.setText(String.valueOf(player.getHints().size()));
+        bombButton.setText(String.valueOf(player.getBombs().size()));
+        skipButton.setText(String.valueOf(player.getSkips().size()));
+    }
 
     private class QuestionFetcher extends AsyncTask<Object, Object, Question>{
 
@@ -159,43 +171,32 @@ public class QuestionActivity extends AppCompatActivity{
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(anserable) {
-                    String answer = ((Button)v).getText().toString();
-                    Log.i("activity.question", String.format("answer: %s", answer));
-                    if (answer.equals(correctAnswer)){
-                        Log.i("activity.question", "answer is correct");
-
-                        v.setBackgroundColor(Color.GREEN);
-                        player.addCorrectAnswer();
-                    }else {
-                        Log.i("activity.question", "answer is incorrect");
-                        v.setBackgroundColor(Color.RED);
-                        player.addIncorrectAnswer();
-                    }
-                    newQuestion();
+                Answer answer = (Answer)v.getTag();
+                if (answer.isCorrect()){
+                    buttonEffect(v, Color.GREEN);
+                    player.addCorrectAnswer(currentQuestion);
+                }else {
+                    buttonEffect(v, Color.RED);
+                    player.addIncorrectAnswer(currentQuestion);
                 }
+                newQuestion();
             }
         };
     }
 
-    private void newQuestion(){
+    public void newQuestion(){
         if(questionCount >= QUESTIONS_NUMBER) {
-            gameEnded = true;
             countDownTimer.cancel();
-            endDialog();
+            endDialog(player);
         } else {
-            questionCount++;
+            updatePowerUpButtons();
+            QuestionFetcher questionFetcher = new QuestionFetcher();
+            questionFetcher.execute();
         }
-
-        //ajoute un delai ou on ne peut repondre a la question pour etre certain de ne
-        // pas avoir accrocher de bouton
-        new PreventClickCountDownTimer(PREVENT_TIME_MILLIS, PREVENT_TIME_MILLIS).start();
-        QuestionFetcher questionFetcher = new QuestionFetcher();
-        questionFetcher.execute();
     }
 
     //cré le dialog de fin de jeu et laffiche
-    private void endDialog() {
+    private void endDialog(Player player) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = (View)  getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
@@ -204,10 +205,10 @@ public class QuestionActivity extends AppCompatActivity{
         //felicitations
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
         String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
-        felicitations.setText(fel[goodAnswers]);
+        felicitations.setText(fel[player.getCorrectlyAnswered()]);
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
-        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + goodAnswers);
+        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + player.getCorrectlyAnswered());
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
@@ -244,46 +245,32 @@ public class QuestionActivity extends AppCompatActivity{
 
 
     private void setQuestion(Question question){
-        if (question == null){
-            gameEnded = true;
-            countDownTimer.cancel();
-            endDialog();
-            return;
-        }
+        questionCount++;
+        currentQuestion = question;
         //change le texte de la question
-        questionTextSwitcher.setText(question.getText_question());
+        questionText.setText(question.getText_question());
 
-        List<String> answers = question.getAnswers(true);
-
-        //efface les couleurs sur les boutons et mets le texte correspondant aux reponses sur les boutons
-        for (int i=0; i<TextSwitchers.size(); i++) {
-            TextSwitcher ts = TextSwitchers.get(i);
-            ts.setText(answers.get(i));
-            if (questionCount % 2 == 0) {
-                ts.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-            } else {
-                ts.getChildAt(1).setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
-            }
+        List<Answer> answers = question.getAnswers(true);
+        for (int i=0; i<answers.size(); i++){
+            this.answerButtons.get(i).setText(answers.get(i).getText());
+            this.answerButtons.get(i).setTag(answers.get(i));
+            this.answerButtons.get(i).setBackground(getResources().getDrawable(R.color.answerButton));
+            this.answerButtons.get(i).setClickable(true);
         }
 
         //met un icone et un texte correspondant a la category
-        category.setText(question.getCategory().getName());
+        category.setText(question.getCategory().getDisplayName());
         icon.setImageResource(question.getCategory().getImageId());
-        correctAnswer = question.getCorrectAnswer();
-        reinitializer();
-    }
-
-    //reinitialise laffichage
-    private void reinitializer(){
         addTimeButton.setClickable(true);
+        questionsLeft.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
         correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
-        pointsEarned.setText(String.valueOf(player.getPointsEarned()));
+//        pointsEarned.setText(String.valueOf(player.getPointsEarned()));
         if (countDownTimer != null) {
             countDownTimer.cancel();}
-        countDownTimer = new MyCountDownTimer(BASE_TIME_MILLIS, 50);
+        countDownTimer = new MyCountDownTimer(BASE_TIME_MILLIS, 100);
         countDownTimer.start();
-
     }
+
 
     //custom countdownTimer class pour la progress bar et le temps pour repondre
     private class MyCountDownTimer extends CountDownTimer {
@@ -298,20 +285,8 @@ public class QuestionActivity extends AppCompatActivity{
         public void onTick(long millisUntilFinished) {
 
             timeRemaining = millisUntilFinished;
-
-            //change la couleur en fonction du temps restant
-            if(millisUntilFinished <= 1000) {
-                pb.setProgressTintList(ColorStateList.valueOf(Color.RED));
-            } else if (millisUntilFinished <= 3000){
-                int colorTransition = (int) (millisUntilFinished - 1000) * 255 /2000;
-                pb.setProgressTintList(ColorStateList.valueOf(0xFFFF0000 + (colorTransition << 8)));
-            } else if (millisUntilFinished <= 5000){
-                int colorTransition = (int) (millisUntilFinished - 3000) * 255 /2000;
-                pb.setProgressTintList(ColorStateList.valueOf(0xFFFFFF00 - (colorTransition << 16)));
-            } else {
-                pb.setProgressTintList(ColorStateList.valueOf(0xFF00FF00));
-            }
-            pb.setProgress((int) millisUntilFinished / (BASE_TIME_MILLIS /100));
+            timer.setTextColor(getTimerColor(millisUntilFinished));
+            timer.setText(String.format(Locale.ROOT, "%.2f", (float) millisUntilFinished / 1000));
         }
 
         @Override
@@ -319,33 +294,27 @@ public class QuestionActivity extends AppCompatActivity{
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
+
         public long getTimeRemaining() {
             return timeRemaining;
         }
-    }
 
-    //custom countdownTimer class empecher de clicker sur une reponse trop rapidement
-    private class PreventClickCountDownTimer extends CountDownTimer {
+        private int getTimerColor(long millisUntilFinished) {
+            float factor = ((float) millisUntilFinished / BASE_TIME_MILLIS);
+            if (factor <= 0.5) {
+                // from yellow to red
+                return Color.rgb(255, (int) Math.round(255 * (factor / 0.5)), 0);
 
-        private PreventClickCountDownTimer(long startTime, long timeBetweenTicks) {
-            super(startTime, timeBetweenTicks);
-            anserable = false;
-        }
-
-        @Override
-        @TargetApi(21)
-        public void onTick(long millisUntilFinished) {
-
-        }
-        @Override
-        public void onFinish() {
-            anserable = true;
+            } else {
+                // from green to yellow
+                return Color.rgb(255 - (int) Math.round(255 * (factor - 0.5) / 0.5), 255, 0);
+            }
         }
     }
 
-
-    //ce quil se passe lorsque lon clique sur +5 sec
-    public void addTime(View v) {
+    @Override
+    public void addTime() {
+        updatePowerUpButtons();
         addTimeButton.setClickable(false);
         long newTime = countDownTimer.getTimeRemaining() + 5000;
         countDownTimer.cancel();
@@ -354,8 +323,36 @@ public class QuestionActivity extends AppCompatActivity{
     }
 
 
+    @Override
+    public void deleteTwoIncorrectAnswers() {
+        updatePowerUpButtons();
+        int marked = 0;
+        for(Button button: answerButtons){
+            if (!((Answer)button.getTag()).isCorrect() && marked<2){
+                button.setBackgroundColor(Color.TRANSPARENT);
+                button.setClickable(false);
+                marked++;
+            }
+        }
+    }
 
-
+    @Override
+    public void showHint() {
+        updatePowerUpButtons();
+        boolean marked = false;
+        Drawable color = getResources().getDrawable(R.color.colorAccent);
+        Random random = new Random(System.nanoTime());
+        for(Button button: answerButtons){
+            if (((Answer)button.getTag()).isCorrect() && random.nextBoolean()){
+                button.setBackground(color);
+                marked = true;
+                break;
+            }
+        }
+        if (! marked){
+            answerButtons.get(random.nextInt(4)).setBackground(color);
+        }
+    }
 
     //prevents quiting game accidently on back pressed
     @Override
@@ -374,5 +371,27 @@ public class QuestionActivity extends AppCompatActivity{
         } );
         Ad.setNegativeButton(R.string.no, null);
         Ad.show();
+    }
+
+    // inspired by http://stackoverflow.com/questions/7175873/click-effect-on-button-in-android
+    public void buttonEffect(View button, final int color){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }
