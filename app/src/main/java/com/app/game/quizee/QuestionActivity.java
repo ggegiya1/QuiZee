@@ -25,7 +25,6 @@ import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.Question;
-import com.app.game.quizee.util.AutofitTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +32,8 @@ import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+
+import me.grantland.widget.AutofitTextView;
 
 public class QuestionActivity extends AppCompatActivity implements Game, Observer{
 
