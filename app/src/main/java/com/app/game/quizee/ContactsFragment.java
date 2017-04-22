@@ -1,8 +1,10 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,10 +173,21 @@ public class ContactsFragment extends Fragment {
                 });
             }
 
+            //Met un icone pour signaler si le contact est en ligne ou hors ligne
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            boolean colorBlind = prefs.getBoolean("colorblind_mode", false);
             if(p.isOnline()) {
-                holder.contactOnline.setColorFilter(Color.GREEN);
+                if(colorBlind) {
+                    holder.contactOnline.setColorFilter(Color.WHITE);
+                } else {
+                    holder.contactOnline.setColorFilter(Color.GREEN);
+                }
             } else {
-                holder.contactOnline.setColorFilter(Color.RED);
+                if(colorBlind) {
+                    holder.contactOnline.setColorFilter(Color.BLACK);
+                } else {
+                    holder.contactOnline.setColorFilter(Color.RED);
+                }
             }
 
             holder.contactName.setText(p.getName());

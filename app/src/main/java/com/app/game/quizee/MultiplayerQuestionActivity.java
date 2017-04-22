@@ -84,9 +84,6 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
         category = (TextView) findViewById(R.id.caterogy_Textview);
 
         icon = (ImageView) findViewById(R.id.caterogy_Icon);
-        //correctlyAnswered = (Button) findViewById(R.id.button_correctly_answered);
-        //pointsEarned = (Button) findViewById(R.id.button_points_earned); TODO remove if unused
-
         answer1TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_1);
         answer2TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_2);
         answer3TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_3);

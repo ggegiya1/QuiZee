@@ -6,6 +6,16 @@
         android:title="@string/pref_header_notifications" />
 
     <header
+        android:fragment="com.app.game.quizee.SettingsActivity$SoundPreferenceFragment"
+        android:icon="@drawable/ic_sound"
+        android:title="@string/pref_header_sounds" />
+
+    <header
+        android:fragment="com.app.game.quizee.SettingsActivity$DisplayPreferenceFragment"
+        android:icon="@drawable/ic_display"
+        android:title="@string/pref_display"/>
+
+    <header
         android:fragment="com.app.game.quizee.SettingsActivity$AccountPreferenceFragment"
         android:icon="@drawable/ic_acount"
         android:title="@string/pref_header_account" />
@@ -14,5 +24,9 @@
         android:fragment="com.app.game.quizee.SettingsActivity$DataSyncPreferenceFragment"
         android:icon="@drawable/ic_sync_black_24dp"
         android:title="@string/pref_header_data_sync" />
+
+    <header
+        android:fragment="com.app.game.quizee.SettingsActivity$DataSyncPreferenceFragment"
+        android:title="@string/pref_header_about" />
 
 </preference-headers>

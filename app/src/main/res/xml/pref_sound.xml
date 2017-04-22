@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound_music"
+        android:title="@string/pref_sound_music"/>
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound_good_answer"
+        android:title="@string/pref_sound_good_answer"/>
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound_wrong_answer"
+        android:title="@string/pref_sound_wrong_answer"/>
+</PreferenceScreen>
