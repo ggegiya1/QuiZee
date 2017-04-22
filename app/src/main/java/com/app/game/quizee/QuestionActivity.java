@@ -30,9 +30,11 @@ import com.app.game.quizee.util.AutoResizeTextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
-public class QuestionActivity extends AppCompatActivity implements Game{
+public class QuestionActivity extends AppCompatActivity implements Game, Observer{
 
     private TriviaApi triviaApi;
 
@@ -41,7 +43,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     private GameManager gameManager;
 
     //User interface attributes
-    AutoResizeTextView questionText;
+    AutoResizeTextView questionTextView;
     Button answer1Button;
     Button answer2Button;
     Button answer3Button;
@@ -49,13 +51,13 @@ public class QuestionActivity extends AppCompatActivity implements Game{
 
     List<Button> answerButtons;
 
-    TextView category;
-    ImageView icon;
+    TextView categoryNameView;
+    ImageView categoryIcon;
 
     //answer buttons
     TextView correctlyAnswered;
-    TextView timer;
-    TextView questionsLeft;
+    TextView timerView;
+    TextView questionsContView;
 
     //power ups buttons
     Button skipButton;
@@ -63,10 +65,15 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     Button bombButton;
     Button hintButton;
 
+    // player stats
+    TextView pointsView;
+    TextView levelView;
+
     //game Attributes
     MyCountDownTimer countDownTimer;
     int questionCount;
     Question currentQuestion;
+
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -77,8 +84,11 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         setContentView(R.layout.activity_question);
         Bundle bundle = getIntent().getExtras();
         player = (Player)bundle.getSerializable("player");
+        player.addObserver(this);
         gameManager = new GameManager(this, player);
 
+        pointsView = (TextView) findViewById(R.id.currency);
+        levelView = (TextView) findViewById(R.id.level);
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -110,15 +120,15 @@ public class QuestionActivity extends AppCompatActivity implements Game{
             }
         });
 
-        questionText = (AutoResizeTextView) findViewById(R.id.text_question);
-        questionText.setMinTextSize(10);
+        questionTextView = (AutoResizeTextView) findViewById(R.id.text_question);
+        questionTextView.setMinTextSize(10);
 
-        category = (TextView) findViewById(R.id.caterogy_Textview);
+        categoryNameView = (TextView) findViewById(R.id.caterogy_Textview);
 
-        icon = (ImageView) findViewById(R.id.caterogy_Icon);
+        categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
         correctlyAnswered = (TextView) findViewById(R.id.correct_answer_count);
-        questionsLeft = (TextView) findViewById(R.id.question_count);
-        timer = (TextView) findViewById(R.id.timer);
+        questionsContView = (TextView) findViewById(R.id.question_count);
+        timerView = (TextView) findViewById(R.id.timer);
 
         answerButtons = new ArrayList<>();
         answer1Button = (Button) findViewById(R.id.button_response_1);
@@ -142,6 +152,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         questionCount = 0;
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
         Log.i("question.activity", "starting game for player: " + player);
+        updateScore(player);
         newQuestion();
     }
 
@@ -170,6 +181,8 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // store remained time to use in the score calculation
+                currentQuestion.setTimeRemained(countDownTimer.getTimeRemaining());
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 if (answer.isCorrect()){
@@ -180,6 +193,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
                     player.addIncorrectAnswer(currentQuestion);
                     onAnswerButtonEffect(v, Color.RED);
                 }
+                correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
             }
         };
     }
@@ -263,7 +277,7 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
         //TODO get achievements earned programmatically
-        ArrayList<Achievement> achievements = new ArrayList<Achievement>();
+        ArrayList<Achievement> achievements = new ArrayList<>();
         achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
         achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
         achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
@@ -297,8 +311,9 @@ public class QuestionActivity extends AppCompatActivity implements Game{
     private void setQuestion(Question question){
         questionCount++;
         currentQuestion = question;
+        Log.d("question", question.toString());
         //change le texte de la question
-        changeTextAnimation(questionText, question.getTextQuestion());
+        changeTextAnimation(questionTextView, question.getTextQuestion());
 
         List<Answer> answers = question.getAnswers(true);
         for (int i=0; i<answers.size(); i++){
@@ -312,12 +327,11 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         }
 
         //met un icone et un texte correspondant a la category
-        category.setText(question.getCategory().getDisplayName());
-        icon.setImageResource(question.getCategory().getImageId());
+        categoryNameView.setText(question.getCategory().getDisplayName());
+        categoryIcon.setImageResource(question.getCategory().getImageId());
 
-        questionsLeft.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
-        correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
-//        pointsEarned.setText(String.valueOf(player.getPointsEarned()));
+        questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
+
         if (countDownTimer != null) {
             countDownTimer.cancel();}
         countDownTimer = new MyCountDownTimer(BASE_TIME_MILLIS, 100);
@@ -338,8 +352,8 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         public void onTick(long millisUntilFinished) {
 
             timeRemaining = millisUntilFinished;
-            timer.setTextColor(getTimerColor(millisUntilFinished));
-            timer.setText(String.format(Locale.ROOT, "%.2f", (float) millisUntilFinished / 1000));
+            timerView.setTextColor(getTimerColor(millisUntilFinished));
+            timerView.setText(String.format(Locale.ROOT, "%.2f", (float) millisUntilFinished / 1000));
         }
 
         @Override
@@ -433,4 +447,15 @@ public class QuestionActivity extends AppCompatActivity implements Game{
         Ad.show();
     }
 
+    @Override
+    public void update(Observable observable, Object arg) {
+        if (observable instanceof Player){
+            updateScore((Player) observable);
+        }
+    }
+
+    private void updateScore(Player player) {
+        levelView.setText(String.valueOf(player.getLevel()));
+        pointsView.setText(String.valueOf(player.getPoints()));
+    }
 }

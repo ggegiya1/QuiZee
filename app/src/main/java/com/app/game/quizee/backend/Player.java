@@ -150,7 +150,7 @@ public class Player extends Observable implements Serializable {
     public void addIncorrectAnswer(Question question){
         this.wronglyAnswered.add(question);
         // penalize incorrect question
-        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1) / 5;
+        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1);
         removeScore(score);
     }
 

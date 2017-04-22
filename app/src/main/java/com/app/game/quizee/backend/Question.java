@@ -83,5 +83,14 @@ public class Question {
         return this.difficulty.getValueInt();
     }
 
-
+    @Override
+    public String toString() {
+        return "Question{" +
+                "category=" + category +
+                ", text_question='" + text_question + '\'' +
+                ", difficulty=" + difficulty +
+                ", answers=" + answers +
+                ", timeRemained=" + timeRemained +
+                '}';
+    }
 }
