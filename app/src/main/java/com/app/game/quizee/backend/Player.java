@@ -35,7 +35,7 @@ public class Player extends Observable implements Serializable {
     private int level;
     private int score;
 
-    public Player(String playerId, String name, String image, int level, int points){
+    public Player(String playerId, String name, String image, int level, int points) {
         this.id = playerId;
         this.name = name;
         this.image = image;
@@ -45,11 +45,11 @@ public class Player extends Observable implements Serializable {
         this.wronglyAnswered = new ArrayList<>();
     }
 
-    public Player(String playerId, String name, String image, int level){
-       new Player(playerId, name, image, 0, level);
+    public Player(String playerId, String name, String image, int level) {
+        new Player(playerId, name, image, level, 0);
     }
 
-    public static Player defaultPlayer(){
+    public static Player defaultPlayer() {
         Player bob = new Player("1", "Bob", null, 5, 1000);
         bob.getAddTimes().add(new AddTime());
         bob.getSkips().add(new Skip());
@@ -63,27 +63,27 @@ public class Player extends Observable implements Serializable {
         return bob;
     }
 
-    public void prepareForGame(){
+    public void prepareForGame() {
         this.correctlyAnswered = new ArrayList<>();
         this.wronglyAnswered = new ArrayList<>();
     }
 
-    private void addScore(int score){
+    private void addScore(int score) {
         this.score += score;
         this.points += score;
         setChanged();
         notifyObservers();
     }
 
-    private void removeScore(int score){
-        this.score = this.score > score? this.score - score: 0;
-        this.points = this.points > score? this.points - score: 0;
+    private void removeScore(int score) {
+        this.score = this.score > score ? this.score - score : 0;
+        this.points = this.points > score ? this.points - score : 0;
         setChanged();
         notifyObservers();
     }
 
-    public boolean buyCategory(Category category){
-        if (category.getPrice() > this.getPoints()){
+    public boolean buyCategory(Category category) {
+        if (category.getPrice() > this.getPoints()) {
             return false;
         }
         this.points -= category.getPrice();
@@ -93,7 +93,7 @@ public class Player extends Observable implements Serializable {
         return true;
     }
 
-    public boolean canBuy(Category category){
+    public boolean canBuy(Category category) {
         return this.getPoints() >= category.getPrice();
     }
 
@@ -101,8 +101,8 @@ public class Player extends Observable implements Serializable {
         return categoriesPurchased;
     }
 
-    public boolean hasCategory(Category category){
-        return  categoriesPurchased.contains(category);
+    public boolean hasCategory(Category category) {
+        return categoriesPurchased.contains(category);
     }
 
     public List<Achievement> getAchievements() {
@@ -113,56 +113,57 @@ public class Player extends Observable implements Serializable {
         return friends;
     }
 
-    public boolean isFriend(Player p){
+    public boolean isFriend(Player p) {
         return friends.contains(p);
     }
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         return online;
     }
 
-    public void addFriend(Player p){
+    public void addFriend(Player p) {
         friends.add(p);
     }
 
     //Getters
-    public int getLevel(){
+    public int getLevel() {
         return level;
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public String getImage(){
+
+    public String getImage() {
         return image;
     }
 
-    public void addCorrectAnswer(Question question){
+    public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
-        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1);
+        int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
         addScore(score);
     }
 
-    public void addIncorrectAnswer(Question question){
+    public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
         // penalize incorrect question
-        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1);
+        int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
         removeScore(score);
     }
 
-    public int getCorrectlyAnswered(){
+    public int getCorrectlyAnswered() {
         return this.correctlyAnswered.size();
     }
 
-    public int getWronglyAnswered(){
+    public int getWronglyAnswered() {
         return this.wronglyAnswered.size();
     }
 
-    public int getPoints(){
+    public int getPoints() {
         return points;
     }
 
@@ -170,19 +171,19 @@ public class Player extends Observable implements Serializable {
         return score;
     }
 
-    public Set<Category> getCategoriesSelected(){
+    public Set<Category> getCategoriesSelected() {
         return this.categoriesSelected;
     }
 
-    public void addSelectedCategory(Category category){
+    public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
     }
 
-    public void removeSelectedCategory(Category category){
+    public void removeSelectedCategory(Category category) {
         this.categoriesSelected.remove(category);
     }
 
-    public void clearSelectedCategories(){
+    public void clearSelectedCategories() {
         this.categoriesSelected.clear();
     }
 
@@ -203,24 +204,24 @@ public class Player extends Observable implements Serializable {
         return bombs;
     }
 
-    public boolean canPurchase(GameItem gameItem){
+    public boolean canPurchase(GameItem gameItem) {
         return this.points >= gameItem.getPrice();
     }
 
-    public boolean purchase(GameItem gameItem){
-        if (!canPurchase(gameItem)){
+    public boolean purchase(GameItem gameItem) {
+        if (!canPurchase(gameItem)) {
             return false;
         }
-        if (gameItem instanceof Skip){
-            this.skips.add((Skip)gameItem);
+        if (gameItem instanceof Skip) {
+            this.skips.add((Skip) gameItem);
         }
-        if (gameItem instanceof Hint){
-            this.hints.add((Hint)gameItem);
+        if (gameItem instanceof Hint) {
+            this.hints.add((Hint) gameItem);
         }
-        if (gameItem instanceof AddTime){
+        if (gameItem instanceof AddTime) {
             this.addTimes.add((AddTime) gameItem);
         }
-        if (gameItem instanceof Bomb){
+        if (gameItem instanceof Bomb) {
             this.bombs.add((Bomb) gameItem);
         }
         this.points -= gameItem.getPrice();

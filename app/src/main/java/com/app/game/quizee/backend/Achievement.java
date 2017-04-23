@@ -13,6 +13,7 @@ public class Achievement {
     private int money;
     private int progress;
     private int maxProgress;
+    private String key;
 
     public Achievement(int id,String text, int experience, int currency) {
         id_achiev = id;
