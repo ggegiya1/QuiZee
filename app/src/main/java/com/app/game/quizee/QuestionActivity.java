@@ -84,7 +84,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     //Total game scores
     int pscore=0;
-
+    int totalscore=0;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -272,7 +272,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     //crée le dialog de fin de jeu et laffiche
     private void endDialog(Player player) {
-        setpref_highscore();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
@@ -280,11 +280,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         //felicitations
         pscore = player.getCorrectlyAnswered();
+        totalscore = player.getScore();
+        setpref_highscore();
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
         String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
         felicitations.setText(fel[pscore]);
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
+        //Mettre le score total aussi?
         goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore);
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
@@ -327,7 +330,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         //overwrite
         if (check_highscore(preferences)==true){
-            editor.putInt("SCORE:", pscore);
+            editor.putInt("SCORE:", totalscore);
             editor.commit();
         }
     }
@@ -343,7 +346,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     private boolean check_highscore(SharedPreferences p1){
         //clé,default value
-        if (p1.getInt("SCORE:",0)<pscore){
+        if (p1.getInt("SCORE:",0)<totalscore){
             //We have a highscore!
             return true;
         }
