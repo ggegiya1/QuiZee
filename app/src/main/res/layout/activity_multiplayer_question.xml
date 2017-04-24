@@ -45,13 +45,13 @@
                 android:gravity="center"
                 android:background="@drawable/ic_star2"
                 android:backgroundTint="@color/yellow"
-                android:layout_toStartOf="@+id/currency"
+                android:layout_toStartOf="@+id/points"
                 android:text="56"/>
 
             <TextView
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
-                android:id="@+id/currency"
+                android:id="@+id/points"
                 android:gravity="center"
                 android:text="0$"
                 android:textSize="30sp"
