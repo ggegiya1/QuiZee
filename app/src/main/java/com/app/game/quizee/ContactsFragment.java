@@ -1,26 +1,23 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 
 import java.util.ArrayList;
 
@@ -32,7 +29,7 @@ public class ContactsFragment extends Fragment {
     boolean searching;
     ViewSwitcher contactViewSwitcher;
     ListView contactSearchList;
-
+    Player player;
     // Required empty public constructor
     public ContactsFragment() {
     }
@@ -42,10 +39,9 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         searching = false;
+
+        player = PlayerManager.getInstance().getCurrentPlayer();
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_contacts, container, false);
-
-
-
         contactSearch = (SearchView) ll.findViewById(R.id.contact_search);
         favoriteList = (ListView) ll.findViewById(R.id.favorite_contacts_list);
         suggestedList = (ListView) ll.findViewById(R.id.suggested_players_list);
@@ -105,10 +101,7 @@ public class ContactsFragment extends Fragment {
         ImageView contactIcon;
         ImageView contactOnline;
         TextView levelTv;
-        ImageButton addContact;
-        ImageButton removeContact;
-        Button playRequestButton;
-        ProgressBar pb;
+        Button toggleContact;
     }
 
     //Adapter inspiré de
@@ -116,12 +109,10 @@ public class ContactsFragment extends Fragment {
     private class ContactAdapter extends ArrayAdapter<Player> {
 
         Activity context;
-        boolean alreadyAddedContacts;
 
         //TODO passer les contacts directements dans ladapteur
         public ContactAdapter (Activity context, ArrayList<Player> players) {
             super(context, R.layout.contacts_item_list_layout, players);
-
             this.context=context;
         }
 
@@ -134,68 +125,28 @@ public class ContactsFragment extends Fragment {
             Player p = getItem(position);
 
             if(convertView == null) {
-                convertView = inflater.inflate(R.layout.contacts_item_list_layout, null, true);
+                convertView = inflater.inflate(R.layout.contacts_item_list_layout, null);
                 holder = new ViewHolder();
                 holder.contactName = (TextView) convertView.findViewById(R.id.contact_item_name);
                 holder.contactIcon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
-                holder.contactOnline = (ImageView) convertView.findViewById(R.id.contact_connected);
+                holder.contactOnline = (ImageView) convertView.findViewById(R.id.contact_is_connected);
                 holder.levelTv = (TextView) convertView.findViewById(R.id.contact_level);
-                holder.addContact = (ImageButton) convertView.findViewById(R.id.contact_add_button);
-                holder.removeContact = (ImageButton) convertView.findViewById(R.id.contact_remove_button);
-                holder.playRequestButton = (Button) convertView.findViewById(R.id.play_request_button);
-                holder.pb = (ProgressBar) convertView.findViewById(R.id.play_request_progressbar);
+                holder.toggleContact = (Button) convertView.findViewById(R.id.contact_follow_toggle);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.pb.setVisibility(View.INVISIBLE);
-            holder.playRequestButton.setVisibility(Button.INVISIBLE);
-
-            if (alreadyAddedContacts) {
-                holder.addContact.setVisibility(View.VISIBLE);
-                holder.removeContact.setVisibility(View.VISIBLE);
-                holder.removeContact.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        //TODO ajouter une action lorsque lon enleve un contact
-                    }
-                });
-            } else {
-                holder.removeContact.setVisibility(ImageButton.INVISIBLE);
-                holder.addContact.setVisibility(View.VISIBLE);
-                holder.addContact.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        //TODO ajouter une action lorsque lon ajoute un contact
-                    }
-                });
-            }
-
-            //Met un icone pour signaler si le contact est en ligne ou hors ligne
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            boolean colorBlind = prefs.getBoolean("colorblind_mode", false);
-            if(p.isOnline()) {
-                if(colorBlind) {
-                    holder.contactOnline.setColorFilter(Color.WHITE);
-                } else {
-                    holder.contactOnline.setColorFilter(Color.GREEN);
-                }
-            } else {
-                if(colorBlind) {
-                    holder.contactOnline.setColorFilter(Color.BLACK);
-                } else {
-                    holder.contactOnline.setColorFilter(Color.RED);
-                }
-            }
-
             holder.contactName.setText(p.getName());
+            // TODO replace with real user photo
+            holder.contactIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_acount));
+            // TODO update with real flag. Need only for multiplayer. So disabled now
+            holder.contactOnline.setBackgroundColor(Color.GREEN);
+            holder.contactOnline.setVisibility(View.INVISIBLE);
 
-            if(p.getImage() != null) {
-                //holder.contactIcon.setImageResource(p.getImg()); TODO arranger la facon dont on trouve les images
-            }
-            holder.levelTv.setText(Integer.toString((p.getLevel())));
+            holder.levelTv.setText(String.valueOf(p.getLevel()));
+            holder.toggleContact.setBackgroundColor(Color.TRANSPARENT);
+            holder.toggleContact.setText("UNFOLLOW");
+            holder.toggleContact.setTextColor(Color.WHITE);
             return convertView;
         }
     }

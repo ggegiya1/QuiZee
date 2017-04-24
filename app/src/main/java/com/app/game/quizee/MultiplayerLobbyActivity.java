@@ -105,40 +105,40 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             ImageView contactIcon = (ImageView) rowView.findViewById(R.id.contact_avatar_icon);
             TextView levelTv = (TextView) rowView.findViewById(R.id.contact_level);
 
-            ImageButton addContact = (ImageButton) rowView.findViewById(R.id.contact_add_button);
-            ImageButton removeContact = (ImageButton) rowView.findViewById(R.id.contact_remove_button);
-            final Button playRequestButton = (Button) rowView.findViewById(R.id.play_request_button);
-            final ProgressBar pb = (ProgressBar) rowView.findViewById(R.id.play_request_progressbar);
-            ImageView contactConnectionCircle = (ImageView) rowView.findViewById(R.id.contact_connected);
+            Button addContact = (Button) rowView.findViewById(R.id.contact_follow_toggle);
+//            ImageButton removeContact = (ImageButton) rowView.findViewById(R.id.contact_remove_button);
+//            final Button playRequestButton = (Button) rowView.findViewById(R.id.play_request_button);
+//            final ProgressBar pb = (ProgressBar) rowView.findViewById(R.id.play_request_progressbar);
+            ImageView contactConnectionCircle = (ImageView) rowView.findViewById(R.id.contact_is_connected);
 
             contactConnectionCircle.setVisibility(View.VISIBLE);
             contactConnectionCircle.setColorFilter(0x00ff0000, PorterDuff.Mode.MULTIPLY);
             addContact.setVisibility(View.INVISIBLE);
-            removeContact.setVisibility(View.INVISIBLE);
-
-            playRequestButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    v.setVisibility(View.INVISIBLE);
-                    pb.setVisibility(View.VISIBLE);
-                    CountDownTimer cdt = new CountDownTimer(requestLength, 100) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            pb.setVisibility(View.INVISIBLE);
-                            playRequestButton.setVisibility(View.VISIBLE);
-                            //TODO prevenir lautre joueur que la requete pour jouer est finie
-                        }
-                    }.start();
-                    //TODO que faire lorsque lon demande a un joueur de jouer
-                    simpleNotification();
-                }
-            });
+//            removeContact.setVisibility(View.INVISIBLE);
+//
+//            playRequestButton.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    v.setVisibility(View.INVISIBLE);
+//                    pb.setVisibility(View.VISIBLE);
+//                    CountDownTimer cdt = new CountDownTimer(requestLength, 100) {
+//                        @Override
+//                        public void onTick(long millisUntilFinished) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onFinish() {
+//                            pb.setVisibility(View.INVISIBLE);
+//                            playRequestButton.setVisibility(View.VISIBLE);
+//                            //TODO prevenir lautre joueur que la requete pour jouer est finie
+//                        }
+//                    }.start();
+//                    //TODO que faire lorsque lon demande a un joueur de jouer
+//                    simpleNotification();
+//                }
+//            });
 
             contactName.setText(itemname[position]);
             contactIcon.setImageResource(imgid[position]);

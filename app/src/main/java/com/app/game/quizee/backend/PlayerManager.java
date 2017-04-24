@@ -1,6 +1,5 @@
 package com.app.game.quizee.backend;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 

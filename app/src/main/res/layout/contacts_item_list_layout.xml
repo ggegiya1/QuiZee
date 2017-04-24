@@ -2,13 +2,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content
-"
-    android:background="@drawable/button_secondary_default"
-    android:backgroundTint="@color/background"
-    android:padding="5dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:padding="3dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:background="@drawable/list_selector"
+    android:weightSum="1">
 
     <ImageView
         android:layout_width="40dp"
@@ -19,20 +19,22 @@
         android:backgroundTint="@android:color/background_light"
         android:src="@drawable/ic_connection_circle"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <me.grantland.widget.AutofitTextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:id="@+id/contact_item_name"
         android:gravity="center"
         android:textColor="@color/yellow"
         android:layout_gravity="center"
+        android:maxLines="1"
         android:text="Contact item name"
         android:textSize="20sp"/>
 
     <TextView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/level"
+        android:id="@+id/contact_level"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_margin="5dp"
@@ -47,7 +49,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/yellow"
         android:background="@android:drawable/btn_default_small"
-        android:id="@+id/contact_follow_toogle"/>
+        android:id="@+id/contact_follow_toggle"/>
 
     <!--Button
         android:layout_width="40dp"
@@ -67,7 +69,7 @@
         android:progress="1"/-->
 
     <ImageView
-        android:id="@+id/is_available"
+        android:id="@+id/contact_is_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
