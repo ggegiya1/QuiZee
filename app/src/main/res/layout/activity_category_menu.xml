@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@color/primaryBackground">
+    android:background="@color/background">
 
     <include layout="@layout/toolbar_no_settings"/>
 
@@ -16,10 +16,8 @@
         android:padding="10dp"
         android:textSize="20sp"
         android:id="@+id/textView2"
-        android:background="@drawable/button_primary_default"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textAlignment="center"
-        android:textColor="@color/complementaryBackground"
+        android:textColor="@android:color/holo_orange_light"
         android:layout_margin="10dp"/>
 
 
@@ -39,6 +37,7 @@
         android:paddingStart="20dp"
         android:layout_margin="10dp"
         android:text="@string/Play"
-        android:background="@drawable/button_tertiary_default"/>
+        android:backgroundTint="@android:color/holo_green_light"
+        android:background="@android:drawable/btn_default"/>
 
 </LinearLayout>

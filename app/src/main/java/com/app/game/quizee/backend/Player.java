@@ -111,7 +111,7 @@ public class Player extends Observable implements Serializable {
         return categoriesPurchased;
     }
 
-    public boolean hasCategory(Category category){
+    public boolean alreadyPurchased(Category category){
         return  categoriesPurchased.contains(category);
     }
 
