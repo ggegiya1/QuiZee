@@ -24,6 +24,8 @@ public class PlayerManager extends java.util.Observable {
 
     private static final String TAG = "player.manager";
 
+    private static final String anonymousName = "Anonymous";
+
     private static PlayerManager instance;
 
     private FirebaseAuth mAuth;
@@ -37,6 +39,10 @@ public class PlayerManager extends java.util.Observable {
     private Player currentPlayer;
 
     private boolean loggedIn;
+
+
+    private PlayerLoggedCallback loggedCallback;
+
 
     public Player getCurrentPlayer(){
         return currentPlayer;
@@ -120,13 +126,14 @@ public class PlayerManager extends java.util.Observable {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentPlayer = dataSnapshot.child(playerId).getValue(Player.class);
                 if (currentPlayer == null){
-                    currentPlayer = new Player(playerId,  firebaseUser.getDisplayName());
+                    String userName = firebaseUser.getDisplayName() == null? anonymousName: firebaseUser.getDisplayName();
+                    currentPlayer = new Player(playerId,  userName);
                     playersDatabase.child(playerId).setValue(currentPlayer);
                 }
                 setChanged();
                 Log.i(TAG, "Player logged in: " + currentPlayer);
                 // pass the player to the main activity
-                notifyObservers(currentPlayer);
+                loggedCallback.onLogin();
             }
 
             @Override
@@ -160,5 +167,13 @@ public class PlayerManager extends java.util.Observable {
             Log.i(TAG, "Saving player: " + player);
             playersDatabase.child(player.getId()).setValue(player);
         }
+    }
+
+    public void setLoggedCallback(PlayerLoggedCallback loggedCallback) {
+        this.loggedCallback = loggedCallback;
+    }
+
+    public interface PlayerLoggedCallback{
+        void onLogin();
     }
 }
