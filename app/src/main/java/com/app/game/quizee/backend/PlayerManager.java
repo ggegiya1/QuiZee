@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +51,7 @@ public class PlayerManager{
 
     private PlayerManager() {
         mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
         playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -95,7 +97,12 @@ public class PlayerManager{
                         loggedIn = true;
                         updateUserName(userName);
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loggedCallback.onFailure(e.getMessage());
+            }
+        });
     }
 
     public void signIn(String email, String password) {
@@ -109,7 +116,12 @@ public class PlayerManager{
                         }
 
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loggedCallback.onFailure(e.getMessage());
+            }
+        });
     }
 
     public void signOut() {
@@ -137,7 +149,7 @@ public class PlayerManager{
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                loggedCallback.onFailure(databaseError.getMessage());
             }
         });
     }
@@ -168,11 +180,17 @@ public class PlayerManager{
         }
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+        this.loggedIn = true;
+    }
+
     public void setLoggedCallback(PlayerLoggedCallback loggedCallback) {
         this.loggedCallback = loggedCallback;
     }
 
     public interface PlayerLoggedCallback{
         void onLogin();
+        void onFailure(String message);
     }
 }

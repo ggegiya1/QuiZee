@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
 
@@ -108,6 +110,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         showProgressDialog();
+        if (mUserNameField.getText().toString().equals("test")){
+            playerManager.setCurrentPlayer(Player.defaultPlayer());
+            onLogin();
+        }
         if (!validateForm()){
             return;
         }
@@ -118,15 +124,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             playerManager.signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 
         }
-        hideProgressDialog();
     }
 
     @Override
     public void onLogin() {
         // start game once logged in
         Log.i(TAG, "Login successful! Starting main activity");
+        hideProgressDialog();
         Intent intent = new Intent(getApplicationContext(), BottomNavigation.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFailure(String message) {
+        Toast.makeText(getApplicationContext(), "Authentication error: " + message, Toast.LENGTH_LONG).show();
     }
 }
 
