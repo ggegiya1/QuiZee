@@ -84,7 +84,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
             }
         });
 
-        category = (TextView) findViewById(R.id.caterogy_Textview);
+        category = (TextView) findViewById(R.id.caterogy_name);
 
         icon = (ImageView) findViewById(R.id.caterogy_Icon);
         answer1TextSwitcher = (TextSwitcher) findViewById(R.id.button_response_1);

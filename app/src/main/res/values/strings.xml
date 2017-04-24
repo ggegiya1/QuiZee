@@ -205,6 +205,8 @@
     <string name="exit_button">exit</string>
     <string name="free">FREE</string>
     <string name="unlocked">UNLOCKED</string>
+    <string name="loading_question">Loading question...</string>
+    <string name="difficulty">difficulty</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
