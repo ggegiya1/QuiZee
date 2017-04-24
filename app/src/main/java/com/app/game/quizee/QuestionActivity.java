@@ -466,7 +466,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void updateScore(Player player) {
-        scoreView.setText(String.valueOf(player.getHighestScore()));
-        pointsView.setText(String.valueOf(player.getPoints()));
+        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getHighestScore()));
+        pointsView.setText(String.format(Locale.ROOT, getResources().getString(R.string.points_format), player.getPoints()));
     }
 }

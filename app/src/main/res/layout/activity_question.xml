@@ -30,7 +30,7 @@
                 android:contentDescription="@string/category_icon" />
 
             <LinearLayout
-                android:layout_width="220dp"
+                android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
