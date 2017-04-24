@@ -32,6 +32,7 @@ public class BottomNavigation extends AppCompatActivity {
     MenuItem prevMenuItem;
     TextView playerName;
     TextView points;
+    TextView score;
     TextView level;
 
     @Override
@@ -42,7 +43,8 @@ public class BottomNavigation extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         playerName = (TextView) findViewById(R.id.user_name);
-        points = (TextView) findViewById(R.id.currency);
+        points = (TextView) findViewById(R.id.points);
+        score = (TextView) findViewById(R.id.score);
         level = (TextView) findViewById(R.id.level);
 
         updateUserInfo();
@@ -115,7 +117,8 @@ public class BottomNavigation extends AppCompatActivity {
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
-        points.setText(String.valueOf(player.getPoints()));
+        points.setText(String.format(getResources().getString(R.string.points_format), player.getPoints()));
+        score.setText(String.format(getResources().getString(R.string.score_format), player.getHighestScore()));
         level.setText(String.valueOf(player.getLevel()));
     }
 

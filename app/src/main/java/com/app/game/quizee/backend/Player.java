@@ -32,7 +32,6 @@ public class Player extends Observable implements Serializable {
     private int points;
     private int level;
     private int score;
-    private int highestScore;
     private Map<String, Integer> perfCategories = new HashMap<>();
 
     public Player() {
@@ -79,19 +78,26 @@ public class Player extends Observable implements Serializable {
     }
 
     private void addScore(int score) {
-        this.score += score;
-        this.points += score;
+        setScore(this.score + score);
+    }
+
+    private void addPoints(int points){
+        setPoints(this.points + points);
+    }
+
+    private void removePoints(int score) {
+        setPoints(this.points > score ? this.points - score : 0);
+
+    }
+
+    public void setScore(int score) {
+        this.score = score;
         setChanged();
         notifyObservers();
     }
 
-    private void updateHighestScore(){
-        this.highestScore = Math.max(this.highestScore, this.score);
-    }
-
-    private void removeScore(int score) {
-        this.score = this.score > score ? this.score - score : 0;
-        this.points = this.points > score ? this.points - score : 0;
+    public void setPoints(int points){
+        this.points = points;
         setChanged();
         notifyObservers();
     }
@@ -100,10 +106,8 @@ public class Player extends Observable implements Serializable {
         if (category.getPrice() > this.getPoints()) {
             return false;
         }
-        this.points -= category.getPrice();
+        setPoints(this.points - category.getPrice());
         categoriesPurchased.add(category);
-        setChanged();
-        notifyObservers();
         return true;
     }
 
@@ -159,15 +163,16 @@ public class Player extends Observable implements Serializable {
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
         int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
+        int points = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1);
         updatePerformCategory(question.getCategory());
         addScore(score);
+        addPoints(points);
     }
 
     public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
         // penalize incorrect question
-        int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
-        removeScore(score);
+        removePoints(-5);
     }
 
     private void updatePerformCategory(Category category){
@@ -271,7 +276,7 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getHighestScore() {
-        return highestScore;
+        return score;
     }
 
     public Map<String, Integer> getPerfCategories() {
@@ -298,7 +303,6 @@ public class Player extends Observable implements Serializable {
                 ", points=" + points +
                 ", level=" + level +
                 ", score=" + score +
-                ", highestScore=" + highestScore +
                 ", perfCategories=" + perfCategories +
                 '}';
     }

@@ -52,7 +52,7 @@ public class PracticeActivity extends AppCompatActivity{
         questionTextSwitcher = (TextView) findViewById(R.id.text_question);
         questionCount = -1;
 
-        category = (TextView) findViewById(R.id.caterogy_Textview);
+        category = (TextView) findViewById(R.id.caterogy_name);
 
         icon = (ImageView) findViewById(R.id.caterogy_Icon);
         correctlyAnsweredLabel = (TextView) findViewById(R.id.correct_answer_count_label);

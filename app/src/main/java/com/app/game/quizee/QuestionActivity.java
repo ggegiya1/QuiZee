@@ -55,6 +55,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     TextView categoryNameView;
     ImageView categoryIcon;
+    TextView difficulty;
+
+    //player stats
+    TextView scoreView;
+    TextView pointsView;
 
     //answer buttons
     TextView correctlyAnswered;
@@ -67,9 +72,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     Button bombButton;
     Button hintButton;
 
-    // player stats
-    TextView pointsView;
-    TextView levelView;
 
     //game Attributes
     MyCountDownTimer countDownTimer;
@@ -89,9 +91,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         setContentView(R.layout.activity_question);
         player.addObserver(this);
         gameManager = new GameManager(this, player);
-
-        pointsView = (TextView) findViewById(R.id.currency);
-        levelView = (TextView) findViewById(R.id.level);
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -125,9 +124,13 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         questionTextView = (AutofitTextView) findViewById(R.id.text_question);
 
-        categoryNameView = (TextView) findViewById(R.id.caterogy_Textview);
-
+        categoryNameView = (TextView) findViewById(R.id.caterogy_name);
         categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
+        difficulty = (TextView) findViewById(R.id.question_difficulty);
+
+        pointsView = (TextView) findViewById(R.id.points);
+        scoreView = (TextView) findViewById(R.id.score);
+
         correctlyAnswered = (TextView) findViewById(R.id.correct_answer_count);
         questionsContView = (TextView) findViewById(R.id.question_count);
         timerView = (TextView) findViewById(R.id.timer);
@@ -331,9 +334,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             changeTextAnimation(button, answer.getText());
         }
 
-        //met un icone et un texte correspondant a la category
         categoryNameView.setText(question.getCategory().getDisplayName());
         categoryIcon.setImageResource(question.getCategory().getImageId());
+        difficulty.setText(question.getDifficulty().name());
 
         questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
 
@@ -363,6 +366,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         @Override
         public void onFinish() {
+            // player did not respond
+            player.addIncorrectAnswer(currentQuestion);
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
@@ -461,7 +466,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void updateScore(Player player) {
-        levelView.setText(String.valueOf(player.getLevel()));
-        pointsView.setText(String.valueOf(player.getPoints()));
+        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getHighestScore()));
+        pointsView.setText(String.format(Locale.ROOT, getResources().getString(R.string.points_format), player.getPoints()));
     }
 }

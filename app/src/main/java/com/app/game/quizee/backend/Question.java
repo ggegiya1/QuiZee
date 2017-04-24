@@ -12,10 +12,10 @@ import java.util.Random;
 
 public class Question implements Serializable {
 
-    private enum Difficulty implements Serializable{
+    public enum Difficulty implements Serializable{
         easy (5),
         medium (10),
-        hard (100),
+        hard (50),
         unknown (1);
 
         private final int valueInt;
@@ -86,6 +86,10 @@ public class Question implements Serializable {
 
     public int getDifficultyScore(){
         return this.difficulty.getValueInt();
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
     @Override

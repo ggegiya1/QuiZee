@@ -48,6 +48,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     TextView playerName;
     TextView level;
     TextView points;
+    TextView score;
     ImageView avatar;
 
     @Override
@@ -120,19 +121,27 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
 
     private void addPlayerToolBar(Player player){
         playerName = (TextView) findViewById(R.id.user_name);
-        points = (TextView) findViewById(R.id.currency);
+        points = (TextView) findViewById(R.id.points);
         level = (TextView) findViewById(R.id.level);
         avatar = (ImageView) findViewById(R.id.avatar);
+        score = (TextView) findViewById(R.id.score);
+        updatePlayerInfo(player);
+
+    }
+
+    private void updatePlayerInfo(Player player){
         playerName.setText(player.getName());
+        points.setText(String.format(getResources().getString(R.string.points_format), player.getPoints()));
+        score.setText(String.format(getResources().getString(R.string.score_format), player.getHighestScore()));
         level.setText(String.valueOf(player.getLevel()));
-        points.setText(String.valueOf(player.getPoints()));
         //TODO pass real image here
         avatar.setImageResource(R.drawable.ic_multi_player);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        points.setText(String.valueOf(((Player)o).getPoints()));
+        // update player info if changed
+        updatePlayerInfo((Player)o);
     }
 
     private void buyAndSelectCategory(SelectableCategory category){

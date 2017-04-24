@@ -59,10 +59,10 @@
     <string name="pref_header_about">About</string>
 
     <!-- Strings related to achivements-->
-    <string name="Epic_Achievements">Epic Achivements</string>
+    <string name="Epic_Achievements">Epic Achievements</string>
     <string name="Mode_Based_Achievements">Mode Based Achievements</string>
     <string name="Career_Achievements">Career Achievements</string>
-    <string name="Category_Based_Achievements">Category Based Achivements</string>
+    <string name="Category_Based_Achievements">Category Based Achievements</string>
     <string name="Career">Career</string>
     <string name="title_career">Career</string>
     <string name="career_xp">xp</string>
@@ -205,6 +205,12 @@
     <string name="exit_button">exit</string>
     <string name="free">FREE</string>
     <string name="unlocked">UNLOCKED</string>
+    <string name="loading_question">Loading question&#8230;</string>
+    <string name="difficulty">difficulty</string>
+
+    <string name="points_format">points: %d</string>
+    <string name="score_format">score: %d</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

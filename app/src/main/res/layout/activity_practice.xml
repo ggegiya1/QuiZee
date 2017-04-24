@@ -28,7 +28,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/caterogy_Textview"
+                android:id="@+id/caterogy_name"
                 android:layout_toEndOf="@id/caterogy_Icon"
                 android:text="Caterogy"
                 android:gravity="center"
@@ -46,13 +46,13 @@
                 android:background="@drawable/ic_star2"
                 android:backgroundTint="@color/yellow"
                 android:textColor="@color/complementaryBackground"
-                android:layout_toStartOf="@+id/currency"
+                android:layout_toStartOf="@+id/points"
                 android:text="56"/>
 
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:id="@+id/currency"
+                android:id="@+id/points"
                 android:gravity="center"
                 android:text="13"
                 android:textColor="@color/green"
