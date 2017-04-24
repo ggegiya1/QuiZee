@@ -18,25 +18,33 @@ public class GameManager {
 
     public void executeSkip(){
         if (!player.getSkips().isEmpty()) {
-            player.getSkips().remove().apply(game);
+            Skip skip = player.getSkips().iterator().next();
+            player.getSkips().iterator().remove();
+            skip.apply(game);
         }
     }
 
     public void executeHint(){
         if (!player.getHints().isEmpty()){
-            player.getHints().remove().apply(game);
+            Hint hint = player.getHints().iterator().next();
+            player.getHints().iterator().remove();
+            hint.apply(game);
         }
     }
 
     public void executeBomb(){
         if (!player.getBombs().isEmpty()){
-            player.getBombs().remove().apply(game);
+            Bomb bomb = player.getBombs().iterator().next();
+            player.getBombs().iterator().remove();
+            bomb.apply(game);
         }
     }
 
     public void executeTime(){
         if (!player.getAddTimes().isEmpty()){
-            player.getAddTimes().remove().apply(game);
+            AddTime addTime = player.getAddTimes().iterator().next();
+            player.getAddTimes().iterator().remove();
+            addTime.apply(game);
         }
     }
 }

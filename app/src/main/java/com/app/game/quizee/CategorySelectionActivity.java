@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -32,8 +33,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_menu);
-        Bundle bundle = getIntent().getExtras();
-        player = (Player)bundle.getSerializable("player");
+        player = PlayerManager.getInstance().getCurrentPlayer();
         player.clearSelectedCategories();
         player.addObserver(this);
         addPlayerToolBar(player);
@@ -48,9 +48,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             public void onClick(View v) {
                 if (player.getCategoriesSelected().size()>0) {
                     Intent intent = new Intent(v.getContext(), QuestionActivity.class);
-                    Bundle params = new Bundle();
-                    params.putSerializable("player", player);
-                    intent.putExtras(params);
                     startActivity(intent);
                 }else {
                     Toast.makeText(getApplicationContext(), R.string.no_category_selected, Toast.LENGTH_SHORT).show();

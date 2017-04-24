@@ -1,5 +1,6 @@
 package com.app.game.quizee.backend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,9 +10,9 @@ import java.util.Random;
  * Created by ggegiya1 on 2/15/17.
  */
 
-public class Question {
+public class Question implements Serializable {
 
-    private enum Difficulty{
+    private enum Difficulty implements Serializable{
         easy (5),
         medium (10),
         hard (100),
@@ -42,6 +43,10 @@ public class Question {
     private Difficulty difficulty;
     private List<Answer> answers;
     private long timeRemained;
+
+    public Question() {
+        difficulty = Difficulty.unknown;
+    }
 
     public Question(Category category, String text, String difficulty){
         this.category = category;

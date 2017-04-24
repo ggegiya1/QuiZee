@@ -201,6 +201,8 @@
     <string name="pref_sound_music">Music</string>
     <string name="pref_sound_good_answer">Play sound on good answer</string>
     <string name="pref_sound_wrong_answer">Play sound on wrong answer</string>
+    <string name="prompt_user_name">Name</string>
+    <string name="exit_button">exit</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

@@ -13,7 +13,7 @@
             android:textSize="23sp"
             android:id="@+id/button_Play_Categories"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
             android:text="@string/categoriesPlay"
             android:layout_weight="0.1"
             android:paddingStart="20dp"
@@ -28,7 +28,7 @@
             android:textSize="23sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
             android:text="@string/multiPlay"
             android:layout_weight="0.1"
             android:paddingStart="20dp"
@@ -43,7 +43,7 @@
             android:textSize="23sp"
             android:id="@+id/button_quickPlay"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
             android:text="@string/quickPlay"
             android:layout_weight="0.1"
             android:paddingStart="20dp"
@@ -54,5 +54,21 @@
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_practice"
             android:background="@drawable/button_tertiary_style"/>
+
+        <Button
+            android:textSize="23sp"
+            android:id="@+id/button_exit_app"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/exit_button"
+            android:layout_weight="0.1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableStart="@android:drawable/ic_lock_power_off"
+            android:background="@drawable/button_tertiary_style"/>
     </android.support.v7.widget.LinearLayoutCompat>
+
 </FrameLayout>

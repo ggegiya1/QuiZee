@@ -24,6 +24,7 @@ import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private TriviaApi triviaApi;
 
     // TODO pass player as parameter on start
-    private Player player;
+    private Player player = PlayerManager.getInstance().getCurrentPlayer();
     private GameManager gameManager;
 
     //User interface attributes
@@ -83,8 +84,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        Bundle bundle = getIntent().getExtras();
-        player = (Player)bundle.getSerializable("player");
         player.addObserver(this);
         gameManager = new GameManager(this, player);
 
@@ -148,7 +147,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     public void init() {
-        player.prepareForGame();
+        player.onGameStart();
         questionCount = 0;
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
         Log.i("question.activity", "starting game for player: " + player);
@@ -193,7 +192,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     player.addIncorrectAnswer(currentQuestion);
                     onAnswerButtonEffect(v, Color.RED);
                 }
-                correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
+                correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
         };
     }
@@ -260,7 +259,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     //cré le dialog de fin de jeu et laffiche
-    private void endDialog(Player player) {
+    private void endDialog(final Player player) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
@@ -269,10 +268,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         //felicitations
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
         String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
-        felicitations.setText(fel[player.getCorrectlyAnswered()]);
+        felicitations.setText(fel[player.getCorrectlyAnswered().size()]);
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
-        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + player.getCorrectlyAnswered());
+        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + player.getCorrectlyAnswered().size());
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
@@ -299,6 +298,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             @Override
             public void onClick(View v) {
                 endDialog.cancel();
+                player.onGameEnd();
                 finish();
             }
         });
@@ -440,6 +440,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                player.onGameEnd();
                 finish();
             }
         } );

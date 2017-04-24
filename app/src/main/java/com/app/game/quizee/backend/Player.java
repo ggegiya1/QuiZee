@@ -20,20 +20,23 @@ public class Player extends Observable implements Serializable {
     private boolean online;
     private List<Player> friends;
 
-    private final Set<Category> categoriesPurchased = new HashSet<>();
-    private final Set<Category> categoriesSelected = new HashSet<>();
+    private final List<Category> categoriesPurchased = new ArrayList<>();
+    private final List<Category> categoriesSelected = new ArrayList<>();
     private final List<Achievement> achievements = new ArrayList<>();
-    private final Queue<Skip> skips = new ArrayDeque<>();
-    private final Queue<AddTime> addTimes = new ArrayDeque<>();
-    private final Queue<Hint> hints = new ArrayDeque<>();
-    private final Queue<Bomb> bombs = new ArrayDeque<>();
+    private final List<Skip> skips = new ArrayList<>();
+    private final List<AddTime> addTimes = new ArrayList<>();
+    private final List<Hint> hints = new ArrayList<>();
+    private final List<Bomb> bombs = new ArrayList<>();
 
-    private List<Question> correctlyAnswered;
-    private List<Question> wronglyAnswered;
+    private List<Question> correctlyAnswered = new ArrayList<>();
+    private List<Question> wronglyAnswered = new ArrayList<>();
 
     private int points;
     private int level;
     private int score;
+
+    public Player() {
+    }
 
     public Player(String playerId, String name, String image, int level, int points){
         this.id = playerId;
@@ -41,12 +44,14 @@ public class Player extends Observable implements Serializable {
         this.image = image;
         this.level = level;
         this.points = points;
-        this.correctlyAnswered = new ArrayList<>();
-        this.wronglyAnswered = new ArrayList<>();
     }
 
     public Player(String playerId, String name, String image, int level){
-       new Player(playerId, name, image, 0, level);
+       new Player(playerId, name, image, level, 0);
+    }
+
+    public Player(String playerId, String name){
+        new Player(playerId, name, null, 0, 0);
     }
 
     public static Player defaultPlayer(){
@@ -63,9 +68,14 @@ public class Player extends Observable implements Serializable {
         return bob;
     }
 
-    public void prepareForGame(){
-        this.correctlyAnswered = new ArrayList<>();
-        this.wronglyAnswered = new ArrayList<>();
+    public void onGameStart(){
+        this.correctlyAnswered.clear();
+        this.wronglyAnswered.clear();
+    }
+
+    public void onGameEnd(){
+        this.correctlyAnswered.clear();
+        this.wronglyAnswered.clear();
     }
 
     private void addScore(int score){
@@ -97,7 +107,7 @@ public class Player extends Observable implements Serializable {
         return this.getPoints() >= category.getPrice();
     }
 
-    public Set<Category> getCategoriesPurchased() {
+    public List<Category> getCategoriesPurchased() {
         return categoriesPurchased;
     }
 
@@ -147,19 +157,11 @@ public class Player extends Observable implements Serializable {
         addScore(score);
     }
 
-    public void addIncorrectAnswer(Question question){
+    public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
         // penalize incorrect question
-        int score = question.getDifficultyScore() * ((int)(question.getTimeRemained()/1000) + 1);
+        int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
         removeScore(score);
-    }
-
-    public int getCorrectlyAnswered(){
-        return this.correctlyAnswered.size();
-    }
-
-    public int getWronglyAnswered(){
-        return this.wronglyAnswered.size();
     }
 
     public int getPoints(){
@@ -170,7 +172,7 @@ public class Player extends Observable implements Serializable {
         return score;
     }
 
-    public Set<Category> getCategoriesSelected(){
+    public List<Category> getCategoriesSelected(){
         return this.categoriesSelected;
     }
 
@@ -187,19 +189,19 @@ public class Player extends Observable implements Serializable {
     }
 
 
-    public Queue<Skip> getSkips() {
+    public List<Skip> getSkips() {
         return skips;
     }
 
-    public Queue<AddTime> getAddTimes() {
+    public List<AddTime> getAddTimes() {
         return addTimes;
     }
 
-    public Queue<Hint> getHints() {
+    public List<Hint> getHints() {
         return hints;
     }
 
-    public Queue<Bomb> getBombs() {
+    public List<Bomb> getBombs() {
         return bombs;
     }
 
@@ -227,6 +229,30 @@ public class Player extends Observable implements Serializable {
         setChanged();
         notifyObservers();
         return true;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public void setFriends(List<Player> friends) {
+        this.friends = friends;
+    }
+
+    public List<Question> getCorrectlyAnswered() {
+        return correctlyAnswered;
+    }
+
+    public List<Question> getWronglyAnswered() {
+        return wronglyAnswered;
     }
 
     @Override

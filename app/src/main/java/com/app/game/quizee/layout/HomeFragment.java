@@ -15,6 +15,7 @@ import com.app.game.quizee.PracticeActivity;
 import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,11 +24,12 @@ import com.app.game.quizee.backend.Player;
  */
 public class HomeFragment extends Fragment {
 
-    Player player = Player.defaultPlayer();
+    Player player = PlayerManager.getInstance().getCurrentPlayer();
 
     Button quickPlay;
     Button multiPlay;
     Button categoryPlay;
+    Button exitApp;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -42,10 +44,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
-
         quickPlay = (Button) fl.findViewById(R.id.button_quickPlay);
         multiPlay = (Button) fl.findViewById(R.id.button_multiPlay);
         categoryPlay = (Button) fl.findViewById(R.id.button_Play_Categories);
+        exitApp = (Button) fl.findViewById(R.id.button_exit_app);
+        exitApp.setOnClickListener(exitHome());
         quickPlay.setOnClickListener(quickPlay());
         categoryPlay.setOnClickListener(categoriesPlay());
         multiPlay.setOnClickListener(multiPlay());
@@ -77,10 +80,20 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent icat = new Intent(getContext(), CategorySelectionActivity.class);
-                Bundle params = new Bundle();
-                params.putSerializable("player", player);
-                icat.putExtras(params);
                 startActivity(icat);
+            }
+        };
+    }
+
+    private View.OnClickListener exitHome(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayerManager.getInstance().onStop();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         };
     }
