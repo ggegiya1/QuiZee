@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (mUserNameField.getText().toString().equals("test")){
             playerManager.setCurrentPlayer(Player.defaultPlayer());
             onLogin();
+            return;
         }
         if (!validateForm()){
             return;
