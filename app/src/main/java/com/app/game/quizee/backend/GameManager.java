@@ -47,4 +47,12 @@ public class GameManager {
             addTime.apply(game);
         }
     }
+
+    public int goodAnswerScore(Question question){
+        return question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
+    }
+
+    public int wrongAnswerScore(Question question){
+        return (-1) * question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
+    }
 }

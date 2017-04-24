@@ -1,13 +1,11 @@
 package com.app.game.quizee.backend;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
-import java.util.Queue;
-import java.util.Set;
 
 /**
  * Created by Maude on 2017-04-03.
@@ -34,6 +32,8 @@ public class Player extends Observable implements Serializable {
     private int points;
     private int level;
     private int score;
+    private int highestScore;
+    private Map<String, Integer> perfCategories = new HashMap<>();
 
     public Player() {
     }
@@ -83,6 +83,10 @@ public class Player extends Observable implements Serializable {
         this.points += score;
         setChanged();
         notifyObservers();
+    }
+
+    private void updateHighestScore(){
+        this.highestScore = Math.max(this.highestScore, this.score);
     }
 
     private void removeScore(int score) {
@@ -155,6 +159,7 @@ public class Player extends Observable implements Serializable {
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
         int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
+        updatePerformCategory(question.getCategory());
         addScore(score);
     }
 
@@ -163,6 +168,15 @@ public class Player extends Observable implements Serializable {
         // penalize incorrect question
         int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
         removeScore(score);
+    }
+
+    private void updatePerformCategory(Category category){
+        Integer value = this.perfCategories.get(category.getName());
+        if (value == null){
+            value = 0;
+        }
+        this.perfCategories.put(category.getName(), ++value);
+
     }
 
     public int getPoints(){
@@ -256,6 +270,14 @@ public class Player extends Observable implements Serializable {
         return wronglyAnswered;
     }
 
+    public int getHighestScore() {
+        return highestScore;
+    }
+
+    public Map<String, Integer> getPerfCategories() {
+        return perfCategories;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -264,12 +286,20 @@ public class Player extends Observable implements Serializable {
                 ", image='" + image + '\'' +
                 ", online=" + online +
                 ", friends=" + friends +
-                ", level=" + level +
                 ", categoriesPurchased=" + categoriesPurchased +
                 ", categoriesSelected=" + categoriesSelected +
                 ", achievements=" + achievements +
+                ", skips=" + skips +
+                ", addTimes=" + addTimes +
+                ", hints=" + hints +
+                ", bombs=" + bombs +
                 ", correctlyAnswered=" + correctlyAnswered +
+                ", wronglyAnswered=" + wronglyAnswered +
                 ", points=" + points +
+                ", level=" + level +
+                ", score=" + score +
+                ", highestScore=" + highestScore +
+                ", perfCategories=" + perfCategories +
                 '}';
     }
 }
