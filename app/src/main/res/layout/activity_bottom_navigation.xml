@@ -49,12 +49,12 @@
                 android:textSize="15sp"/>
 
             <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_star2"
-                android:backgroundTint="@color/yellow"
                 android:gravity="center"
+                android:layout_marginEnd="5dp"
+                android:background="@android:drawable/btn_star_big_on"
                 android:text="0" />
 
             <LinearLayout

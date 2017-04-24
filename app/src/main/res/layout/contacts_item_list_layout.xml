@@ -1,89 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_height="wrap_content
+"
     android:background="@drawable/button_secondary_default"
-    android:padding="3dp"
+    android:backgroundTint="@color/background"
+    android:padding="5dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
 
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_gravity="center"
         android:contentDescription="contact icon"
         android:id="@+id/contact_avatar_icon"
-        android:src="@mipmap/ic_launcher"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
+        android:backgroundTint="@android:color/background_light"
+        android:src="@drawable/ic_connection_circle"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/contact_item_name"
+        android:gravity="center"
+        android:textColor="@color/yellow"
+        android:layout_gravity="center"
         android:text="Contact item name"
-        android:layout_marginLeft="5dp"
-        android:textSize="20sp"
-        android:layout_toRightOf="@id/contact_avatar_icon"
-        android:layout_centerVertical="true"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/contact_connected"
-        android:src="@drawable/ic_connection_circle"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/contact_item_name"
-        android:layout_centerVertical="true" />
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/contact_level"
-        android:contentDescription="contact_level"
-        android:background="@drawable/ic_star2"
-        android:layout_toLeftOf="@+id/contact_add_button"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:backgroundTint="@color/yellow"
-        android:gravity="center"/>
-
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/add"
-        android:id="@+id/contact_add_button"
-        android:contentDescription="add contact button"
-        android:background="@drawable/button_tertiary_default"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
-
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_remove"
-        android:id="@+id/contact_remove_button"
-        android:contentDescription="Remove contact button"
-        android:background="@drawable/button_tertiary_default"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:id="@+id/level"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:background="@android:drawable/btn_star_big_on"
+        android:text="0" />
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="follow me"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/yellow"
+        android:background="@android:drawable/btn_default_small"
+        android:id="@+id/contact_follow_toogle"/>
+
+    <!--Button
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/play_request_button"
         android:text="Play"
         android:background="@drawable/button_tertiary_default"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"/-->
 
-    <ProgressBar
+    <!--ProgressBar
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/play_request_progressbar"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:progress="1"/>
+        android:progress="1"/-->
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/is_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:drawable/btn_star"
+        android:backgroundTint="@color/green"
+        android:contentDescription="Contact availble"
+        android:gravity="center" />
+
+</LinearLayout>
