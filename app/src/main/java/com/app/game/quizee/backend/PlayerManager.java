@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by gia on 23/04/17.
  */
 
-public class PlayerManager extends java.util.Observable {
+public class PlayerManager{
 
     private static final String TAG = "player.manager";
 
@@ -130,7 +130,6 @@ public class PlayerManager extends java.util.Observable {
                     currentPlayer = new Player(playerId,  userName);
                     playersDatabase.child(playerId).setValue(currentPlayer);
                 }
-                setChanged();
                 Log.i(TAG, "Player logged in: " + currentPlayer);
                 // pass the player to the main activity
                 loggedCallback.onLogin();

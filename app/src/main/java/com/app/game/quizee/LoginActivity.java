@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onLogin() {
         // start game once logged in
-        Log.i(TAG, "Login successul! Starting main activity");
+        Log.i(TAG, "Login successful! Starting main activity");
         Intent intent = new Intent(getApplicationContext(), BottomNavigation.class);
         startActivity(intent);
     }
