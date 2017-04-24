@@ -51,7 +51,7 @@ public class PlayerManager{
 
     private PlayerManager() {
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        //mAuth.signOut();
         playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
