@@ -2,37 +2,29 @@ package com.app.game.quizee;
 
 
 import android.app.ProgressDialog;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.app.game.quizee.backend.PlayerManager;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, Observer{
 
-    private static final String TAG = "EmailPassword";
+    private static final String TAG = "login";
 
-    private TextView mStatusTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
-
-    private FirebaseAuth mAuth;
-
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    private EditText mUserNameField;
+    private PlayerManager playerManager;
 
     public ProgressDialog mProgressDialog;
 
@@ -52,97 +44,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
+        playerManager = PlayerManager.getInstance();
+        playerManager.addObserver(this);
 
         // Views
-        mStatusTextView = (TextView) findViewById(R.id.status_text);
         mEmailField = (EditText) findViewById(R.id.email);
         mPasswordField = (EditText) findViewById(R.id.password);
+        mUserNameField = (EditText) findViewById(R.id.user_name);
 
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.register_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
 
-
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                updateUI(user);
-            }
-        };
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        playerManager.onStart();
     }
 
 
     @Override
-    public void onStop() {
+    public void onStop(){
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
+        playerManager.onStop();
     }
 
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            return;
-        }
-        showProgressDialog();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
-                    }
-                }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                mStatusTextView.setText(getString(R.string.error_registration_failed, e.getLocalizedMessage()));
-            }
-        });
-    }
-
-    private void signIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
-        if (!validateForm()) {
-            return;
-        }
-        showProgressDialog();
-
-        // [START sign_in_with_email]
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                        if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.error_authentication_failed);
-                        }
-                        hideProgressDialog();
-
-                    }
-                });
-    }
-
-    private void signOut() {
-        showProgressDialog();
-        mAuth.signOut();
-        updateUI(null);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        playerManager.onStop();
     }
 
     private boolean validateForm() {
@@ -169,35 +108,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        showProgressDialog();
+        if (!validateForm()){
+            return;
+        }
         int i = v.getId();
         if (i == R.id.register_button) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.email_sign_in_button) {
-            signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.sign_out_button) {
-            signOut();
-        }
-    }
+            playerManager.createAccount(mUserNameField.getText().toString(), mEmailField.getText().toString(), mPasswordField.getText().toString());
+        } else if (i == R.id.email_sign_in_button && validateForm()) {
+            playerManager.signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 
-    private void updateUI(FirebaseUser user) {
+        }
         hideProgressDialog();
-        if (user != null) {
-            mStatusTextView.setText(getString(R.string.message_logged_in, user.getEmail()));
-
-            findViewById(R.id.email).setVisibility(View.GONE);
-            findViewById(R.id.password).setVisibility(View.GONE);
-            findViewById(R.id.email_sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.register_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.message_logged_out);
-
-            findViewById(R.id.email).setVisibility(View.VISIBLE);
-            findViewById(R.id.password).setVisibility(View.VISIBLE);
-            findViewById(R.id.email_sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.register_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
-        }
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // start game once logged in
+        Intent intent = new Intent(getApplicationContext(), BottomNavigation.class);
+        startActivity(intent);
+    }
+
 }
 

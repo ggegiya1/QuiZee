@@ -67,14 +67,6 @@ public class CategoryManager {
     }
 
     public List<Category> getAllCategoriesSortedByPrice() {
-        List<Category> categories = new ArrayList<>(allCategories.values());
-        // sor categories by price
-        Collections.sort(categories, new Comparator<Category>() {
-            @Override
-            public int compare(Category o1, Category o2) {
-                return Double.compare(o1.getPrice(), o2.getPrice());
-            }
-        });
-        return categories;
+        return new ArrayList<>(allCategories.values());
     }
 }

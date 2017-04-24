@@ -1,15 +1,12 @@
 package com.app.game.quizee;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,22 +15,17 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
-import com.app.game.quizee.backend.Category;
-import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
-import com.app.game.quizee.util.AutofitTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +34,14 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
+import me.grantland.widget.AutofitTextView;
+
 public class QuestionActivity extends AppCompatActivity implements Game, Observer{
 
     private TriviaApi triviaApi;
 
     // TODO pass player as parameter on start
-    private Player player;
+    private Player player = PlayerManager.getInstance().getCurrentPlayer();
     private GameManager gameManager;
 
     //User interface attributes
@@ -93,8 +87,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        Bundle bundle = getIntent().getExtras();
-        player = (Player)bundle.getSerializable("player");
         player.addObserver(this);
         gameManager = new GameManager(this, player);
 
@@ -158,7 +150,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     public void init() {
-        player.prepareForGame();
+        player.onGameStart();
         questionCount = 0;
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
         Log.i("question.activity", "starting game for player: " + player);
@@ -196,7 +188,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 if (answer.isCorrect()){
-                    setpref_category(currentQuestion.getCategory());
                     player.addCorrectAnswer(currentQuestion);
                     onAnswerButtonEffect(v, Color.GREEN);
 
@@ -204,7 +195,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     player.addIncorrectAnswer(currentQuestion);
                     onAnswerButtonEffect(v, Color.RED);
                 }
-                correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered()));
+                correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
         };
     }
@@ -270,18 +261,16 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
-    //crée le dialog de fin de jeu et laffiche
-    private void endDialog(Player player) {
-
+    //cré le dialog de fin de jeu et laffiche
+    private void endDialog(final Player player) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
         final AlertDialog endDialog = builder.create();
 
         //felicitations
-        pscore = player.getCorrectlyAnswered();
+        pscore = player.getCorrectlyAnswered().size();
         totalscore = player.getScore();
-        setpref_highscore();
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
         String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
         felicitations.setText(fel[pscore]);
@@ -315,55 +304,13 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             @Override
             public void onClick(View v) {
                 endDialog.cancel();
+                player.onGameEnd();
                 finish();
             }
         });
         //TODO reparer le bug qui fait que ca part nimporte quand
         endDialog.show();
         endDialog.setCancelable(false);
-    }
-
-    //Fonction pour write les préférences
-    private void setpref_highscore(){
-        SharedPreferences preferences = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        //overwrite
-        if (check_highscore(preferences)==true){
-            editor.putInt("SCORE:", totalscore);
-            editor.commit();
-        }
-    }
-
-    private void setpref_category(Category mycat){
-            String temp = String.valueOf(mycat.getId());
-            SharedPreferences preferences = getSharedPreferences(temp, Context.MODE_PRIVATE);
-            int nbQCategory = preferences.getInt(mycat.getName(), 0);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt(temp, nbQCategory+=1);
-            editor.commit();
-    }
-
-    private boolean check_highscore(SharedPreferences p1){
-        //clé,default value
-        if (p1.getInt("SCORE:",0)<totalscore){
-            //We have a highscore!
-            return true;
-        }
-        return false;
-    }
-
-    //Exemple de fonction pour lire les préférences
-    private void get_pref_highscore(){
-        SharedPreferences preferences = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
-        //Fetch la valeur à la clé SCORE, sinon met par défaut
-        String highscore = preferences.getString ("SCORE:","No scores yet!");
-    }
-
-    private int get_pref_category(Category mycat){
-        SharedPreferences preferences = getSharedPreferences(String.valueOf(mycat.getId()), Context.MODE_PRIVATE);
-        //Fetch la valeur à la clé SCORE, sinon met par défaut
-        return preferences.getInt(mycat.getName(),0);
     }
 
     private void setQuestion(Question question){
@@ -473,7 +420,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
         for(Button button: answerButtons){
             if (((Answer)button.getTag()).isCorrect() && random.nextBoolean()){
-                //TODO: Fonction ne randomize pas, donne toujours la bonne réponse
                 button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                 button.startAnimation(animation);
                 marked = true;
@@ -499,6 +445,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                player.onGameEnd();
                 finish();
             }
         } );

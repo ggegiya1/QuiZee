@@ -10,15 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.app.game.quizee.backend.BackEndManager;
 
+import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.layout.CareerFragment;
 import com.app.game.quizee.layout.HomeFragment;
+
 
 public class BottomNavigation extends AppCompatActivity {
     //inspiré de https://github.com/jaisonfdo/BottomNavigation
     // pour le view pager et le bottom_navigation
+    public static final int DIALOG_FRAGMENT = 1;
 
     private ViewPager viewPager;
     Fragment homeFragment;
@@ -26,6 +30,9 @@ public class BottomNavigation extends AppCompatActivity {
     Fragment shopFragment;
     Fragment careerFragment;
     MenuItem prevMenuItem;
+    TextView playerName;
+    TextView points;
+    TextView level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +41,11 @@ public class BottomNavigation extends AppCompatActivity {
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        playerName = (TextView) findViewById(R.id.user_name);
+        points = (TextView) findViewById(R.id.currency);
+        level = (TextView) findViewById(R.id.level);
 
-        //Do not touch! Load the classes
-        BackEndManager.create_item();
+        updateUserInfo();
 
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -56,6 +65,7 @@ public class BottomNavigation extends AppCompatActivity {
                                 viewPager.setCurrentItem(3);
                                 break;
                         }
+                        updateUserInfo();
                         return false;
                     }
                 });
@@ -70,14 +80,13 @@ public class BottomNavigation extends AppCompatActivity {
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 }
-                else
-                {
+                else {
                     navigation.getMenu().getItem(0).setChecked(false);
                 }
                 Log.d("page", "onPageSelected: "+position);
                 navigation.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = navigation.getMenu().getItem(position);
-
+                updateUserInfo();
             }
 
             @Override
@@ -103,6 +112,13 @@ public class BottomNavigation extends AppCompatActivity {
         viewPager.setCurrentItem(1); //fait partir sur le home
     }
 
+    private void updateUserInfo() {
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        playerName.setText(player.getName());
+        points.setText(String.valueOf(player.getPoints()));
+        level.setText(String.valueOf(player.getLevel()));
+    }
+
     //on settings button clicked
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -110,4 +126,29 @@ public class BottomNavigation extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        PlayerManager.getInstance().saveCurrentPlayer();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!PlayerManager.getInstance().isLoggedIn()){
+            super.onBackPressed();
+        }
+        // exit on back pressed
+        PlayerManager.getInstance().onStop();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUserInfo();
+    }
 }

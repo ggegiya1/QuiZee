@@ -9,12 +9,13 @@ import com.app.game.quizee.backend.Category;
 /**
  * Decorator class to keep Category unchanged
  */
-public class SelectableCategory extends Category {
+public class SelectableCategory {
 
     private boolean selected;
+    private Category category;
 
     SelectableCategory(Category category) {
-        super(category.getId(), category.getName(), category.getDisplayName(), category.getPrice(), category.getImageId());
+        this.category = category;
     }
 
     boolean isSelected() {
@@ -25,4 +26,7 @@ public class SelectableCategory extends Category {
         this.selected = selected;
     }
 
+    public Category getCategory() {
+        return category;
+    }
 }

@@ -13,7 +13,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/background"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:contentInsetLeft="0dp"
@@ -40,12 +40,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/name"
-                android:layout_toRightOf="@id/avatar"
+                android:id="@+id/user_name"
                 android:layout_alignParentTop="true"
-                android:text="name goes here"
-                android:gravity="center"
-                android:textSize="20sp"/>
+                android:text="Hello"
+                android:textColor="@color/yellow"
+                android:layout_toEndOf="@id/avatar"
+                android:gravity="start"
+                android:paddingStart="10dp"
+                android:textSize="20sp"
+                android:layout_toStartOf="@+id/level" />
 
             <TextView
                 android:layout_width="?attr/actionBarSize"
@@ -61,13 +64,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/currency"
-                android:gravity="left"
-                android:layout_toRightOf="@+id/avatar"
-                android:layout_below="@id/name"
+                android:gravity="start"
+                android:paddingStart="10dp"
+                android:layout_below="@id/user_name"
+                android:layout_toEndOf="@id/avatar"
+                android:textColor="@color/green"
                 android:text="0"
-                android:drawableEnd="@drawable/ic_currency"
                 android:textSize="20sp"
-                />
+                android:layout_toStartOf="@+id/level" />
 
             <ImageButton
                 android:layout_width="?attr/actionBarSize"

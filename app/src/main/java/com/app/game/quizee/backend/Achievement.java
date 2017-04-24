@@ -1,11 +1,13 @@
 package com.app.game.quizee.backend;
 
 
+import java.io.Serializable;
+
 /**
  * Created by Maude on 2017-04-03.
  */
 
-public class Achievement {
+public class Achievement implements Serializable{
     private int id_achiev;
     private String description;
     private String information;
@@ -15,7 +17,10 @@ public class Achievement {
     private int maxProgress;
     private String key;
 
-    public Achievement(int id,String text, int experience, int currency) {
+    public Achievement() {
+    }
+
+    public Achievement(int id, String text, int experience, int currency) {
         id_achiev = id;
         description = text;
         exp = experience;

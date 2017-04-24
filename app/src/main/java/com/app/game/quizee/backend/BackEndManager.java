@@ -1,7 +1,5 @@
 package com.app.game.quizee.backend;
 
-import com.app.game.quizee.R;
-
 import java.util.ArrayList;
 
 /**
@@ -9,13 +7,10 @@ import java.util.ArrayList;
  */
 
 public class BackEndManager {
-    public static ArrayList<GameItem> mes_item = new ArrayList<>();
-    public static ArrayList<Category> mes_cate = new ArrayList<>();
-
-    public static void create_item(){
-        mes_item.add(new Bomb());
-        mes_item.add(new Skip());
-        mes_item.add(new AddTime());
-        mes_item.add(new Hint());
-    }
+    public static ArrayList<GameItem> mes_item = new ArrayList<GameItem>(){{
+        add(new Bomb());
+        add(new Skip());
+        add(new AddTime());
+        add(new Hint());
+    }};
 }
