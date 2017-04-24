@@ -48,6 +48,9 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
     //on play button pressed TODO remove later
     public void multiPlay(View v) {
         Intent intent = new Intent(getApplicationContext(), MultiplayerQuestionActivity.class);
+        //Fetch les 2 id des joueurs et envoie à multiplayer question activity
+        intent.putExtra("ID_P1", 0);
+        intent.putExtra("ID_P2", 0);
         startActivity(intent);
     }
 
@@ -62,7 +65,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
 
         Intent resultIntent = new Intent(this, MultiplayerQuestionActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(QuestionActivity.class);
+        stackBuilder.addParentStack(BottomNavigation.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(

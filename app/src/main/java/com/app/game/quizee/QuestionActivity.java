@@ -1,12 +1,15 @@
 package com.app.game.quizee;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,12 +18,17 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
+import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
@@ -76,6 +84,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     int questionCount;
     Question currentQuestion;
 
+    //Total game scores
+    int pscore=0;
+    int totalscore=0;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -185,6 +196,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 if (answer.isCorrect()){
+                    setpref_category(currentQuestion.getCategory());
                     player.addCorrectAnswer(currentQuestion);
                     onAnswerButtonEffect(v, Color.GREEN);
 
@@ -266,20 +278,24 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         final AlertDialog endDialog = builder.create();
 
         //felicitations
+        pscore = player.getCorrectlyAnswered().size();
+        totalscore = player.getScore();
+        setpref_highscore();
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
         String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
-        felicitations.setText(fel[player.getCorrectlyAnswered().size()]);
+        felicitations.setText(fel[pscore]);
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
-        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + player.getCorrectlyAnswered().size());
+        //Mettre le score total aussi?
+        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore);
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
         //TODO get achievements earned programmatically
         ArrayList<Achievement> achievements = new ArrayList<>();
         achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
-        achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
-        achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
+        achievements.add(new Achievement(0, "Answer 5 questions", 10, 10, 5, 10));
+        achievements.add(new Achievement(0, "Answer 1 question", 10, 10, 5, 10));
 
         AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);
         achievementsEarned.setAdapter(adapter);
@@ -307,6 +323,48 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         endDialog.setCancelable(false);
     }
 
+    //Fonction pour write les préférences
+    private void setpref_highscore(){
+        SharedPreferences preferences = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        //overwrite
+        if (check_highscore(preferences)==true){
+            editor.putInt("SCORE:", totalscore);
+            editor.commit();
+        }
+    }
+
+    private void setpref_category(Category mycat){
+            String temp = String.valueOf(mycat.getId());
+            SharedPreferences preferences = getSharedPreferences(temp, Context.MODE_PRIVATE);
+            int nbQCategory = preferences.getInt(mycat.getName(), 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(temp, nbQCategory+=1);
+            editor.commit();
+    }
+
+    private boolean check_highscore(SharedPreferences p1){
+        //clé,default value
+        if (p1.getInt("SCORE:",0)<totalscore){
+            //We have a highscore!
+            return true;
+        }
+        return false;
+    }
+
+    //Exemple de fonction pour lire les préférences
+    private void get_pref_highscore(){
+        SharedPreferences preferences = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
+        //Fetch la valeur à la clé SCORE, sinon met par défaut
+        String highscore = preferences.getString ("SCORE:","No scores yet!");
+    }
+
+    private int get_pref_category(Category mycat){
+        SharedPreferences preferences = getSharedPreferences(String.valueOf(mycat.getId()), Context.MODE_PRIVATE);
+        //Fetch la valeur à la clé SCORE, sinon met par défaut
+        return preferences.getInt(mycat.getName(),0);
+    }
 
     private void setQuestion(Question question){
         questionCount++;

@@ -65,6 +65,9 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
         pb.setRotation(180);
         questionCount = -1;
 
+        int id_player1 = getIntent().getIntExtra("ID_P1",0);
+        int id_player2 = getIntent().getIntExtra("ID_P2",0);
+
         //ajoute les view a créé lors de lanimation de changement de texte du questionTextSwitcher
         //viewfactory tiré de la page http://www.androhub.com/android-textswitcher/
         questionTextSwitcher.setFactory(new ViewSwitcher.ViewFactory() {

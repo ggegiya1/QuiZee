@@ -15,6 +15,7 @@ public class Achievement implements Serializable{
     private int money;
     private int progress;
     private int maxProgress;
+    private String key;
 
     public Achievement() {
     }
