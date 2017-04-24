@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.app.game.quizee.MultiplayerLobbyActivity">
 
     <include layout="@layout/toolbar_no_settings"/>
