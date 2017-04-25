@@ -135,7 +135,7 @@ public class PracticeActivity extends AppCompatActivity{
         for (int i=0; i<answers.size(); i++){
             this.answerButtons.get(i).setText(answers.get(i).getText());
             this.answerButtons.get(i).setTag(answers.get(i));
-            this.answerButtons.get(i).setBackground(getResources().getDrawable(R.color.answerButton));
+            this.answerButtons.get(i).setBackground(getResources().getDrawable(R.drawable.button_tertiary_style));
         }
         //met un icone et un texte correspondant a la category
         category.setText(question.getCategory().getName());

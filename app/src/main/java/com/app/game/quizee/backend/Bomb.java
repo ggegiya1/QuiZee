@@ -29,6 +29,12 @@ public class Bomb implements GameItem {
     }
 
     @Override
+    public String getName(){return "Bomb";}
+
+    @Override
+    public int getPosition(){return 1;}
+
+    @Override
     public int getImageId() {
         return R.drawable.ic_bomb;
     }

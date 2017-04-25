@@ -27,7 +27,9 @@ public class AchievementManager {
     }
 
     private void init(){
-       // add(new Achievement());
+        AchievementManager cm = new AchievementManager();
+
+       //add(new Achievement());
     }
 
     private void add(Achievement Achievement){

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:style="http://schemas.android.com/tools"
+    style="@style/AppTheme"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:splitMotionEvents="false"
-    android:background="@color/background">
+    android:background="@color/primaryBackground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -14,7 +14,8 @@
         android:layout_weight="0.15"
         android:layout_height="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:background="@color/colorPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -190,32 +191,28 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_response_1"
             android:layout_margin="5dp"
-            android:textAlignment="center"
-            android:background="@drawable/button_secondary_default"/>
+            android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_2"
             android:layout_margin="5dp"
-            android:textAlignment="center"
-            android:background="@drawable/button_secondary_default"/>
+            android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_3"
             android:layout_margin="5dp"
-            android:textAlignment="center"
-            android:background="@drawable/button_secondary_default"/>
+            android:textAlignment="center"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_4"
             android:layout_margin="5dp"
-            android:textAlignment="center"
-            android:background="@drawable/button_secondary_default"/>
+            android:textAlignment="center"/>
     </LinearLayout>
 
     <LinearLayout

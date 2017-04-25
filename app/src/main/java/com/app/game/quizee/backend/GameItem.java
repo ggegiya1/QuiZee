@@ -14,7 +14,10 @@ public interface GameItem extends Serializable{
 
     int getImageId();
 
+    String getName();
+
     void apply(Game game);
 
+    int getPosition();
 
 }

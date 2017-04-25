@@ -1,11 +1,15 @@
 package com.app.game.quizee.backend;
 
+import android.widget.Toast;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by Maude on 2017-04-03.
@@ -226,6 +230,8 @@ public class Player extends Observable implements Serializable {
     }
 
     public boolean canPurchase(GameItem gameItem) {
+        System.out.println("hello maude" + this.points);
+        System.out.println(gameItem.getPrice());
         return this.points >= gameItem.getPrice();
     }
 
