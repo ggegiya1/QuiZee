@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.app.game.quizee.BottomNavigation"
-    android:background="@color/primaryBackground">
+    android:background="@color/background">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"

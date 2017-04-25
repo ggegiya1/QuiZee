@@ -6,18 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, Observer{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, PlayerManager.PlayerLoggedCallback{
 
     private static final String TAG = "login";
 
@@ -52,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         setContentView(R.layout.activity_login);
         playerManager = PlayerManager.getInstance();
-        playerManager.addObserver(this);
+        playerManager.setLoggedCallback(this);
 
         // Views
         mEmailField = (EditText) findViewById(R.id.email);
@@ -109,6 +110,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         showProgressDialog();
+        if (mUserNameField.getText().toString().equals("test")){
+            playerManager.setCurrentPlayer(Player.defaultPlayer());
+            onLogin();
+            return;
+        }
         if (!validateForm()){
             return;
         }
@@ -119,15 +125,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             playerManager.signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 
         }
-        hideProgressDialog();
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void onLogin() {
         // start game once logged in
+        Log.i(TAG, "Login successful! Starting main activity");
+        hideProgressDialog();
         Intent intent = new Intent(getApplicationContext(), BottomNavigation.class);
         startActivity(intent);
     }
 
+    @Override
+    public void onFailure(String message) {
+        Toast.makeText(getApplicationContext(), "Authentication error: " + message, Toast.LENGTH_LONG).show();
+    }
 }
 

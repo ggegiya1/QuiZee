@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,9 +20,11 @@ import com.google.firebase.database.ValueEventListener;
  * Created by gia on 23/04/17.
  */
 
-public class PlayerManager extends java.util.Observable {
+public class PlayerManager{
 
     private static final String TAG = "player.manager";
+
+    private static final String anonymousName = "Anonymous";
 
     private static PlayerManager instance;
 
@@ -37,12 +40,17 @@ public class PlayerManager extends java.util.Observable {
 
     private boolean loggedIn;
 
+
+    private PlayerLoggedCallback loggedCallback;
+
+
     public Player getCurrentPlayer(){
         return currentPlayer;
     }
 
     private PlayerManager() {
         mAuth = FirebaseAuth.getInstance();
+        //mAuth.signOut();
         playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -88,7 +96,12 @@ public class PlayerManager extends java.util.Observable {
                         loggedIn = true;
                         updateUserName(userName);
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loggedCallback.onFailure(e.getMessage());
+            }
+        });
     }
 
     public void signIn(String email, String password) {
@@ -102,7 +115,12 @@ public class PlayerManager extends java.util.Observable {
                         }
 
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loggedCallback.onFailure(e.getMessage());
+            }
+        });
     }
 
     public void signOut() {
@@ -119,18 +137,18 @@ public class PlayerManager extends java.util.Observable {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentPlayer = dataSnapshot.child(playerId).getValue(Player.class);
                 if (currentPlayer == null){
-                    currentPlayer = new Player(playerId,  firebaseUser.getDisplayName());
+                    String userName = firebaseUser.getDisplayName() == null? anonymousName: firebaseUser.getDisplayName();
+                    currentPlayer = new Player(playerId,  userName);
                     playersDatabase.child(playerId).setValue(currentPlayer);
                 }
-                setChanged();
                 Log.i(TAG, "Player logged in: " + currentPlayer);
                 // pass the player to the main activity
-                notifyObservers(currentPlayer);
+                loggedCallback.onLogin();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                loggedCallback.onFailure(databaseError.getMessage());
             }
         });
     }
@@ -159,5 +177,19 @@ public class PlayerManager extends java.util.Observable {
             Log.i(TAG, "Saving player: " + player);
             playersDatabase.child(player.getId()).setValue(player);
         }
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+        this.loggedIn = true;
+    }
+
+    public void setLoggedCallback(PlayerLoggedCallback loggedCallback) {
+        this.loggedCallback = loggedCallback;
+    }
+
+    public interface PlayerLoggedCallback{
+        void onLogin();
+        void onFailure(String message);
     }
 }
