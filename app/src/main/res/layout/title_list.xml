@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/shop_Caterogies"
+    android:text="POWER UPS"
     android:textSize="30sp"
     android:background="@drawable/button_primary_default"
     android:layout_marginLeft="15dp"
