@@ -1,15 +1,13 @@
 package com.app.game.quizee.backend;
 
-import android.widget.Toast;
+import android.util.SparseIntArray;
 
+import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by Maude on 2017-04-03.
@@ -22,9 +20,14 @@ public class Player extends Observable implements Serializable {
     private boolean online;
     private List<Player> friends;
 
+    //For achievements
+    private int nbGamesPlayed;
+    private int nbQanswered;
+    Map<String,Integer> itembought = new HashMap <String,Integer>();
+
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
-    private final List<Achievement> achievements = new ArrayList<>();
+    private final SparseIntArray achievements = new SparseIntArray();
     private final List<Skip> skips = new ArrayList<>();
     private final List<AddTime> addTimes = new ArrayList<>();
     private final List<Hint> hints = new ArrayList<>();
@@ -35,7 +38,10 @@ public class Player extends Observable implements Serializable {
 
     private int points;
     private int level;
-    private int score;
+    private int totalscore;
+    private int currentscore;
+    private int highscore;
+
     private Map<String, Integer> perfCategories = new HashMap<>();
 
     public Player() {
@@ -47,6 +53,15 @@ public class Player extends Observable implements Serializable {
         this.image = image;
         this.level = level;
         this.points = points;
+        this.nbGamesPlayed = 0;
+        this.nbQanswered = 0;
+        itembought.put("Bomb",0);
+        itembought.put("Skip",0);
+        itembought.put("Hint",0);
+        itembought.put("Time",0);
+        for (int i=0; i<20; i++){
+            achievements.put(i,0);
+        }
     }
 
     public Player(String playerId, String name, String image, int level){
@@ -82,7 +97,15 @@ public class Player extends Observable implements Serializable {
     }
 
     private void addScore(int score) {
-        setScore(this.score + score);
+        currentscore=score;
+        if (highscore < score){
+            highscore = score;
+        }
+        setTotalscore(this.totalscore + score);
+    }
+
+    public int getCurrentScore(){
+        return currentscore;
     }
 
     private void addPoints(int points){
@@ -94,8 +117,9 @@ public class Player extends Observable implements Serializable {
 
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setTotalscore(int totalscore) {
+        this.nbGamesPlayed +=10;
+        this.totalscore = totalscore;
         setChanged();
         notifyObservers();
     }
@@ -127,7 +151,7 @@ public class Player extends Observable implements Serializable {
         return  categoriesPurchased.contains(category);
     }
 
-    public List<Achievement> getAchievements() {
+    public SparseIntArray getAchievements() {
         return achievements;
     }
 
@@ -166,6 +190,7 @@ public class Player extends Observable implements Serializable {
 
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
+        this.nbQanswered +=1;
         int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
         int points = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1);
         updatePerformCategory(question.getCategory());
@@ -188,12 +213,21 @@ public class Player extends Observable implements Serializable {
 
     }
 
+    public boolean checkachie(int achieid){
+        if (achievements.get(achieid) == 0){
+            return false;
+        }
+        return true;
+    }
+    public void setachie(int achieid){
+        achievements.put(achieid,1);
+    }
     public int getPoints(){
         return points;
     }
 
-    public int getScore() {
-        return score;
+    public int getTotalscore() {
+        return totalscore;
     }
 
     public List<Category> getCategoriesSelected(){
@@ -230,8 +264,6 @@ public class Player extends Observable implements Serializable {
     }
 
     public boolean canPurchase(GameItem gameItem) {
-        System.out.println("hello maude" + this.points);
-        System.out.println(gameItem.getPrice());
         return this.points >= gameItem.getPrice();
     }
 
@@ -239,21 +271,38 @@ public class Player extends Observable implements Serializable {
         if (!canPurchase(gameItem)) {
             return false;
         }
-        if (gameItem instanceof Skip) {
-            this.skips.add((Skip) gameItem);
-        }
-        if (gameItem instanceof Hint) {
-            this.hints.add((Hint) gameItem);
-        }
-        if (gameItem instanceof AddTime) {
-            this.addTimes.add((AddTime) gameItem);
-        }
         if (gameItem instanceof Bomb) {
+            itembought.put("Bomb",itembought.get("Bomb")+1);
             this.bombs.add((Bomb) gameItem);
         }
-        removePoints(gameItem.getPrice());
+        if (gameItem instanceof Skip) {
+            itembought.put("Skip",itembought.get("Skip")+1);
+            this.skips.add((Skip) gameItem);
+        }
+        if (gameItem instanceof AddTime) {
+            itembought.put("Time",itembought.get("Time")+1);
+            this.addTimes.add((AddTime) gameItem);
+        }
+        if (gameItem instanceof Hint) {
+            itembought.put("Hint",itembought.get("Hint")+1);
+            this.hints.add((Hint) gameItem);
+        }
+
+
+        this.points -= gameItem.getPrice();
+        setChanged();
+        notifyObservers();
         return true;
     }
+    public int getitembought(String key){
+        return this.itembought.get(key);
+    }
+    public int get_nbGamesPlayed(){
+        return this.nbGamesPlayed;
+    };
+    public int get_nbQanswered(){
+        return this.nbQanswered;
+    };
 
     public void setName(String name) {
         this.name = name;
@@ -280,10 +329,10 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getHighestScore() {
-        return score;
+        return totalscore;
     }
 
-    public Map<String, Integer> getPerfCategories() {
+    public Map<String, Integer> getPrefCategories() {
         return perfCategories;
     }
 
@@ -306,7 +355,7 @@ public class Player extends Observable implements Serializable {
                 ", wronglyAnswered=" + wronglyAnswered +
                 ", points=" + points +
                 ", level=" + level +
-                ", score=" + score +
+                ", totalscore=" + totalscore +
                 ", perfCategories=" + perfCategories +
                 '}';
     }
