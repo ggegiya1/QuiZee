@@ -18,8 +18,11 @@ import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.layout.CareerFragment;
 import com.app.game.quizee.layout.HomeFragment;
 
+import java.util.Observable;
+import java.util.Observer;
 
-public class BottomNavigation extends AppCompatActivity {
+
+public class BottomNavigation extends AppCompatActivity implements Observer {
     //inspiré de https://github.com/jaisonfdo/BottomNavigation
     // pour le view pager et le bottom_navigation
     public static final int DIALOG_FRAGMENT = 1;
@@ -34,11 +37,14 @@ public class BottomNavigation extends AppCompatActivity {
     TextView points;
     TextView score;
     TextView level;
+    Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
+        player = PlayerManager.getInstance().getCurrentPlayer();
+        player.addObserver(this);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -115,7 +121,6 @@ public class BottomNavigation extends AppCompatActivity {
     }
 
     private void updateUserInfo() {
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
         points.setText(String.format(getResources().getString(R.string.points_format), player.getPoints()));
         score.setText(String.format(getResources().getString(R.string.score_format), player.getHighestScore()));
@@ -152,6 +157,11 @@ public class BottomNavigation extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        updateUserInfo();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
         updateUserInfo();
     }
 }

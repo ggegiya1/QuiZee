@@ -7,19 +7,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.app.game.quizee.BottomNavigation"
-    android:background="@color/background">
+    android:background="@color/primaryBackground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetEnd="0dp"
+        android:background="@color/colorPrimary"
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:contentInsetRight="0dp"
