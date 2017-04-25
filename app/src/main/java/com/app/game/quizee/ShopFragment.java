@@ -43,8 +43,7 @@ public class ShopFragment extends Fragment {
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
         ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
         shopListView.setAdapter(sa);
-        Player current_player = PlayerManager.getInstance().getCurrentPlayer();
-        //Player current_player = Player.defaultPlayer();
+        current_player = PlayerManager.getInstance().getCurrentPlayer();
 
         return ll;
     }

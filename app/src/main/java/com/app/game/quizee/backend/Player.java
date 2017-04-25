@@ -251,9 +251,7 @@ public class Player extends Observable implements Serializable {
         if (gameItem instanceof Bomb) {
             this.bombs.add((Bomb) gameItem);
         }
-        this.points -= gameItem.getPrice();
-        setChanged();
-        notifyObservers();
+        removePoints(gameItem.getPrice());
         return true;
     }
 

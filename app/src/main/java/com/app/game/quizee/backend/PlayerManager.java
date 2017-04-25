@@ -46,10 +46,13 @@ public class PlayerManager{
 
 
     public Player getCurrentPlayer(){
+
         // FIXME this is for test only
         // need to return actual value
-        return Player.defaultPlayer();
-        //return currentPlayer;
+        if (currentPlayer==null){
+            currentPlayer = Player.defaultPlayer();
+        }
+        return currentPlayer;
     }
 
     private PlayerManager() {
