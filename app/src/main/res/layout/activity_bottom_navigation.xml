@@ -37,24 +37,26 @@
                 android:contentDescription="@string/avatar_contentDescription"
                 android:src="@mipmap/ic_launcher"/>
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:layout_height="match_parent"
                 android:id="@+id/user_name"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="Hello"
-                android:textColor="@color/yellow"
-                android:gravity="center"
+                android:textColor="@color/complementaryBackground"
                 android:textStyle="bold"
-                android:textSize="15sp"/>
+                android:textSize="25sp"/>
 
             <TextView
                 android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:background="@drawable/ic_star2"
                 android:backgroundTint="@color/yellow"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:text="0" />
 
             <LinearLayout
@@ -76,20 +78,22 @@
                     android:textSize="15sp"/>
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_width="?attr/actionBarSize"
                     android:id="@+id/points"
                     android:gravity="start"
-                    android:textColor="@android:color/holo_red_light"
+                    android:textColor="@color/complementaryBackground"
                     android:textStyle="bold"
-                    android:text="@string/points_format"
-                    android:textSize="15sp"
+                    android:text="10"
+                    android:padding="5dp"
+                    android:drawableRight="@drawable/ic_currency"
+                    android:textSize="18sp"
                     />
             </LinearLayout>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_settings"
                 android:onClick="settingsActivity"
                 android:contentDescription="@string/settingsButton_contentDescription"

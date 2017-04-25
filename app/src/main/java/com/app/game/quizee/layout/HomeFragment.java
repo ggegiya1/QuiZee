@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import com.app.game.quizee.CategorySelectionActivity;
 import com.app.game.quizee.MultiplayerLobbyActivity;
 import com.app.game.quizee.PracticeActivity;
-import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
@@ -47,8 +46,6 @@ public class HomeFragment extends Fragment {
         quickPlay = (Button) fl.findViewById(R.id.button_quickPlay);
         multiPlay = (Button) fl.findViewById(R.id.button_multiPlay);
         categoryPlay = (Button) fl.findViewById(R.id.button_Play_Categories);
-        exitApp = (Button) fl.findViewById(R.id.button_exit_app);
-        exitApp.setOnClickListener(exitHome());
         quickPlay.setOnClickListener(quickPlay());
         categoryPlay.setOnClickListener(categoriesPlay());
         multiPlay.setOnClickListener(multiPlay());
@@ -85,6 +82,7 @@ public class HomeFragment extends Fragment {
         };
     }
 
+    //TODO useless??
     private View.OnClickListener exitHome(){
         return new View.OnClickListener() {
             @Override

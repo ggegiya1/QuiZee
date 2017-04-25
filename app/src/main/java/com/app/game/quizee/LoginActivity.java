@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onStop(){
         super.onStop();
-        playerManager.onStop();
+        //playerManager.onStop();
     }
 
     @Override
