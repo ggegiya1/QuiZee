@@ -20,13 +20,8 @@
         android:icon="@drawable/ic_acount"
         android:title="@string/pref_header_account" />
 
-    <header
-        android:fragment="com.app.game.quizee.SettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
-
-    <header
-        android:fragment="com.app.game.quizee.SettingsActivity$DataSyncPreferenceFragment"
-        android:title="@string/pref_header_about" />
+    <!--header
+        android:fragment="com.app.game.quizee.SettingsActivity$AboutPreferenceFragment"
+        android:title="@string/pref_header_about" /-->
 
 </preference-headers>

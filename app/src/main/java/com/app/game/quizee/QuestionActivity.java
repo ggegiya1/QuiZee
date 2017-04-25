@@ -2,11 +2,13 @@ package com.app.game.quizee;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -82,6 +84,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     //Total game scores
     int pscore=0;
 
+    SharedPreferences prefs;
+    boolean colorBlind;
+
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
 
@@ -91,6 +96,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         setContentView(R.layout.activity_question);
         player.addObserver(this);
         gameManager = new GameManager(this, player);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        colorBlind = prefs.getBoolean("colorblind_mode", false);
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -192,11 +200,20 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 Answer answer = (Answer)v.getTag();
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
-                    onAnswerButtonEffect(v, Color.GREEN);
+                    if(colorBlind) {
+                        onAnswerButtonEffect(v, Color.WHITE);
+                    } else {
+                        onAnswerButtonEffect(v, Color.GREEN);
+                    }
+
 
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
-                    onAnswerButtonEffect(v, Color.RED);
+                    if(colorBlind) {
+                        onAnswerButtonEffect(v, Color.BLACK);
+                    } else {
+                        onAnswerButtonEffect(v, Color.RED);
+                    }
                 }
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }

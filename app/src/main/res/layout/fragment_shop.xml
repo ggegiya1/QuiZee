@@ -8,13 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/shop_listview"
-        android:paddingEnd="10dp"
-        android:layout_marginStart="10dp"
         android:dividerHeight="3dp"
         android:scrollbarThumbVertical="@drawable/button_tertiary_default"
         android:fadeScrollbars="false"
         android:scrollbarStyle="outsideOverlay"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingTop="10dp" />
 
 </LinearLayout>

@@ -7,14 +7,12 @@
     android:padding="3dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    android:background="@drawable/list_selector"
+    android:background="@drawable/button_secondary_default"
     android:weightSum="1">
 
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@android:color/white"
-        android:padding="10dp"
         android:layout_gravity="center"
         android:id="@+id/category_item_icon"
         android:src="@mipmap/ic_launcher"
@@ -26,7 +24,7 @@
         android:layout_gravity="center"
         android:id="@+id/category_item_name"
         android:text="category"
-        android:textColor="@color/yellow"
+        android:textColor="@color/complementaryBackground"
         android:textSize="20sp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
@@ -39,7 +37,8 @@
         android:id="@+id/category_item_price"
         android:text="0"
         android:textSize="15sp"
-        android:textColor="@color/green"
+        android:textColor="@color/complementaryBackground"
+        android:drawableRight="@drawable/ic_currency"
         android:gravity="center"
         android:layout_weight="0.3" />
 
