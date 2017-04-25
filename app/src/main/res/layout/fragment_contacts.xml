@@ -9,7 +9,7 @@
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:queryHint="@string/hint_search_friends"
         android:id="@+id/contact_search"
         android:background="@drawable/button_tertiary_default"/>
@@ -40,7 +40,8 @@
                 android:textSize="30sp"
                 android:layout_weight="0.10"
                 android:background="@drawable/button_primary_default"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:padding="2dp"/>
 
             <ListView
@@ -62,8 +63,6 @@
                 android:textSize="30sp"
                 android:layout_weight="0.10"
                 android:gravity="center"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp"
                 android:background="@drawable/button_primary_default"
                 android:layout_marginBottom="5dp"
                 android:padding="2dp"/>
@@ -94,7 +93,8 @@
                 android:textSize="30sp"
                 android:gravity="center"
                 android:background="@drawable/button_primary_default"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:padding="2dp"/>
 
             <ListView
