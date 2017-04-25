@@ -26,6 +26,12 @@ public class Skip implements GameItem {
     }
 
     @Override
+    public String getName(){return "Skip";}
+
+    @Override
+    public int getPosition(){return 2;}
+
+    @Override
     public int getImageId() {
         return R.drawable.ic_skip;
     }

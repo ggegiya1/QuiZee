@@ -26,6 +26,12 @@ public class Hint implements GameItem {
     }
 
     @Override
+    public String getName(){return "Hint";}
+
+    @Override
+    public int getPosition(){return 4;}
+
+    @Override
     public int getImageId() {
         return R.drawable.ic_hint;
     }
