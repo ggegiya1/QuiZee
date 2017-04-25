@@ -20,13 +20,6 @@ public class Achievement implements Serializable{
     public Achievement() {
     }
 
-    public Achievement(int id, String text, int experience, int currency) {
-        id_achiev = id;
-        description = text;
-        exp = experience;
-        money = currency;
-    }
-
     //constructeur dachievement avec information nominale
     public Achievement(int id,String text, int experience, int currency, String a_information) {
         id_achiev = id;
@@ -34,16 +27,6 @@ public class Achievement implements Serializable{
         exp = experience;
         money = currency;
         information = a_information;
-    }
-
-    //constructeur dachievement avec information ordinal
-    public Achievement(int id,String text, int experience, int currency, int pg, int maxPg) {
-        id_achiev = id;
-        description = text;
-        exp = experience;
-        money = currency;
-        progress = pg;
-        maxProgress = maxPg;
     }
 
     //Getters
