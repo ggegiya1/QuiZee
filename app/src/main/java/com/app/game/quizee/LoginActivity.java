@@ -50,7 +50,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // TODO - start
+        // this is only for testing
+        // remove this line before submit the project
+        onLogin();
+         // TODO - end
         setContentView(R.layout.activity_login);
         playerManager = PlayerManager.getInstance();
         playerManager.setLoggedCallback(this);
