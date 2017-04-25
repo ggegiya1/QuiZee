@@ -32,7 +32,6 @@ import java.util.List;
 public class ShopFragment extends Fragment {
 
     ListView shopListView;
-    private Player current_player;
     public ShopFragment() {    }
 
     @Override
@@ -43,7 +42,6 @@ public class ShopFragment extends Fragment {
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
         ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
         shopListView.setAdapter(sa);
-        current_player = PlayerManager.getInstance().getCurrentPlayer();
 
         return ll;
     }
@@ -79,7 +77,7 @@ public class ShopFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
+            final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
             // inflate the layout for each list row
             if (convertView == null || (convertView.getId() == R.id.list_title && position != 5 && position != 0)) {
                 convertView = LayoutInflater.from(context).
@@ -111,7 +109,7 @@ public class ShopFragment extends Fragment {
                 boughtSwitch.setDisplayedChild(1);
 
                 powUpCount.setVisibility(View.VISIBLE);
-                udpate_powerups(position,powUpCount);
+                udpate_powerups(current_player, position,powUpCount);
 
                 //ajoute une action lorsque lon achete un power up
                 buy.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +120,7 @@ public class ShopFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "Not enough money to buy: " + rowItem.getName(), Toast.LENGTH_LONG).show();
                         }
-                        udpate_powerups(rowItem.getPosition(),powUpCount);
+                        udpate_powerups(current_player, rowItem.getPosition(),powUpCount);
 
                     }
                 });
@@ -134,7 +132,7 @@ public class ShopFragment extends Fragment {
             return convertView;
         }
 
-        private void udpate_powerups(int pos, TextView powUpCount) {
+        private void udpate_powerups(Player current_player, int pos, TextView powUpCount) {
             switch (pos) {
                 //TODO: Manque affichage achievement
                 case 1:
