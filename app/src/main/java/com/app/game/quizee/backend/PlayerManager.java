@@ -46,7 +46,7 @@ public class PlayerManager{
 
 
     public Player getCurrentPlayer(){
-        return currentPlayer;
+        return Player.defaultPlayer();
     }
 
     private PlayerManager() {
