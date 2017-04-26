@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
+import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 
 public class CareerFragment extends Fragment {
 
@@ -55,6 +57,8 @@ public class CareerFragment extends Fragment {
             @Override
 
             public View getView(int position, View convertView, ViewGroup parent){
+                final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
+
                 if (convertView == null)
                     convertView = inflater.inflate(R.layout.achievements_item_list_layout, parent, false);
 
@@ -71,6 +75,12 @@ public class CareerFragment extends Fragment {
                 xp.setText("" + achievements[position].getXP());
                 info.setText(achievements[position].getInformation());
 
+                if (achievements[position].isAchieved(current_player)){
+                    check.setImageResource(R.drawable.ic_check);
+                }else{
+                    check.setImageResource(R.drawable.ic_not_done);
+                }
+                Toast.makeText(getContext(), achievements[position].isAchieved(PlayerManager.getInstance().getCurrentPlayer())+"", Toast.LENGTH_SHORT).show();
                 return convertView;
             }
 
@@ -78,8 +88,32 @@ public class CareerFragment extends Fragment {
 
 
         statsList = (ListView) ll.findViewById(R.id.stats_list);
-
-        Toast.makeText(ll.getContext(), "test", Toast.LENGTH_SHORT).show();
+//        statsList.setAdapter(new BaseAdapter() {
+//            @Override
+//            public int getCount() {
+//                return 0;
+//            }
+//
+//            @Override
+//            public Object getItem(int position) {
+//                return null;
+//            }
+//
+//            @Override
+//            public long getItemId(int position) {
+//                return 0;
+//            }
+//
+//            @Override
+//
+//            public View getView(int position, View convertView, ViewGroup parent){
+//                final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
+//                if (convertView == null)
+//                    convertView = inflater.inflate(R.layout.stats_item_list_layout, parent, false);
+//
+//
+//                TextView desc = (TextView) convertView.findViewById(R.id.stats_description);
+//                TextView value = (TextView) convertView.findViewById(R.id.progress);
 
         //TODO aller chercher les informations dachievement programmaticallement
 

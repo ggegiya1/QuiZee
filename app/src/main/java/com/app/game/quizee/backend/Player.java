@@ -185,7 +185,7 @@ public class Player extends Observable implements Serializable {
 
     }
 
-    private boolean hasAchievement(Achievement achievement){
+    public boolean hasAchievement(Achievement achievement){
         return this.achievements.contains(achievement);
     }
 
