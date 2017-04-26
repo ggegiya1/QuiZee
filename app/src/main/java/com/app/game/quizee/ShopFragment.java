@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.BackEndManager;
@@ -24,7 +22,6 @@ import com.app.game.quizee.backend.GameItem;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
@@ -67,12 +64,10 @@ public class ShopFragment extends Fragment {
             TextView powUpPrice = (TextView) convertView.findViewById(R.id.shop_item_price);
             final TextView powUpCount = (TextView) convertView.findViewById(R.id.shop_item_quantity);
             ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
-            ViewSwitcher boughtSwitch = (ViewSwitcher) convertView.findViewById(R.id.shop_item_viewswitcher);
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
+            final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
 
             //montre le bouton dachat
-            boughtSwitch.setInAnimation(null);
-            boughtSwitch.setDisplayedChild(1);
             powUpCount.setVisibility(View.VISIBLE);
 
             //ajoute une action lorsque lon achete un power up
@@ -88,6 +83,7 @@ public class ShopFragment extends Fragment {
                     }
                 }
             });
+            powUpDescription.setText(rowItem.getDescription());
             powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberItemPurchased(rowItem.getClass()));
             powUpName.setText(rowItem.getType());
             powUpPrice.setText(String.valueOf(rowItem.getPrice()));

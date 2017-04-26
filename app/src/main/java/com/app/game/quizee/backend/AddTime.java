@@ -35,4 +35,9 @@ public class AddTime implements GameItem {
     public int getImageId() {
         return R.drawable.ic_addtime;
     }
+
+    @Override
+    public int getDescription() {
+        return R.string.description_add_time;
+    }
 }

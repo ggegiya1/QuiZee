@@ -20,4 +20,6 @@ public interface GameItem extends Serializable{
 
     int getPosition();
 
+    int getDescription();
+
 }

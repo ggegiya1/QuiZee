@@ -6,39 +6,27 @@
     android:orientation="vertical"
     tools:context="com.app.game.quizee.ContactsFragment">
 
-    <ViewSwitcher
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/contact_view_switcher"
-        android:inAnimation="@android:anim/slide_in_left"
-        android:outAnimation="@android:anim/slide_out_right">
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:text="@string/top_players"
+            android:textColor="@color/colorSecondary"
+            android:layout_weight="0.055"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/top_players"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorSecondary"
-                android:layout_weight="0.055"
-                android:gravity="center"
-                android:background="@color/colorPrimary"
-                android:padding="2dp"/>
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:padding="10dp"
-                android:layout_weight="0.95"
-                android:id="@+id/top_players_list"
-                android:dividerHeight="2dp"
-                android:scrollbarThumbVertical="@drawable/button_tertiary_default"/>
-        </LinearLayout>
-    </ViewSwitcher>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="3dp"
+            android:layout_weight="0.95"
+            android:id="@+id/top_players_list"
+            android:dividerHeight="2dp"
+            android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
+            android:scrollbarSize="5dp"/>
 </LinearLayout>

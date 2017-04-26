@@ -36,7 +36,7 @@
         android:layout_height="match_parent"
         android:id="@+id/category_item_price"
         android:text="0"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textColor="@color/complementaryBackground"
         android:drawableEnd="@drawable/ic_currency"
         android:gravity="center"
