@@ -1,6 +1,5 @@
 package com.app.game.quizee.backend;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,11 +10,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gia on 23/04/17.
@@ -43,6 +47,8 @@ public class PlayerManager{
 
 
     private PlayerLoggedCallback loggedCallback;
+
+    private TopListReceivedCallback topListReceivedCallback;
 
 
     public Player getCurrentPlayer(){
@@ -194,8 +200,52 @@ public class PlayerManager{
         this.loggedCallback = loggedCallback;
     }
 
+    public void setTopListReceivedCallback(TopListReceivedCallback topListReceivedCallback) {
+        this.topListReceivedCallback = topListReceivedCallback;
+    }
+
+    public void getTopPlayers(int maxTopPlayers) {
+        Query myTopPostsQuery = playersDatabase.orderByChild("totalscore").limitToLast(maxTopPlayers);
+        myTopPostsQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                topListReceivedCallback.onError(databaseError.getMessage());
+            }
+
+        });
+
+    }
+
     public interface PlayerLoggedCallback{
         void onLogin();
         void onFailure(String message);
+    }
+
+    public interface TopListReceivedCallback{
+        void onError(String message);
+        void onItemRead(Player player);
     }
 }

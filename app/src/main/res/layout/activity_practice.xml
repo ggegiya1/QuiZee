@@ -34,14 +34,14 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:textColor="@color/complementaryBackground"
-                android:layout_toStartOf="@+id/level"/>
+                android:layout_toStartOf="@+id/contact_level"/>
 
 
 
             <TextView
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
-                android:id="@+id/level"
+                android:id="@+id/contact_level"
                 android:gravity="center"
                 android:background="@drawable/ic_star2"
                 android:backgroundTint="@color/yellow"
@@ -69,7 +69,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="1"
-        android:layout_below="@+id/my_toolbar">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:id="@+id/GameStatus"

@@ -14,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -217,6 +218,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             }
+            Log.i("settings", item.toString());
             return super.onOptionsItemSelected(item);
         }
         //choisir une image: le code vient de http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
@@ -245,7 +247,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     //Get image
                     Bitmap newProfilePic = extras.getParcelable("data");
                 } else {
-                    Toast.makeText(getActivity(), getString(R.string.pref_account_no_image_selected), Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), getString(R.string.pref_account_no_image_selected), Toast.LENGTH_SHORT).show();
                 }
             }
         }

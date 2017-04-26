@@ -34,14 +34,14 @@
                 android:text="Caterogy"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:layout_toStartOf="@+id/level"/>
+                android:layout_toStartOf="@+id/contact_level"/>
 
 
 
             <TextView
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
-                android:id="@+id/level"
+                android:id="@+id/contact_level"
                 android:gravity="center"
                 android:background="@drawable/ic_star2"
                 android:backgroundTint="@color/yellow"

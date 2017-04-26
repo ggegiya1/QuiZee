@@ -19,7 +19,7 @@ public class GameManager {
     public void executeSkip(){
         if (!player.getSkips().isEmpty()) {
             Skip skip = player.getSkips().iterator().next();
-            player.getSkips().iterator().remove();
+            player.getSkips().remove(0);
             skip.apply(game);
         }
     }
@@ -27,7 +27,7 @@ public class GameManager {
     public void executeHint(){
         if (!player.getHints().isEmpty()){
             Hint hint = player.getHints().iterator().next();
-            player.getHints().iterator().remove();
+            player.getHints().remove(0);
             hint.apply(game);
         }
     }
@@ -35,7 +35,7 @@ public class GameManager {
     public void executeBomb(){
         if (!player.getBombs().isEmpty()){
             Bomb bomb = player.getBombs().iterator().next();
-            player.getBombs().iterator().remove();
+            player.getBombs().remove(0);
             bomb.apply(game);
         }
     }

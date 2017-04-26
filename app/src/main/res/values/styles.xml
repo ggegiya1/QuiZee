@@ -15,7 +15,8 @@
     </style>
 
     <style name="Buttons" parent="android:style/Widget.Button">
-        <item name="android:background">@drawable/button_tertiary_default</item>
+        <item name="android:background">@drawable/button_tertiary_style</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Button</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

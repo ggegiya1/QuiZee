@@ -26,7 +26,7 @@ public class Player extends Observable implements Serializable {
 
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
-    private final SparseIntArray achievements = new SparseIntArray();
+    private final List<Achievement> achievements = new ArrayList<>();
     private final List<Skip> skips = new ArrayList<>();
     private final List<AddTime> addTimes = new ArrayList<>();
     private final List<Hint> hints = new ArrayList<>();
@@ -54,9 +54,6 @@ public class Player extends Observable implements Serializable {
         this.points = points;
         this.nbGamesPlayed = 0;
         this.nbQanswered = 0;
-        for (int i=0; i<20; i++){
-            achievements.put(i,0);
-        }
     }
 
     public Player(String playerId, String name, String image, int level){
@@ -146,7 +143,7 @@ public class Player extends Observable implements Serializable {
         return  categoriesPurchased.contains(category);
     }
 
-    public SparseIntArray getAchievements() {
+    public List<Achievement> getAchievements() {
         return achievements;
     }
 
@@ -208,14 +205,14 @@ public class Player extends Observable implements Serializable {
 
     }
 
-    public boolean checkachie(int achieid){
-        if (achievements.get(achieid) == 0){
-            return false;
-        }
-        return true;
+    public boolean hasAchievement(Achievement achievement){
+        return this.achievements.contains(achievement);
     }
-    public void setachie(int achieid){
-        achievements.put(achieid,1);
+
+    public void addAchievement(Achievement achievement){
+        if (!this.achievements.contains(achievement)){
+            this.achievements.add(achievement);
+        }
     }
     public int getPoints(){
         return points;
@@ -323,6 +320,38 @@ public class Player extends Observable implements Serializable {
 
     public Map<String, Integer> getPrefCategories() {
         return perfCategories;
+    }
+
+    public int getNumberItemPurchased(Class<? extends GameItem> itemClass){
+        if (itemClass.isAssignableFrom(Bomb.class)){
+            return getBombs().size();
+        }
+        if (itemClass.isAssignableFrom(Skip.class)){
+            return getSkips().size();
+        }
+        if (itemClass.isAssignableFrom(Hint.class)){
+            return getHints().size();
+        }
+        if (itemClass.isAssignableFrom(AddTime.class)){
+            return getAddTimes().size();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        return id != null ? id.equals(player.id) : player.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

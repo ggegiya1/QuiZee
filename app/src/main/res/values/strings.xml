@@ -39,7 +39,7 @@
     <string name="multiPlay">Play with friends</string>
 
     <!-- strings related to category selection activity -->
-    <string name="categorySelection">Select categories</string>
+    <string name="categorySelection">SELECT CATEGORIES</string>
     <string name="categoriesPlay">Play</string>
     <string name="buy_category">Buy Category</string>
     <string name="discard">Discard</string>
@@ -47,7 +47,7 @@
     <!-- Strings related to contacts-->
     <string name="hint_search_friends">SEARCH A FRIEND</string>
     <string name="search_results">Search results</string>
-    <string name="top_players">Top players</string>
+    <string name="top_players">TOP PLAYERS</string>
     <string name="friends">Friends</string>
 
     <!-- Strings related to multiplayer-->

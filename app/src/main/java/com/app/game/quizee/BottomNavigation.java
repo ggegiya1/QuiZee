@@ -122,7 +122,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
-        points.setText(String.format(getResources().getString(R.string.points_format), player.getPoints()));
+        points.setText(String.valueOf(player.getPoints()));
         score.setText(String.format(getResources().getString(R.string.score_format), player.getHighestScore()));
         level.setText(String.valueOf(player.getLevel()));
     }
