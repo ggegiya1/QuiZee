@@ -136,23 +136,23 @@ public class ShopFragment extends Fragment {
             switch (pos) {
                 //TODO: Manque affichage achievement
                 case 1:
-                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getBombs());
-                    if (current_player.getitembought("Bomb") == 5 && !current_player.checkachie(8)){
+                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getBombs().size());
+                    if (current_player.getBombs().size() == 5 && !current_player.checkachie(8)){
                         current_player.setachie(8);
                     }
                 case 2:
-                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getSkips());
-                    if (current_player.getitembought("Skip") == 5 && !current_player.checkachie(9)){
+                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getSkips().size());
+                    if (current_player.getSkips().size() == 5 && !current_player.checkachie(9)){
                         current_player.setachie(9);
                     }
                 case 3:
-                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getAddTimes());
-                    if (current_player.getitembought("Time") == 5 && !current_player.checkachie(10)){
+                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getAddTimes().size());
+                    if (current_player.getAddTimes().size() == 5 && !current_player.checkachie(10)){
                         current_player.setachie(10);
                     }
                 case 4:
-                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getHints());
-                    if (current_player.getitembought("Hint") == 5 && !current_player.checkachie(11)){
+                    powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getHints().size());
+                    if (current_player.getHints().size() == 5 && !current_player.checkachie(11)){
                         current_player.setachie(11);
                     }
             }

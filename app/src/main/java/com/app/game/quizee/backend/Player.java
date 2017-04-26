@@ -23,7 +23,6 @@ public class Player extends Observable implements Serializable {
     //For achievements
     private int nbGamesPlayed;
     private int nbQanswered;
-    Map<String,Integer> itembought = new HashMap <String,Integer>();
 
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
@@ -55,10 +54,6 @@ public class Player extends Observable implements Serializable {
         this.points = points;
         this.nbGamesPlayed = 0;
         this.nbQanswered = 0;
-        itembought.put("Bomb",0);
-        itembought.put("Skip",0);
-        itembought.put("Hint",0);
-        itembought.put("Time",0);
         for (int i=0; i<20; i++){
             achievements.put(i,0);
         }
@@ -272,19 +267,15 @@ public class Player extends Observable implements Serializable {
             return false;
         }
         if (gameItem instanceof Bomb) {
-            itembought.put("Bomb",itembought.get("Bomb")+1);
             this.bombs.add((Bomb) gameItem);
         }
         if (gameItem instanceof Skip) {
-            itembought.put("Skip",itembought.get("Skip")+1);
             this.skips.add((Skip) gameItem);
         }
         if (gameItem instanceof AddTime) {
-            itembought.put("Time",itembought.get("Time")+1);
             this.addTimes.add((AddTime) gameItem);
         }
         if (gameItem instanceof Hint) {
-            itembought.put("Hint",itembought.get("Hint")+1);
             this.hints.add((Hint) gameItem);
         }
 
@@ -294,9 +285,7 @@ public class Player extends Observable implements Serializable {
         notifyObservers();
         return true;
     }
-    public int getitembought(String key){
-        return this.itembought.get(key);
-    }
+
     public int get_nbGamesPlayed(){
         return this.nbGamesPlayed;
     };

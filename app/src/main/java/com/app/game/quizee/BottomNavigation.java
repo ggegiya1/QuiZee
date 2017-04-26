@@ -37,13 +37,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     TextView points;
     TextView score;
     TextView level;
-    Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
-        player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.addObserver(this);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
@@ -121,6 +120,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     private void updateUserInfo() {
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
         points.setText(String.format(getResources().getString(R.string.points_format), player.getPoints()));
         score.setText(String.format(getResources().getString(R.string.score_format), player.getHighestScore()));

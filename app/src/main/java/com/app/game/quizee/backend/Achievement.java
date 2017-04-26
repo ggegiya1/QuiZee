@@ -17,11 +17,9 @@ public class Achievement implements Serializable{
     private int maxProgress;
     private String key;
 
-    public Achievement() {
-    }
 
     //constructeur dachievement avec information nominale
-    public Achievement(int id,String text, int experience, int currency, String a_information) {
+    Achievement(int id,String text, int experience, int currency, String a_information) {
         id_achiev = id;
         description = text;
         exp = experience;

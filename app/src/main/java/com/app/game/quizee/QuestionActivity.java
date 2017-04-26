@@ -44,7 +44,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private TriviaApi triviaApi;
 
     // TODO pass player as parameter on start
-    private Player player = PlayerManager.getInstance().getCurrentPlayer();
     private GameManager gameManager;
 
     //User interface attributes
@@ -94,6 +93,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.addObserver(this);
         gameManager = new GameManager(this, player);
 
@@ -161,6 +161,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     public void init() {
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.onGameStart();
         questionCount = 0;
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
@@ -171,6 +172,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     private void updatePowerUpButtons(){
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         addTimeButton.setText(String.valueOf(player.getAddTimes().size()));
         hintButton.setText(String.valueOf(player.getHints().size()));
         bombButton.setText(String.valueOf(player.getBombs().size()));
@@ -198,6 +200,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 currentQuestion.setTimeRemained(countDownTimer.getTimeRemaining());
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
+                Player player = PlayerManager.getInstance().getCurrentPlayer();
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
                     if(colorBlind) {
@@ -273,7 +276,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     public void newQuestion(){
         if(questionCount >= QUESTIONS_NUMBER) {
             countDownTimer.cancel();
-            endDialog(player);
+            endDialog();
         } else {
             updatePowerUpButtons();
             QuestionFetcher questionFetcher = new QuestionFetcher();
@@ -282,7 +285,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     //cré le dialog de fin de jeu et laffiche
-    private void endDialog(final Player player) {
+    private void endDialog() {
+        final Player player = PlayerManager.getInstance().getCurrentPlayer();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
@@ -331,6 +335,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private ArrayList<Achievement> UpdateAchiev(){
         ArrayList<Achievement> arr_achie = new ArrayList<>();
         AchievementManager temp = AchievementManager.getInstance();
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         //Nb game jouées
         if (player.get_nbGamesPlayed()==5 && !(player.checkachie(0))){
             player.setachie(0);
@@ -419,7 +424,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         @Override
         public void onFinish() {
             // player did not respond
-            player.addIncorrectAnswer(currentQuestion);
+            PlayerManager.getInstance().getCurrentPlayer().addIncorrectAnswer(currentQuestion);
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
@@ -502,7 +507,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                player.onGameEnd();
+                PlayerManager.getInstance().getCurrentPlayer().onGameEnd();
                 finish();
             }
         } );
