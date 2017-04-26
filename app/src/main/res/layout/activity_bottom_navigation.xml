@@ -53,10 +53,10 @@
                 android:id="@+id/level"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:background="@drawable/ic_star2"
                 android:backgroundTint="@color/yellow"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="0" />
 
             <LinearLayout
@@ -67,27 +67,17 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:layout_height="match_parent">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/score"
-                    android:gravity="start"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:text="@string/score_format"
-                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="?attr/actionBarSize"
+                    android:layout_width="match_parent"
                     android:id="@+id/points"
                     android:gravity="start"
                     android:textColor="@color/complementaryBackground"
                     android:textStyle="bold"
-                    android:text="10"
                     android:padding="5dp"
                     android:drawableRight="@drawable/ic_currency"
-                    android:textSize="18sp"
+                    android:textSize="10sp"
                     />
             </LinearLayout>
 

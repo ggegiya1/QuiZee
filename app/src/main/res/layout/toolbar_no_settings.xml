@@ -52,15 +52,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_height="match_parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/score"
-                android:gravity="start"
-                android:textColor="@color/complementaryBackground"
-                android:textStyle="bold"
-                android:text="@string/score_format"
-                android:textSize="12sp"/>
+
 
             <TextView
                 android:layout_height="wrap_content"
