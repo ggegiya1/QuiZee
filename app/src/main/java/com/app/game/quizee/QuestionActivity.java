@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
@@ -104,28 +105,36 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.executeTime();
+                if (!gameManager.executeTime()){
+                    Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         skipButton = (Button) findViewById(R.id.button_question_skip);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameManager.executeSkip();
+                if (!gameManager.executeSkip()){
+                    Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         bombButton = (Button) findViewById(R.id.button_bomb);
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.executeBomb();
+                if (!gameManager.executeBomb()){
+                    Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         hintButton = (Button) findViewById(R.id.button_hint);
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.executeHint();
+                if (!gameManager.executeHint()){
+                    Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

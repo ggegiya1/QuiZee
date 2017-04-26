@@ -185,7 +185,8 @@ public class PlayerManager{
 
     public void saveCurrentPlayer() {
         Player player = getCurrentPlayer();
-        if (player != null){
+        // do not store the practice player
+        if (player != null && player!=Player.defaultPlayer()){
             Log.i(TAG, "Saving player: " + player);
             playersDatabase.child(player.getId()).setValue(player);
         }
