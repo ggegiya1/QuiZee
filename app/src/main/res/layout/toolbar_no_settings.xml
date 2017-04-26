@@ -23,25 +23,28 @@
             android:contentDescription="@string/avatar_contentDescription"
             android:src="@mipmap/ic_launcher" />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="match_parent"
             android:id="@+id/user_name"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="Hello"
-            android:textColor="@color/yellow"
-            android:gravity="center"
+            android:textColor="@color/complementaryBackground"
             android:textStyle="bold"
-            android:textSize="15sp"/>
+            android:textSize="25sp"/>
 
         <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/contact_level"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:id="@+id/level"
             android:gravity="center"
             android:layout_marginEnd="5dp"
-            android:background="@android:drawable/btn_star_big_on"
-            android:text="0" />
+            android:background="@drawable/ic_star2"
+            android:backgroundTint="@color/yellow"
+            android:layout_gravity="center"
+            android:text="0"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -54,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/score"
                 android:gravity="start"
-                android:textColor="@android:color/white"
+                android:textColor="@color/complementaryBackground"
                 android:textStyle="bold"
                 android:text="@string/score_format"
                 android:textSize="15sp"/>
@@ -64,9 +67,9 @@
                 android:layout_width="match_parent"
                 android:id="@+id/points"
                 android:gravity="start"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@color/complementaryBackground"
                 android:textStyle="bold"
-                android:text="@string/points_format"
+                android:drawableRight="@drawable/ic_currency"
                 android:textSize="15sp"
                 />
         </LinearLayout>

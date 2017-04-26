@@ -2,11 +2,13 @@ package com.app.game.quizee;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.app.game.quizee.backend.Achievement;
+import com.app.game.quizee.backend.AchievementManager;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
@@ -41,7 +44,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private TriviaApi triviaApi;
 
     // TODO pass player as parameter on start
-    private Player player = PlayerManager.getInstance().getCurrentPlayer();
     private GameManager gameManager;
 
     //User interface attributes
@@ -80,7 +82,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     //Total game scores
     int pscore=0;
-    int totalscore=0;
+
+    SharedPreferences prefs;
+    boolean colorBlind;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -89,8 +93,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.addObserver(this);
         gameManager = new GameManager(this, player);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        colorBlind = prefs.getBoolean("colorblind_mode", false);
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -153,6 +161,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     public void init() {
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.onGameStart();
         questionCount = 0;
         triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
@@ -163,6 +172,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     private void updatePowerUpButtons(){
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         addTimeButton.setText(String.valueOf(player.getAddTimes().size()));
         hintButton.setText(String.valueOf(player.getHints().size()));
         bombButton.setText(String.valueOf(player.getBombs().size()));
@@ -190,13 +200,23 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 currentQuestion.setTimeRemained(countDownTimer.getTimeRemaining());
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
+                Player player = PlayerManager.getInstance().getCurrentPlayer();
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
-                    onAnswerButtonEffect(v, Color.GREEN);
+                    if(colorBlind) {
+                        onAnswerButtonEffect(v, Color.WHITE);
+                    } else {
+                        onAnswerButtonEffect(v, Color.GREEN);
+                    }
+
 
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
-                    onAnswerButtonEffect(v, Color.RED);
+                    if(colorBlind) {
+                        onAnswerButtonEffect(v, Color.BLACK);
+                    } else {
+                        onAnswerButtonEffect(v, Color.RED);
+                    }
                 }
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
@@ -256,7 +276,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     public void newQuestion(){
         if(questionCount >= QUESTIONS_NUMBER) {
             countDownTimer.cancel();
-            endDialog(player);
+            endDialog();
         } else {
             updatePowerUpButtons();
             QuestionFetcher questionFetcher = new QuestionFetcher();
@@ -265,7 +285,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     //cré le dialog de fin de jeu et laffiche
-    private void endDialog(final Player player) {
+    private void endDialog() {
+        final Player player = PlayerManager.getInstance().getCurrentPlayer();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
@@ -273,24 +294,19 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         //felicitations
         pscore = player.getCorrectlyAnswered().size();
-        totalscore = player.getScore();
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
         String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
         felicitations.setText(fel[pscore]);
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
-        //Mettre le score total aussi?
-        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore);
+
+        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore + " | Score: " + player.getCurrentScore());
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
-        //TODO get achievements earned programmatically
-        ArrayList<Achievement> achievements = new ArrayList<>();
-        achievements.add(new Achievement(0, "Answer 10 questions", 10, 10, 5, 10));
-        achievements.add(new Achievement(0, "Answer 5 questions", 10, 10, 5, 10));
-        achievements.add(new Achievement(0, "Answer 1 question", 10, 10, 5, 10));
+        UpdateAchiev();
 
-        AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);
+        AchievementsAdapter adapter = new AchievementsAdapter(this,  UpdateAchiev());
         achievementsEarned.setAdapter(adapter);
 
         Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
@@ -316,6 +332,47 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         endDialog.setCancelable(false);
     }
 
+    private ArrayList<Achievement> UpdateAchiev(){
+        ArrayList<Achievement> arr_achie = new ArrayList<>();
+        AchievementManager temp = AchievementManager.getInstance();
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        //Nb game jouées
+        if (player.get_nbGamesPlayed()==5 && !(player.checkachie(0))){
+            player.setachie(0);
+            arr_achie.add(temp.getAchievementByID(0));
+        } else if (player.get_nbGamesPlayed()==20 && !(player.checkachie(1))){
+            player.setachie(1);
+            arr_achie.add(temp.getAchievementByID(1));
+        } else if (player.get_nbGamesPlayed()==50 && !(player.checkachie(2))){
+            player.setachie(2);
+            arr_achie.add(temp.getAchievementByID(2));
+        } else if (player.get_nbGamesPlayed()==100 && !(player.checkachie(3))){
+            player.setachie(3);
+            arr_achie.add(temp.getAchievementByID(3));
+        }
+
+        //Nb questions répondues
+        if (player.get_nbQanswered()==50 && !(player.checkachie(4))){
+            player.setachie(4);
+            arr_achie.add(temp.getAchievementByID(4));
+        } else if (player.get_nbQanswered()==100 && !(player.checkachie(5))){
+            player.setachie(5);
+            arr_achie.add(temp.getAchievementByID(5));
+        } else if  (player.get_nbQanswered()==200 && !(player.checkachie(6))){
+            player.setachie(6);
+            arr_achie.add(temp.getAchievementByID(6));
+        } else if (player.get_nbQanswered()==500 && !(player.checkachie(7))){
+            player.setachie(7);
+            arr_achie.add(temp.getAchievementByID(7));
+        }
+
+        if (player.getCorrectlyAnswered().size()==10 && !(player.checkachie(15))){
+            player.setachie(15);
+            arr_achie.add(temp.getAchievementByID(15));
+        }
+        return arr_achie;
+
+    }
     private void setQuestion(Question question){
         questionCount++;
         currentQuestion = question;
@@ -367,7 +424,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         @Override
         public void onFinish() {
             // player did not respond
-            player.addIncorrectAnswer(currentQuestion);
+            PlayerManager.getInstance().getCurrentPlayer().addIncorrectAnswer(currentQuestion);
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
@@ -450,7 +507,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                player.onGameEnd();
+                PlayerManager.getInstance().getCurrentPlayer().onGameEnd();
                 finish();
             }
         } );

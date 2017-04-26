@@ -22,6 +22,7 @@ import android.widget.ViewSwitcher;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Player;
+import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
@@ -31,8 +32,6 @@ import java.util.List;
 public class MultiplayerQuestionActivity extends AppCompatActivity{
 
     private final TriviaApi triviaApi = new TriviaApi(Collections.singletonList(Category.any()), 10, true);
-
-    private Player player;
 
     //User interface attributes
     TextSwitcher questionTextSwitcher;
@@ -179,6 +178,7 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Answer answer = (Answer)v.getTag();
+                Player player = PlayerManager.getInstance().getCurrentPlayer();
                 Log.i("activity.question", String.format("answer: %s", answer));
                 if (answer.isCorrect()){
                     Log.i("activity.question", "answer is correct");

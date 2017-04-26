@@ -43,7 +43,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private static final String TAG = "category.selection";
 
     private final CategoryManager categoryManager = CategoryManager.getInstance();
-    private Player player;
     ListView categoryList;
     TextView playerName;
     TextView level;
@@ -55,7 +54,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_menu);
-        player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.clearSelectedCategories();
         player.addObserver(this);
         addPlayerToolBar(player);
@@ -99,15 +98,16 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 // get category associated to the current row
                 SelectableCategory category = selectableCategories.get(position);
+                Player player = PlayerManager.getInstance().getCurrentPlayer();
                 if(category.isSelected()) {
-                    unSelectCategory(category);
+                    unSelectCategory(player, category);
                 } else {
                     // instant purchase category
                     if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
-                        instantCategoryBuyDialog(category);
+                        instantCategoryBuyDialog(player, category);
                     }else if (player.alreadyPurchased(category.getCategory()) || category.getCategory().getPrice() == 0){
                         // select category if already purchased or is free
-                        selectCategory(category);
+                        selectCategory(player, category);
                     }else {
                         // do not select when not enough points to unlock category
                         Toast.makeText(getApplicationContext(), R.string.not_enough_points_category, Toast.LENGTH_SHORT).show();
@@ -144,36 +144,36 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         updatePlayerInfo((Player)o);
     }
 
-    private void buyAndSelectCategory(SelectableCategory category){
+    private void buyAndSelectCategory(Player player, SelectableCategory category){
         player.buyCategory(category.getCategory());
-        selectCategory(category);
+        selectCategory(player, category);
     }
 
-    private void selectCategory(SelectableCategory category){
+    private void selectCategory(Player player, SelectableCategory category){
         Log.i(TAG, "Selected category: " + category.getCategory());
         player.addSelectedCategory(category.getCategory());
         category.setSelected(true);
     }
 
-    private void unSelectCategory(SelectableCategory category){
+    private void unSelectCategory(Player player, SelectableCategory category){
         player.removeSelectedCategory(category.getCategory());
         category.setSelected(false);
     }
 
-    private void instantCategoryBuyDialog(final SelectableCategory category){
+    private void instantCategoryBuyDialog(final Player player, final SelectableCategory category){
         AlertDialog.Builder builder = new AlertDialog.Builder(categoryList.getContext());
         builder.setMessage(category.getCategory().getName());
         builder.setTitle(R.string.buy_category);
         builder.setPositiveButton(R.string.buy, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                buyAndSelectCategory(category);
+                buyAndSelectCategory(player, category);
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                unSelectCategory(category);
+                unSelectCategory(player, category);
             }
         });
         builder.show();
@@ -214,7 +214,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             holder.categoryName.setText(category.getCategory().getDisplayName());
             if (category.getCategory().getPrice() == 0) {
                 holder.categoryPrice.setText("");
-            }else if(player.alreadyPurchased(category.getCategory())){
+            }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
                 holder.categoryPrice.setText(R.string.unlocked);
                 holder.categoryPrice.setTextColor(Color.GREEN);
             }else {
