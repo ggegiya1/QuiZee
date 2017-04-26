@@ -21,10 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by gia on 23/04/17.
- */
-
 public class PlayerManager{
 
     private static final String TAG = "player.manager";
@@ -45,7 +41,7 @@ public class PlayerManager{
 
     private boolean loggedIn;
 
-
+//test maude
     private PlayerLoggedCallback loggedCallback;
 
     private TopListReceivedCallback topListReceivedCallback;
