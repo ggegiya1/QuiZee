@@ -122,7 +122,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private void addPlayerToolBar(Player player){
         playerName = (TextView) findViewById(R.id.user_name);
         points = (TextView) findViewById(R.id.points);
-        level = (TextView) findViewById(R.id.contact_level);
+        level = (TextView) findViewById(R.id.level);
         avatar = (ImageView) findViewById(R.id.avatar);
         score = (TextView) findViewById(R.id.score);
         updatePlayerInfo(player);

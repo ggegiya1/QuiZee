@@ -50,7 +50,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         playerName = (TextView) findViewById(R.id.user_name);
         points = (TextView) findViewById(R.id.points);
         score = (TextView) findViewById(R.id.score);
-        level = (TextView) findViewById(R.id.contact_level);
+        level = (TextView) findViewById(R.id.level);
 
         updateUserInfo();
 
