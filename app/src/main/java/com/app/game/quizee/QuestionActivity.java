@@ -328,8 +328,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         updateAchievements();
         // IMPORTANT! Save the current player score to be updated in TOP list view
         PlayerManager.getInstance().saveCurrentPlayer();
-        AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
-        achievementsEarned.setAdapter(adapter);
+        List<Achievement> achievements = updateAchievements();
+        if (!achievements.isEmpty()){
+            AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
+            achievementsEarned.setAdapter(adapter);
+        }
 
         Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
         replay.setOnClickListener(new View.OnClickListener() {
@@ -521,7 +524,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void updateScore(Player player) {
-        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getHighestScore()));
+        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getCurrentScore()));
         pointsView.setText(String.valueOf(player.getPoints()));
     }
 
