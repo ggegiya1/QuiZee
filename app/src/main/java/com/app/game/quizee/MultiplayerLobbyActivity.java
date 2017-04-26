@@ -105,15 +105,15 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             ImageView contactIcon = (ImageView) rowView.findViewById(R.id.contact_avatar_icon);
             TextView levelTv = (TextView) rowView.findViewById(R.id.contact_level);
 
-            Button addContact = (Button) rowView.findViewById(R.id.contact_follow_toggle);
+//            Button addContact = (Button) rowView.findViewById(R.id.contact_follow_toggle);
 //            ImageButton removeContact = (ImageButton) rowView.findViewById(R.id.contact_remove_button);
 //            final Button playRequestButton = (Button) rowView.findViewById(R.id.play_request_button);
 //            final ProgressBar pb = (ProgressBar) rowView.findViewById(R.id.play_request_progressbar);
-            ImageView contactConnectionCircle = (ImageView) rowView.findViewById(R.id.contact_is_connected);
+//            ImageView contactConnectionCircle = (ImageView) rowView.findViewById(R.id.contact_is_connected);
 
-            contactConnectionCircle.setVisibility(View.VISIBLE);
-            contactConnectionCircle.setColorFilter(0x00ff0000, PorterDuff.Mode.MULTIPLY);
-            addContact.setVisibility(View.INVISIBLE);
+//            contactConnectionCircle.setVisibility(View.VISIBLE);
+//            contactConnectionCircle.setColorFilter(0x00ff0000, PorterDuff.Mode.MULTIPLY);
+//            addContact.setVisibility(View.INVISIBLE);
 //            removeContact.setVisibility(View.INVISIBLE);
 //
 //            playRequestButton.setOnClickListener(new View.OnClickListener() {

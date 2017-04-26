@@ -22,18 +22,18 @@
     <me.grantland.widget.AutofitTextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
         android:id="@+id/contact_item_name"
         android:gravity="center"
-        android:textColor="@color/yellow"
+        android:textColor="@color/colorPrimary"
         android:layout_gravity="center"
         android:maxLines="1"
         android:text="Contact item name"
         android:textSize="20sp"/>
 
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/contact_level"
         android:gravity="center"
         android:layout_gravity="center"
@@ -41,7 +41,19 @@
         android:background="@android:drawable/btn_star_big_on"
         android:text="0" />
 
-    <Button
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:id="@+id/contact_score"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:text="0" />
+
+    <!--Button
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="follow me"
@@ -49,7 +61,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/yellow"
         android:background="@android:drawable/btn_default_small"
-        android:id="@+id/contact_follow_toggle"/>
+        android:id="@+id/contact_follow_toggle"/-->
 
     <!--Button
         android:layout_width="40dp"
@@ -68,7 +80,7 @@
         android:layout_centerVertical="true"
         android:progress="1"/-->
 
-    <ImageView
+    <!--ImageView
         android:id="@+id/contact_is_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,6 +88,6 @@
         android:background="@android:drawable/btn_star"
         android:backgroundTint="@color/green"
         android:contentDescription="Contact availble"
-        android:gravity="center" />
+        android:gravity="center" /-->
 
 </LinearLayout>

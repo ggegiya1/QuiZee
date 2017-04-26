@@ -1,7 +1,6 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -97,11 +96,10 @@ public class ContactsFragment extends Fragment {
 
     //contien temporairement un view pour la réutiliser
     private static class ViewHolder {
-        TextView contactName;
-        ImageView contactIcon;
-        ImageView contactOnline;
-        TextView levelTv;
-        Button toggleContact;
+        TextView name;
+        ImageView icon;
+        TextView score;
+        TextView level;
     }
 
     //Adapter inspiré de
@@ -127,26 +125,18 @@ public class ContactsFragment extends Fragment {
             if(convertView == null) {
                 convertView = inflater.inflate(R.layout.contacts_item_list_layout, null);
                 holder = new ViewHolder();
-                holder.contactName = (TextView) convertView.findViewById(R.id.contact_item_name);
-                holder.contactIcon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
-                holder.contactOnline = (ImageView) convertView.findViewById(R.id.contact_is_connected);
-                holder.levelTv = (TextView) convertView.findViewById(R.id.contact_level);
-                holder.toggleContact = (Button) convertView.findViewById(R.id.contact_follow_toggle);
+                holder.name = (TextView) convertView.findViewById(R.id.contact_item_name);
+                holder.icon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
+                holder.score = (TextView) convertView.findViewById(R.id.contact_score);
+                holder.level = (TextView) convertView.findViewById(R.id.contact_level);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.contactName.setText(p.getName());
+            holder.name.setText(p.getName());
             // TODO replace with real user photo
-            holder.contactIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_acount));
-            // TODO update with real flag. Need only for multiplayer. So disabled now
-            holder.contactOnline.setBackgroundColor(Color.GREEN);
-            holder.contactOnline.setVisibility(View.INVISIBLE);
-
-            holder.levelTv.setText(String.valueOf(p.getLevel()));
-            holder.toggleContact.setBackgroundColor(Color.TRANSPARENT);
-            holder.toggleContact.setText("UNFOLLOW");
-            holder.toggleContact.setTextColor(Color.WHITE);
+            holder.icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_acount));
+            holder.level.setText(String.valueOf(p.getLevel()));
             return convertView;
         }
     }

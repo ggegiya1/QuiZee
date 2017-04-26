@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.app.game.quizee.backend.Achievement;
-import com.app.game.quizee.backend.AchievementManager;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
@@ -304,9 +303,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
-        UpdateAchiev();
+        updateAchievements();
 
-        AchievementsAdapter adapter = new AchievementsAdapter(this,  UpdateAchiev());
+        AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
         achievementsEarned.setAdapter(adapter);
 
         Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
@@ -332,45 +331,16 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         endDialog.setCancelable(false);
     }
 
-    private ArrayList<Achievement> UpdateAchiev(){
-        ArrayList<Achievement> arr_achie = new ArrayList<>();
-        AchievementManager temp = AchievementManager.getInstance();
+    private ArrayList<Achievement> updateAchievements(){
+        ArrayList<Achievement> achievements = new ArrayList<>();
         Player player = PlayerManager.getInstance().getCurrentPlayer();
-        //Nb game jouées
-        if (player.get_nbGamesPlayed()==5 && !(player.checkachie(0))){
-            player.setachie(0);
-            arr_achie.add(temp.getAchievementByID(0));
-        } else if (player.get_nbGamesPlayed()==20 && !(player.checkachie(1))){
-            player.setachie(1);
-            arr_achie.add(temp.getAchievementByID(1));
-        } else if (player.get_nbGamesPlayed()==50 && !(player.checkachie(2))){
-            player.setachie(2);
-            arr_achie.add(temp.getAchievementByID(2));
-        } else if (player.get_nbGamesPlayed()==100 && !(player.checkachie(3))){
-            player.setachie(3);
-            arr_achie.add(temp.getAchievementByID(3));
+        for (Achievement a: Achievement.values()){
+            if (a.isAchieved(player)){
+                player.addAchievement(a);
+                achievements.add(a);
+            }
         }
-
-        //Nb questions répondues
-        if (player.get_nbQanswered()==50 && !(player.checkachie(4))){
-            player.setachie(4);
-            arr_achie.add(temp.getAchievementByID(4));
-        } else if (player.get_nbQanswered()==100 && !(player.checkachie(5))){
-            player.setachie(5);
-            arr_achie.add(temp.getAchievementByID(5));
-        } else if  (player.get_nbQanswered()==200 && !(player.checkachie(6))){
-            player.setachie(6);
-            arr_achie.add(temp.getAchievementByID(6));
-        } else if (player.get_nbQanswered()==500 && !(player.checkachie(7))){
-            player.setachie(7);
-            arr_achie.add(temp.getAchievementByID(7));
-        }
-
-        if (player.getCorrectlyAnswered().size()==10 && !(player.checkachie(15))){
-            player.setachie(15);
-            arr_achie.add(temp.getAchievementByID(15));
-        }
-        return arr_achie;
+        return achievements;
 
     }
     private void setQuestion(Question question){

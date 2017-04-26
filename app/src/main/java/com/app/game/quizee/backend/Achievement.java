@@ -7,8 +7,101 @@ import java.io.Serializable;
  * Created by Maude on 2017-04-03.
  */
 
-public class Achievement implements Serializable{
-    private int id_achiev;
+public enum  Achievement implements Serializable {
+
+    GAMES_5 ("Welcome aboard!", 50, 5, "Play 5 games on QuiZee."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbGamesPlayed() == 5 && !player.hasAchievement(GAMES_5);
+        }
+    },
+
+    GAMES_20 ("Just freshin' up", 100, 20, "Play 20 games on QuiZee."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbGamesPlayed() == 20 && !player.hasAchievement(GAMES_20);
+        }
+    },
+    GAMES_50 ("We getting there", 150, 50, "Play 50 games on QuiZee."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbGamesPlayed() == 50 && !player.hasAchievement(GAMES_50);
+        }
+    },
+    GAMES_100 ("GG on Veteran", 200, 100, "Play 100 games on QuiZee."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbGamesPlayed() == 100 && !player.hasAchievement(GAMES_100);
+        }
+    },
+
+    ANSWERS_50 ("We got a wise one", 50, 5, "Answer 50 questions correctly."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbQanswered() == 50 && !player.hasAchievement(ANSWERS_50);
+        }
+    },
+    ANSWERS_100 ("Call Einstein ASAP", 200, 100, "Answer 100 questions correctly."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbQanswered() == 100 && !player.hasAchievement(ANSWERS_100);
+        }
+    },
+    ANSWERS_200 ("Your IQ is on fire!", 285, 200, "Answer 200 questions correctly."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbQanswered() == 200 && !player.hasAchievement(ANSWERS_200);
+        }
+    },
+    ANSWERS_500 ("You gotta be cheating, for real", 1, 1, "Answer 500 questions correctly."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.get_nbQanswered() == 500 && !player.hasAchievement(ANSWERS_500);
+        }
+    },
+    ANSWER_10_IN_ROW ("The streak is real, mate", 50, 50, "Answer 10 questions in a row."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.getCorrectlyAnswered().size() == 10 && !player.hasAchievement(ANSWER_10_IN_ROW);
+        }
+    },
+
+    BOMBS_5 ("You ever played BANG?", 20, 5, "Buy 5 bombs."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.getBombs().size() == 5 && !player.hasAchievement(BOMBS_5);
+        }
+    },
+    SKIPS_5 ("Don't skip class to play!", 20, 5, "Buy 5 skip."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.getSkips().size() == 5 && !player.hasAchievement(SKIPS_5);
+        }
+    },
+    TIME_5 ("Tick tock, time's up", 20, 5, "Buy 5 timeadd."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.getAddTimes().size() == 5 && !player.hasAchievement(TIME_5);
+        }
+    },
+    HINTS_5 ("Hint me up, Sherlock", 20, 5, "Buy 5 hints."){
+        @Override
+        public boolean isAchieved(Player player){
+            return player.getHints().size() == 5 && !player.hasAchievement(HINTS_5);
+        }
+    },
+
+    //TODO: Achiev achat categorie
+    CATEGORY_1 ("Knowledge is expandable", 20, 5, "Buy 1 category."),
+    CATEGORY_10 ("This fella likes to learn!", 20, 5, "Buy 10 categories."),
+    CATEGORY_ALL ("Ain't no subject he can't deal", 120, 200, "Buy all categories."),
+
+    //TODO: Achiev level up
+    LEVEL_5("Give it up!", 50, 50, "Reach lvl 5."),
+    LEVEL_10("Pretty impressive", 50, 50, "Reach lvl 10."),
+    LEVEL_20("We got a grown up over here", 50, 50, "Reach lvl 20."),
+    LEVEL_50("Best of the bests, QuiZee Master", 50, 50, "Reach lvl 50.");
+
     private String description;
     private String information;
     private int exp;
@@ -19,8 +112,7 @@ public class Achievement implements Serializable{
 
 
     //constructeur dachievement avec information nominale
-    Achievement(int id,String text, int experience, int currency, String a_information) {
-        id_achiev = id;
+    Achievement(String text, int experience, int currency, String a_information) {
         description = text;
         exp = experience;
         money = currency;
@@ -28,10 +120,6 @@ public class Achievement implements Serializable{
     }
 
     //Getters
-    public int getID(){
-        return id_achiev;
-    }
-
     public String getDesc(){
         return description;
     }
@@ -53,6 +141,10 @@ public class Achievement implements Serializable{
 
     public void setProgress(int pg) {
         progress = pg;
+    }
+
+    public boolean isAchieved(Player player){
+        return false;
     }
 }
 
