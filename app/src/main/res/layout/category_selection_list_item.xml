@@ -36,11 +36,21 @@
         android:layout_height="match_parent"
         android:id="@+id/category_item_price"
         android:text="0"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:textColor="@color/complementaryBackground"
-        android:drawableRight="@drawable/ic_currency"
+        android:drawableEnd="@drawable/ic_currency"
         android:gravity="center"
         android:layout_weight="0.3" />
+
+    <!-- this button is not clickable. it's used to mark item as selected -->
+    <RadioButton
+        android:id="@+id/radio_button_selection_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_weight="1"/>
 
 
 </LinearLayout>

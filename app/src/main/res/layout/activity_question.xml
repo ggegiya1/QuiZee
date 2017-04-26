@@ -69,6 +69,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
                     android:gravity="center"
+                    android:textSize="12sp"
                     android:textColor="@color/complementaryBackground"
                     android:textStyle="bold"
                     android:text="score" />
@@ -81,6 +82,7 @@
                     android:gravity="center"
                     android:textColor="@color/complementaryBackground"
                     android:textStyle="bold"
+                    android:textSize="12sp"
                     android:drawableRight="@drawable/ic_currency"/>
 
             </LinearLayout>
@@ -191,39 +193,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_1"
-            android:layout_margin="3dp"
-            android:textSize="25sp"
+            android:layout_margin="5dp"
             android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_2"
-            android:layout_margin="3dp"
-            android:textSize="25sp"
+            android:layout_margin="5dp"
             android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_3"
-            android:layout_margin="3dp"
-            android:textSize="25sp"
+            android:layout_margin="5dp"
             android:textAlignment="center"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_response_4"
-            android:layout_margin="3dp"
-            android:textSize="25sp"
+            android:layout_margin="5dp"
             android:textAlignment="center"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
@@ -232,9 +229,8 @@
         <Button
             android:contentDescription="@string/Bomb_Button"
             android:drawableStart="@drawable/ic_bomb"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
             android:layout_height="match_parent"
             android:id="@+id/button_bomb"
             android:text="0"
@@ -243,11 +239,10 @@
 
         <Button
             android:contentDescription="@string/Hint_Button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:drawableStart="@drawable/ic_hint"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_margin="5dp"
             android:id="@+id/button_hint"
             android:layout_weight="0.25"
             android:text="0"
@@ -255,10 +250,9 @@
 
         <Button
             android:contentDescription="@string/addTime_Button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_margin="5dp"
             android:id="@+id/button_add_time"
             android:drawableStart="@drawable/ic_addtime"
             android:text="0"
@@ -268,10 +262,9 @@
         <Button
             android:contentDescription="@string/Skip_Button"
             android:drawableStart="@drawable/ic_skip"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_margin="5dp"
             android:id="@+id/button_question_skip"
             android:layout_weight="0.25"
             android:text="0"

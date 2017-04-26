@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,7 +114,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                         Toast.makeText(getApplicationContext(), R.string.not_enough_points_category, Toast.LENGTH_SHORT).show();
                     }
                 }
-                categoryList.setItemChecked(position, category.isSelected());
+                //categoryList.setItemChecked(position, category.isSelected());
                 adapterCategory.notifyDataSetChanged();
             }
         });
@@ -131,7 +132,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
 
     private void updatePlayerInfo(Player player){
         playerName.setText(player.getName());
-        points.setText(String.format(getResources().getString(R.string.points_format), player.getPoints()));
+        points.setText(String.valueOf(player.getPoints()));
         score.setText(String.format(getResources().getString(R.string.score_format), player.getHighestScore()));
         level.setText(String.valueOf(player.getLevel()));
         //TODO pass real image here
@@ -201,6 +202,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 holder.categoryImage = (ImageView) currentView.findViewById(R.id.category_item_icon);
                 holder.categoryName = (AutofitTextView) currentView.findViewById(R.id.category_item_name);
                 holder.categoryPrice = (TextView) currentView.findViewById(R.id.category_item_price);
+                holder.selectionToggle = (RadioButton) currentView.findViewById(R.id.radio_button_selection_toggle);
                 currentView.setTag(holder);
             }else {
                 holder = (ViewHolder)currentView.getTag();
@@ -210,16 +212,17 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         }
 
         private void updateItem(ViewHolder holder, SelectableCategory category){
+            holder.selectionToggle.setChecked(category.isSelected());
             holder.categoryImage.setImageResource(category.getCategory().getImageId());
             holder.categoryName.setText(category.getCategory().getDisplayName());
             if (category.getCategory().getPrice() == 0) {
                 holder.categoryPrice.setText("");
             }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
                 holder.categoryPrice.setText(R.string.unlocked);
-                holder.categoryPrice.setTextColor(Color.GREEN);
+                holder.categoryPrice.setTextColor(activityContext.getResources().getColor(R.color.colorPrimary));
             }else {
                 holder.categoryPrice.setText(String.format(Locale.ROOT, "%d points", category.getCategory().getPrice()));
-                holder.categoryPrice.setTextColor(Color.YELLOW);
+                holder.categoryPrice.setTextColor(activityContext.getResources().getColor(R.color.colorInteraction));
             }
 
         }
@@ -230,5 +233,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         ImageView categoryImage;
         TextView categoryName;
         TextView categoryPrice;
+        RadioButton selectionToggle;
     }
 }

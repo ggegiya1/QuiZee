@@ -60,7 +60,7 @@
                 android:textColor="@color/complementaryBackground"
                 android:textStyle="bold"
                 android:text="@string/score_format"
-                android:textSize="15sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:layout_height="wrap_content"
@@ -69,8 +69,8 @@
                 android:gravity="start"
                 android:textColor="@color/complementaryBackground"
                 android:textStyle="bold"
-                android:drawableRight="@drawable/ic_currency"
-                android:textSize="15sp"
+                android:drawableEnd="@drawable/ic_currency"
+                android:textSize="12sp"
                 />
         </LinearLayout>
 
