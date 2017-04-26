@@ -68,14 +68,7 @@ public class Player extends Observable implements Serializable {
 
     public static Player defaultPlayer() {
         if (practicePlayer == null){
-            Player bob = new Player("1", "Practice Mode", null, 1, 0);
-            for (int i=0; i<=100; i++){
-                bob.getAddTimes().add(new AddTime());
-                bob.getSkips().add(new Skip());
-                bob.getHints().add(new Hint());
-                bob.getBombs().add(new Bomb());
-            }
-            practicePlayer = bob;
+            practicePlayer = new Player("1", "Practice Mode", null, 0, 0);
         }
         return practicePlayer;
     }
