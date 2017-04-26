@@ -96,10 +96,10 @@
         android:layout_weight="0.15"
         android:orientation="horizontal"
         android:id="@+id/GameStatus"
-        android:background="@color/complementaryBackground">
+        android:background="@color/colorPrimary">
 
         <TextView
-            android:text="1"
+            android:text="0"
             android:layout_weight="0.33"
             android:layout_height="match_parent"
             android:id="@+id/correct_answer_count"
@@ -109,7 +109,7 @@
             android:layout_width="0dp" />
 
         <TextView
-            android:text="12:314"
+            android:text="15:00"
             android:layout_weight="0.33"
             android:layout_height="match_parent"
             android:id="@+id/timer"
@@ -120,7 +120,7 @@
             android:layout_width="0dp" />
 
         <TextView
-            android:text="2/9"
+            android:text="1/10"
             android:layout_width="0dp"
             android:gravity="center"
             android:textSize="30sp"
@@ -139,7 +139,7 @@
         android:layout_height="match_parent"
         android:id="@+id/correct_label"
         android:textSize="12sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@android:color/primary_text_light"
         android:gravity="center"
         android:layout_width="0dp" />
 
@@ -149,7 +149,7 @@
         android:layout_height="match_parent"
         android:id="@+id/timer_label"
         android:textSize="12sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@android:color/primary_text_light"
         android:gravity="center"
         android:layout_width="0dp" />
 
@@ -158,7 +158,7 @@
         android:layout_width="0dp"
         android:gravity="center"
         android:textSize="12sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@android:color/primary_text_light"
         android:layout_height="match_parent"
         android:id="@+id/question_count_label"
         android:layout_weight="0.33" />
@@ -176,7 +176,6 @@
         android:text="@string/loading_question"
         android:padding="10dp"
         android:maxLines="5"
-        android:background="@android:color/background_light"
         android:layout_margin="15dp"/>
 
     <LinearLayout
@@ -191,28 +190,28 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/button_response_1"
             android:layout_margin="5dp"
             android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/button_response_2"
             android:layout_margin="5dp"
             android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/button_response_3"
             android:layout_margin="5dp"
             android:textAlignment="center"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/button_response_4"
             android:layout_margin="5dp"
             android:textAlignment="center"/>

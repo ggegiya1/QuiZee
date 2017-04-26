@@ -12,9 +12,11 @@ import android.widget.FrameLayout;
 import com.app.game.quizee.CategorySelectionActivity;
 import com.app.game.quizee.MultiplayerLobbyActivity;
 import com.app.game.quizee.PracticeActivity;
+import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
+import com.app.game.quizee.backend.Question;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +30,6 @@ public class HomeFragment extends Fragment {
     Button quickPlay;
     Button multiPlay;
     Button categoryPlay;
-    Button exitApp;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -56,7 +57,8 @@ public class HomeFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iquick = new Intent(getContext(), PracticeActivity.class);
+                Intent iquick = new Intent(getContext(), QuestionActivity.class);
+                iquick.putExtra("isPracticeMode", true);
                 startActivity(iquick);
             }
         };

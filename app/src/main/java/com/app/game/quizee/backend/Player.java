@@ -24,6 +24,8 @@ public class Player extends Observable implements Serializable {
     private int nbGamesPlayed;
     private int nbQanswered;
 
+    private static  Player practicePlayer;
+
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
     private final List<Achievement> achievements = new ArrayList<>();
@@ -65,17 +67,17 @@ public class Player extends Observable implements Serializable {
     }
 
     public static Player defaultPlayer() {
-        Player bob = new Player("1", "Bob", null, 5, 1000);
-        bob.getAddTimes().add(new AddTime());
-        bob.getSkips().add(new Skip());
-        bob.getHints().add(new Hint());
-        bob.getHints().add(new Hint());
-        bob.getHints().add(new Hint());
-        bob.getHints().add(new Hint());
-        bob.getBombs().add(new Bomb());
-        bob.getBombs().add(new Bomb());
-        bob.getBombs().add(new Bomb());
-        return bob;
+        if (practicePlayer == null){
+            Player bob = new Player("1", "Practice Mode", null, 1, 0);
+            for (int i=0; i<=100; i++){
+                bob.getAddTimes().add(new AddTime());
+                bob.getSkips().add(new Skip());
+                bob.getHints().add(new Hint());
+                bob.getBombs().add(new Bomb());
+            }
+            practicePlayer = bob;
+        }
+        return practicePlayer;
     }
 
     public void onGameStart(){
