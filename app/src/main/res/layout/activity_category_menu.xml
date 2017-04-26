@@ -13,14 +13,15 @@
     <TextView
         android:text="@string/categorySelection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:padding="5dp"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:id="@+id/textView2"
-        android:textAlignment="center"
-        android:textColor="@color/complementaryBackground"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:textColor="@color/colorSecondary"
         android:background="@drawable/button_primary_style"/>
 
 
@@ -29,12 +30,15 @@
         android:layout_height="0dp"
         android:id="@+id/category_list"
         android:layout_margin="10dp"
-        android:layout_weight="1" />
+        android:dividerHeight="2dp"
+        android:scrollbarThumbVertical="@drawable/button_tertiary_default"
+        android:layout_weight="0.8" />
 
     <Button
         android:id="@+id/button_start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:drawableStart="@drawable/ic_start"
         android:paddingEnd="20dp"
         android:paddingStart="20dp"

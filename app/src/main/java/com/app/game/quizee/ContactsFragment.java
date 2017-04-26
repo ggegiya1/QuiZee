@@ -2,33 +2,33 @@ package com.app.game.quizee;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
+import android.widget.Toast;
 
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements PlayerManager.TopListReceivedCallback{
 
-    ListView favoriteList;
-    ListView suggestedList;
-    SearchView contactSearch;
-    boolean searching;
-    ViewSwitcher contactViewSwitcher;
-    ListView contactSearchList;
-    Player player;
+    private static final String TAG = "contact.fragment";
+    private static final int MAX_TOP_PLAYERS = 20;
+    private ListView topList;
+    private ContactAdapter contactAdapter;
+
     // Required empty public constructor
     public ContactsFragment() {
     }
@@ -36,65 +36,34 @@ public class ContactsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        searching = false;
-
-        player = PlayerManager.getInstance().getCurrentPlayer();
+        contactAdapter = new ContactAdapter(getActivity(), new ArrayList<Player>(MAX_TOP_PLAYERS));
+        PlayerManager.getInstance().setTopListReceivedCallback(this);
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_contacts, container, false);
-        contactSearch = (SearchView) ll.findViewById(R.id.contact_search);
-        favoriteList = (ListView) ll.findViewById(R.id.favorite_contacts_list);
-        suggestedList = (ListView) ll.findViewById(R.id.suggested_players_list);
-        contactViewSwitcher = (ViewSwitcher) ll.findViewById(R.id.contact_view_switcher);
-        contactSearchList = (ListView) ll.findViewById(R.id.contact_search_list);
-
-        contactSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if(!searching) {
-                    contactViewSwitcher.showNext();
-                    search(contactSearch.getQuery());
-                }
-                searching = true;
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        contactSearch.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                if(searching) {
-                    searching = false;
-                    contactViewSwitcher.showPrevious();
-                }
-                return false;
-            }
-        });
-
-        ArrayList<Player> playerListFiller = new ArrayList<Player>();
-        playerListFiller.add(new Player("Britney", "Britney", null, 10));
-        playerListFiller.add(new Player("Britney", "Britney", null, 11));
-        playerListFiller.add(new Player("Britney", "Britney", null, 12));
-        playerListFiller.add(new Player("Britney", "Britney", null, 13));
-        playerListFiller.add(new Player("Britney", "Britney", null, 14));
-        playerListFiller.add(new Player("Britney", "Britney", null, 15));
-
-        //TODO aller chercher programmaticallement images, niveaux ,et noms de contacts et les passer directement dans ladapteur
-
-        ContactAdapter adapterFavorite = new ContactAdapter(getActivity(), playerListFiller);
-        favoriteList.setAdapter(adapterFavorite);
-
-        ContactAdapter adapterSuggested = new ContactAdapter(getActivity(), playerListFiller);
-        suggestedList.setAdapter(adapterSuggested);
-
+        topList = (ListView) ll.findViewById(R.id.top_players_list);
+        topList.setAdapter(contactAdapter);
+        PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
         return ll;
     }
 
-    //contien temporairement un view pour la réutiliser
+    @Override
+    public void onError(String message) {
+        Toast.makeText(getContext(), "Database error: " + message, Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onItemRead(Player player) {
+        Log.i(TAG, "Contact read" + player);
+        contactAdapter.remove(player);
+        contactAdapter.add(player);
+        contactAdapter.sort(new Comparator<Player>() {
+            @Override
+            public int compare(Player lhs, Player rhs) {
+                return rhs.getHighestScore() - lhs.getHighestScore();
+            }
+        });
+    }
+
     private static class ViewHolder {
         TextView name;
         ImageView icon;
@@ -104,18 +73,18 @@ public class ContactsFragment extends Fragment {
 
     //Adapter inspiré de
     // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
-    private class ContactAdapter extends ArrayAdapter<Player> {
+    private class ContactAdapter extends ArrayAdapter<Player>{
 
         Activity context;
 
-        //TODO passer les contacts directements dans ladapteur
-        public ContactAdapter (Activity context, ArrayList<Player> players) {
-            super(context, R.layout.contacts_item_list_layout, players);
-            this.context=context;
+        ContactAdapter (Activity context, List<Player> players) {
+            super(context, R.layout.contacts_item_list_layout, new ArrayList<Player>(players));
+            this.context = context;
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             LayoutInflater inflater=context.getLayoutInflater();
 
             ViewHolder holder;
@@ -134,27 +103,12 @@ public class ContactsFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.name.setText(p.getName());
+            holder.score.setText(String.valueOf(p.getHighestScore()));
             // TODO replace with real user photo
             holder.icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_acount));
             holder.level.setText(String.valueOf(p.getLevel()));
             return convertView;
         }
-    }
 
-
-    //ce qui se passe lors dune recherche
-    private void search (CharSequence search) {
-        //TODO aller chercher les resultats de recherche automatiquement
-
-        ArrayList<Player> playerListFiller = new ArrayList<Player>();
-        playerListFiller.add(new Player("Britney", "Britney", null, 10));
-        playerListFiller.add(new Player("Britney", "Britney", null, 11));
-        playerListFiller.add(new Player("Britney", "Britney", null, 12));
-        playerListFiller.add(new Player("Britney", "Britney", null, 13));
-        playerListFiller.add(new Player("Britney", "Britney", null, 14));
-        playerListFiller.add(new Player("Britney", "Britney", null, 15));
-
-        ContactAdapter adapterSearch = new ContactAdapter(getActivity(), playerListFiller);
-        contactSearchList.setAdapter(adapterSearch);
     }
 }
