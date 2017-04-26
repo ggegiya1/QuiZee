@@ -333,7 +333,7 @@ public class Player extends Observable implements Serializable {
             return getHints().size();
         }
         if (itemClass.isAssignableFrom(AddTime.class)){
-            return getHints().size();
+            return getAddTimes().size();
         }
         return 0;
     }
