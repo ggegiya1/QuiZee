@@ -16,36 +16,44 @@ public class GameManager {
         this.player = player;
     }
 
-    public void executeSkip(){
+    public boolean executeSkip(){
         if (!player.getSkips().isEmpty()) {
             Skip skip = player.getSkips().iterator().next();
             player.getSkips().remove(0);
             skip.apply(game);
+            return true;
         }
+        return false;
     }
 
-    public void executeHint(){
+    public boolean executeHint(){
         if (!player.getHints().isEmpty()){
             Hint hint = player.getHints().iterator().next();
             player.getHints().remove(0);
             hint.apply(game);
+            return true;
         }
+        return false;
     }
 
-    public void executeBomb(){
+    public boolean executeBomb(){
         if (!player.getBombs().isEmpty()){
             Bomb bomb = player.getBombs().iterator().next();
             player.getBombs().remove(0);
             bomb.apply(game);
+            return true;
         }
+        return false;
     }
 
-    public void executeTime(){
+    public boolean executeTime(){
         if (!player.getAddTimes().isEmpty()){
             AddTime addTime = player.getAddTimes().iterator().next();
             player.getAddTimes().remove(0);
             addTime.apply(game);
+            return true;
         }
+        return false;
     }
 
     public int goodAnswerScore(Question question){
