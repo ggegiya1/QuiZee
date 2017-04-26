@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
+import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
@@ -31,6 +32,7 @@ import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -83,6 +85,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     //Total game scores
     int pscore=0;
 
+    boolean isPracticeMode;
+
     SharedPreferences prefs;
     boolean colorBlind;
 
@@ -93,7 +97,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        isPracticeMode = getIntent().getBooleanExtra("isPracticeMode", false);
+        Player player = getCurrentPlayer();
         player.addObserver(this);
         gameManager = new GameManager(this, player);
 
@@ -139,6 +144,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         });
 
         questionTextView = (AutofitTextView) findViewById(R.id.text_question);
+        if (isPracticeMode){
+            questionTextView.setBackground(getDrawable(R.drawable.practice));
+        }
 
         categoryNameView = (TextView) findViewById(R.id.caterogy_name);
         categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
@@ -169,18 +177,23 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     public void init() {
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = getCurrentPlayer();
         player.onGameStart();
         questionCount = 0;
-        triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
+        triviaApi = getTriviaApi();
         Log.i("question.activity", "starting game for player: " + player);
         updateScore(player);
         newQuestion();
     }
 
+    private TriviaApi getTriviaApi(){
+        return isPracticeMode?
+                new TriviaApi(Collections.singletonList(Category.any()), QUESTIONS_NUMBER, true):
+                new TriviaApi(getCurrentPlayer().getCategoriesSelected(), QUESTIONS_NUMBER, false);
+    }
 
     private void updatePowerUpButtons(){
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = getCurrentPlayer();
         addTimeButton.setText(String.valueOf(player.getAddTimes().size()));
         hintButton.setText(String.valueOf(player.getHints().size()));
         bombButton.setText(String.valueOf(player.getBombs().size()));
@@ -208,7 +221,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 currentQuestion.setTimeRemained(countDownTimer.getTimeRemaining());
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
-                Player player = PlayerManager.getInstance().getCurrentPlayer();
+                Player player = getCurrentPlayer();
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
                     if(colorBlind) {
@@ -282,7 +295,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     public void newQuestion(){
-        if(questionCount >= QUESTIONS_NUMBER) {
+        if(questionCount >= QUESTIONS_NUMBER && !isPracticeMode) {
             countDownTimer.cancel();
             endDialog();
         } else {
@@ -294,7 +307,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     //cré le dialog de fin de jeu et laffiche
     private void endDialog() {
-        final Player player = PlayerManager.getInstance().getCurrentPlayer();
+        final Player player = getCurrentPlayer();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
@@ -312,9 +325,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
 
-        ArrayList <Achievement> my_achiev = new ArrayList<>(updateAchievements());
-        if (!(my_achiev.isEmpty())){
-            AchievementsAdapter adapter = new AchievementsAdapter(this,  my_achiev);
+        updateAchievements();
+        // IMPORTANT! Save the current player score to be updated in TOP list view
+        PlayerManager.getInstance().saveCurrentPlayer();
+        List<Achievement> achievements = updateAchievements();
+        if (!achievements.isEmpty()){
+            AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
             achievementsEarned.setAdapter(adapter);
         }
 
@@ -343,7 +359,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     private ArrayList<Achievement> updateAchievements(){
         ArrayList<Achievement> achievements = new ArrayList<>();
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = getCurrentPlayer();
         for (Achievement a: Achievement.values()){
             if (a.isAchieved(player)){
                 player.addAchievement(a);
@@ -375,7 +391,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         categoryIcon.setImageResource(question.getCategory().getImageId());
         difficulty.setText(question.getDifficulty().name());
 
-        questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
+
+        if (isPracticeMode){
+            questionsContView.setText(String.valueOf(questionCount));
+        }else {
+            questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
+        }
 
         if (countDownTimer != null) {
             countDownTimer.cancel();}
@@ -404,7 +425,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         @Override
         public void onFinish() {
             // player did not respond
-            PlayerManager.getInstance().getCurrentPlayer().addIncorrectAnswer(currentQuestion);
+            getCurrentPlayer().addIncorrectAnswer(currentQuestion);
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
@@ -487,7 +508,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                PlayerManager.getInstance().getCurrentPlayer().onGameEnd();
+                getCurrentPlayer().onGameEnd();
                 finish();
             }
         } );
@@ -505,5 +526,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private void updateScore(Player player) {
         scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getCurrentScore()));
         pointsView.setText(String.valueOf(player.getPoints()));
+    }
+
+    private Player getCurrentPlayer(){
+        return isPracticeMode?
+                Player.defaultPlayer():
+                PlayerManager.getInstance().getCurrentPlayer();
     }
 }
