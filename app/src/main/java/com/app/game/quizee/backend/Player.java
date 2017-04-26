@@ -1,7 +1,5 @@
 package com.app.game.quizee.backend;
 
-import android.util.SparseIntArray;
-
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,8 +22,6 @@ public class Player extends Observable implements Serializable {
     private int nbGamesPlayed;
     private int nbQanswered;
 
-    private static  Player practicePlayer;
-
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
     private final List<Achievement> achievements = new ArrayList<>();
@@ -39,7 +35,6 @@ public class Player extends Observable implements Serializable {
 
     private int points;
     private int level;
-    private int totalscore;
     private int currentscore;
     private int highscore;
 
@@ -67,20 +62,21 @@ public class Player extends Observable implements Serializable {
     }
 
     public static Player defaultPlayer() {
-        if (practicePlayer == null){
-            Player bob = new Player("1", "Practice Mode", null, 1, 0);
-            for (int i=0; i<=100; i++){
-                bob.getAddTimes().add(new AddTime());
-                bob.getSkips().add(new Skip());
-                bob.getHints().add(new Hint());
-                bob.getBombs().add(new Bomb());
-            }
-            practicePlayer = bob;
-        }
-        return practicePlayer;
+        Player bob = new Player("1", "Bob", null, 5, 1000);
+        bob.getAddTimes().add(new AddTime());
+        bob.getSkips().add(new Skip());
+        bob.getHints().add(new Hint());
+        bob.getHints().add(new Hint());
+        bob.getHints().add(new Hint());
+        bob.getHints().add(new Hint());
+        bob.getBombs().add(new Bomb());
+        bob.getBombs().add(new Bomb());
+        bob.getBombs().add(new Bomb());
+        return bob;
     }
 
     public void onGameStart(){
+        this.resetScore();
         this.correctlyAnswered.clear();
         this.wronglyAnswered.clear();
     }
@@ -91,11 +87,10 @@ public class Player extends Observable implements Serializable {
     }
 
     private void addScore(int score) {
-        currentscore=score;
+        currentscore+=score;
         if (highscore < score){
             highscore = score;
         }
-        setTotalscore(this.totalscore + score);
     }
 
     public int getCurrentScore(){
@@ -106,14 +101,9 @@ public class Player extends Observable implements Serializable {
         setPoints(this.points + points);
     }
 
-    private void removePoints(int score) {
-        setPoints(this.points > score ? this.points - score : 0);
-
-    }
-
-    public void setTotalscore(int totalscore) {
+    public void resetScore() {
+        this.currentscore = 0;
         this.nbGamesPlayed +=10;
-        this.totalscore = totalscore;
         setChanged();
         notifyObservers();
     }
@@ -194,8 +184,6 @@ public class Player extends Observable implements Serializable {
 
     public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
-        // penalize incorrect question
-        removePoints(-5);
     }
 
     private void updatePerformCategory(Category category){
@@ -218,10 +206,6 @@ public class Player extends Observable implements Serializable {
     }
     public int getPoints(){
         return points;
-    }
-
-    public int getTotalscore() {
-        return totalscore;
     }
 
     public List<Category> getCategoriesSelected(){
@@ -317,7 +301,7 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getHighestScore() {
-        return totalscore;
+        return highscore;
     }
 
     public Map<String, Integer> getPrefCategories() {
@@ -375,7 +359,7 @@ public class Player extends Observable implements Serializable {
                 ", wronglyAnswered=" + wronglyAnswered +
                 ", points=" + points +
                 ", level=" + level +
-                ", totalscore=" + totalscore +
+                ", highscore=" + highscore +
                 ", perfCategories=" + perfCategories +
                 '}';
     }
