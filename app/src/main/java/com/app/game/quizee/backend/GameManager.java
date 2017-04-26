@@ -43,7 +43,7 @@ public class GameManager {
     public void executeTime(){
         if (!player.getAddTimes().isEmpty()){
             AddTime addTime = player.getAddTimes().iterator().next();
-            player.getAddTimes().iterator().remove();
+            player.getAddTimes().remove(0);
             addTime.apply(game);
         }
     }
