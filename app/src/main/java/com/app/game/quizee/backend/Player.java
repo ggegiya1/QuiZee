@@ -70,14 +70,8 @@ public class Player extends Observable implements Serializable {
         }
         return practicePlayer;
     }
-
-    public void onGameStart(){
+    public void onGameReset(){
         this.resetScore();
-        this.correctlyAnswered.clear();
-        this.wronglyAnswered.clear();
-    }
-
-    public void onGameEnd(){
         this.correctlyAnswered.clear();
         this.wronglyAnswered.clear();
     }
@@ -97,7 +91,7 @@ public class Player extends Observable implements Serializable {
         setPoints(this.points + points);
     }
 
-    public void resetScore() {
+    private void resetScore() {
         this.currentscore = 0;
         this.nbGamesPlayed +=10;
         setChanged();
@@ -191,7 +185,7 @@ public class Player extends Observable implements Serializable {
 
     }
 
-    public boolean hasAchievement(Achievement achievement){
+    private boolean hasAchievement(Achievement achievement){
         return this.achievements.contains(achievement);
     }
 
@@ -237,7 +231,7 @@ public class Player extends Observable implements Serializable {
         return bombs;
     }
 
-    public boolean canPurchase(GameItem gameItem) {
+    private boolean canPurchase(GameItem gameItem) {
         return this.points >= gameItem.getPrice();
     }
 
@@ -267,10 +261,11 @@ public class Player extends Observable implements Serializable {
 
     public int get_nbGamesPlayed(){
         return this.nbGamesPlayed;
-    };
+    }
+
     public int get_nbQanswered(){
         return this.nbQanswered;
-    };
+    }
 
     public void setName(String name) {
         this.name = name;

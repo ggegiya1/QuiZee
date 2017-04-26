@@ -178,7 +178,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     public void init() {
         Player player = getCurrentPlayer();
-        player.onGameStart();
+        player.onGameReset();
         questionCount = 0;
         triviaApi = getTriviaApi();
         Log.i("question.activity", "starting game for player: " + player);
@@ -245,6 +245,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void onAnswerButtonEffect(View button, int color){
+        //TODO: Checker pk c vert-rouge
         button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
@@ -309,6 +310,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private void endDialog() {
         final Player player = getCurrentPlayer();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //TODO: Avoid passing root
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
         final AlertDialog endDialog = builder.create();
@@ -323,13 +325,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore + " | Score: " + player.getCurrentScore());
 
-        ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
-
-        updateAchievements();
         // IMPORTANT! Save the current player score to be updated in TOP list view
         PlayerManager.getInstance().saveCurrentPlayer();
         List<Achievement> achievements = updateAchievements();
         if (!achievements.isEmpty()){
+            ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
             AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
             achievementsEarned.setAdapter(adapter);
         }
@@ -348,7 +348,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             @Override
             public void onClick(View v) {
                 endDialog.cancel();
-                player.onGameEnd();
+                player.onGameReset();
                 finish();
             }
         });
@@ -508,7 +508,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                getCurrentPlayer().onGameEnd();
+                getCurrentPlayer().onGameReset();
                 finish();
             }
         } );
