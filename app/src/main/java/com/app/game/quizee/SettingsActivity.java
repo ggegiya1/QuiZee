@@ -14,10 +14,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
@@ -245,7 +247,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 final Bundle extras = data.getExtras();
                 if (extras != null) {
                     //Get image
-                    Bitmap newProfilePic = extras.getParcelable("data");
+                    Bitmap newAvatar = extras.getParcelable("data");
+                    //la conversion du bitmap en string vient de
+                    // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
+                    ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+                    newAvatar.compress(Bitmap.CompressFormat.PNG,100, baos);
+                    byte [] b=baos.toByteArray();
+                    String temp= Base64.encodeToString(b, Base64.DEFAULT);
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString("avatar", temp).commit();
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.pref_account_no_image_selected), Toast.LENGTH_SHORT).show();
                 }
