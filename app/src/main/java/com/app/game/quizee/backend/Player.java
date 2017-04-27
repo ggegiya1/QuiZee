@@ -1,8 +1,13 @@
 package com.app.game.quizee.backend;
 
-import java.util.HashMap;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -17,7 +22,6 @@ public class Player extends Observable implements Serializable {
     private String image;
     private boolean online;
     private List<Player> friends;
-
     //For achievements
     private int nbGamesPlayed;
     private int nbQanswered;
@@ -199,6 +203,20 @@ public class Player extends Observable implements Serializable {
 
     public List<Category> getCategoriesSelected(){
         return this.categoriesSelected;
+    }
+
+    public Bitmap getAvatarBitmap(SharedPreferences preference) {
+        //la conversion de string en bitmap vient de
+        // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
+        try {
+            String avatarString = preference.getString("avatar", null);
+            byte [] encodeByte= Base64.decode(avatarString,Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     public void addSelectedCategory(Category category) {

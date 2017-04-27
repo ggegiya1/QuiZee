@@ -1,7 +1,10 @@
 package com.app.game.quizee;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -10,8 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
@@ -36,6 +39,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     TextView playerName;
     TextView points;
     TextView level;
+    ImageView avatarView;
+    Bitmap avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.addObserver(this);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+        setupAvatar();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         playerName = (TextView) findViewById(R.id.user_name);
@@ -115,6 +122,16 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(1); //fait partir sur le home
+    }
+
+    private void setupAvatar() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
+        avatarView = (ImageView) findViewById(R.id.avatar);
+
+        if(avatar != null) {
+            avatarView.setImageBitmap(avatar);
+        }
     }
 
     private void updateUserInfo() {
