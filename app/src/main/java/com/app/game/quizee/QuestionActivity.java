@@ -257,7 +257,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
                     if(colorBlind) {
-                        onAnswerButtonEffect(v, Color.WHITE);
+                        onAnswerButtonEffect(v, Color.BLUE);
                     } else {
                         onAnswerButtonEffect(v, Color.GREEN);
                     }

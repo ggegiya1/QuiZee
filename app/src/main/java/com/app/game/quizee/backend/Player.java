@@ -96,7 +96,8 @@ public class Player extends Observable implements Serializable {
 
     private void resetScore() {
         this.currentscore = 0;
-        this.nbGamesPlayed +=10;
+        this.nbGamesPlayed +=1;
+        this.nbQanswered +=10;
         setChanged();
         notifyObservers();
     }
