@@ -56,11 +56,11 @@ public class Player extends Observable implements Serializable {
     }
 
     public Player(String playerId, String name, String image, int level){
-       new Player(playerId, name, image, level, 0);
+       this(playerId, name, image, level, 0);
     }
 
     public Player(String playerId, String name){
-        new Player(playerId, name, null, 0, 0);
+        this(playerId, name, null, 0, 0);
     }
 
     public static Player defaultPlayer() {

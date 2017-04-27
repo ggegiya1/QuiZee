@@ -136,10 +136,11 @@ public class PlayerManager{
         playersDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentPlayer = dataSnapshot.child(playerId).getValue(Player.class);
-                if (currentPlayer == null){
-                    currentPlayer = new Player(playerId,  userName);
-                    playersDatabase.child(playerId).setValue(currentPlayer);
+                Player player = dataSnapshot.child(playerId).getValue(Player.class);
+                if (player == null){
+                    final Player newPlayer = new Player(playerId,  userName);
+                    savePlayer(newPlayer);
+                    currentPlayer = newPlayer;
                 }
                 Log.i(TAG, "Player logged in: " + currentPlayer);
                 // pass the player to the main activity
@@ -182,6 +183,14 @@ public class PlayerManager{
             final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
             playersDatabase.child(player.getId()).setValue(player);
         }
+    }
+
+
+    public void savePlayer(Player player) {
+        Log.i(TAG, "Saving player: " + player);
+        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
+        playersDatabase.child(player.getId()).setValue(player);
+
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
@@ -230,6 +239,11 @@ public class PlayerManager{
 
         });
 
+    }
+
+    public void logout() {
+        saveCurrentPlayer();
+        signOut();
     }
 
     public interface PlayerLoggedCallback{
