@@ -134,6 +134,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         }
     }
 
+
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
@@ -152,6 +153,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     protected void onDestroy() {
         PlayerManager.getInstance().saveCurrentPlayer();
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupAvatar();
     }
 
     @Override

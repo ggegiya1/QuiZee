@@ -219,6 +219,10 @@ public class Player extends Observable implements Serializable {
         }
     }
 
+    public String getAvatarString(SharedPreferences preference) {
+        return preference.getString("avatar", null);
+    }
+
     public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
     }
