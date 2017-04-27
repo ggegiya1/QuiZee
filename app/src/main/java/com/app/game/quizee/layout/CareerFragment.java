@@ -74,7 +74,7 @@ public class CareerFragment extends Fragment {
                 xp.setText(String.valueOf(achievements[position].getXP()));
                 info.setText(achievements[position].getInformation());
 
-                if (achievements[position].isAchieved(current_player)){
+                if (current_player.hasAchievement(achievements[position])){
                     check.setImageResource(R.drawable.ic_check);
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);
@@ -85,35 +85,6 @@ public class CareerFragment extends Fragment {
             }
 
         });
-
-
-        //statsList = (ListView) ll.findViewById(R.id.stats_list);
-//        statsList.setAdapter(new BaseAdapter() {
-//            @Override
-//            public int getCount() {
-//                return 0;
-//            }
-//
-//            @Override
-//            public Object getItem(int position) {
-//                return null;
-//            }
-//
-//            @Override
-//            public long getItemId(int position) {
-//                return 0;
-//            }
-//
-//            @Override
-//
-//            public View getView(int position, View convertView, ViewGroup parent){
-//                final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
-//                if (convertView == null)
-//                    convertView = inflater.inflate(R.layout.stats_item_list_layout, parent, false);
-//
-//
-//                TextView desc = (TextView) convertView.findViewById(R.id.stats_description);
-//                TextView value = (TextView) convertView.findViewById(R.id.progress);
 
         //TODO aller chercher les informations dachievement programmaticallement
 
