@@ -33,13 +33,15 @@
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <TextView
+                <me.grantland.widget.AutofitTextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.5"
                     android:id="@+id/caterogy_name"
                     android:text="Category"
                     android:gravity="center"
+                    android:maxLines="1"
+                    android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/colorSecondary"/>
 
@@ -48,7 +50,7 @@
                     android:layout_height="0dp"
                     android:id="@+id/question_difficulty"
                     android:text="MEDIUM"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:textSize="15sp"
                     android:textAllCaps="true"
@@ -69,7 +71,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
                     android:text="score" />
@@ -82,7 +84,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
-                    android:textSize="12sp"
+                    android:textSize="15sp"
                     android:drawableRight="@drawable/ic_currency"/>
 
             </LinearLayout>
@@ -139,7 +141,7 @@
         android:layout_height="match_parent"
         android:id="@+id/correct_label"
         android:textSize="12sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@color/complementaryBackground"
         android:gravity="center"
         android:layout_width="0dp" />
 
@@ -149,7 +151,7 @@
         android:layout_height="match_parent"
         android:id="@+id/timer_label"
         android:textSize="12sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@color/complementaryBackground"
         android:gravity="center"
         android:layout_width="0dp" />
 
@@ -158,7 +160,7 @@
         android:layout_width="0dp"
         android:gravity="center"
         android:textSize="12sp"
-        android:textColor="@android:color/primary_text_dark"
+        android:textColor="@color/complementaryBackground"
         android:layout_height="match_parent"
         android:id="@+id/question_count_label"
         android:layout_weight="0.33" />

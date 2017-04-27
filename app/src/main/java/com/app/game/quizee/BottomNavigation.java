@@ -175,6 +175,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     @Override
+    protected void onStop(){
+        super.onStop();
+        PlayerManager.getInstance().onStop();
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         updateUserInfo();
     }

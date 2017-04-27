@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onStop(){
         super.onStop();
-        //playerManager.onStop();
+        playerManager.onStop();
     }
 
     @Override
@@ -115,12 +115,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
         if (!validateForm()){
+            hideProgressDialog();
             return;
         }
         int i = v.getId();
         if (i == R.id.register_button) {
             playerManager.createAccount(mUserNameField.getText().toString(), mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.email_sign_in_button && validateForm()) {
+        } else if (i == R.id.email_sign_in_button) {
             playerManager.signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
 
         }
@@ -137,7 +138,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onFailure(String message) {
-        Toast.makeText(getApplicationContext(), "Authentication error: " + message, Toast.LENGTH_LONG).show();
+        hideProgressDialog();
+        Toast.makeText(getApplicationContext(), "Authentication error: " + message, Toast.LENGTH_SHORT).show();
     }
 }
 

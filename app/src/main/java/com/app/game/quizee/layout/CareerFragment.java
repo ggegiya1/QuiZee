@@ -70,8 +70,8 @@ public class CareerFragment extends Fragment {
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
                 name.setText(achievements[position].getDesc());
-                gold.setText("" + achievements[position].getMoney());
-                xp.setText("" + achievements[position].getXP());
+                gold.setText(String.valueOf(achievements[position].getMoney()));
+                xp.setText(String.valueOf(achievements[position].getXP()));
                 info.setText(achievements[position].getInformation());
 
                 if (achievements[position].isAchieved(current_player)){
@@ -79,7 +79,8 @@ public class CareerFragment extends Fragment {
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);
                 }
-                Toast.makeText(getContext(), achievements[position].isAchieved(PlayerManager.getInstance().getCurrentPlayer())+"", Toast.LENGTH_SHORT).show();
+                // FIXME ca s'execute en background et les toasts s'affichent n'importe quand
+                //Toast.makeText(getContext(), achievements[position].isAchieved(PlayerManager.getInstance().getCurrentPlayer())+"", Toast.LENGTH_SHORT).show();
                 return convertView;
             }
 

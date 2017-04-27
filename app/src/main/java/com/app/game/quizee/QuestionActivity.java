@@ -107,36 +107,68 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
+        if (isPracticeMode){
+            addTimeButton.setVisibility(View.INVISIBLE);
+        }else {
+            addTimeButton.setVisibility(View.VISIBLE);
+        }
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeTime()){
                     Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         skipButton = (Button) findViewById(R.id.button_question_skip);
+        if (isPracticeMode){
+            skipButton.setVisibility(View.INVISIBLE);
+        }else {
+            skipButton.setVisibility(View.VISIBLE);
+        }
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeSkip()){
                     Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         bombButton = (Button) findViewById(R.id.button_bomb);
+        if (isPracticeMode){
+            bombButton.setVisibility(View.INVISIBLE);
+        }else {
+            bombButton.setVisibility(View.VISIBLE);
+        }
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeBomb()){
                     Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         hintButton = (Button) findViewById(R.id.button_hint);
+        if (isPracticeMode){
+            hintButton.setVisibility(View.INVISIBLE);
+        }else {
+            hintButton.setVisibility(View.VISIBLE);
+        }
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeHint()){
                     Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
@@ -250,7 +282,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
         animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(0);
+        animation.setRepeatCount(2);
         animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
         animation.setAnimationListener(new Animation.AnimationListener(){
 
@@ -462,7 +494,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         int marked = 0;
         for(Button button: answerButtons){
             if (!((Answer)button.getTag()).isCorrect() && marked<2){
-                button.getBackground().setColorFilter(Color.DKGRAY,  PorterDuff.Mode.SRC_ATOP);
+                button.getBackground().setColorFilter(Color.LTGRAY,  PorterDuff.Mode.SRC_ATOP);
                 // prevent accidental click
                 button.setClickable(false);
                 marked++;

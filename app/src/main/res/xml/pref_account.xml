@@ -25,6 +25,7 @@
     </Preference>
 
     <Preference
+        android:key="logout"
         android:title="@string/logout">
     </Preference>
 

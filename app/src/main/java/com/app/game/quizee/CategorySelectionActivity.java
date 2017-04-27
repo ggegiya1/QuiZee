@@ -102,7 +102,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 } else {
                     // instant purchase category
                     if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
-                        instantCategoryBuyDialog(player, category);
+                        instantCategoryBuyDialog(player, category, view);
                     }else if (player.alreadyPurchased(category.getCategory()) || category.getCategory().getPrice() == 0){
                         // select category if already purchased or is free
                         selectCategory(player, category);
@@ -111,7 +111,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                         Toast.makeText(getApplicationContext(), R.string.not_enough_points_category, Toast.LENGTH_SHORT).show();
                     }
                 }
-                //categoryList.setItemChecked(position, category.isSelected());
                 adapterCategory.notifyDataSetChanged();
             }
         });
@@ -130,10 +129,9 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private void updatePlayerInfo(Player player){
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
-        //score.setText(String.format(getResources().getString(R.string.score_format), player.ge()));
         level.setText(String.valueOf(player.getLevel()));
         //TODO pass real image here
-        avatar.setImageResource(R.drawable.ic_multi_player);
+        avatar.setImageResource(R.mipmap.ic_launcher);
     }
 
     @Override
@@ -158,20 +156,23 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         category.setSelected(false);
     }
 
-    private void instantCategoryBuyDialog(final Player player, final SelectableCategory category){
+    private void instantCategoryBuyDialog(final Player player, final SelectableCategory category, final View rowView){
         AlertDialog.Builder builder = new AlertDialog.Builder(categoryList.getContext());
+        final ViewHolder viewHolder = (ViewHolder)rowView.getTag();
         builder.setMessage(category.getCategory().getName());
         builder.setTitle(R.string.buy_category);
         builder.setPositiveButton(R.string.buy, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 buyAndSelectCategory(player, category);
+                updateItem(viewHolder, category);
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 unSelectCategory(player, category);
+                updateItem(viewHolder, category);
             }
         });
         builder.show();
@@ -208,22 +209,25 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             return currentView;
         }
 
-        private void updateItem(ViewHolder holder, SelectableCategory category){
-            holder.selectionToggle.setChecked(category.isSelected());
-            holder.categoryImage.setImageResource(category.getCategory().getImageId());
-            holder.categoryName.setText(category.getCategory().getDisplayName());
-            if (category.getCategory().getPrice() == 0) {
-                holder.categoryPrice.setText("");
-                holder.categoryPrice.setVisibility(View.INVISIBLE);
-            }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
-                holder.categoryPrice.setText(R.string.unlocked);
-                holder.categoryPrice.setVisibility(View.INVISIBLE);
-                holder.categoryPrice.setTextColor(activityContext.getResources().getColor(R.color.colorPrimary));
-            }else {
-                holder.categoryPrice.setVisibility(View.VISIBLE);
-                holder.categoryPrice.setText(Integer.toString(category.getCategory().getPrice()));
-            }
 
+
+    }
+
+    private void updateItem(ViewHolder holder, SelectableCategory category){
+        holder.selectionToggle.setChecked(category.isSelected());
+        holder.categoryImage.setImageResource(category.getCategory().getImageId());
+        holder.categoryName.setText(category.getCategory().getDisplayName());
+        if (category.getCategory().getPrice() == 0) {
+            holder.categoryPrice.setVisibility(View.INVISIBLE);
+        }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
+            holder.categoryPrice.setText(R.string.unlocked);
+            holder.categoryPrice.setCompoundDrawables(null, null, null, null);
+            holder.categoryPrice.setVisibility(View.VISIBLE);
+            holder.categoryPrice.setTextColor(getResources().getColor(R.color.colorPrimary));
+        }else {
+            holder.categoryPrice.setVisibility(View.VISIBLE);
+            holder.categoryPrice.setCompoundDrawables(null, null, getDrawable(R.drawable.ic_currency), null);
+            holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
         }
 
     }
