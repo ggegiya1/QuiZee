@@ -130,10 +130,9 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private void updatePlayerInfo(Player player){
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
-        //score.setText(String.format(getResources().getString(R.string.score_format), player.ge()));
         level.setText(String.valueOf(player.getLevel()));
         //TODO pass real image here
-        avatar.setImageResource(R.drawable.ic_multi_player);
+        avatar.setImageResource(R.mipmap.ic_launcher);
     }
 
     @Override
@@ -213,15 +212,16 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             holder.categoryImage.setImageResource(category.getCategory().getImageId());
             holder.categoryName.setText(category.getCategory().getDisplayName());
             if (category.getCategory().getPrice() == 0) {
-                holder.categoryPrice.setText("");
                 holder.categoryPrice.setVisibility(View.INVISIBLE);
             }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
                 holder.categoryPrice.setText(R.string.unlocked);
-                holder.categoryPrice.setVisibility(View.INVISIBLE);
+                holder.categoryPrice.setCompoundDrawables(null, null, null, null);
+                holder.categoryPrice.setVisibility(View.VISIBLE);
                 holder.categoryPrice.setTextColor(activityContext.getResources().getColor(R.color.colorPrimary));
             }else {
                 holder.categoryPrice.setVisibility(View.VISIBLE);
-                holder.categoryPrice.setText(Integer.toString(category.getCategory().getPrice()));
+                holder.categoryPrice.setCompoundDrawables(null, null, getDrawable(R.drawable.ic_currency), null);
+                holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
             }
 
         }

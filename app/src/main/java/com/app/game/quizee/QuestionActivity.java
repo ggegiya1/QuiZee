@@ -110,6 +110,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeTime()){
                     Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
@@ -119,6 +122,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeSkip()){
                     Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
@@ -128,6 +134,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeBomb()){
                     Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
@@ -137,6 +146,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isPracticeMode){
+                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
+                }else
                 if (!gameManager.executeHint()){
                     Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
@@ -462,7 +474,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         int marked = 0;
         for(Button button: answerButtons){
             if (!((Answer)button.getTag()).isCorrect() && marked<2){
-                button.getBackground().setColorFilter(Color.DKGRAY,  PorterDuff.Mode.SRC_ATOP);
+                button.getBackground().setColorFilter(Color.LTGRAY,  PorterDuff.Mode.SRC_ATOP);
                 // prevent accidental click
                 button.setClickable(false);
                 marked++;

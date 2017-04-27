@@ -14,9 +14,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.app.game.quizee.backend.PlayerManager;
 
 import java.util.List;
 
@@ -209,6 +212,18 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             setHasOptionsMenu(true);
             bindPreferenceSummaryToValue(findPreference("player_name"));
+
+            Preference logout = findPreference("logout");
+            logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    PlayerManager.getInstance().logout();
+                    Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return false;
+                }
+            });
         }
 
         @Override

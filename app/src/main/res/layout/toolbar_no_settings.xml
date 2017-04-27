@@ -28,12 +28,11 @@
             android:layout_weight="0.5"
             android:layout_height="match_parent"
             android:id="@+id/user_name"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:gravity="center"
             android:text="Hello"
             android:textColor="@color/primaryBackground"
             android:textStyle="bold"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
 
         <TextView
             android:layout_width="?attr/actionBarSize"
@@ -46,26 +45,22 @@
             android:layout_gravity="center"
             android:text="0"/>
 
-        <LinearLayout
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="0.3"
-            android:orientation="vertical"
+            android:maxLines="1"
+            android:id="@+id/points"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:textColor="@color/colorSecondary"
+            android:textStyle="bold"
+            android:text="0"
+            android:padding="5dp"
+            android:drawableEnd="@drawable/ic_currency"
+            android:textSize="15sp"
+            />
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/points"
-                android:gravity="center"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="bold"
-                android:text="0"
-                android:padding="5dp"
-                android:drawableEnd="@drawable/ic_currency"
-                android:textSize="15sp"
-                />
-        </LinearLayout>
 
     </LinearLayout>
 </android.support.v7.widget.Toolbar>

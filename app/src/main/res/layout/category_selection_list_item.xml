@@ -36,10 +36,11 @@
         android:layout_height="match_parent"
         android:id="@+id/category_item_price"
         android:text="0"
-        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textSize="15sp"
         android:textColor="@color/complementaryBackground"
         android:drawableEnd="@drawable/ic_currency"
-        android:gravity="center"
+        android:gravity="center|end"
         android:layout_weight="0.3" />
 
     <!-- this button is not clickable. it's used to mark item as selected -->
@@ -48,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="5dp"
         android:focusable="false"
         android:clickable="false"
         android:layout_weight="1"/>

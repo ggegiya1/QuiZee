@@ -37,9 +37,8 @@ public class Player extends Observable implements Serializable {
 
     private int points;
     private int level;
-    private int totalscore;
     private int currentscore;
-    private int highscore;
+    private int highestScore;
 
     private Map<String, Integer> perfCategories = new HashMap<>();
 
@@ -57,11 +56,11 @@ public class Player extends Observable implements Serializable {
     }
 
     public Player(String playerId, String name, String image, int level){
-       new Player(playerId, name, image, level, 0);
+       this(playerId, name, image, level, 0);
     }
 
     public Player(String playerId, String name){
-        new Player(playerId, name, null, 0, 0);
+        this(playerId, name, null, 0, 0);
     }
 
     public static Player defaultPlayer() {
@@ -78,8 +77,8 @@ public class Player extends Observable implements Serializable {
 
     private void addScore(int score) {
         currentscore+=score;
-        if (highscore < score){
-            highscore = score;
+        if (highestScore < score){
+            highestScore = score;
         }
     }
 
@@ -292,7 +291,7 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getHighestScore() {
-        return highscore;
+        return highestScore;
     }
 
     public Map<String, Integer> getPrefCategories() {
@@ -350,7 +349,7 @@ public class Player extends Observable implements Serializable {
                 ", wronglyAnswered=" + wronglyAnswered +
                 ", points=" + points +
                 ", level=" + level +
-                ", highscore=" + highscore +
+                ", highscore=" + highestScore +
                 ", perfCategories=" + perfCategories +
                 '}';
     }

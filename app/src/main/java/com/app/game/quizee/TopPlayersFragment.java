@@ -47,7 +47,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
 
     @Override
     public void onError(String message) {
-        Toast.makeText(getContext(), "Database error: " + message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Database error: " + message, Toast.LENGTH_SHORT).show();
 
     }
 
