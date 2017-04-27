@@ -462,7 +462,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         int marked = 0;
         for(Button button: answerButtons){
             if (!((Answer)button.getTag()).isCorrect() && marked<2){
-                button.getBackground().setColorFilter(Color.DKGRAY,  PorterDuff.Mode.SRC_ATOP);
+                button.getBackground().setColorFilter(Color.LTGRAY,  PorterDuff.Mode.SRC_ATOP);
                 // prevent accidental click
                 button.setClickable(false);
                 marked++;

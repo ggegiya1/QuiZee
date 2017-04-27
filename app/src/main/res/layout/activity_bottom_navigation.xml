@@ -55,7 +55,7 @@
                 android:text="0" />
 
 
-            <me.grantland.widget.AutofitTextView
+            <TextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
@@ -65,7 +65,6 @@
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:text="0"
-                android:padding="5dp"
                 android:drawableEnd="@drawable/ic_currency"
                 android:textSize="15sp"
                 />

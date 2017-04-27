@@ -130,10 +130,9 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private void updatePlayerInfo(Player player){
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
-        //score.setText(String.format(getResources().getString(R.string.score_format), player.ge()));
         level.setText(String.valueOf(player.getLevel()));
         //TODO pass real image here
-        avatar.setImageResource(R.drawable.ic_multi_player);
+        avatar.setImageResource(R.mipmap.ic_launcher);
     }
 
     @Override
