@@ -45,7 +45,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="Hello"
-                android:textColor="@color/complementaryBackground"
+                android:textColor="@color/primaryBackground"
                 android:textStyle="bold"
                 android:textSize="25sp"/>
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/score"
                     android:gravity="start"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
                     android:text="@string/score_format"
                     android:textSize="15sp"/>
@@ -82,7 +82,7 @@
                     android:layout_width="?attr/actionBarSize"
                     android:id="@+id/points"
                     android:gravity="start"
-                    android:textColor="@color/complementaryBackground"
+                    android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
                     android:text="10"
                     android:padding="5dp"

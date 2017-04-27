@@ -12,7 +12,6 @@ import com.app.game.quizee.R;
 
 public class CareerFragment extends Fragment {
 
-    ListView statsList;
     ListView achievementsList;
 
     public CareerFragment() {
@@ -26,7 +25,6 @@ public class CareerFragment extends Fragment {
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_achievements, container, false);
 
         achievementsList = (ListView) ll.findViewById(R.id.achievements_list);
-        statsList = (ListView) ll.findViewById(R.id.stats_list);
 
         //TODO aller chercher les informations dachievement programmaticallement
 

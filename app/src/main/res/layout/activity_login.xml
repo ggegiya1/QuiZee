@@ -8,6 +8,12 @@
     android:background="@color/primaryBackground"
     tools:context="com.app.game.quizee.LoginActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:gravity="center_horizontal"
+        />
 
     <LinearLayout
         android:id="@+id/email_login_form"

@@ -31,7 +31,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="Hello"
-            android:textColor="@color/complementaryBackground"
+            android:textColor="@color/primaryBackground"
             android:textStyle="bold"
             android:textSize="25sp"/>
 
@@ -52,25 +52,28 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_height="match_parent">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/score"
                 android:gravity="start"
-                android:textColor="@color/complementaryBackground"
+                android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
                 android:text="@string/score_format"
-                android:textSize="12sp"/>
+                android:textSize="15sp"/>
 
             <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_width="?attr/actionBarSize"
                 android:id="@+id/points"
                 android:gravity="start"
-                android:textColor="@color/complementaryBackground"
+                android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
-                android:drawableEnd="@drawable/ic_currency"
-                android:textSize="12sp"
+                android:text="10"
+                android:padding="5dp"
+                android:drawableRight="@drawable/ic_currency"
+                android:textSize="18sp"
                 />
         </LinearLayout>
 
