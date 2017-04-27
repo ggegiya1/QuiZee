@@ -198,7 +198,7 @@ public class PlayerManager{
 
     public void getTopPlayers(int maxTopPlayers) {
         final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
-        Query myTopPostsQuery = playersDatabase.orderByChild("totalscore").limitToLast(maxTopPlayers);
+        Query myTopPostsQuery = playersDatabase.orderByChild("highestScore").limitToLast(maxTopPlayers);
         myTopPostsQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

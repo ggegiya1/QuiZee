@@ -49,11 +49,11 @@ public class CategoryManager {
         add(new Category(19,"Science: Mathematics", "Mathematics",400 ,R.drawable.ic_mathematics));
         add(new Category(20,"Mythology", "Mythology",0 ,R.drawable.ic_mythology));
         add(new Category(21,"Sports", "Sports",0 ,R.drawable.ic_sports));
-        add(new Category(19,"Vehicles", "Vehicles",0 ,R.drawable.ic_vehicules));
-        add(new Category(20,"Entertainment: Comics", "Comics",0, R.drawable.ic_comics));
-        add(new Category(21,"Entertainment: Japanese Anime & Manga", "Japanese Anime",0, R.drawable.ic_japanese_anime));
-        add(new Category(22,"Entertainment: Cartoon & Animations", "Cartoon",0, R.drawable.ic_television));
-        add(new Category(23,"Science: Gadgets", "Gadgets",0, R.drawable.ic_gadgets));
+        add(new Category(28,"Vehicles", "Vehicles",0 ,R.drawable.ic_vehicules));
+        add(new Category(29,"Entertainment: Comics", "Comics",0, R.drawable.ic_comics));
+        add(new Category(31,"Entertainment: Japanese Anime & Manga", "Japanese Anime",0, R.drawable.ic_japanese_anime));
+        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",0, R.drawable.ic_television));
+        add(new Category(30,"Science: Gadgets", "Gadgets",0, R.drawable.ic_gadgets));
     }
 
     private void add(Category category){
