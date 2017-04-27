@@ -44,6 +44,7 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
             holder.check = (ImageView) convertView.findViewById(R.id.achievement_check);
             holder.information = (TextView) convertView.findViewById(R.id.achievement_information);
             holder.pb = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
+            holder.pb.setMax(100); // range 0 .. 100
             holder.currency = (ImageView) convertView.findViewById(R.id.currency_image);
             convertView.setTag(holder);
         } else {
