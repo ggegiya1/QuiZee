@@ -37,7 +37,6 @@ public class Player extends Observable implements Serializable {
 
     private int points;
     private int level;
-    private int totalscore;
     private int currentscore;
     private int highscore;
 

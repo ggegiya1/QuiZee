@@ -9,7 +9,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,62 +17,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * Created by gia on 23/04/17.
+ */
 
 public class PlayerManager{
 
     private static final String TAG = "player.manager";
 
-    private static final String anonymousName = "Anonymous";
-
     private static PlayerManager instance;
 
     private FirebaseAuth mAuth;
 
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
-    private FirebaseUser firebaseUser;
-
-    private DatabaseReference playersDatabase;
-
     private Player currentPlayer;
 
-    private boolean loggedIn;
 
-//test maude
     private PlayerLoggedCallback loggedCallback;
 
     private TopListReceivedCallback topListReceivedCallback;
 
 
     public Player getCurrentPlayer(){
-        // FIXME this is for test only
-        // need to return actual value
         if (currentPlayer==null){
-            currentPlayer = Player.defaultPlayer();
+            loggedCallback.onFailure("You are not logged id");
            }
         return currentPlayer;
     }
 
     private PlayerManager() {
         mAuth = FirebaseAuth.getInstance();
-        //mAuth.signOut();
-        playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser!=null) {
-                    loggedIn = true;
-                    String playerId = firebaseUser.getUid();
-                    notifyObserversWhenPlayerChanges(playerId);
-                }else {
-                    loggedIn = false;
-                }
-            }
-        };
-
     }
 
     public static synchronized PlayerManager getInstance(){
@@ -84,14 +56,23 @@ public class PlayerManager{
     }
 
     public void onStart() {
-        mAuth.addAuthStateListener(mAuthListener);
+        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            }
+        });
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user!=null){
+            String playerId = user.getUid();
+            logInPlayer(playerId);
+        }else {
+            loggedCallback.onFailure("You are not logged id");
+        }
     }
 
 
     public void onStop() {
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
         saveCurrentPlayer();
     }
 
@@ -101,8 +82,18 @@ public class PlayerManager{
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        loggedIn = true;
-                        updateUserName(userName);
+                        if (task.isSuccessful()){
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user!=null){
+                                String playerId = user.getUid();
+                                logInPlayer(playerId, userName);
+                            }else {
+                                loggedCallback.onFailure("Login failed\nIncorrect user name or passwod");
+                            }
+                        }else {
+                            loggedCallback.onFailure("Login failed\nIncorrect user name or passwod");
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -119,7 +110,13 @@ public class PlayerManager{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                           loggedIn = true;
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user!=null) {
+                                String playerId = user.getUid();
+                                logInPlayer(playerId);
+                            }
+                        }else {
+                            loggedCallback.onFailure("Login failed\nIncorrect user name or passwod");
                         }
 
                     }
@@ -136,16 +133,17 @@ public class PlayerManager{
     }
 
     public boolean isLoggedIn() {
-        return loggedIn;
+        return this.currentPlayer!=null;
     }
 
-    private void notifyObserversWhenPlayerChanges(final String playerId){
+    private void logInPlayer(final String playerId, final String userName){
+        Log.i(TAG, "Logging in as " + playerId);
+        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         playersDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentPlayer = dataSnapshot.child(playerId).getValue(Player.class);
                 if (currentPlayer == null){
-                    String userName = firebaseUser.getDisplayName() == null? anonymousName: firebaseUser.getDisplayName();
                     currentPlayer = new Player(playerId,  userName);
                     playersDatabase.child(playerId).setValue(currentPlayer);
                 }
@@ -161,23 +159,25 @@ public class PlayerManager{
         });
     }
 
-    private void updateUserName(String name){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user!=null){
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(name)
-                    .build();
-            user.updateProfile(profileUpdates)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "User profile updated.");
-                            }
-                        }
-                    });
-        }
-
+    private void logInPlayer(final String playerId){
+        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
+        playersDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentPlayer = dataSnapshot.child(playerId).getValue(Player.class);
+                if (currentPlayer == null){
+                    loggedCallback.onFailure("cannot find user in database");
+                }else {
+                    Log.i(TAG, "Player logged in: " + currentPlayer);
+                    // pass the player to the main activity
+                    loggedCallback.onLogin();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                loggedCallback.onFailure(databaseError.getMessage());
+            }
+        });
     }
 
     public void saveCurrentPlayer() {
@@ -185,13 +185,13 @@ public class PlayerManager{
         // do not store the practice player
         if (player != null && player!=Player.defaultPlayer()){
             Log.i(TAG, "Saving player: " + player);
+            final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
             playersDatabase.child(player.getId()).setValue(player);
         }
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
-        this.loggedIn = true;
     }
 
     public void setLoggedCallback(PlayerLoggedCallback loggedCallback) {
@@ -203,6 +203,7 @@ public class PlayerManager{
     }
 
     public void getTopPlayers(int maxTopPlayers) {
+        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         Query myTopPostsQuery = playersDatabase.orderByChild("totalscore").limitToLast(maxTopPlayers);
         myTopPostsQuery.addChildEventListener(new ChildEventListener() {
             @Override
