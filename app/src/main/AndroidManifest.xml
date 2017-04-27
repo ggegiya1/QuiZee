@@ -33,10 +33,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PracticeActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".CategorySelectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
