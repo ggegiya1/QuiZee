@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
+import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
@@ -30,6 +32,7 @@ import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -82,6 +85,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     //Total game scores
     int pscore=0;
 
+    boolean isPracticeMode;
+
     SharedPreferences prefs;
     boolean colorBlind;
 
@@ -92,7 +97,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        isPracticeMode = getIntent().getBooleanExtra("isPracticeMode", false);
+        Player player = getCurrentPlayer();
         player.addObserver(this);
         gameManager = new GameManager(this, player);
 
@@ -104,32 +110,43 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.executeTime();
+                if (!gameManager.executeTime()){
+                    Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         skipButton = (Button) findViewById(R.id.button_question_skip);
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameManager.executeSkip();
+                if (!gameManager.executeSkip()){
+                    Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         bombButton = (Button) findViewById(R.id.button_bomb);
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.executeBomb();
+                if (!gameManager.executeBomb()){
+                    Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         hintButton = (Button) findViewById(R.id.button_hint);
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.executeHint();
+                if (!gameManager.executeHint()){
+                    Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         questionTextView = (AutofitTextView) findViewById(R.id.text_question);
+        if (isPracticeMode){
+            questionTextView.setBackground(getDrawable(R.drawable.practice));
+        }
 
         categoryNameView = (TextView) findViewById(R.id.caterogy_name);
         categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
@@ -160,18 +177,23 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     public void init() {
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
-        player.onGameStart();
+        Player player = getCurrentPlayer();
+        player.onGameReset();
         questionCount = 0;
-        triviaApi = new TriviaApi(player.getCategoriesSelected(), QUESTIONS_NUMBER, false);
+        triviaApi = getTriviaApi();
         Log.i("question.activity", "starting game for player: " + player);
         updateScore(player);
         newQuestion();
     }
 
+    private TriviaApi getTriviaApi(){
+        return isPracticeMode?
+                new TriviaApi(Collections.singletonList(Category.any()), QUESTIONS_NUMBER, true):
+                new TriviaApi(getCurrentPlayer().getCategoriesSelected(), QUESTIONS_NUMBER, false);
+    }
 
     private void updatePowerUpButtons(){
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = getCurrentPlayer();
         addTimeButton.setText(String.valueOf(player.getAddTimes().size()));
         hintButton.setText(String.valueOf(player.getHints().size()));
         bombButton.setText(String.valueOf(player.getBombs().size()));
@@ -199,7 +221,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 currentQuestion.setTimeRemained(countDownTimer.getTimeRemaining());
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
-                Player player = PlayerManager.getInstance().getCurrentPlayer();
+                Player player = getCurrentPlayer();
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
                     if(colorBlind) {
@@ -223,6 +245,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void onAnswerButtonEffect(View button, int color){
+        //TODO: Checker pk c vert-rouge
         button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
@@ -273,7 +296,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     public void newQuestion(){
-        if(questionCount >= QUESTIONS_NUMBER) {
+        if(questionCount >= QUESTIONS_NUMBER && !isPracticeMode) {
             countDownTimer.cancel();
             endDialog();
         } else {
@@ -285,8 +308,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     //cré le dialog de fin de jeu et laffiche
     private void endDialog() {
-        final Player player = PlayerManager.getInstance().getCurrentPlayer();
+        final Player player = getCurrentPlayer();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //TODO: Avoid passing root
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
         final AlertDialog endDialog = builder.create();
@@ -301,12 +325,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore + " | Score: " + player.getCurrentScore());
 
-        ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
-
-        updateAchievements();
-
-        AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
-        achievementsEarned.setAdapter(adapter);
+        // IMPORTANT! Save the current player score to be updated in TOP list view
+        PlayerManager.getInstance().saveCurrentPlayer();
+        List<Achievement> achievements = updateAchievements();
+        if (!achievements.isEmpty()){
+            ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
+            AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
+            achievementsEarned.setAdapter(adapter);
+        }
 
         Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
         replay.setOnClickListener(new View.OnClickListener() {
@@ -322,7 +348,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             @Override
             public void onClick(View v) {
                 endDialog.cancel();
-                player.onGameEnd();
+                player.onGameReset();
                 finish();
             }
         });
@@ -333,7 +359,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     private ArrayList<Achievement> updateAchievements(){
         ArrayList<Achievement> achievements = new ArrayList<>();
-        Player player = PlayerManager.getInstance().getCurrentPlayer();
+        Player player = getCurrentPlayer();
         for (Achievement a: Achievement.values()){
             if (a.isAchieved(player)){
                 player.addAchievement(a);
@@ -365,7 +391,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         categoryIcon.setImageResource(question.getCategory().getImageId());
         difficulty.setText(question.getDifficulty().name());
 
-        questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
+
+        if (isPracticeMode){
+            questionsContView.setText(String.valueOf(questionCount));
+        }else {
+            questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
+        }
 
         if (countDownTimer != null) {
             countDownTimer.cancel();}
@@ -394,7 +425,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         @Override
         public void onFinish() {
             // player did not respond
-            PlayerManager.getInstance().getCurrentPlayer().addIncorrectAnswer(currentQuestion);
+            getCurrentPlayer().addIncorrectAnswer(currentQuestion);
             newQuestion();
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
@@ -477,7 +508,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.setPositiveButton(R.string.yes , new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                PlayerManager.getInstance().getCurrentPlayer().onGameEnd();
+                getCurrentPlayer().onGameReset();
                 finish();
             }
         } );
@@ -493,7 +524,13 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void updateScore(Player player) {
-        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getHighestScore()));
+        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getCurrentScore()));
         pointsView.setText(String.valueOf(player.getPoints()));
+    }
+
+    private Player getCurrentPlayer(){
+        return isPracticeMode?
+                Player.defaultPlayer():
+                PlayerManager.getInstance().getCurrentPlayer();
     }
 }

@@ -13,9 +13,9 @@ import java.util.Random;
 public class Question implements Serializable {
 
     public enum Difficulty implements Serializable{
-        easy (5),
-        medium (10),
-        hard (50),
+        easy (2),
+        medium (4),
+        hard (6),
         unknown (1);
 
         private final int valueInt;

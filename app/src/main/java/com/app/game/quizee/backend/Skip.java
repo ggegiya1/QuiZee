@@ -7,6 +7,7 @@ import com.app.game.quizee.R;
  */
 
 public class Skip implements GameItem {
+
     public Skip() {
     }
 

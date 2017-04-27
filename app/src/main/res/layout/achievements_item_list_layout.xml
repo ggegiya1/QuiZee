@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="60dp"
@@ -53,12 +54,12 @@
         android:layout_below="@+id/achievement_item_name"/>
 
     <ImageView
+        android:id="@+id/achievement_check"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_check"
-        android:id="@+id/achievement_check"
+        android:layout_alignParentEnd="true"
         android:contentDescription="obtention"
-        android:layout_alignParentEnd="true" />
+        android:src="@drawable/ic_check" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,6 +69,6 @@
         android:textSize="15sp"
         android:gravity="center_vertical"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_toStartOf="@+id/achievement_check" />
 
 </RelativeLayout>

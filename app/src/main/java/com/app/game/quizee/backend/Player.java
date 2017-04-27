@@ -1,7 +1,5 @@
 package com.app.game.quizee.backend;
 
-import android.util.SparseIntArray;
-
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +21,8 @@ public class Player extends Observable implements Serializable {
     //For achievements
     private int nbGamesPlayed;
     private int nbQanswered;
+
+    private static  Player practicePlayer;
 
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
@@ -65,35 +65,22 @@ public class Player extends Observable implements Serializable {
     }
 
     public static Player defaultPlayer() {
-        Player bob = new Player("1", "Bob", null, 5, 1000);
-        bob.getAddTimes().add(new AddTime());
-        bob.getSkips().add(new Skip());
-        bob.getHints().add(new Hint());
-        bob.getHints().add(new Hint());
-        bob.getHints().add(new Hint());
-        bob.getHints().add(new Hint());
-        bob.getBombs().add(new Bomb());
-        bob.getBombs().add(new Bomb());
-        bob.getBombs().add(new Bomb());
-        return bob;
+        if (practicePlayer == null){
+            practicePlayer = new Player("1", "Practice Mode", null, 0, 0);
+        }
+        return practicePlayer;
     }
-
-    public void onGameStart(){
-        this.correctlyAnswered.clear();
-        this.wronglyAnswered.clear();
-    }
-
-    public void onGameEnd(){
+    public void onGameReset(){
+        this.resetScore();
         this.correctlyAnswered.clear();
         this.wronglyAnswered.clear();
     }
 
     private void addScore(int score) {
-        currentscore=score;
+        currentscore+=score;
         if (highscore < score){
             highscore = score;
         }
-        setTotalscore(this.totalscore + score);
     }
 
     public int getCurrentScore(){
@@ -104,14 +91,9 @@ public class Player extends Observable implements Serializable {
         setPoints(this.points + points);
     }
 
-    private void removePoints(int score) {
-        setPoints(this.points > score ? this.points - score : 0);
-
-    }
-
-    public void setTotalscore(int totalscore) {
+    private void resetScore() {
+        this.currentscore = 0;
         this.nbGamesPlayed +=10;
-        this.totalscore = totalscore;
         setChanged();
         notifyObservers();
     }
@@ -192,8 +174,6 @@ public class Player extends Observable implements Serializable {
 
     public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
-        // penalize incorrect question
-        removePoints(-5);
     }
 
     private void updatePerformCategory(Category category){
@@ -216,10 +196,6 @@ public class Player extends Observable implements Serializable {
     }
     public int getPoints(){
         return points;
-    }
-
-    public int getTotalscore() {
-        return totalscore;
     }
 
     public List<Category> getCategoriesSelected(){
@@ -255,7 +231,7 @@ public class Player extends Observable implements Serializable {
         return bombs;
     }
 
-    public boolean canPurchase(GameItem gameItem) {
+    private boolean canPurchase(GameItem gameItem) {
         return this.points >= gameItem.getPrice();
     }
 
@@ -285,10 +261,11 @@ public class Player extends Observable implements Serializable {
 
     public int get_nbGamesPlayed(){
         return this.nbGamesPlayed;
-    };
+    }
+
     public int get_nbQanswered(){
         return this.nbQanswered;
-    };
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -315,7 +292,7 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getHighestScore() {
-        return totalscore;
+        return highscore;
     }
 
     public Map<String, Integer> getPrefCategories() {
@@ -373,7 +350,7 @@ public class Player extends Observable implements Serializable {
                 ", wronglyAnswered=" + wronglyAnswered +
                 ", points=" + points +
                 ", level=" + level +
-                ", totalscore=" + totalscore +
+                ", highscore=" + highscore +
                 ", perfCategories=" + perfCategories +
                 '}';
     }

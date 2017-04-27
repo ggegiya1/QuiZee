@@ -21,10 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by gia on 23/04/17.
- */
-
 public class PlayerManager{
 
     private static final String TAG = "player.manager";
@@ -45,7 +41,7 @@ public class PlayerManager{
 
     private boolean loggedIn;
 
-
+//test maude
     private PlayerLoggedCallback loggedCallback;
 
     private TopListReceivedCallback topListReceivedCallback;
@@ -167,25 +163,27 @@ public class PlayerManager{
 
     private void updateUserName(String name){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name)
-                .build();
-
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "User profile updated.");
+        if (user!=null){
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .build();
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User profile updated.");
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 
     public void saveCurrentPlayer() {
         Player player = getCurrentPlayer();
-        if (player != null){
+        // do not store the practice player
+        if (player != null && player!=Player.defaultPlayer()){
             Log.i(TAG, "Saving player: " + player);
             playersDatabase.child(player.getId()).setValue(player);
         }
