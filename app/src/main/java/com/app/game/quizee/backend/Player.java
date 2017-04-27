@@ -43,13 +43,14 @@ public class Player extends Observable implements Serializable {
     private int level;
     private int currentscore;
     private int highestScore;
+    private int exp;
 
     private Map<String, Integer> perfCategories = new HashMap<>();
 
     public Player() {
     }
 
-    public Player(String playerId, String name, String image, int level, int points){
+    public Player(String playerId, String name, String image, int level, int points, int exp){
         this.id = playerId;
         this.name = name;
         this.image = image;
@@ -57,19 +58,20 @@ public class Player extends Observable implements Serializable {
         this.points = points;
         this.nbGamesPlayed = 0;
         this.nbQanswered = 0;
+        this.exp=0;
     }
 
     public Player(String playerId, String name, String image, int level){
-       this(playerId, name, image, level, 0);
+       this(playerId, name, image, level, 0, 0);
     }
 
     public Player(String playerId, String name){
-        this(playerId, name, null, 0, 0);
+        this(playerId, name, null, 0, 0, 0);
     }
 
     public static Player defaultPlayer() {
         if (practicePlayer == null){
-            practicePlayer = new Player("1", "Practice Mode", null, 0, 0);
+            practicePlayer = new Player("1", "Practice Mode", null, 0, 0, 0);
         }
         return practicePlayer;
     }
@@ -168,11 +170,18 @@ public class Player extends Observable implements Serializable {
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
         this.nbQanswered +=1;
-        int score = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1);
-        int points = question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1);
         updatePerformCategory(question.getCategory());
-        addScore(score);
-        addPoints(points);
+        addScore(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1));
+        addPoints(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
+        addExp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
+    }
+
+    public void addExp(int exp){
+        this.exp += exp;
+        if (this.exp == 1000){
+            this.level+=1;
+            this.exp=0;
+        }
     }
 
     public void addIncorrectAnswer(Question question) {

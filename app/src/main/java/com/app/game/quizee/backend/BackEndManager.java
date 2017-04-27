@@ -7,10 +7,21 @@ import java.util.ArrayList;
  */
 
 public class BackEndManager {
-    public static ArrayList<GameItem> mes_item = new ArrayList<GameItem>(){{
-        add(new Bomb());
-        add(new Skip());
-        add(new AddTime());
-        add(new Hint());
-    }};
+
+    public BackEndManager(){
+
+    }
+
+    public static ArrayList<Achievement> updateAchievements(Player player){
+        ArrayList<Achievement> achievements = new ArrayList<>();
+        for (Achievement a: Achievement.values()){
+            if (a.isAchieved(player)){
+                player.addAchievement(a);
+                achievements.add(a);
+                player.addExp(a.getXP());
+            }
+        }
+        return achievements;
+
+    }
 }

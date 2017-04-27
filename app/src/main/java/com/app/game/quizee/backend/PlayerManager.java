@@ -39,7 +39,7 @@ public class PlayerManager{
 
     public Player getCurrentPlayer(){
         if (currentPlayer==null){
-            loggedCallback.onFailure("You are not logged id");
+            loggedCallback.onFailure("You are not logged in");
            }
         return currentPlayer;
     }
@@ -61,7 +61,7 @@ public class PlayerManager{
             String playerId = user.getUid();
             logInPlayer(playerId);
         }else {
-            loggedCallback.onFailure("You are not logged id");
+            loggedCallback.onFailure("You are not logged in");
         }
     }
 

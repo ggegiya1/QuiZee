@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
+import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
@@ -359,10 +360,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         // IMPORTANT! Save the current player score to be updated in TOP list view
         PlayerManager.getInstance().saveCurrentPlayer();
-        List<Achievement> achievements = updateAchievements();
+        ArrayList<Achievement> achievements = BackEndManager.updateAchievements(player);
         if (!achievements.isEmpty()){
             ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
-            AchievementsAdapter adapter = new AchievementsAdapter(this,  updateAchievements());
+            AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);
             achievementsEarned.setAdapter(adapter);
         }
 
@@ -388,18 +389,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         endDialog.setCancelable(false);
     }
 
-    private ArrayList<Achievement> updateAchievements(){
-        ArrayList<Achievement> achievements = new ArrayList<>();
-        Player player = getCurrentPlayer();
-        for (Achievement a: Achievement.values()){
-            if (a.isAchieved(player)){
-                player.addAchievement(a);
-                achievements.add(a);
-            }
-        }
-        return achievements;
-
-    }
     private void setQuestion(Question question){
         questionCount++;
         currentQuestion = question;

@@ -22,6 +22,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.game.quizee.backend.Achievement;
+import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Player;
@@ -102,6 +104,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 } else {
                     // instant purchase category
                     if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
+                        BackEndManager.updateAchievements(player);
                         instantCategoryBuyDialog(player, category, view);
                     }else if (player.alreadyPurchased(category.getCategory()) || category.getCategory().getPrice() == 0){
                         // select category if already purchased or is free
