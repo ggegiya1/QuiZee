@@ -54,26 +54,16 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/score"
-                android:gravity="start"
-                android:textColor="@color/colorSecondary"
-                android:textStyle="bold"
-                android:text="@string/score_format"
-                android:textSize="15sp"/>
-
-            <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/points"
-                android:gravity="start"
+                android:gravity="center"
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
                 android:text="0"
                 android:padding="5dp"
-                android:drawableRight="@drawable/ic_currency"
-                android:textSize="12sp"
+                android:drawableEnd="@drawable/ic_currency"
+                android:textSize="15sp"
                 />
         </LinearLayout>
 
