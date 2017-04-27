@@ -31,7 +31,10 @@
         android:id="@+id/category_list"
         android:layout_margin="10dp"
         android:dividerHeight="2dp"
-        android:layout_weight="0.9" />
+        android:layout_weight="0.9"
+        android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
+        android:scrollbarSize="5dp"
+        android:divider="@color/primaryBackground"/>
 
     <Button
         android:id="@+id/button_start"

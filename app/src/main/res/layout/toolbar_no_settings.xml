@@ -4,7 +4,7 @@
     android:id="@+id/my_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     android:contentInsetStart="0dp"
     android:contentInsetLeft="0dp"
@@ -31,7 +31,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:text="Hello"
-            android:textColor="@color/complementaryBackground"
+            android:textColor="@color/primaryBackground"
             android:textStyle="bold"
             android:textSize="25sp"/>
 
@@ -53,16 +53,17 @@
             android:gravity="center"
             android:layout_height="match_parent">
 
-
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/points"
-                android:gravity="start"
-                android:textColor="@color/complementaryBackground"
+                android:gravity="center"
+                android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
+                android:text="0"
+                android:padding="5dp"
                 android:drawableEnd="@drawable/ic_currency"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 />
         </LinearLayout>
 

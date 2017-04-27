@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -216,12 +214,14 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             holder.categoryName.setText(category.getCategory().getDisplayName());
             if (category.getCategory().getPrice() == 0) {
                 holder.categoryPrice.setText("");
+                holder.categoryPrice.setVisibility(View.INVISIBLE);
             }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
                 holder.categoryPrice.setText(R.string.unlocked);
+                holder.categoryPrice.setVisibility(View.INVISIBLE);
                 holder.categoryPrice.setTextColor(activityContext.getResources().getColor(R.color.colorPrimary));
             }else {
-                holder.categoryPrice.setText(String.format(Locale.ROOT, "%d points", category.getCategory().getPrice()));
-                holder.categoryPrice.setTextColor(activityContext.getResources().getColor(R.color.colorInteraction));
+                holder.categoryPrice.setVisibility(View.VISIBLE);
+                holder.categoryPrice.setText(Integer.toString(category.getCategory().getPrice()));
             }
 
         }

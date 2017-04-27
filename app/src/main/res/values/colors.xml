@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryLight">#4659c0</color>
+    <color name="colorPrimaryLight">#5667c6</color>
+    <color name="colorPrimaryLighter">#6979d3</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryDarker">#2a3994</color>
     <color name="colorSecondary">#d8d8d8</color>
     <color name="colorSecondaryLight">#e6e6e6</color>
     <color name="colorSecondaryLighter">#f7f7ff</color>
     <color name="colorSecondaryDark">#989898</color>
-    <color name="colorInteraction">#f9a342</color>
-    <color name="colorInteractionLight">#ffc567</color>
-    <color name="colorInteractionDark">#e28f00</color>
+    <color name="colorInteraction">#b2bcff</color>
+    <color name="colorInteractionLight">#ced4ff</color>
+    <color name="colorInteractionDark">#96a8ff</color>
     <color name="complementaryBackground">#000000</color>
     <color name="black">#000000</color>
     <color name="yellow">#fff700</color>
     <color name="green">#00ff00</color>
     <color name="primaryBackground">#ffffff</color>
+    <color name="transparency">#00ffffff</color>
 </resources>

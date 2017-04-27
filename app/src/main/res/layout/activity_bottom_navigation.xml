@@ -19,7 +19,7 @@
         app:contentInsetStart="0dp"
         app:contentInsetRight="0dp"
         app:contentInsetEnd="0dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:contentInsetRight="0dp"
@@ -45,7 +45,7 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="Hello"
-                android:textColor="@color/complementaryBackground"
+                android:textColor="@color/primaryBackground"
                 android:textStyle="bold"
                 android:textSize="25sp"/>
 
@@ -72,12 +72,13 @@
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:id="@+id/points"
-                    android:gravity="start"
-                    android:textColor="@color/complementaryBackground"
+                    android:gravity="center"
+                    android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
+                    android:text="0"
                     android:padding="5dp"
-                    android:drawableRight="@drawable/ic_currency"
-                    android:textSize="10sp"
+                    android:drawableEnd="@drawable/ic_currency"
+                    android:textSize="15sp"
                     />
             </LinearLayout>
 
@@ -90,7 +91,7 @@
                 android:id="@+id/settingsButton"
                 android:layout_margin="10dp"
                 android:padding="0dp"
-                android:background="@drawable/button_tertiary_default"/>
+                android:background="@drawable/button_tertiary_style"/>
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>

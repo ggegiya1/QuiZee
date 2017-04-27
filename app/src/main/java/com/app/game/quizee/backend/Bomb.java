@@ -38,4 +38,9 @@ public class Bomb implements GameItem {
     public int getImageId() {
         return R.drawable.ic_bomb;
     }
+
+    @Override
+    public int getDescription() {
+        return R.string.description_bomb;
+    }
 }

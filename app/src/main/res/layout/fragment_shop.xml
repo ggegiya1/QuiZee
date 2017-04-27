@@ -23,10 +23,12 @@
         android:layout_height="0dp"
         android:layout_weight="0.9"
         android:id="@+id/shop_listview"
-        android:dividerHeight="3dp"
-        android:scrollbarThumbVertical="@drawable/button_tertiary_default"
+        android:dividerHeight="10dp"
+        android:divider="@color/primaryBackground"
+        android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
+        android:scrollbarSize="5dp"
         android:fadeScrollbars="false"
         android:scrollbarStyle="outsideOverlay"
-        android:paddingTop="10dp" />
+        android:layout_margin="10dp" />
 
 </LinearLayout>
