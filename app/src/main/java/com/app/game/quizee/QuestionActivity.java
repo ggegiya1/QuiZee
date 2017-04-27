@@ -107,6 +107,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
+        if (isPracticeMode){
+            addTimeButton.setVisibility(View.INVISIBLE);
+        }else {
+            addTimeButton.setVisibility(View.VISIBLE);
+        }
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +124,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             }
         });
         skipButton = (Button) findViewById(R.id.button_question_skip);
+        if (isPracticeMode){
+            skipButton.setVisibility(View.INVISIBLE);
+        }else {
+            skipButton.setVisibility(View.VISIBLE);
+        }
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +141,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             }
         });
         bombButton = (Button) findViewById(R.id.button_bomb);
+        if (isPracticeMode){
+            bombButton.setVisibility(View.INVISIBLE);
+        }else {
+            bombButton.setVisibility(View.VISIBLE);
+        }
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +158,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             }
         });
         hintButton = (Button) findViewById(R.id.button_hint);
+        if (isPracticeMode){
+            hintButton.setVisibility(View.INVISIBLE);
+        }else {
+            hintButton.setVisibility(View.VISIBLE);
+        }
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -262,7 +282,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
         animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(0);
+        animation.setRepeatCount(2);
         animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
         animation.setAnimationListener(new Animation.AnimationListener(){
 

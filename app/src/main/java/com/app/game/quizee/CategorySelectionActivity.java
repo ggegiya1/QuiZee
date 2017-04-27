@@ -111,7 +111,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                         Toast.makeText(getApplicationContext(), R.string.not_enough_points_category, Toast.LENGTH_SHORT).show();
                     }
                 }
-                //categoryList.setItemChecked(position, category.isSelected());
                 adapterCategory.notifyDataSetChanged();
             }
         });
