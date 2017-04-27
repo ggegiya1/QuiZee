@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ContactsFragment extends Fragment implements PlayerManager.TopListReceivedCallback{
+public class TopPlayersFragment extends Fragment implements PlayerManager.TopListReceivedCallback{
 
     private static final String TAG = "contact.fragment";
     private static final int MAX_TOP_PLAYERS = 20;
@@ -30,7 +30,7 @@ public class ContactsFragment extends Fragment implements PlayerManager.TopListR
     private ContactAdapter contactAdapter;
 
     // Required empty public constructor
-    public ContactsFragment() {
+    public TopPlayersFragment() {
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ContactsFragment extends Fragment implements PlayerManager.TopListR
                              Bundle savedInstanceState) {
         contactAdapter = new ContactAdapter(getActivity(), new ArrayList<Player>(MAX_TOP_PLAYERS));
         PlayerManager.getInstance().setTopListReceivedCallback(this);
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_contacts, container, false);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_top_players, container, false);
         topList = (ListView) ll.findViewById(R.id.top_players_list);
         topList.setAdapter(contactAdapter);
         PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);

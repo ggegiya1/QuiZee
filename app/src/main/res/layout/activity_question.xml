@@ -41,7 +41,7 @@
                     android:text="Category"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:textColor="@color/complementaryBackground"/>
+                    android:textColor="@color/colorSecondary"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                     android:textStyle="bold"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:textColor="@color/complementaryBackground"/>
+                    android:textColor="@color/colorSecondary"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:textSize="12sp"
-                    android:textColor="@color/complementaryBackground"
+                    android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
                     android:text="score" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:textColor="@color/complementaryBackground"
+                    android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
                     android:textSize="12sp"
                     android:drawableRight="@drawable/ic_currency"/>
