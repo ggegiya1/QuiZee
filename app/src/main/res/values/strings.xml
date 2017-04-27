@@ -24,7 +24,7 @@
 
     <string name="title_activity_bottom__navigation">Bottom_Navigation</string>
     <string name="title_home">Home</string>
-    <string name="title_contacts">Contacts</string>
+    <string name="title_top_players">Top players</string>
     <string name="title_shop">Shop</string>
     <string name="title_achievements">Achievements</string>
     <string name="title_stats">STATISTICS</string>

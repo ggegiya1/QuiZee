@@ -352,7 +352,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 finish();
             }
         });
-        //TODO reparer le bug qui fait que ca part nimporte quand
         endDialog.show();
         endDialog.setCancelable(false);
     }

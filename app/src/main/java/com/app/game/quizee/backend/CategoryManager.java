@@ -3,8 +3,6 @@ package com.app.game.quizee.backend;
 import com.app.game.quizee.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,25 +35,25 @@ public class CategoryManager {
         add(new Category(15, "Entertainment: Video Games", "Video Games", 500, R.drawable.videogames_category_icon));
         add(new Category(18, "Science: Computers", "Computers", 300, R.drawable.ic_computer));
         add(new Category(22, "Geography", "Geography", 100, R.drawable.ic_geography));
-        add(new Category(23, "History", "History", 150 , R.mipmap.ic_launcher));
+        add(new Category(23, "History", "History", 150 , R.drawable.ic_history));
         add(new Category(25, "Art", "Art", 50, R.drawable.ic_art));
         add(new Category(10, "Entertainment: Books",    "Books",100, R.drawable.ic_practice));
         add(new Category(11,"Entertainment: Film", "Film",50, R.drawable.ic_movie));
-        add(new Category(13,"Entertainment: Musicals & Theatres", "Musicals & Theatres",50 , R.mipmap.ic_launcher));
+        add(new Category(13,"Entertainment: Musicals & Theatres", "Musicals & Theatres",50 , R.drawable.ic_movie));
         add(new Category(14,"Entertainment: Television", "Television",100 , R.drawable.ic_television));
-        add(new Category(16,"Entertainment: Board Games", "Board Games",100, R.mipmap.ic_launcher));
+        add(new Category(16,"Entertainment: Board Games", "Board Games",100, R.drawable.ic_boardgame));
         add(new Category(17,"Science & Nature", "Science & Nature",200, R.drawable.ic_nature));
-        add(new Category(26,"Celebrities", "Celebrities",200 , R.mipmap.ic_launcher));
-        add(new Category(27,"Animals", "Animals",100 , R.mipmap.ic_launcher));
-        add(new Category(24,"Politics", "Politics",300 , R.mipmap.ic_launcher));
-        add(new Category(19,"Science: Mathematics", "Mathematics",400 ,R.mipmap.ic_launcher));
-        add(new Category(20,"Mythology", "Mythology",0 ,R.mipmap.ic_launcher));
-        add(new Category(21,"Sports", "Sports",0 ,R.mipmap.ic_launcher));
-        add(new Category(19,"Vehicles", "Vehicles",0 ,R.mipmap.ic_launcher));
-        add(new Category(20,"Entertainment: Comics", "Comics",0, R.mipmap.ic_launcher));
-        add(new Category(21,"Entertainment: Japanese Anime & Manga", "Japanese Anime",0, R.mipmap.ic_launcher));
-        add(new Category(22,"Entertainment: Cartoon & Animations", "Cartoon",0, R.mipmap.ic_launcher));
-        add(new Category(23,"Science: Gadgets", "Gadgets",0, R.mipmap.ic_launcher));
+        add(new Category(26,"Celebrities", "Celebrities",200 , R.drawable.ic_celebrities));
+        add(new Category(27,"Animals", "Animals",100 , R.drawable.ic_animals));
+        add(new Category(24,"Politics", "Politics",300 , R.drawable.ic_politics));
+        add(new Category(19,"Science: Mathematics", "Mathematics",400 ,R.drawable.ic_mathematics));
+        add(new Category(20,"Mythology", "Mythology",0 ,R.drawable.ic_mythology));
+        add(new Category(21,"Sports", "Sports",0 ,R.drawable.ic_sports));
+        add(new Category(19,"Vehicles", "Vehicles",0 ,R.drawable.ic_vehicules));
+        add(new Category(20,"Entertainment: Comics", "Comics",0, R.drawable.ic_comics));
+        add(new Category(21,"Entertainment: Japanese Anime & Manga", "Japanese Anime",0, R.drawable.ic_japanese_anime));
+        add(new Category(22,"Entertainment: Cartoon & Animations", "Cartoon",0, R.drawable.ic_television));
+        add(new Category(23,"Science: Gadgets", "Gadgets",0, R.drawable.ic_gadgets));
     }
 
     private void add(Category category){

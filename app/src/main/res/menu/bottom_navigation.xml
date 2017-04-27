@@ -16,7 +16,7 @@
     <item
         android:id="@+id/navigation_contacts"
         android:icon="@drawable/ic_contacts"
-        android:title="@string/title_contacts" />
+        android:title="@string/title_top_players" />
 
     <item
         android:id="@+id/navigation_career"

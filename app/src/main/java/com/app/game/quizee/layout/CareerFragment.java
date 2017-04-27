@@ -2,7 +2,6 @@ package com.app.game.quizee.layout;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +86,7 @@ public class CareerFragment extends Fragment {
         });
 
 
-        statsList = (ListView) ll.findViewById(R.id.stats_list);
+        //statsList = (ListView) ll.findViewById(R.id.stats_list);
 //        statsList.setAdapter(new BaseAdapter() {
 //            @Override
 //            public int getCount() {
