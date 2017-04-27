@@ -140,7 +140,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onFailure(String message) {
         hideProgressDialog();
         Toast.makeText(getApplicationContext(), "Authentication error: " + message, Toast.LENGTH_LONG).show();
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 }
 

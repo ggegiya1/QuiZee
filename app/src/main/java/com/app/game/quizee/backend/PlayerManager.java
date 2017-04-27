@@ -56,12 +56,6 @@ public class PlayerManager{
     }
 
     public void onStart() {
-        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-            }
-        });
         FirebaseUser user = mAuth.getCurrentUser();
         if (user!=null){
             String playerId = user.getUid();
