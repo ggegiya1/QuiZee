@@ -105,7 +105,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
         shopFragment = new ShopFragment();
         homeFragment = new HomeFragment();
-        contactsFragment = new ContactsFragment();
+        contactsFragment = new TopPlayersFragment();
         careerFragment = new CareerFragment();
 
         adapter.addFragment(shopFragment);
