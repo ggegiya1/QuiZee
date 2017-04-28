@@ -109,7 +109,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         gameManager = new GameManager(this, player);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        colorBlind = prefs.getBoolean("colorblind_mode", false);
         music = prefs.getBoolean("sound_music", false);
         goodAnswerSound = prefs.getBoolean("sound_good_answer", false);
         wrongAnswerSound = prefs.getBoolean("sound_wrong_answer", false);
