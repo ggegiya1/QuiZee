@@ -21,7 +21,6 @@
             android:clearTaskOnLaunch="true"
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,15 +30,15 @@
         <activity
             android:name=".QuestionActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".CategorySelectionActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+             />
         <activity
             android:name=".BottomNavigation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="adjustNothing">
         </activity>
         <activity android:name=".MultiplayerLobbyActivity" />
