@@ -125,7 +125,7 @@ public enum  Achievement implements Serializable {
             return player.getNbQanswered() == 200 && !player.hasAchievement(ANSWERS_200);
         }
     },
-    ANSWERS_500 ("You gotta be cheating, for real", 1, 1, "Answer 500 questions correctly."){
+    ANSWERS_500 ("You gotta be cheating, for real",400, 500, "Answer 500 questions correctly."){
         @Override
         public int getMaxValue() {
             return 500;
