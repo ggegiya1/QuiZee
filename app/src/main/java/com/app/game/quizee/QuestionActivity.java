@@ -148,7 +148,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             //power ups labels
             hideLabels();
             hideButtons();
-            questionTextView.setBackground(getDrawable(R.drawable.practice));
         }
 
         categoryNameView = (TextView) findViewById(R.id.caterogy_name);
