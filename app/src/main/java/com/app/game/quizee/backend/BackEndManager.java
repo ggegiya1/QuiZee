@@ -3,11 +3,7 @@ package com.app.game.quizee.backend;
 import android.widget.Toast;
 import android.content.Context;
 
-import com.app.game.quizee.ShopFragment;
-
 import java.util.ArrayList;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by Maude on 2017-04-06.
@@ -31,7 +27,7 @@ public class BackEndManager {
             if (a.isAchieved(player)){
                 player.addAchievement(a);
                 achievements.add(a);
-                player.setexp(a.getXP());
+                player.addexp(a.getXP());
                 Toast.makeText(myct, "Achievement Unlocked :" + a.getDesc(), Toast.LENGTH_LONG).show();
             }
         }
@@ -44,7 +40,7 @@ public class BackEndManager {
             if (a.isAchieved(player)){
                 player.addAchievement(a);
                 achievements.add(a);
-                player.setexp(a.getXP());
+                player.addexp(a.getXP());
             }
         }
         return achievements;

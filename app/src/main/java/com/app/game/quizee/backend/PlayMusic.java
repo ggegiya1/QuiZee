@@ -21,7 +21,6 @@ public class PlayMusic {
     public PlayMusic(Application myapp, BottomNavigation bn){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myapp);
         if(prefs.getBoolean("sound_music", false)) {
-            this.mymedia = new MediaPlayer();
             this.bn= bn;
             updatemusic();
         }
@@ -48,16 +47,20 @@ public class PlayMusic {
         }
     }
     public void updatemusic(){
-        if (this.mymedia.isPlaying()){
-            this.mymedia.stop();
-            this.mymedia.reset();
+        /*if (this.mymedia != null) {
+            if (this.mymedia.isPlaying()) {
+                this.mymedia.stop();
+                this.mymedia.reset();
+            }
             this.mymedia.release();
-        }
+        }*/
+        this.mymedia = new MediaPlayer();
         randommusic(this.bn);
         this.mymedia.start();
         this.mymedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                mp.release();
                 updatemusic();
             }
         });

@@ -46,6 +46,8 @@ public class Player extends Observable implements Serializable {
     private int level;
     private int currentscore;
     private int highestScore;
+
+
     private int exp;
     private String avatar;
 
@@ -181,10 +183,10 @@ public class Player extends Observable implements Serializable {
         updatePerformCategory(question.getCategory());
         addScore(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1));
         addPoints(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
-        setexp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
+        addexp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
     }
 
-    public void setexp(int exp){
+    public void addexp(int exp){
         this.exp += exp;
         if (this.exp == 1000){
             this.level+=1;
@@ -388,6 +390,14 @@ public class Player extends Observable implements Serializable {
 
     public int getNbTimeBought() {
         return nbTimeBought;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     public void setNbTimeBought(int nbTimeBought) {
