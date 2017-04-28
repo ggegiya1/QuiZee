@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -89,8 +91,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     boolean isPracticeMode;
 
-    SharedPreferences prefs;
-    boolean colorBlind;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -104,79 +104,38 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         player.addObserver(this);
         gameManager = new GameManager(this, player);
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        colorBlind = prefs.getBoolean("colorblind_mode", false);
-
-        //power ups labels
-        if(isPracticeMode) {
-            hideLabels();
-        }
-
-
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
-        if (isPracticeMode){
-            addTimeButton.setVisibility(View.INVISIBLE);
-        }else {
-            addTimeButton.setVisibility(View.VISIBLE);
-        }
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPracticeMode){
-                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
-                }else
                 if (!gameManager.executeTime()){
                     Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         skipButton = (Button) findViewById(R.id.button_question_skip);
-        if (isPracticeMode){
-            skipButton.setVisibility(View.INVISIBLE);
-        }else {
-            skipButton.setVisibility(View.VISIBLE);
-        }
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPracticeMode){
-                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
-                }else
                 if (!gameManager.executeSkip()){
                     Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         bombButton = (Button) findViewById(R.id.button_bomb);
-        if (isPracticeMode){
-            bombButton.setVisibility(View.INVISIBLE);
-        }else {
-            bombButton.setVisibility(View.VISIBLE);
-        }
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPracticeMode){
-                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
-                }else
                 if (!gameManager.executeBomb()){
                     Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         hintButton = (Button) findViewById(R.id.button_hint);
-        if (isPracticeMode){
-            hintButton.setVisibility(View.INVISIBLE);
-        }else {
-            hintButton.setVisibility(View.VISIBLE);
-        }
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPracticeMode){
-                    Toast.makeText(getApplicationContext(), "Not available in practice mode", Toast.LENGTH_SHORT).show();
-                }else
                 if (!gameManager.executeHint()){
                     Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
@@ -184,7 +143,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         });
 
         questionTextView = (AutofitTextView) findViewById(R.id.text_question);
+
         if (isPracticeMode){
+            //power ups labels
+            hideLabels();
+            hideButtons();
             questionTextView.setBackground(getDrawable(R.drawable.practice));
         }
 
@@ -225,6 +188,13 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         bombLabel.setVisibility(View.INVISIBLE);
         hintLabel.setVisibility(View.INVISIBLE);
         addTimeLabel.setVisibility(View.INVISIBLE);
+    }
+
+    private void hideButtons(){
+        addTimeButton.setVisibility(View.INVISIBLE);
+        skipButton.setVisibility(View.INVISIBLE);
+        bombButton.setVisibility(View.INVISIBLE);
+        hintButton.setVisibility(View.INVISIBLE);
     }
 
     public void init() {
@@ -277,21 +247,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
                     mp = MediaPlayer.create(getApplicationContext(),R.raw.gooda);
-                    if(colorBlind) {
-                        onAnswerButtonEffect(v, Color.BLUE);
-                    } else {
-                        onAnswerButtonEffect(v, Color.GREEN);
-                    }
-
+                    onAnswerButtonEffect(v, Color.GREEN);
+                    resultAnimation(questionTextView, getString(R.string.correct_answer), Color.GREEN);
 
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
                     mp = MediaPlayer.create(getApplicationContext(),R.raw.wronga);
-                    if(colorBlind) {
-                        onAnswerButtonEffect(v, Color.YELLOW);
-                    } else {
-                        onAnswerButtonEffect(v, Color.CYAN);
-                    }
+                    onAnswerButtonEffect(v, Color.RED);
+                    resultAnimation(questionTextView, getString(R.string.wrong_answer), Color.RED);
                 }
                 mp.start();
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
@@ -307,20 +270,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(2);
         animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
-        animation.setAnimationListener(new Animation.AnimationListener(){
-
-            @Override
-            public void onAnimationStart(Animation animation){}
-
-            @Override
-            public void onAnimationRepeat(Animation animation){}
-
-            @Override
-            public void onAnimationEnd(Animation animation){
-                // load new question only when animation finished
-                newQuestion();
-            }
-        });
         button.startAnimation(animation);
     }
 
@@ -347,6 +296,43 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             public void onAnimationEnd(Animation animation){
 
                 //view.setClickable(true); TODO ameliorer le prevent click?
+            }
+        });
+        view.startAnimation(animation);
+    }
+
+    private void resultAnimation(final TextView view, final String text, final int color){
+        final Animation animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
+        animation.setDuration(500);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(2);
+        final int origColor = view.getCurrentTextColor();
+        final float origSize = view.getTextSize();
+        final Typeface styleOrig = view.getTypeface();
+        animation.setAnimationListener(new Animation.AnimationListener(){
+
+            @Override
+            public void onAnimationStart(Animation animation){
+                // set question
+                view.setTextColor(color);
+                view.setTypeface(null, Typeface.BOLD);
+                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
+                view.setText(text);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation){
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation){
+                // restore previous text attributes
+                view.setTextColor(origColor);
+                view.setTextSize(origSize);
+                view.setTypeface(styleOrig);
+                view.setText("");
+                // load new question only when animation finished
+                newQuestion();
             }
         });
         view.startAnimation(animation);
@@ -478,7 +464,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         public void onFinish() {
             // player did not respond
             getCurrentPlayer().addIncorrectAnswer(currentQuestion);
-            newQuestion();
+            // show 0 sec left
+            timerView.setText("0:00");
+            // show time expired animated message
+            resultAnimation(questionTextView, getString(R.string.time_expired), Color.RED);
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
 
