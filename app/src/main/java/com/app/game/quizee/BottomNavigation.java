@@ -51,7 +51,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.addObserver(this);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-
         setupAvatar();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -136,25 +135,36 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     private void play_bg(){
-        MediaPlayer mp;
-        Random rand = new Random();
-        int value = rand.nextInt(4) +1;
-        switch (value){
-            case 1 :
-                mp = MediaPlayer.create(this,R.raw.bg1);
-                break;
-            case 2 :
-                mp = MediaPlayer.create(this,R.raw.bg2);
-                break;
-            case 3 :
-                mp = MediaPlayer.create(this,R.raw.bg3);
-                break;
-            default :
-                mp = MediaPlayer.create(this,R.raw.bg4);
-                break;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        if(prefs.getBoolean("sound_music", false)) {
+            MediaPlayer mp;
+            Random rand = new Random();
+            int value = rand.nextInt(4) + 1;
+            switch (value) {
+                case 1:
+                    mp = MediaPlayer.create(this, R.raw.bg1);
+                    break;
+                case 2:
+                    mp = MediaPlayer.create(this, R.raw.bg2);
+                    break;
+                case 3:
+                    mp = MediaPlayer.create(this, R.raw.bg3);
+                    break;
+                default:
+                    mp = MediaPlayer.create(this, R.raw.bg4);
+                    break;
+            }
+            mp.start();
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    play_bg();
+                }
+            });
         }
-        mp.start();
     }
+
+
 
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
@@ -180,6 +190,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     public void onResume() {
         super.onResume();
         setupAvatar();
+        play_bg();
     }
 
     @Override
