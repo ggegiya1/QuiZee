@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -133,8 +136,14 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
-        //TODO pass real image here
-        avatar.setImageResource(R.mipmap.ic_launcher);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
+
+        if(avatar != null) {
+            avatar.setImageBitmap(avatarBitmap);
+        } else {
+            avatar.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
     @Override
@@ -240,5 +249,11 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         TextView categoryName;
         TextView categoryPrice;
         RadioButton selectionToggle;
+    }
+
+    //on settings button clicked
+    public void settingsActivity(View v) {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 }

@@ -20,7 +20,7 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
     Activity context;
 
     public AchievementsAdapter (Activity context, ArrayList<Achievement> achievement) {
-        super(context, R.layout.contacts_item_list_layout, achievement);
+        super(context, R.layout.top_players_item_list_layout, achievement);
 
 
         this.context=context;

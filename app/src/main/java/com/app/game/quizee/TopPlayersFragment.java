@@ -78,7 +78,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         Activity context;
 
         ContactAdapter (Activity context, List<Player> players) {
-            super(context, R.layout.contacts_item_list_layout, new ArrayList<Player>(players));
+            super(context, R.layout.top_players_item_list_layout, new ArrayList<Player>(players));
             this.context = context;
         }
 
@@ -92,7 +92,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             Player p = getItem(position);
 
             if(convertView == null) {
-                convertView = inflater.inflate(R.layout.contacts_item_list_layout, null);
+                convertView = inflater.inflate(R.layout.top_players_item_list_layout, null);
                 holder = new ViewHolder();
                 holder.name = (TextView) convertView.findViewById(R.id.contact_item_name);
                 holder.icon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
