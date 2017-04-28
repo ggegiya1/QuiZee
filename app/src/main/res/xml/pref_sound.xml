@@ -13,11 +13,13 @@
         android:title="@string/pref_sound_music"/>
 
     <SwitchPreference
+        android:dependency="sound_activate"
         android:defaultValue="true"
         android:key="sound_good_answer"
         android:title="@string/pref_sound_good_answer"/>
 
     <SwitchPreference
+        android:dependency="sound_activate"
         android:defaultValue="true"
         android:key="sound_wrong_answer"
         android:title="@string/pref_sound_wrong_answer"/>

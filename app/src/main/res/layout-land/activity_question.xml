@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/AppTheme"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:splitMotionEvents="false"
+    android:background="@color/primaryBackground">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="55dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:id="@+id/caterogy_Icon"
+                android:layout_margin="2dp"
+                android:contentDescription="@string/category_icon" />
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <me.grantland.widget.AutofitTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:id="@+id/caterogy_name"
+                    android:text="Category"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorSecondary"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/question_difficulty"
+                    android:text="MEDIUM"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/colorSecondary"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorSecondary"
+                    android:textStyle="bold"
+                    android:text="score" />
+
+                <TextView
+                    android:id="@+id/points"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:textColor="@color/colorSecondary"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/ic_currency"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/my_toolbar"
+        android:orientation="horizontal"
+        android:id="@+id/GameStatus"
+        android:background="@color/complementaryBackground">
+
+        <TextView
+            android:text="1"
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:id="@+id/correct_answer_count"
+            android:textSize="30sp"
+            android:textColor="@color/green"
+            android:gravity="center"
+            android:layout_width="0dp" />
+
+        <TextView
+            android:text="12:314"
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:id="@+id/timer"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@color/green"
+            android:gravity="center"
+            android:layout_width="0dp" />
+
+        <TextView
+            android:text="2/9"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/yellow"
+            android:layout_height="match_parent"
+            android:id="@+id/question_count"
+            android:layout_weight="0.33" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/GameStatus_labels"
+        android:layout_below="@id/GameStatus">
+        <TextView
+            android:text="correct"
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:id="@+id/correct_label"
+            android:textSize="12sp"
+            android:textColor="@color/complementaryBackground"
+            android:gravity="center"
+            android:layout_width="0dp" />
+
+        <TextView
+            android:text="time left"
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:id="@+id/timer_label"
+            android:textSize="12sp"
+            android:textColor="@color/complementaryBackground"
+            android:gravity="center"
+            android:layout_width="0dp" />
+
+        <TextView
+            android:text="question"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/complementaryBackground"
+            android:layout_height="match_parent"
+            android:id="@+id/question_count_label"
+            android:layout_weight="0.33" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/GameStatus_labels">
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:id="@+id/text_question"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:lineSpacingExtra="6sp"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:textSize="20sp"
+            android:text="@string/loading_question"
+            android:padding="10dp"
+            android:maxLines="5"
+            android:background="@android:color/background_light"
+            android:layout_margin="15dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/gameButtons"
+            android:layout_weight="0.4">
+            <LinearLayout
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/answer_buttons"
+                android:splitMotionEvents="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginBottom="5dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_response_1"
+                    android:layout_margin="3dp"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_response_2"
+                    android:layout_margin="3dp"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_response_3"
+                    android:layout_margin="3dp"
+                    android:textAlignment="center"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_response_4"
+                    android:layout_margin="3dp"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/bottom_buttons">
+
+                <Button
+                    android:contentDescription="@string/Bomb_Button"
+                    android:drawableStart="@drawable/ic_bomb"
+                    android:layout_width="0dp"
+                    android:layout_margin="5dp"
+                    android:padding="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/button_bomb"
+                    android:text="0"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/button_tertiary_default"/>
+
+                <Button
+                    android:contentDescription="@string/Hint_Button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_hint"
+                    android:layout_margin="5dp"
+                    android:padding="0dp"
+                    android:id="@+id/button_hint"
+                    android:layout_weight="0.25"
+                    android:text="0"
+                    android:background="@drawable/button_tertiary_default" />
+
+                <Button
+                    android:contentDescription="@string/addTime_Button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:padding="0dp"
+                    android:id="@+id/button_add_time"
+                    android:drawableStart="@drawable/ic_addtime"
+                    android:text="0"
+                    android:layout_weight="0.25"
+                    android:background="@drawable/button_tertiary_default" />
+
+                <Button
+                    android:contentDescription="@string/Skip_Button"
+                    android:drawableStart="@drawable/ic_skip"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:padding="0dp"
+                    android:layout_margin="5dp"
+                    android:id="@+id/button_question_skip"
+                    android:layout_weight="0.25"
+                    android:text="0"
+                    android:background="@drawable/button_tertiary_default" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                android:id="@+id/item_labels"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true">
+                <TextView
+                    android:text="@string/Bomb_Button"
+                    android:layout_weight="0.25"
+                    android:layout_height="match_parent"
+                    android:id="@+id/bomb_label"
+                    android:textSize="15sp"
+                    android:textColor="@color/complementaryBackground"
+                    android:gravity="center"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:text="@string/Hint_Button"
+                    android:layout_weight="0.25"
+                    android:layout_height="match_parent"
+                    android:id="@+id/hint_label"
+                    android:textSize="15sp"
+                    android:textColor="@color/complementaryBackground"
+                    android:gravity="center"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:text="@string/addTime_Button"
+                    android:layout_weight="0.25"
+                    android:layout_height="match_parent"
+                    android:id="@+id/add_time_label"
+                    android:textSize="15sp"
+                    android:textColor="@color/complementaryBackground"
+                    android:gravity="center"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:text="@string/Skip_Button"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/complementaryBackground"
+                    android:layout_height="match_parent"
+                    android:id="@+id/skip_label"
+                    android:layout_weight="0.25" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

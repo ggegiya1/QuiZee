@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +33,7 @@ public class ShopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_shop, container, false);
+        RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_shop, container, false);
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
         ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
         shopListView.setAdapter(sa);
@@ -66,9 +66,6 @@ public class ShopFragment extends Fragment {
             ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
             final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
-
-            //montre le bouton dachat
-            powUpCount.setVisibility(View.VISIBLE);
 
             //ajoute une action lorsque lon achete un power up
             buy.setOnClickListener(new View.OnClickListener() {
