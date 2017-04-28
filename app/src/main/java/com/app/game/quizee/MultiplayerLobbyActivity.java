@@ -5,9 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MultiplayerLobbyActivity extends AppCompatActivity {
@@ -88,7 +83,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         Activity context;
 
         public ContactAdapter (Activity context, String[] itemname, Integer[] imgid, Integer[] lvl) {
-            super(context, R.layout.contacts_item_list_layout, itemname);
+            super(context, R.layout.top_players_item_list_layout, itemname);
 
             this.context=context;
             this.itemname=itemname;
@@ -99,7 +94,7 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater=context.getLayoutInflater();
-            View rowView=inflater.inflate(R.layout.contacts_item_list_layout, null,true);
+            View rowView=inflater.inflate(R.layout.top_players_item_list_layout, null,true);
 
             TextView contactName = (TextView) rowView.findViewById(R.id.contact_item_name);
             ImageView contactIcon = (ImageView) rowView.findViewById(R.id.contact_avatar_icon);

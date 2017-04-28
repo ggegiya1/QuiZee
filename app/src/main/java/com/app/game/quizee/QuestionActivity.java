@@ -76,7 +76,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     Button bombButton;
     Button hintButton;
 
-
     //game Attributes
     MyCountDownTimer countDownTimer;
     int questionCount;
@@ -104,6 +103,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
         colorBlind = prefs.getBoolean("colorblind_mode", false);
+
+        //power ups labels
+        if(isPracticeMode) {
+            hideLabels();
+        }
+
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -206,6 +211,17 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answerButtons.add(answer4Button);
 
         init();
+    }
+
+    private void hideLabels() {
+        TextView skipLabel = (TextView) findViewById(R.id.skip_label);
+        TextView addTimeLabel = (TextView) findViewById(R.id.add_time_label);
+        TextView bombLabel = (TextView) findViewById(R.id.bomb_label);
+        TextView hintLabel = (TextView) findViewById(R.id.hint_label);
+        skipLabel.setVisibility(View.INVISIBLE);
+        bombLabel.setVisibility(View.INVISIBLE);
+        hintLabel.setVisibility(View.INVISIBLE);
+        addTimeLabel.setVisibility(View.INVISIBLE);
     }
 
     public void init() {

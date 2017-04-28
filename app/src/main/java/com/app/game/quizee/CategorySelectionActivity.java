@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +61,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         addPlayerToolBar(player);
         addStartButton(player);
         addCategoriesList();
+        setupAvatar();
     }
 
     private void addStartButton(final Player player){
@@ -232,10 +236,26 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
 
     }
 
+    private void setupAvatar() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Bitmap avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
+        ImageView avatarView = (ImageView) findViewById(R.id.avatar);
+
+        if(avatar != null) {
+            avatarView.setImageBitmap(avatar);
+        }
+    }
+
     private static class ViewHolder{
         ImageView categoryImage;
         TextView categoryName;
         TextView categoryPrice;
         RadioButton selectionToggle;
+    }
+
+    //on settings button clicked
+    public void settingsActivity(View v) {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 }
