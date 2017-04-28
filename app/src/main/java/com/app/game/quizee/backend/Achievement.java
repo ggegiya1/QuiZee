@@ -273,13 +273,71 @@ public enum  Achievement implements Serializable {
         public boolean isAchieved(Player player) {
             return player.getCategoriesPurchased().size() == 16 && !player.hasAchievement(CATEGORY_ALL);
         }
+    },
+    LEVEL_5("Give it up!", 50, 50, "Reach lvl 5."){
+        @Override
+        public int getMaxValue() {
+            return 5;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getLevel();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getLevel() == 5 && !player.hasAchievement(LEVEL_5);
+        }
+    },
+    LEVEL_10("Pretty impressive", 50, 50, "Reach lvl 10."){
+        @Override
+        public int getMaxValue() {
+            return 10;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getLevel();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getLevel() == 10 && !player.hasAchievement(LEVEL_10);
+        }
+    },
+    LEVEL_20("We got a grown up over here", 50, 50, "Reach lvl 20."){
+        @Override
+        public int getMaxValue() {
+            return 20;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getLevel();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getLevel() == 20 && !player.hasAchievement(LEVEL_20);
+        }
+    },
+    LEVEL_50("Best of the bests, QuiZee Master", 50, 50, "Reach lvl 50."){
+        @Override
+        public int getMaxValue() {
+            return 50;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getLevel();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getLevel() == 50 && !player.hasAchievement(LEVEL_50);
+        }
     };
-//
-//    //TODO: Achiev level up
-//    LEVEL_5("Give it up!", 50, 50, "Reach lvl 5."),
-//    LEVEL_10("Pretty impressive", 50, 50, "Reach lvl 10."),
-//    LEVEL_20("We got a grown up over here", 50, 50, "Reach lvl 20."),
-//    LEVEL_50("Best of the bests, QuiZee Master", 50, 50, "Reach lvl 50.");
 
     private String description;
     private String information;
