@@ -278,7 +278,7 @@ public enum  Achievement implements Serializable {
     }
 
     public int getProg(Player player){
-        return (int)(Math.floor((getCurrentValue(player)/getMaxValue())*100));
+        return (int)(Math.round((getCurrentValue(player)/(double)getMaxValue())*100));
     }
 
     public int getCurrentValue(Player player){return -1;}

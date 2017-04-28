@@ -91,6 +91,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     boolean isPracticeMode;
 
+    SharedPreferences prefs;
+    boolean goodAnswerSound;
+    boolean wrongAnswerSound;
+    boolean music;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -103,6 +107,18 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Player player = getCurrentPlayer();
         player.addObserver(this);
         gameManager = new GameManager(this, player);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
+        colorBlind = prefs.getBoolean("colorblind_mode", false);
+        music = prefs.getBoolean("sound_music", false);
+        goodAnswerSound = prefs.getBoolean("sound_good_answer", false);
+        wrongAnswerSound = prefs.getBoolean("sound_wrong_answer", false);
+
+        //power ups labels
+        if(isPracticeMode) {
+            hideLabels();
+        }
+
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -247,15 +263,22 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     player.addCorrectAnswer(currentQuestion);
                     mp = MediaPlayer.create(getApplicationContext(),R.raw.gooda);
                     onAnswerButtonEffect(v, Color.GREEN);
+                    if(goodAnswerSound) {
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.gooda);
+                        mp.start();
+                    }
                     resultAnimation(questionTextView, getString(R.string.correct_answer), Color.GREEN);
 
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
-                    mp = MediaPlayer.create(getApplicationContext(),R.raw.wronga);
+                    if(wrongAnswerSound) {
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.wronga);
+                        mp.start();
+                    }
                     onAnswerButtonEffect(v, Color.RED);
                     resultAnimation(questionTextView, getString(R.string.wrong_answer), Color.RED);
                 }
-                mp.start();
+
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
         };
