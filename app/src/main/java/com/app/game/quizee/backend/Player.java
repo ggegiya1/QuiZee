@@ -188,11 +188,12 @@ public class Player extends Observable implements Serializable {
 
     public void addexp(int exp){
         this.exp += exp;
-        if (this.exp == 1000){
+        if (this.exp >= 1000){
             this.level+=1;
             this.exp=0;
         }
-        BackEndManager.updateAchievements(this);
+        //i dont know why this is there (Olivier)
+        //BackEndManager.updateAchievements(this);
     }
 
     public void addIncorrectAnswer(Question question) {
