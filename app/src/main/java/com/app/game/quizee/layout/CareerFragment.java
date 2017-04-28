@@ -83,10 +83,9 @@ public class CareerFragment extends Fragment {
                 if (achievements[position].getProg(current_player) >= 100){
                     bar.setProgress(100);
                 }else{
-                    //bar.setProgress(achievements[position].getProg(current_player));\
-                    bar.setProgress(55);
+                    bar.setProgress(achievements[position].getProg(current_player));\
+
                 }
-                Toast.makeText(getContext(), current_player.getHints().size()+"", Toast.LENGTH_SHORT).show();
                 // FIXME ca s'execute en background et les toasts s'affichent n'importe quand
                 return convertView;
             }
