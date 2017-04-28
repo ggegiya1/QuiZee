@@ -375,6 +375,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
+
     //cré le dialog de fin de jeu et laffiche
     private void endDialog() {
         final Player player = getCurrentPlayer();

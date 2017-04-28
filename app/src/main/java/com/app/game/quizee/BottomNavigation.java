@@ -63,7 +63,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
         updateUserInfo();
         setupAvatar();
-        play = new PlayMusic (getApplication(),this);
+        play = new PlayMusic (getApplication(),getBaseContext());
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override

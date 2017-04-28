@@ -76,7 +76,6 @@ public class ShopFragment extends Fragment {
                 public void onClick(View v) {
                     if (current_player.purchase(rowItem)) {
                         Toast.makeText(getContext(), " +1 " + rowItem.getName() + " purchased!", Toast.LENGTH_SHORT).show();
-
                         BackEndManager.updateAchievements(current_player, getContext());
                         notifyDataSetChanged();
                     } else {

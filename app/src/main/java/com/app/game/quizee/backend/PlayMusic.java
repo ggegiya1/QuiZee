@@ -1,9 +1,12 @@
 package com.app.game.quizee.backend;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+import android.view.View;
 
 import com.app.game.quizee.BottomNavigation;
 import com.app.game.quizee.R;
@@ -17,8 +20,9 @@ import java.util.Random;
 public class PlayMusic {
     int compteur=1;
     MediaPlayer mymedia;
-    BottomNavigation bn;
-    public PlayMusic(Application myapp, BottomNavigation bn){
+    Context bn;
+
+    public PlayMusic(Application myapp, Context bn){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myapp);
         if(prefs.getBoolean("sound_music", false)) {
             this.bn= bn;
@@ -26,7 +30,7 @@ public class PlayMusic {
         }
     }
 
-    public void randommusic(BottomNavigation bn){
+    public void randommusic(Context bn){
         switch (compteur) {
             case 1:
                 this.mymedia = MediaPlayer.create(bn, R.raw.bg1);

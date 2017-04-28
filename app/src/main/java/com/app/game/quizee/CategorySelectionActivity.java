@@ -105,9 +105,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                     unSelectCategory(player, category);
                 } else {
                     // instant purchase category
-                    if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
+                        instantCategoryBuyDialog(player, category, view);if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
                         BackEndManager.updateAchievements(player);
-                        instantCategoryBuyDialog(player, category, view);
                     }else if (player.alreadyPurchased(category.getCategory()) || category.getCategory().getPrice() == 0){
                         // select category if already purchased or is free
                         selectCategory(player, category);
