@@ -17,12 +17,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbGamesPlayed();
+            return player.getNbGamesPlayed();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbGamesPlayed() == 5 && !player.hasAchievement(GAMES_5);
+            return player.getNbGamesPlayed() == 5 && !player.hasAchievement(GAMES_5);
         }
     },
 
@@ -34,12 +34,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbGamesPlayed();
+            return player.getNbGamesPlayed();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbGamesPlayed() == 20 && !player.hasAchievement(GAMES_20);
+            return player.getNbGamesPlayed() == 20 && !player.hasAchievement(GAMES_20);
         }
     },
     GAMES_50 ("We getting there", 150, 50, "Play 50 games on QuiZee."){
@@ -50,12 +50,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbGamesPlayed();
+            return player.getNbGamesPlayed();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbGamesPlayed() == 50 && !player.hasAchievement(GAMES_50);
+            return player.getNbGamesPlayed() == 50 && !player.hasAchievement(GAMES_50);
         }
     },
     GAMES_100 ("GG on Veteran", 200, 100, "Play 100 games on QuiZee."){
@@ -66,12 +66,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbGamesPlayed();
+            return player.getNbGamesPlayed();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbGamesPlayed() == 100 && !player.hasAchievement(GAMES_100);
+            return player.getNbGamesPlayed() == 100 && !player.hasAchievement(GAMES_100);
         }
     },
 
@@ -83,12 +83,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbQanswered();
+            return player.getNbQanswered();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbQanswered() == 50 && !player.hasAchievement(ANSWERS_50);
+            return player.getNbQanswered() == 50 && !player.hasAchievement(ANSWERS_50);
         }
     },
     ANSWERS_100 ("Call Einstein ASAP", 200, 100, "Answer 100 questions correctly."){
@@ -100,12 +100,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbQanswered();
+            return player.getNbQanswered();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbQanswered() == 100 && !player.hasAchievement(ANSWERS_100);
+            return player.getNbQanswered() == 100 && !player.hasAchievement(ANSWERS_100);
         }
     },
     ANSWERS_200 ("Your IQ is on fire!", 285, 200, "Answer 200 questions correctly."){
@@ -117,12 +117,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbQanswered();
+            return player.getNbQanswered();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbQanswered() == 200 && !player.hasAchievement(ANSWERS_200);
+            return player.getNbQanswered() == 200 && !player.hasAchievement(ANSWERS_200);
         }
     },
     ANSWERS_500 ("You gotta be cheating, for real", 1, 1, "Answer 500 questions correctly."){
@@ -133,12 +133,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.get_nbQanswered();
+            return player.getNbQanswered();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.get_nbQanswered() == 500 && !player.hasAchievement(ANSWERS_500);
+            return player.getNbQanswered() == 500 && !player.hasAchievement(ANSWERS_500);
         }
     },
     ANSWER_10_IN_ROW ("The streak is real, mate", 50, 50, "Answer 10 questions in a row."){

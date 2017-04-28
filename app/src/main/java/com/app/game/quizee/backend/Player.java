@@ -290,11 +290,11 @@ public class Player extends Observable implements Serializable {
         return true;
     }
 
-    public int get_nbGamesPlayed(){
+    public int getNbGamesPlayed(){
         return this.nbGamesPlayed;
     }
 
-    public int get_nbQanswered(){
+    public int getNbQanswered(){
         return this.nbQanswered;
     }
 
