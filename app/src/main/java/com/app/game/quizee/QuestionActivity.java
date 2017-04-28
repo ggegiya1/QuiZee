@@ -301,10 +301,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void resultAnimation(final TextView view, final String text, final int color){
-        final Animation animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
-        animation.setDuration(500);
+        final Animation animation = new AlphaAnimation(1, 0); // Change alpha from invisible to fully visible
+        animation.setDuration(2000);
         animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(2);
+        animation.setRepeatCount(0);
         final int origColor = view.getCurrentTextColor();
         final float origSize = view.getTextSize();
         final Typeface styleOrig = view.getTypeface();
