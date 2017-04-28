@@ -80,6 +80,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     MyCountDownTimer countDownTimer;
     int questionCount;
     Question currentQuestion;
+    final int PREVENT_CLICK_TIME = 1000; // miliseconds
 
     //Total game scores
     int pscore=0;
@@ -282,9 +283,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
                     if(colorBlind) {
-                        onAnswerButtonEffect(v, Color.BLACK);
+                        onAnswerButtonEffect(v, Color.YELLOW);
                     } else {
-                        onAnswerButtonEffect(v, Color.RED);
+                        onAnswerButtonEffect(v, Color.CYAN);
                     }
                 }
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
@@ -332,11 +333,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation){}
+            public void onAnimationRepeat(Animation animation){
+                view.setClickable(false);
+            }
 
             @Override
             public void onAnimationEnd(Animation animation){
-                view.setClickable(true);
+
+                //view.setClickable(true); TODO ameliorer le prevent click?
             }
         });
         view.startAnimation(animation);
@@ -352,6 +356,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             QuestionFetcher questionFetcher = new QuestionFetcher();
             questionFetcher.execute();
         }
+        new PreventClickCountDownTimer(PREVENT_CLICK_TIME, PREVENT_CLICK_TIME).start();
     }
 
     //cré le dialog de fin de jeu et laffiche
@@ -469,6 +474,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             timerView.setText(String.format(Locale.ROOT, "%.2f", (float) millisUntilFinished / 1000));
         }
 
+        public long getTimeRemaining() {
+            return timeRemaining;
+        }
+
         @Override
         public void onFinish() {
             // player did not respond
@@ -477,9 +486,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             //TODO que faire dautre lorsquil ne reste plus de temps
         }
 
-        public long getTimeRemaining() {
-            return timeRemaining;
-        }
 
         private int getTimerColor(long millisUntilFinished) {
             float factor = ((float) millisUntilFinished / BASE_TIME_MILLIS);
@@ -494,6 +500,37 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
+    //custom countdownTimer class pour prevenir un click trop rapide apres une nouvelle question
+    private class PreventClickCountDownTimer extends CountDownTimer {
+
+        private PreventClickCountDownTimer(long startTime, long timeBetweenTicks) {
+            super(startTime, timeBetweenTicks);
+            setButtonsClickable(false);
+        }
+
+        @Override
+        @TargetApi(21)
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            setButtonsClickable(true);
+        }
+    }
+
+    public void setButtonsClickable(boolean b) {
+        bombButton.setClickable(b);
+        addTimeButton.setClickable(b);
+        skipButton.setClickable(b);
+        hintButton.setClickable(b);
+        answer1Button.setClickable(b);
+        answer2Button.setClickable(b);
+        answer3Button.setClickable(b);
+        answer4Button.setClickable(b);
+    }
+
     @Override
     public void addTime() {
         updatePowerUpButtons();
@@ -501,6 +538,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         countDownTimer.cancel();
         countDownTimer = new MyCountDownTimer(newTime, 50);
         countDownTimer.start();
+        bombButton.setClickable(false);
     }
 
 

@@ -14,15 +14,15 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.support.annotation.RequiresApi;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import com.app.game.quizee.backend.PlayerManager;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
@@ -137,7 +137,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
-
             //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         }
 
@@ -213,6 +212,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             });
 
             setHasOptionsMenu(true);
+
             bindPreferenceSummaryToValue(findPreference("player_name"));
 
             Preference logout = findPreference("logout");

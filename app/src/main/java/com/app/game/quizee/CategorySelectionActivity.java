@@ -61,7 +61,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         addPlayerToolBar(player);
         addStartButton(player);
         addCategoriesList();
-        setupAvatar();
     }
 
     private void addStartButton(final Player player){
@@ -134,8 +133,14 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
-        //TODO pass real image here
-        avatar.setImageResource(R.mipmap.ic_launcher);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
+
+        if(avatar != null) {
+            avatar.setImageBitmap(avatarBitmap);
+        } else {
+            avatar.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
     @Override
@@ -234,16 +239,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
         }
 
-    }
-
-    private void setupAvatar() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Bitmap avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
-        ImageView avatarView = (ImageView) findViewById(R.id.avatar);
-
-        if(avatar != null) {
-            avatarView.setImageBitmap(avatar);
-        }
     }
 
     private static class ViewHolder{
