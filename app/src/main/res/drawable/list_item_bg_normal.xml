@@ -1,7 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <gradient
-        android:startColor="@color/primaryBackground"
-        android:endColor="@color/primaryBackground"
-        android:angle="90" />
+    <solid android:color="@color/listItemsNormalBackground"/>
 </shape>

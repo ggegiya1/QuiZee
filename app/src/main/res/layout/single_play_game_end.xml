@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="250dp"
     android:layout_height="400dp"
+    android:minHeight="300dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:id="@+id/end_single_play_summary">

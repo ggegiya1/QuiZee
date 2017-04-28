@@ -3,6 +3,12 @@
 
     <SwitchPreference
         android:defaultValue="true"
+        android:key="sound_activate"
+        android:title="@string/pref_sound_activate"/>
+
+    <SwitchPreference
+        android:dependency="sound_activate"
+        android:defaultValue="true"
         android:key="sound_music"
         android:title="@string/pref_sound_music"/>
 

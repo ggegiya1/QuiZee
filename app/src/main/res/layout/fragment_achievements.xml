@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +36,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:text="@string/achievements"
         android:background="@drawable/button_primary_default"
         android:layout_marginBottom="5dp"
@@ -45,9 +45,9 @@
         android:textColor="@color/colorSecondary"
         android:gravity="center"
         android:textSize="20sp"
+        android:layout_alignParentTop="true"
         android:textStyle="bold"
-        android:layout_margin="5dp"
-        android:layout_weight="0.055"/>
+        android:layout_margin="5dp" />
 
     <ListView
         android:layout_width="match_parent"
@@ -55,11 +55,12 @@
         android:id="@+id/achievements_list"
         android:scrollbarStyle="outsideOverlay"
         android:padding="5dp"
-        android:divider="@color/primaryBackground"
+        android:divider="@color/listDivider"
         android:dividerHeight="3dp"
         android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
         android:scrollbarSize="5dp"
         android:fadeScrollbars="false"
-        android:layout_weight="0.95"/>
+        android:layout_below="@id/category_achievements_title"
+        android:layout_alignParentBottom="true"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -19,13 +19,12 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
@@ -210,7 +209,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 holder.categoryImage = (ImageView) currentView.findViewById(R.id.category_item_icon);
                 holder.categoryName = (AutofitTextView) currentView.findViewById(R.id.category_item_name);
                 holder.categoryPrice = (TextView) currentView.findViewById(R.id.category_item_price);
-                holder.selectionToggle = (RadioButton) currentView.findViewById(R.id.radio_button_selection_toggle);
+                holder.selectionToggle = (CheckBox) currentView.findViewById(R.id.radio_button_selection_toggle);
                 currentView.setTag(holder);
             }else {
                 holder = (ViewHolder)currentView.getTag();
@@ -246,7 +245,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         ImageView categoryImage;
         TextView categoryName;
         TextView categoryPrice;
-        RadioButton selectionToggle;
+        CheckBox selectionToggle;
     }
 
     //on settings button clicked

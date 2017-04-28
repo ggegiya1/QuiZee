@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.app.game.quizee.R;
@@ -30,9 +30,9 @@ public class CareerFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_achievements, container, false);
+        RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.fragment_achievements, container, false);
 
-        achievementsList = (ListView) ll.findViewById(R.id.achievements_list);
+        achievementsList = (ListView) rl.findViewById(R.id.achievements_list);
 
         final Achievement[] achievements = Achievement.values();
 
@@ -93,7 +93,7 @@ public class CareerFragment extends Fragment {
         //AchievementsAdapter adapter = new AchievementsAdapter(getActivity(),  achievements);
         //statsList.setAdapter(adapter);
         //achievementsList.setAdapter(adapter);
-        return ll;
+        return rl;
     }
 
 

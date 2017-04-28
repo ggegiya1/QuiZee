@@ -2,8 +2,6 @@ package com.app.game.quizee.backend;
 
 import com.app.game.quizee.R;
 
-import java.io.Serializable;
-
 /**
  * Created by ggegiya1 on 2017-04-22.
  */
