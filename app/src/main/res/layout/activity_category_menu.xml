@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@color/primaryBackground">
+    android:background="@drawable/list_selector">
 
     <include layout="@layout/toolbar_no_settings"/>
 
@@ -22,7 +22,7 @@
         android:gravity="center"
         android:layout_margin="5dp"
         android:textColor="@color/colorSecondary"
-        android:background="@drawable/button_primary_style"/>
+        android:background="@drawable/button_primary_default"/>
 
 
     <ListView
@@ -34,7 +34,7 @@
         android:layout_weight="0.9"
         android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
         android:scrollbarSize="5dp"
-        android:divider="@color/primaryBackground"/>
+        android:divider="@color/listDivider"/>
 
     <Button
         android:id="@+id/button_start"

@@ -62,7 +62,7 @@
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:text="0"
-                android:drawableEnd="@drawable/ic_currency"
+                android:drawableEnd="@drawable/ic_currency_white"
                 android:textSize="15sp"/>
         </LinearLayout>
 

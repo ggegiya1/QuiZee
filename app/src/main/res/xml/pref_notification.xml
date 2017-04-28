@@ -1,5 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/pref_title_notification_friend_request">
+
+    <SwitchPreference
+        android:key="notifications_activate"
+        android:defaultValue="true"
+        android:title="@string/pref_notification_activate"
+        />
+
+    <PreferenceCategory android:title="@string/pref_title_notification_friend_request"
+        android:dependency="notifications_activate">
         <SwitchPreference
             android:defaultValue="true"
             android:key="notifications_friend_request_accepted"
@@ -13,7 +21,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/gaming_request">
+    <PreferenceCategory android:title="@string/gaming_request"
+        android:dependency="notifications_activate">
         <SwitchPreference
             android:defaultValue="true"
             android:key="notifications_gaming_request"
@@ -26,7 +35,8 @@
             android:title="@string/pref_title_notification_gaming_request" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/achivements_earned">
+    <PreferenceCategory android:title="@string/achivements_earned"
+        android:dependency="notifications_activate">
         <SwitchPreference
             android:defaultValue="true"
             android:key="notifications_achievement"

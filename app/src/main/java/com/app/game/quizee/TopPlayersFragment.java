@@ -2,6 +2,7 @@ package com.app.game.quizee;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +39,11 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                              Bundle savedInstanceState) {
         contactAdapter = new ContactAdapter(getActivity(), new ArrayList<Player>(MAX_TOP_PLAYERS));
         PlayerManager.getInstance().setTopListReceivedCallback(this);
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_top_players, container, false);
-        topList = (ListView) ll.findViewById(R.id.top_players_list);
+        RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.fragment_top_players, container, false);
+        topList = (ListView) rl.findViewById(R.id.top_players_list);
         topList.setAdapter(contactAdapter);
         PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
-        return ll;
+        return rl;
     }
 
     @Override
@@ -105,7 +106,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             holder.name.setText(p.getName());
             holder.score.setText(String.valueOf(p.getHighestScore()));
             // TODO replace with real user photo
-            holder.icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_acount));
+            holder.icon.setImageBitmap(p.getAvatarBitmap(PreferenceManager.getDefaultSharedPreferences(getContext())));
             holder.level.setText(String.valueOf(p.getLevel()));
             return convertView;
         }

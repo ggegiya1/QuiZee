@@ -78,7 +78,7 @@
 
     <string name="achivements_earned">Achievements obtained</string>
     <string name="goodAnswers">Good answers</string>
-    <string name="dont_replay">New Game</string>
+    <string name="dont_replay">Leave</string>
     <string name="replay">Replay</string>
     <string-array name="game_end_felicitation">
         <item>Noob!</item>
@@ -170,12 +170,14 @@
 
     <!-- item Descriptions  -->
     <string name="description_bomb">Removes 2 wrongs answers</string>
-    <string name="description_hint">Gives a good probability of giving the good answer</string>
+    <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
-    <string name="description_add_time">Adds 5 seconds to the current countdown</string>
+    <string name="description_add_time">Adds 5 seconds</string>
     <string name="time_expired">!!! TIME EXPIRED !!!</string>
     <string name="correct_answer">!!! CORRECT ANSWER !!!</string>
     <string name="wrong_answer">!!! WRONG ANSWER !!!</string>
+    <string name="pref_sound_activate">Activate sound</string>
+    <string name="pref_notification_activate">Activate notifications</string>
 
 
 </resources>
