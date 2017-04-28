@@ -19,7 +19,8 @@
             android:id="@+id/top_players_title"
             android:textStyle="bold"
             android:layout_margin="5dp"
-            android:background="@color/colorPrimary"/>
+            android:background="@drawable/button_primary_default"
+            android:drawableLeft="@android:drawable/btn_star_big_on"/>
 
         <ListView
             android:layout_width="match_parent"

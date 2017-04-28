@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textColor="@color/colorSecondary"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/button_primary_default"
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"

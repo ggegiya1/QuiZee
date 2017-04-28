@@ -22,7 +22,7 @@
         android:gravity="center"
         android:layout_margin="5dp"
         android:textColor="@color/colorSecondary"
-        android:background="@drawable/button_primary_style"/>
+        android:background="@drawable/button_primary_default"/>
 
 
     <ListView
