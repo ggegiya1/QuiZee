@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class Player extends Observable implements Serializable {
     private int currentscore;
     private int highestScore;
     private int exp;
+    private String avatar;
 
     private Map<String, Integer> perfCategories = new HashMap<>();
 
@@ -215,23 +217,27 @@ public class Player extends Observable implements Serializable {
         return this.categoriesSelected;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+
     public Bitmap getAvatarBitmap(SharedPreferences preference) {
         //la conversion de string en bitmap vient de
         // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
         try {
-            String avatarString = preference.getString("avatar", null);
-            byte [] encodeByte= Base64.decode(avatarString,Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
+            byte [] encodeByte= Base64.decode(avatar,Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         } catch(Exception e) {
-            e.getMessage();
+            Log.e("player", "error reading avatar", e);
             return null;
         }
     }
 
-    public String getAvatarString(SharedPreferences preference) {
-        return preference.getString("avatar", null);
-    }
 
     public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
