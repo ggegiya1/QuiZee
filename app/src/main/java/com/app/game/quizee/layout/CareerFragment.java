@@ -80,12 +80,9 @@ public class CareerFragment extends Fragment {
                     check.setImageResource(R.drawable.ic_not_done);
                 }
 
-                if (achievements[position].getProg(current_player) >= 100){
-                    bar.setProgress(100);
-                }else{
-                    bar.setProgress(achievements[position].getProg(current_player));
+                bar.setProgress(achievements[position].getProg(current_player));
 
-                }
+
                 // FIXME ca s'execute en background et les toasts s'affichent n'importe quand
                 return convertView;
             }
