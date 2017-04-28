@@ -23,6 +23,8 @@ public class Player extends Observable implements Serializable {
     private String image;
     private boolean online;
     private List<Player> friends;
+
+
     //For achievements
     private int nbGamesPlayed;
     private int nbQanswered;
@@ -105,7 +107,6 @@ public class Player extends Observable implements Serializable {
 
     private void resetScore() {
         this.currentscore = 0;
-        this.nbGamesPlayed +=1;
         setChanged();
         notifyObservers();
     }
@@ -393,6 +394,13 @@ public class Player extends Observable implements Serializable {
         this.nbTimeBought = nbTimeBought;
     }
 
+    public void setNbGamesPlayed(int nbGamesPlayed) {
+        this.nbGamesPlayed = nbGamesPlayed;
+    }
+
+    public void setNbQanswered(int nbQanswered) {
+        this.nbQanswered = nbQanswered;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

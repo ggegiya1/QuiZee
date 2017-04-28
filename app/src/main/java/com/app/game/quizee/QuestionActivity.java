@@ -378,6 +378,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         MediaPlayer mp =  MediaPlayer.create(getApplicationContext(),R.raw.endgame);
         mp.start();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        player.setNbGamesPlayed(player.getNbGamesPlayed()+1);
         //TODO: Avoid passing root
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
