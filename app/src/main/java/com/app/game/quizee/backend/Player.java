@@ -47,6 +47,11 @@ public class Player extends Observable implements Serializable {
     private int exp;
     private String avatar;
 
+
+    private int nbBombsBought;
+    private int nbHintsBought;
+    private int nbSkipssBought;
+    private int nbTimeBought;
     private Map<String, Integer> perfCategories = new HashMap<>();
 
     public Player() {
@@ -278,15 +283,19 @@ public class Player extends Observable implements Serializable {
         }
         if (gameItem instanceof Bomb) {
             this.bombs.add((Bomb) gameItem);
+            nbBombsBought+=1;
         }
         if (gameItem instanceof Skip) {
             this.skips.add((Skip) gameItem);
+            nbSkipssBought+=1;
         }
         if (gameItem instanceof AddTime) {
             this.addTimes.add((AddTime) gameItem);
+            nbTimeBought+=1;
         }
         if (gameItem instanceof Hint) {
             this.hints.add((Hint) gameItem);
+            nbHintsBought+=1;
         }
 
 
@@ -350,6 +359,38 @@ public class Player extends Observable implements Serializable {
             return getAddTimes().size();
         }
         return 0;
+    }
+
+    public int getNbBombsBought() {
+        return nbBombsBought;
+    }
+
+    public void setNbBombsBought(int nbBombsBought) {
+        this.nbBombsBought = nbBombsBought;
+    }
+
+    public int getNbHintsBought() {
+        return nbHintsBought;
+    }
+
+    public void setNbHintsBought(int nbHintsBought) {
+        this.nbHintsBought = nbHintsBought;
+    }
+
+    public int getNbSkipssBought() {
+        return nbSkipssBought;
+    }
+
+    public void setNbSkipssBought(int nbSkipssBought) {
+        this.nbSkipssBought = nbSkipssBought;
+    }
+
+    public int getNbTimeBought() {
+        return nbTimeBought;
+    }
+
+    public void setNbTimeBought(int nbTimeBought) {
+        this.nbTimeBought = nbTimeBought;
     }
 
     @Override

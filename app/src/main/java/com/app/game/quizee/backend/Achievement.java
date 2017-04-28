@@ -166,12 +166,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getBombs().size();
+            return player.getNbBombsBought();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getBombs().size() == 5 && !player.hasAchievement(BOMBS_5);
+            return player.getNbBombsBought() == 5 && !player.hasAchievement(BOMBS_5);
         }
     },
     SKIPS_5 ("Don't skip class to play!", 20, 5, "Buy 5 skip."){
@@ -182,12 +182,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getSkips().size();
+            return player.getNbSkipssBought();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getSkips().size() == 5 && !player.hasAchievement(SKIPS_5);
+            return player.getNbSkipssBought() == 5 && !player.hasAchievement(SKIPS_5);
         }
     },
     TIME_5 ("Tick tock, time's up", 20, 5, "Buy 5 timeadd."){
@@ -198,12 +198,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getAddTimes().size();
+            return player.getNbTimeBought();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getAddTimes().size() == 5 && !player.hasAchievement(TIME_5);
+            return player.getNbTimeBought() == 5 && !player.hasAchievement(TIME_5);
         }
     },
     HINTS_5 ("Hint me up, Sherlock", 20, 5, "Buy 5 hints."){
@@ -214,12 +214,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getHints().size();
+            return player.getNbHintsBought();
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getHints().size() == 5 && !player.hasAchievement(HINTS_5);
+            return player.getNbHintsBought() == 5 && !player.hasAchievement(HINTS_5);
         }
     };
 
