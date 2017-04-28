@@ -211,6 +211,16 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
 
+            Preference avatarName = findPreference("change_avatar");
+            avatarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    String newName = (String) newValue;
+                    PlayerManager.getInstance().getCurrentPlayer().setName(newName);
+                    return false;
+                }
+            });
+
             setHasOptionsMenu(true);
 
             bindPreferenceSummaryToValue(findPreference("player_name"));
