@@ -3,6 +3,7 @@ package com.app.game.quizee;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.app.game.quizee.layout.HomeFragment;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 
 public class BottomNavigation extends AppCompatActivity implements Observer {
@@ -58,7 +60,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         level = (TextView) findViewById(R.id.level);
 
         updateUserInfo();
-
+        play_bg();
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -134,6 +136,26 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         }
     }
 
+    private void play_bg(){
+        MediaPlayer mp;
+        Random rand = new Random();
+        int value = rand.nextInt(4) +1;
+        switch (value){
+            case 1 :
+                mp = MediaPlayer.create(this,R.raw.bg1);
+                break;
+            case 2 :
+                mp = MediaPlayer.create(this,R.raw.bg2);
+                break;
+            case 3 :
+                mp = MediaPlayer.create(this,R.raw.bg3);
+                break;
+            default :
+                mp = MediaPlayer.create(this,R.raw.bg4);
+                break;
+        }
+        mp.start();
+    }
 
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();

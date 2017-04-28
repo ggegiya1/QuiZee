@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -255,8 +256,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 Player player = getCurrentPlayer();
+                MediaPlayer mp;
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
+                    mp = MediaPlayer.create(getApplicationContext(),R.raw.gooda);
                     if(colorBlind) {
                         onAnswerButtonEffect(v, Color.BLUE);
                     } else {
@@ -266,12 +269,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
+                    mp = MediaPlayer.create(getApplicationContext(),R.raw.wronga);
                     if(colorBlind) {
                         onAnswerButtonEffect(v, Color.BLACK);
                     } else {
                         onAnswerButtonEffect(v, Color.RED);
                     }
                 }
+                mp.start();
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
         };
@@ -342,6 +347,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     //cré le dialog de fin de jeu et laffiche
     private void endDialog() {
         final Player player = getCurrentPlayer();
+        MediaPlayer mp =  MediaPlayer.create(getApplicationContext(),R.raw.endgame);
+        mp.start();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //TODO: Avoid passing root
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
