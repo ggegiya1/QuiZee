@@ -9,9 +9,9 @@
     android:contentInsetStart="0dp"
     android:contentInsetLeft="0dp"
     android:contentInsetRight="0dp"
-    android:contentInsetEnd="0dp">>
+    android:contentInsetEnd="0dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -21,49 +21,52 @@
             android:layout_height="match_parent"
             android:id="@+id/avatar"
             android:contentDescription="@string/avatar_contentDescription"
-            android:layout_alignParentStart="true"
             android:src="@mipmap/ic_launcher"/>
 
         <me.grantland.widget.AutofitTextView
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
             android:layout_height="match_parent"
             android:id="@+id/user_name"
             android:text="Hello"
-            android:layout_toRightOf="@id/avatar"
-            android:layout_toLeftOf="@+id/points"
-            android:layout_centerVertical="true"
             android:textColor="@color/primaryBackground"
             android:textStyle="bold"
-            android:gravity="left"
+            android:gravity="start|center"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textSize="20sp"/>
 
-        <TextView
-            android:id="@+id/level"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="20dp"
-            android:background="@android:drawable/btn_star_big_on"
-            android:gravity="center"
-            android:layout_alignParentEnd="true"
-            android:text="0"
-            android:layout_alignParentTop="true"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="10dp"
+                android:background="@android:drawable/btn_star_big_on"
+                android:gravity="center"
+                android:text="0"/>
 
 
-        <TextView
-            android:layout_height="30dp"
-            android:layout_width="60dp"
-            android:id="@+id/points"
-            android:gravity="end|center"
-            android:textColor="@color/colorSecondary"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:text="0"
-            android:layout_alignParentEnd="true"
-            android:drawableEnd="@drawable/ic_currency"
-            android:textSize="15sp"
-            android:layout_alignParentBottom="true"/>
+            <TextView
+                android:id="@+id/points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end|center"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:text="0"
+                android:drawableEnd="@drawable/ic_currency"
+                android:textSize="15sp"/>
+        </LinearLayout>
 
-    </RelativeLayout>
+
+
+    </LinearLayout>
 </android.support.v7.widget.Toolbar>
