@@ -257,17 +257,15 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 Player player = getCurrentPlayer();
-                MediaPlayer mp;
+                MediaPlayer mp = new MediaPlayer();
                 if (answer.isCorrect()){
                     player.addCorrectAnswer(currentQuestion);
-                    mp = MediaPlayer.create(getApplicationContext(),R.raw.gooda);
                     onAnswerButtonEffect(v, Color.GREEN);
                     if(goodAnswerSound) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.gooda);
                         mp.start();
                     }
                     resultAnimation(questionTextView, getString(R.string.correct_answer), Color.GREEN);
-
                 }else {
                     player.addIncorrectAnswer(currentQuestion);
                     if(wrongAnswerSound) {
@@ -277,7 +275,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     onAnswerButtonEffect(v, Color.RED);
                     resultAnimation(questionTextView, getString(R.string.wrong_answer), Color.RED);
                 }
-
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
         };
@@ -372,12 +375,20 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
+
     //cré le dialog de fin de jeu et laffiche
     private void endDialog() {
         final Player player = getCurrentPlayer();
         MediaPlayer mp =  MediaPlayer.create(getApplicationContext(),R.raw.endgame);
         mp.start();
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mmp) {
+                mmp.release();
+            }
+        });
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        player.setNbGamesPlayed(player.getNbGamesPlayed()+1);
         //TODO: Avoid passing root
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);

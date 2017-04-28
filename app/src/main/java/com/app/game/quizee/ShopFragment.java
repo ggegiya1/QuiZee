@@ -67,6 +67,19 @@ public class ShopFragment extends Fragment {
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
             final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
 
+            //ajoute une action lorsque lon achete un power up
+            buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (current_player.purchase(rowItem)) {
+                        Toast.makeText(getContext(), " +1 " + rowItem.getName() + " purchased!", Toast.LENGTH_SHORT).show();
+                        BackEndManager.updateAchievements(current_player, getContext());
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Not enough money to buy: " + rowItem.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
             powUpDescription.setText(rowItem.getDescription());
             powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberItemPurchased(rowItem.getClass()));
             powUpName.setText(rowItem.getType());
@@ -76,14 +89,5 @@ public class ShopFragment extends Fragment {
             return convertView;
         }
 
-        void updateAchievements(Player player){
-            for (Achievement achievement: Achievement.values()){
-                if (achievement.isAchieved(player)){
-                    //TODO update the message
-                    Toast.makeText(getContext(), achievement.getDesc(), Toast.LENGTH_LONG).show();
-                    player.addAchievement(achievement);
-                }
-            }
-        }
     }
 }

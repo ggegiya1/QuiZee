@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.game.quizee.backend.PlayMusic;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.layout.CareerFragment;
@@ -43,7 +44,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     TextView level;
     ImageView avatarView;
     Bitmap avatar;
-
+    PlayMusic play;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
         updateUserInfo();
         setupAvatar();
-        play_bg();
+        play = new PlayMusic (getApplication(),getBaseContext());
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -136,35 +137,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         }
     }
 
-    private void play_bg(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        if(prefs.getBoolean("sound_music", false)) {
-            MediaPlayer mp;
-            Random rand = new Random();
-            int value = rand.nextInt(4) + 1;
-            switch (value) {
-                case 1:
-                    mp = MediaPlayer.create(this, R.raw.bg1);
-                    break;
-                case 2:
-                    mp = MediaPlayer.create(this, R.raw.bg2);
-                    break;
-                case 3:
-                    mp = MediaPlayer.create(this, R.raw.bg3);
-                    break;
-                default:
-                    mp = MediaPlayer.create(this, R.raw.bg4);
-                    break;
-            }
-            mp.start();
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    play_bg();
-                }
-            });
-        }
-    }
+
 
 
 
@@ -193,7 +166,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         super.onResume();
         updateUserInfo();
         setupAvatar();
-        play_bg();
     }
 
     @Override
