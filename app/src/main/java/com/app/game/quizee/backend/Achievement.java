@@ -221,12 +221,59 @@ public enum  Achievement implements Serializable {
         public boolean isAchieved(Player player){
             return player.getNbHintsBought() == 5 && !player.hasAchievement(HINTS_5);
         }
-    };
+    },
 
     //TODO: Achiev achat categorie
-//    CATEGORY_1 ("Knowledge is expandable", 20, 5, "Buy 1 category."),
-//    CATEGORY_10 ("This fella likes to learn!", 20, 5, "Buy 10 categories."),
-//    CATEGORY_ALL ("Ain't no subject he can't deal", 120, 200, "Buy all categories."),
+    CATEGORY_1 ("Knowledge is expandable", 20, 5, "Buy 1 category."){
+        @Override
+        public int getMaxValue() {
+            return 1;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getCategoriesPurchased().size();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getCategoriesPurchased().size() == 1 && !player.hasAchievement(CATEGORY_1);
+        }
+    },
+
+    CATEGORY_10 ("This fella likes to learn!", 20, 5, "Buy 10 categories."){
+        @Override
+        public int getMaxValue() {
+            return 10;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getCategoriesPurchased().size();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getCategoriesPurchased().size() == 10 && !player.hasAchievement(CATEGORY_10);
+        }
+    },
+
+    CATEGORY_ALL ("Ain't no subject he can't deal", 120, 200, "Buy all categories."){
+        @Override
+        public int getMaxValue() {
+            return 16;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getCategoriesPurchased().size();
+        }
+
+        @Override
+        public boolean isAchieved(Player player) {
+            return player.getCategoriesPurchased().size() == 16 && !player.hasAchievement(CATEGORY_ALL);
+        }
+    };
 //
 //    //TODO: Achiev level up
 //    LEVEL_5("Give it up!", 50, 50, "Reach lvl 5."),
