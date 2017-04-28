@@ -64,7 +64,7 @@ public class CategoryManager {
         return this.allCategories.get(categoryName);
     }
 
-    public List<Category> getAllCategoriesSortedByPrice() {
+    public List<Category> getAllCategories() {
         return new ArrayList<>(allCategories.values());
     }
 }
