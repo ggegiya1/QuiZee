@@ -173,15 +173,16 @@ public class Player extends Observable implements Serializable {
         updatePerformCategory(question.getCategory());
         addScore(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1));
         addPoints(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
-        addExp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
+        setexp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
     }
 
-    public void addExp(int exp){
+    public void setexp(int exp){
         this.exp += exp;
         if (this.exp == 1000){
             this.level+=1;
             this.exp=0;
         }
+        BackEndManager.updateAchievements(this);
     }
 
     public void addIncorrectAnswer(Question question) {
