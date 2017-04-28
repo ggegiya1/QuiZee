@@ -173,7 +173,9 @@
     <string name="description_hint">Gives a good probability of giving the good answer</string>
     <string name="description_skip">Skips to the next questions</string>
     <string name="description_add_time">Adds 5 seconds to the current countdown</string>
+    <string name="time_expired">!!! TIME EXPIRED !!!</string>
+    <string name="correct_answer">!!! CORRECT ANSWER !!!</string>
+    <string name="wrong_answer">!!! WRONG ANSWER !!!</string>
 
 
-
-    </resources>
+</resources>

@@ -51,7 +51,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.addObserver(this);
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        setupAvatar();
+
+
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         playerName = (TextView) findViewById(R.id.user_name_main);
@@ -60,6 +61,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         avatarView = (ImageView) findViewById(R.id.avatar_main);
 
         updateUserInfo();
+        setupAvatar();
         play_bg();
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -189,6 +191,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     @Override
     public void onResume() {
         super.onResume();
+        updateUserInfo();
         setupAvatar();
         play_bg();
     }
