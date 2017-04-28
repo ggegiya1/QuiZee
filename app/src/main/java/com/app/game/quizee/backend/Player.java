@@ -193,7 +193,7 @@ public class Player extends Observable implements Serializable {
             this.exp=0;
         }
         //i dont know why this is there (Olivier)
-        //BackEndManager.updateAchievements(this);
+        BackEndManager.updateAchievements(this);
     }
 
     public void addIncorrectAnswer(Question question) {
