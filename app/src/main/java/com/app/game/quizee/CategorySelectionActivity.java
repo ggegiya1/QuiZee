@@ -139,10 +139,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
 
-        if(avatar != null) {
+        if(avatarBitmap != null) {
             avatar.setImageBitmap(avatarBitmap);
-        } else {
-            avatar.setImageResource(R.mipmap.ic_launcher);
         }
     }
 

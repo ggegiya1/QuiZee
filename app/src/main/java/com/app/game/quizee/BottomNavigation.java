@@ -55,9 +55,10 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         setupAvatar();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        playerName = (TextView) findViewById(R.id.user_name);
-        points = (TextView) findViewById(R.id.points);
-        level = (TextView) findViewById(R.id.level);
+        playerName = (TextView) findViewById(R.id.user_name_main);
+        points = (TextView) findViewById(R.id.points_main);
+        level = (TextView) findViewById(R.id.level_main);
+        avatarView = (ImageView) findViewById(R.id.avatar_main);
 
         updateUserInfo();
         play_bg();
@@ -129,8 +130,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     private void setupAvatar() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
-        avatarView = (ImageView) findViewById(R.id.avatar);
-
         if(avatar != null) {
             avatarView.setImageBitmap(avatar);
         }
