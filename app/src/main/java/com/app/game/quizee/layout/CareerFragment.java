@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
