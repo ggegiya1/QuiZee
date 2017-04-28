@@ -176,7 +176,7 @@
         <me.grantland.widget.AutofitTextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
+            android:layout_weight="0.3"
             android:id="@+id/text_question"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:lineSpacingExtra="6sp"
@@ -191,11 +191,12 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/gameButtons"
             android:layout_weight="0.4">
             <LinearLayout
+                android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -203,43 +204,43 @@
                 android:splitMotionEvents="false"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="5dp">
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/button_response_1"
-                    android:layout_margin="5dp"
+                    android:layout_margin="3dp"
                     android:textAlignment="center" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/button_response_2"
-                    android:layout_margin="5dp"
+                    android:layout_margin="3dp"
                     android:textAlignment="center" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/button_response_3"
-                    android:layout_margin="5dp"
+                    android:layout_margin="3dp"
                     android:textAlignment="center"/>
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/button_response_4"
-                    android:layout_margin="5dp"
+                    android:layout_margin="3dp"
                     android:textAlignment="center"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:id="@+id/bottom_buttons">
 
                 <Button
@@ -247,6 +248,7 @@
                     android:drawableStart="@drawable/ic_bomb"
                     android:layout_width="0dp"
                     android:layout_margin="5dp"
+                    android:padding="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/button_bomb"
                     android:text="0"
@@ -259,6 +261,7 @@
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_hint"
                     android:layout_margin="5dp"
+                    android:padding="0dp"
                     android:id="@+id/button_hint"
                     android:layout_weight="0.25"
                     android:text="0"
@@ -269,6 +272,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
+                    android:padding="0dp"
                     android:id="@+id/button_add_time"
                     android:drawableStart="@drawable/ic_addtime"
                     android:text="0"
@@ -280,6 +284,7 @@
                     android:drawableStart="@drawable/ic_skip"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:padding="0dp"
                     android:layout_margin="5dp"
                     android:id="@+id/button_question_skip"
                     android:layout_weight="0.25"
@@ -290,10 +295,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:orientation="horizontal">
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                android:id="@+id/item_labels"
+                android:visibility="invisible"
+                android:layout_alignParentBottom="true">
                 <TextView
                     android:text="@string/Bomb_Button"
                     android:layout_weight="0.25"
