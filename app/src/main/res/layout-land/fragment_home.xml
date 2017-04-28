@@ -1,0 +1,53 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".layout.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:textSize="25sp"
+            android:id="@+id/button_Play_Categories"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:text="@string/categoriesPlay"
+            android:layout_weight="0.2"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_play"
+            android:background="@drawable/button_tertiary_style"/>
+
+        <Button
+            android:textSize="25sp"
+            android:id="@+id/button_multiPlay"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:text="@string/multiPlay"
+            android:layout_weight="0.2"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_multi_player"
+            android:background="@drawable/button_tertiary_style"/>
+
+        <Button
+            android:textSize="25sp"
+            android:id="@+id/button_quickPlay"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:text="@string/quickPlay"
+            android:layout_weight="0.2"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_practice"
+            android:background="@drawable/button_tertiary_style"/>
+
+    </LinearLayout>
+</FrameLayout>

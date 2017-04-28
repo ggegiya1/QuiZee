@@ -6,8 +6,6 @@
     android:orientation="vertical"
     tools:context="com.app.game.quizee.TopPlayersFragment">
 
-
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -28,6 +26,7 @@
             android:padding="3dp"
             android:layout_below="@id/top_players_title"
             android:id="@+id/top_players_list"
+            android:layout_alignParentBottom="true"
             android:dividerHeight="2dp"
             android:divider="@color/listDivider"
             android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
