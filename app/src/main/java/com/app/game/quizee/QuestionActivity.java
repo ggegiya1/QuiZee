@@ -361,6 +361,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     public void newQuestion(){
+        new PreventClickCountDownTimer(PREVENT_CLICK_TIME, PREVENT_CLICK_TIME).start();
         if(questionCount >= QUESTIONS_NUMBER && !isPracticeMode) {
             countDownTimer.cancel();
             endDialog();
@@ -369,7 +370,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             QuestionFetcher questionFetcher = new QuestionFetcher();
             questionFetcher.execute();
         }
-        new PreventClickCountDownTimer(PREVENT_CLICK_TIME, PREVENT_CLICK_TIME).start();
     }
 
     //cré le dialog de fin de jeu et laffiche
@@ -489,7 +489,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             timerView.setText("0:00");
             // show time expired animated message
             resultAnimation(questionTextView, getString(R.string.time_expired), Color.RED);
-            //TODO que faire dautre lorsquil ne reste plus de temps
         }
 
 
