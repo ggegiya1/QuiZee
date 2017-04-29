@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.app.game.quizee.backend.Achievement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Adapter inspiré de
 // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
@@ -19,7 +20,7 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
 
     Activity context;
 
-    public AchievementsAdapter (Activity context, ArrayList<Achievement> achievement) {
+    public AchievementsAdapter (Activity context, List<Achievement> achievement) {
         super(context, R.layout.top_players_item_list_layout, achievement);
 
 

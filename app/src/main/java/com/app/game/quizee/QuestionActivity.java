@@ -406,7 +406,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         // IMPORTANT! Save the current player score to be updated in TOP list view
         PlayerManager.getInstance().saveCurrentPlayer();
-        ArrayList<Achievement> achievements = BackEndManager.updateAchievements(player);
+        List<Achievement> achievements = player.updateAchievements();
         if (!achievements.isEmpty()){
             ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
             AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);

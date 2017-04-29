@@ -125,6 +125,7 @@ public class Player extends Observable implements Serializable {
         }
         setPoints(this.points - category.getPrice());
         categoriesPurchased.add(category);
+        updateAchievements();
         return true;
     }
 
@@ -192,8 +193,6 @@ public class Player extends Observable implements Serializable {
             this.level+=1;
             this.exp=0;
         }
-        //i dont know why this is there (Olivier)
-        BackEndManager.updateAchievements(this);
     }
 
     public void addIncorrectAnswer(Question question) {
@@ -412,6 +411,20 @@ public class Player extends Observable implements Serializable {
     public void setNbQanswered(int nbQanswered) {
         this.nbQanswered = nbQanswered;
     }
+
+    public List<Achievement> updateAchievements(){
+        List<Achievement> achievements = new ArrayList<>();
+        for (Achievement a: Achievement.values()){
+            if (a.isAchieved(this)){
+                this.addAchievement(a);
+                achievements.add(a);
+                this.addexp(a.getXP());
+            }
+        }
+        return achievements;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
