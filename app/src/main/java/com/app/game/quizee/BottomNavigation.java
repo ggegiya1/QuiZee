@@ -59,7 +59,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
         updateUserInfo();
         setupAvatar();
-        play = new PlayMusic (getApplication(),getBaseContext());
+
+        play = new PlayMusic (getApplication(), getBaseContext());;
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -131,10 +132,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
             avatarView.setImageBitmap(avatar);
         }
     }
-
-
-
-
 
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();

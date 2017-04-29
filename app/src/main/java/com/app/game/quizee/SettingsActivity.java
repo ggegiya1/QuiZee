@@ -8,11 +8,8 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
@@ -20,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.app.game.quizee.backend.PlayMusic;
 import com.app.game.quizee.backend.PlayerManager;
 
 import java.io.ByteArrayOutputStream;
@@ -106,6 +104,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_sound);
             setHasOptionsMenu(true);
+
+
+            final Preference music = findPreference("sound_music");
+
+            music.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    Boolean musicBoolean = (Boolean) o;
+                    PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
+                    if(musicBoolean) {
+                        playMusic.updatemusic(getActivity());
+                    } else {
+                        playMusic.stopMusic();
+                    }
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -165,6 +180,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     return false;
                 }
             });
+
+
 
             setHasOptionsMenu(true);
 

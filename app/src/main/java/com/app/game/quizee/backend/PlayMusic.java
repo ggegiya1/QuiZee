@@ -1,17 +1,12 @@
 package com.app.game.quizee.backend;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
-import android.view.View;
 
-import com.app.game.quizee.BottomNavigation;
 import com.app.game.quizee.R;
-
-import java.util.Random;
 
 /**
  * Created by Maude on 2017-04-28.
@@ -21,13 +16,22 @@ public class PlayMusic {
     int compteur=1;
     MediaPlayer mymedia;
     Context bn;
+    static PlayMusic playMusicInstance;
 
     public PlayMusic(Application myapp, Context bn){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(myapp);
         if(prefs.getBoolean("sound_music", false)) {
             this.bn= bn;
-            updatemusic();
+            updatemusic(myapp);
         }
+        playMusicInstance = this;
+    }
+
+    public static synchronized PlayMusic getInstance(Application myapp, Context bn) {
+        if (playMusicInstance == null){
+            playMusicInstance = new PlayMusic(myapp, bn);
+        }
+        return playMusicInstance;
     }
 
     public void randommusic(Context bn){
@@ -50,7 +54,12 @@ public class PlayMusic {
                 break;
         }
     }
-    public void updatemusic(){
+
+    public void stopMusic() {
+        mymedia.stop();
+    }
+
+    public void updatemusic(final Context c){
         /*if (this.mymedia != null) {
             if (this.mymedia.isPlaying()) {
                 this.mymedia.stop();
@@ -59,13 +68,13 @@ public class PlayMusic {
             this.mymedia.release();
         }*/
         this.mymedia = new MediaPlayer();
-        randommusic(this.bn);
+        randommusic(c);
         this.mymedia.start();
         this.mymedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
-                updatemusic();
+                updatemusic(c);
             }
         });
     }
