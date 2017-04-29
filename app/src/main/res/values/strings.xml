@@ -173,9 +173,9 @@
     <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
     <string name="description_add_time">Adds 5 seconds</string>
-    <string name="time_expired">!!! TIME EXPIRED !!!</string>
+    <string name="time_expired">TIME EXPIRED</string>
     <string name="correct_answer">!!! CORRECT ANSWER !!!</string>
-    <string name="wrong_answer">!!! WRONG ANSWER !!!</string>
+    <string name="wrong_answer">WRONG ANSWER</string>
     <string name="pref_sound_activate">Activate sound</string>
     <string name="pref_notification_activate">Activate notifications</string>
 

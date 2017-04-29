@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +23,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Player;
@@ -134,7 +131,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
-        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap();
+        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
         if(avatarBitmap != null) {
             avatar.setImageBitmap(avatarBitmap);
         }

@@ -234,7 +234,7 @@ public class Player extends Observable implements Serializable {
     }
 
 
-    public Bitmap getAvatarBitmap() {
+    public Bitmap avatarBitmap() {
         //la conversion de string en bitmap vient de
         // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
         if (avatar!=null){

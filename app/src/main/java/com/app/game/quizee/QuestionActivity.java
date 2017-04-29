@@ -287,40 +287,22 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(2);
         animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
+        setButtonsClickable(false);
         button.startAnimation(animation);
     }
 
-    private void changeTextAnimation(final TextView view, final String text){
-        final Animation animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
+    private void fadeInText(final TextView view, String text){
+        final Animation animation = new AlphaAnimation(0, 1);
         animation.setDuration(300);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(0);
-        animation.setAnimationListener(new Animation.AnimationListener(){
-
-            @Override
-            public void onAnimationStart(Animation animation){
-                // set question
-                view.setText(text);
-                view.setClickable(false);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation){
-                view.setClickable(false);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation){
-
-                //view.setClickable(true); TODO ameliorer le prevent click?
-            }
-        });
+        view.setText(text);
         view.startAnimation(animation);
     }
 
     private void resultAnimation(final TextView view, final String text, final int color){
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from invisible to fully visible
-        animation.setDuration(2000);
+        animation.setDuration(1500);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(0);
         final int origColor = view.getCurrentTextColor();
@@ -347,7 +329,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 view.setTextColor(origColor);
                 view.setTextSize(origSize);
                 view.setTypeface(styleOrig);
-                view.setText("");
                 // load new question only when animation finished
                 newQuestion();
             }
@@ -357,7 +338,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     public void newQuestion(){
-        new PreventClickCountDownTimer(PREVENT_CLICK_TIME, PREVENT_CLICK_TIME).start();
         if(questionCount >= QUESTIONS_NUMBER && !isPracticeMode) {
             countDownTimer.cancel();
             endDialog();
@@ -433,7 +413,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         currentQuestion = question;
         Log.d("question", question.toString());
         //change le texte de la question
-        changeTextAnimation(questionTextView, question.getTextQuestion());
+        fadeInText(questionTextView, question.getTextQuestion());
 
         List<Answer> answers = question.getAnswers(true);
         for (int i=0; i<answers.size(); i++){
@@ -443,7 +423,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             button.setTag(answer);
             // restore the button colors and view
             button.getBackground().clearColorFilter();
-            changeTextAnimation(button, answer.getText());
+            fadeInText(button, answer.getText());
         }
 
         categoryNameView.setText(question.getCategory().getDisplayName());
@@ -461,6 +441,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             countDownTimer.cancel();}
         countDownTimer = new MyCountDownTimer(BASE_TIME_MILLIS, 100);
         countDownTimer.start();
+        setButtonsClickable(true);
     }
 
 
@@ -506,26 +487,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 // from green to yellow
                 return Color.rgb(255 - (int) Math.round(255 * (factor - 0.5) / 0.5), 255, 0);
             }
-        }
-    }
-
-    //custom countdownTimer class pour prevenir un click trop rapide apres une nouvelle question
-    private class PreventClickCountDownTimer extends CountDownTimer {
-
-        private PreventClickCountDownTimer(long startTime, long timeBetweenTicks) {
-            super(startTime, timeBetweenTicks);
-            setButtonsClickable(false);
-        }
-
-        @Override
-        @TargetApi(21)
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            setButtonsClickable(true);
         }
     }
 

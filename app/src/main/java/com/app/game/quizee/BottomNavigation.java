@@ -1,11 +1,8 @@
 package com.app.game.quizee;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -25,7 +22,6 @@ import com.app.game.quizee.layout.HomeFragment;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 
 public class BottomNavigation extends AppCompatActivity implements Observer {
@@ -130,7 +126,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     private void setupAvatar() {
-        avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap();
+        avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
         if(avatar != null) {
             avatarView.setImageBitmap(avatar);
         }
