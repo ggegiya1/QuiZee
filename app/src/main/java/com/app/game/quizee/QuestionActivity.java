@@ -411,7 +411,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private void setQuestion(Question question){
         questionCount++;
         currentQuestion = question;
-        Log.d("question", question.toString());
+        //Log.d("question", question.toString());
         //change le texte de la question
         fadeInText(questionTextView, question.getTextQuestion());
 

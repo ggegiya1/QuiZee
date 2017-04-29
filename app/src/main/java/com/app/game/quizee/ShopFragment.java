@@ -2,6 +2,7 @@ package com.app.game.quizee;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.GameItem;
 import com.app.game.quizee.backend.Player;
@@ -40,6 +40,12 @@ public class ShopFragment extends Fragment {
         shopListView.setAdapter(sa);
 
         return ll;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shopListView.deferNotifyDataSetChanged();
     }
 
     private class ShopAdapter extends ArrayAdapter<GameItem> {
@@ -68,19 +74,32 @@ public class ShopFragment extends Fragment {
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
             final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
 
-            //ajoute une action lorsque lon achete un power up
-            buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (current_player.purchase(rowItem)) {
-                        Toast.makeText(getContext(), " +1 " + rowItem.getName() + " purchased!", Toast.LENGTH_SHORT).show();
-                        updateAchievements(current_player);
-                        notifyDataSetChanged();
-                    } else {
+            if(current_player.canPurchase(rowItem)) {
+                powUpPrice.setTextColor(getResources().getColor(R.color.black));
+                buy.setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
+                buy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (current_player.purchase(rowItem)) {
+                            Toast.makeText(getContext(), " +1 " + rowItem.getName() + " purchased!", Toast.LENGTH_SHORT).show();
+                            updateAchievements(current_player);
+                            notifyDataSetChanged();
+
+
+                    }
+                }});
+            } else  {
+                powUpPrice.setTextColor(Color.RED);
+                buy.setBackground(getResources().getDrawable(R.drawable.button_tertiary_darkest));
+                buy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Toast.makeText(getContext(), "Not enough money to buy: " + rowItem.getName(), Toast.LENGTH_SHORT).show();
                     }
-                }
-            });
+                });
+            }
+            //ajoute une action lorsque lon achete un power up
+
             powUpDescription.setText(rowItem.getDescription());
             powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberItemPurchased(rowItem.getClass()));
             powUpName.setText(rowItem.getType());

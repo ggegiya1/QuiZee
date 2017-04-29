@@ -43,7 +43,6 @@
                 android:textStyle="bold"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:gravity="start|center"
                 android:textSize="20sp"/>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -52,13 +51,14 @@
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/level_main"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_marginEnd="10dp"
                     android:layout_gravity="center|end"
-                    android:background="@android:drawable/btn_star_big_on"
+                    android:background="@drawable/ic_star"
+                    android:backgroundTint="@color/yellow"
                     android:gravity="center"
-                    android:text="0"/>
+                    android:text="20"/>
 
 
                 <TextView

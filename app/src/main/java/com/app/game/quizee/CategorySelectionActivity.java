@@ -80,7 +80,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         categoryList = (ListView) findViewById(R.id.category_list);
         categoryList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         final List<SelectableCategory> selectableCategories = new ArrayList<>();
-        for (Category c: categoryManager.getAllCategoriesSortedByPrice()){
+        for (Category c: categoryManager.getAllCategories()){
             selectableCategories.add(new SelectableCategory(c));
         }
         // select categories by price descending

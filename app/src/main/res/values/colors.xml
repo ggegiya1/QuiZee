@@ -12,6 +12,7 @@
     <color name="colorInteraction">#b2bcff</color>
     <color name="colorInteractionLight">#ced4ff</color>
     <color name="colorInteractionDark">#96a8ff</color>
+    <color name="colorInteractionDarkest">#1f295c</color>
     <color name="complementaryBackground">#000000</color>
     <color name="black">#000000</color>
     <color name="yellow">#fff700</color>

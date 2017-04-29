@@ -279,7 +279,7 @@ public class Player extends Observable implements Serializable {
         return bombs;
     }
 
-    private boolean canPurchase(GameItem gameItem) {
+    public boolean canPurchase(GameItem gameItem) {
         return this.points >= gameItem.getPrice();
     }
 
