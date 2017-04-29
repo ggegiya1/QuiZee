@@ -259,7 +259,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 Player player = getCurrentPlayer();
                 MediaPlayer mp = new MediaPlayer();
                 if (answer.isCorrect()){
-                    player.addCorrectAnswer(currentQuestion);
+                    if (!isPracticeMode) {
+                        player.addCorrectAnswer(currentQuestion);
+                    }
                     onAnswerButtonEffect(v, Color.GREEN);
                     if(goodAnswerSound) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.gooda);
@@ -267,7 +269,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     }
                     resultAnimation(questionTextView, getString(R.string.correct_answer), Color.GREEN);
                 }else {
-                    player.addIncorrectAnswer(currentQuestion);
+                    if (!isPracticeMode) {
+                        player.addIncorrectAnswer(currentQuestion);
+                    }
                     if(wrongAnswerSound) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.wronga);
                         mp.start();
