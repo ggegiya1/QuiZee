@@ -25,8 +25,10 @@ import com.app.game.quizee.backend.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ShopFragment extends Fragment {
+public class ShopFragment extends Fragment implements Observer {
 
     ListView shopListView;
     public ShopFragment() {    }
@@ -39,7 +41,7 @@ public class ShopFragment extends Fragment {
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
         ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
         shopListView.setAdapter(sa);
-
+        PlayerManager.getInstance().getCurrentPlayer().addObserver(this);
         return ll;
     }
 
@@ -124,5 +126,13 @@ public class ShopFragment extends Fragment {
         }
         return achievements;
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        ShopAdapter adapter = (ShopAdapter)shopListView.getAdapter();
+        if (adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
     }
 }
