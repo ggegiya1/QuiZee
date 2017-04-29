@@ -178,7 +178,7 @@
     <string name="time_expired">TIME EXPIRED</string>
     <string name="correct_answer">!!! CORRECT ANSWER !!!</string>
     <string name="wrong_answer">WRONG ANSWER</string>
-
+    <string name="pref_sound_game">Game sounds</string>
 
 
 </resources>

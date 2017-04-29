@@ -92,9 +92,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     boolean isPracticeMode;
 
     SharedPreferences prefs;
-    boolean goodAnswerSound;
-    boolean wrongAnswerSound;
-    boolean music;
+    boolean gameSounds;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10;
@@ -109,9 +107,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         gameManager = new GameManager(this, player);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        music = prefs.getBoolean("sound_music", false);
-        goodAnswerSound = prefs.getBoolean("sound_good_answer", false);
-        wrongAnswerSound = prefs.getBoolean("sound_wrong_answer", false);
+        gameSounds = prefs.getBoolean("sound_sound_game", false);
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -253,7 +249,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                         player.addCorrectAnswer(currentQuestion);
                     }
                     onAnswerButtonEffect(v, Color.GREEN);
-                    if(goodAnswerSound) {
+                    if(gameSounds) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.gooda);
                         mp.start();
                     }
@@ -262,7 +258,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     if (!isPracticeMode) {
                         player.addIncorrectAnswer(currentQuestion);
                     }
-                    if(wrongAnswerSound) {
+                    if(gameSounds) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.wronga);
                         mp.start();
                     }
