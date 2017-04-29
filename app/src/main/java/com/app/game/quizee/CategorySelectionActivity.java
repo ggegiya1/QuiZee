@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,22 +45,26 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private static final String TAG = "category.selection";
 
     private final CategoryManager categoryManager = CategoryManager.getInstance();
+    CategoryListAdapter adapterCategory;
     ListView categoryList;
     TextView playerName;
     TextView level;
     TextView points;
     ImageView avatar;
+    List<SelectableCategory> selectableCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_menu);
+        selectableCategories = new ArrayList<>();
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         player.clearSelectedCategories();
         player.addObserver(this);
         addPlayerToolBar(player);
         addStartButton(player);
         addCategoriesList();
+        setupUnselectButton();
     }
 
     private void addStartButton(final Player player){
@@ -79,7 +85,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private void addCategoriesList(){
         categoryList = (ListView) findViewById(R.id.category_list);
         categoryList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        final List<SelectableCategory> selectableCategories = new ArrayList<>();
+
         for (Category c: categoryManager.getAllCategories()){
             selectableCategories.add(new SelectableCategory(c));
         }
@@ -90,7 +96,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 return Double.compare(o1.getCategory().getPrice(), o2.getCategory().getPrice());
             }
         });
-        final CategoryListAdapter adapterCategory = new CategoryListAdapter(this, selectableCategories);
+         adapterCategory = new CategoryListAdapter(this, selectableCategories);
         categoryList.setAdapter(adapterCategory);
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -168,7 +174,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 buyAndSelectCategory(player, category);
-                updateItem(viewHolder, category);
+                adapterCategory.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -198,6 +204,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             if(currentView == null) {
                 currentView = inflater.inflate(R.layout.category_selection_list_item, null);
                 holder = new ViewHolder();
+                holder.itemLayout = (LinearLayout) currentView.findViewById(R.id.category_item_layout);
                 holder.categoryImage = (ImageView) currentView.findViewById(R.id.category_item_icon);
                 holder.categoryName = (AutofitTextView) currentView.findViewById(R.id.category_item_name);
                 holder.categoryPrice = (TextView) currentView.findViewById(R.id.category_item_price);
@@ -219,21 +226,37 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         holder.categoryImage.setImageResource(category.getCategory().getImageId());
         holder.categoryName.setText(category.getCategory().getDisplayName());
         if (category.getCategory().getPrice() == 0) {
+            //Category is free
+            holder.itemLayout.setBackground(getDrawable(R.drawable.button_primary_style));
             holder.categoryPrice.setVisibility(View.INVISIBLE);
+            holder.itemLayout.setBackground(getDrawable(R.drawable.list_selector));
         }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
+            //Player already purchased category
             holder.categoryPrice.setText(R.string.unlocked);
-            holder.categoryPrice.setCompoundDrawables(null, null, null, null);
+            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             holder.categoryPrice.setVisibility(View.VISIBLE);
             holder.categoryPrice.setTextColor(getResources().getColor(R.color.colorPrimary));
-        }else {
+            holder.itemLayout.setBackground(getDrawable(R.drawable.list_selector));
+        }else if(PlayerManager.getInstance().getCurrentPlayer().canBuy(category.getCategory())){
+            //Player CAN buy category
+            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_normal));
             holder.categoryPrice.setVisibility(View.VISIBLE);
-            holder.categoryPrice.setCompoundDrawables(null, null, getDrawable(R.drawable.ic_currency), null);
+            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_currency), null);
             holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
+            holder.categoryPrice.setTextColor(getResources().getColor(R.color.colorPrimary));
+        } else {
+            //Player CANT buy category
+            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_normal));
+            holder.categoryPrice.setVisibility(View.VISIBLE);
+            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_currency), null);
+            holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
+            holder.categoryPrice.setTextColor(Color.RED);
         }
 
     }
 
     private static class ViewHolder{
+        LinearLayout itemLayout;
         ImageView categoryImage;
         TextView categoryName;
         TextView categoryPrice;
@@ -244,5 +267,19 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);
+    }
+
+    public void setupUnselectButton() {
+        Button unselect = (Button) findViewById(R.id.unselectButton);
+        unselect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (SelectableCategory sc: selectableCategories){
+                    sc.setSelected(false);
+                }
+                adapterCategory.notifyDataSetChanged();
+            }
+        });
+
     }
 }

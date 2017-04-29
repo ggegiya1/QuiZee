@@ -24,6 +24,15 @@
         android:textColor="@color/colorSecondary"
         android:background="@drawable/button_primary_default"/>
 
+    <Button
+        android:layout_below="@id/categories_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/unselectButton"
+        android:text="@string/categories_unselect_all"
+        android:background="@drawable/button_tertiary_style"/>
 
     <ListView
         android:layout_width="match_parent"
@@ -34,7 +43,7 @@
         android:scrollbarThumbVertical="@drawable/scroll_bars_thumb"
         android:scrollbarSize="5dp"
         android:scrollbarStyle="outsideOverlay"
-        android:layout_below="@+id/categories_title"
+        android:layout_below="@+id/unselectButton"
         android:layout_above="@+id/button_start"
         android:divider="@color/listDivider"/>
 
@@ -43,7 +52,10 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:drawableStart="@drawable/ic_start"
-        android:layout_margin="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="3dp"
         android:layout_alignParentBottom="true"
         android:text="@string/Play"/>
 
