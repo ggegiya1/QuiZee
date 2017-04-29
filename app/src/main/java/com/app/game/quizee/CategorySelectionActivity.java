@@ -134,9 +134,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
-
+        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap();
         if(avatarBitmap != null) {
             avatar.setImageBitmap(avatarBitmap);
         }
@@ -187,12 +185,10 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     private class CategoryListAdapter extends ArrayAdapter<SelectableCategory> {
-        private final List<SelectableCategory> categories;
         private final Context activityContext;
 
         CategoryListAdapter(Activity activityContext, List<SelectableCategory> categories) {
             super(activityContext, R.layout.category_selection_list_item, categories);
-            this.categories=categories;
             this.activityContext = activityContext;
         }
 
