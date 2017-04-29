@@ -130,8 +130,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     private void setupAvatar() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
+        avatar = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap();
         if(avatar != null) {
             avatarView.setImageBitmap(avatar);
         }

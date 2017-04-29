@@ -105,8 +105,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             }
             holder.name.setText(p.getName());
             holder.score.setText(String.valueOf(p.getHighestScore()));
-            // TODO replace with real user photo
-            holder.icon.setImageBitmap(p.getAvatarBitmap(PreferenceManager.getDefaultSharedPreferences(getContext())));
+            holder.icon.setImageBitmap(p.getAvatarBitmap());
             holder.level.setText(String.valueOf(p.getLevel()));
             return convertView;
         }
