@@ -3,6 +3,7 @@ package com.app.game.quizee;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -305,7 +306,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         animation.setDuration(1500);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(0);
-        final int origColor = view.getCurrentTextColor();
+        final ColorStateList origColors = view.getTextColors();
         final float origSize = view.getTextSize();
         final Typeface styleOrig = view.getTypeface();
         animation.setAnimationListener(new Animation.AnimationListener(){
@@ -326,7 +327,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             @Override
             public void onAnimationEnd(Animation animation){
                 // restore previous text attributes
-                view.setTextColor(origColor);
+                view.setTextColor(origColors);
                 view.setTextSize(origSize);
                 view.setTypeface(styleOrig);
                 // load new question only when animation finished
