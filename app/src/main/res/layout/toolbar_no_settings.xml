@@ -45,11 +45,12 @@
 
             <TextView
                 android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="10dp"
-                android:background="@android:drawable/btn_star_big_on"
+                android:background="@drawable/ic_star"
+                android:backgroundTint="@color/yellow"
                 android:gravity="center"
                 android:text="0"/>
 
@@ -62,7 +63,7 @@
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
                 android:maxLines="1"
-                android:text="0"
+                android:text="99"
                 android:drawableEnd="@drawable/ic_currency_white"
                 android:textSize="15sp"/>
         </LinearLayout>
