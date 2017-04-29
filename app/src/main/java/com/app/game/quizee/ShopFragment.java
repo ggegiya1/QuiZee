@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.GameItem;
 import com.app.game.quizee.backend.Player;

@@ -106,10 +106,8 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             holder.name.setText(p.getName());
             holder.score.setText(String.valueOf(p.getHighestScore()));
             holder.level.setText(String.valueOf(p.getLevel()));
-            Bitmap avatar = p.avatarBitmap();
-            if (avatar!=null){
-                holder.icon.setImageBitmap(p.avatarBitmap());
-            }
+            holder.icon.setImageBitmap(p.avatarBitmap());
+
             return convertView;
         }
 
