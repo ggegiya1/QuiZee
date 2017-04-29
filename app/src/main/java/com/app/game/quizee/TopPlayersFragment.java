@@ -1,6 +1,7 @@
 package com.app.game.quizee;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -105,8 +106,11 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             }
             holder.name.setText(p.getName());
             holder.score.setText(String.valueOf(p.getHighestScore()));
-            holder.icon.setImageBitmap(p.getAvatarBitmap());
             holder.level.setText(String.valueOf(p.getLevel()));
+            Bitmap avatar = p.getAvatarBitmap();
+            if (avatar!=null){
+                holder.icon.setImageBitmap(p.getAvatarBitmap());
+            }
             return convertView;
         }
 

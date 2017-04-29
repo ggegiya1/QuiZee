@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
-import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.GameManager;
@@ -113,12 +112,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         goodAnswerSound = prefs.getBoolean("sound_good_answer", false);
         wrongAnswerSound = prefs.getBoolean("sound_wrong_answer", false);
 
-        //power ups labels
-        if(isPracticeMode) {
-            hideLabels();
-        }
-
-
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
         addTimeButton.setOnClickListener(new View.OnClickListener() {
@@ -159,12 +152,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         questionTextView = (AutofitTextView) findViewById(R.id.text_question);
 
-        if (isPracticeMode){
-            //power ups labels
-            hideLabels();
-            hideButtons();
-        }
-
         categoryNameView = (TextView) findViewById(R.id.caterogy_name);
         categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
         difficulty = (TextView) findViewById(R.id.question_difficulty);
@@ -190,10 +177,19 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answer4Button.setOnClickListener(answerValidator());
         answerButtons.add(answer4Button);
 
+        if (isPracticeMode){
+            hidePowerUpsAndScoreElements();
+        }
         init();
     }
 
-    private void hideLabels() {
+    private void hidePowerUpsAndScoreElements(){
+        addTimeButton.setVisibility(View.INVISIBLE);
+        skipButton.setVisibility(View.INVISIBLE);
+        bombButton.setVisibility(View.INVISIBLE);
+        hintButton.setVisibility(View.INVISIBLE);
+        pointsView.setVisibility(View.INVISIBLE);
+        scoreView.setVisibility(View.INVISIBLE);
         TextView skipLabel = (TextView) findViewById(R.id.skip_label);
         TextView addTimeLabel = (TextView) findViewById(R.id.add_time_label);
         TextView bombLabel = (TextView) findViewById(R.id.bomb_label);
@@ -202,13 +198,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         bombLabel.setVisibility(View.INVISIBLE);
         hintLabel.setVisibility(View.INVISIBLE);
         addTimeLabel.setVisibility(View.INVISIBLE);
-    }
-
-    private void hideButtons(){
-        addTimeButton.setVisibility(View.INVISIBLE);
-        skipButton.setVisibility(View.INVISIBLE);
-        bombButton.setVisibility(View.INVISIBLE);
-        hintButton.setVisibility(View.INVISIBLE);
     }
 
     public void init() {

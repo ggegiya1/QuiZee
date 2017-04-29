@@ -237,13 +237,16 @@ public class Player extends Observable implements Serializable {
     public Bitmap getAvatarBitmap() {
         //la conversion de string en bitmap vient de
         // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
-        try {
-            byte [] encodeByte= Base64.decode(avatar,Base64.DEFAULT);
-            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        } catch(Exception e) {
-            Log.e("player", "error reading avatar", e);
-            return null;
+        if (avatar!=null){
+            try {
+                byte [] encodeByte= Base64.decode(avatar,Base64.DEFAULT);
+                return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            } catch(Exception e) {
+                Log.e("player", "error reading avatar", e);
+                return null;
+            }
         }
+        return null;
     }
 
 
