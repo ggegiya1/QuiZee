@@ -240,6 +240,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             public void onClick(View v) {
                 // store remained time to use in the score calculation
                 currentQuestion.setTimeRemained(countDownTimer.getTimeRemaining());
+                countDownTimer.cancel();
                 v.clearAnimation();
                 Answer answer = (Answer)v.getTag();
                 Player player = getCurrentPlayer();
