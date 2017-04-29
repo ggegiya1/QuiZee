@@ -223,11 +223,15 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
 
     private void updateItem(ViewHolder holder, SelectableCategory category){
         holder.selectionToggle.setChecked(category.isSelected());
+        if(category.isSelected()) {
+            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_pressed));
+        } else {
+            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_normal));
+        }
         holder.categoryImage.setImageResource(category.getCategory().getImageId());
         holder.categoryName.setText(category.getCategory().getDisplayName());
         if (category.getCategory().getPrice() == 0) {
             //Category is free
-            holder.itemLayout.setBackground(getDrawable(R.drawable.button_primary_style));
             holder.categoryPrice.setVisibility(View.INVISIBLE);
             holder.itemLayout.setBackground(getDrawable(R.drawable.list_selector));
         }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
@@ -236,17 +240,14 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             holder.categoryPrice.setVisibility(View.VISIBLE);
             holder.categoryPrice.setTextColor(getResources().getColor(R.color.colorPrimary));
-            holder.itemLayout.setBackground(getDrawable(R.drawable.list_selector));
         }else if(PlayerManager.getInstance().getCurrentPlayer().canBuy(category.getCategory())){
             //Player CAN buy category
-            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_normal));
             holder.categoryPrice.setVisibility(View.VISIBLE);
             holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_currency), null);
             holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
             holder.categoryPrice.setTextColor(getResources().getColor(R.color.colorPrimary));
         } else {
             //Player CANT buy category
-            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_normal));
             holder.categoryPrice.setVisibility(View.VISIBLE);
             holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_currency), null);
             holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
@@ -263,12 +264,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         CheckBox selectionToggle;
     }
 
-    //on settings button clicked
-    public void settingsActivity(View v) {
-        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivity(intent);
-    }
-
     public void setupUnselectButton() {
         Button unselect = (Button) findViewById(R.id.unselectButton);
         unselect.setOnClickListener(new View.OnClickListener() {
@@ -280,6 +275,5 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 adapterCategory.notifyDataSetChanged();
             }
         });
-
     }
 }
