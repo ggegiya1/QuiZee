@@ -261,7 +261,7 @@ public enum  Achievement implements Serializable {
     CATEGORY_ALL ("Ain't no subject he can't deal", 120, 200, "Buy all categories."){
         @Override
         public int getMaxValue() {
-            return 16;
+            return CategoryManager.getInstance().getAllCategories().size();
         }
 
         @Override
@@ -271,7 +271,7 @@ public enum  Achievement implements Serializable {
 
         @Override
         public boolean isAchieved(Player player) {
-            return player.getCategoriesPurchased().size() == 16 && !player.hasAchievement(CATEGORY_ALL);
+            return player.getCategoriesPurchased().size() == CategoryManager.getInstance().getAllCategories().size() && !player.hasAchievement(CATEGORY_ALL);
         }
     },
     LEVEL_5("Give it up!", 50, 50, "Reach lvl 5."){
