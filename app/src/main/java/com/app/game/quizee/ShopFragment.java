@@ -17,11 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.GameItem;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
@@ -81,7 +83,7 @@ public class ShopFragment extends Fragment {
                     public void onClick(View v) {
                         if (current_player.purchase(rowItem)) {
                             Toast.makeText(getContext(), " +1 " + rowItem.getName() + " purchased!", Toast.LENGTH_SHORT).show();
-                            BackEndManager.updateAchievements(current_player, getContext());
+                            updateAchievements(current_player);
                             notifyDataSetChanged();
 
 
@@ -107,6 +109,20 @@ public class ShopFragment extends Fragment {
 
             return convertView;
         }
+
+    }
+
+    public List<Achievement> updateAchievements(Player player){
+        List<Achievement> achievements = new ArrayList<>();
+        for (Achievement a: Achievement.values()){
+            if (a.isAchieved(player)){
+                player.addAchievement(a);
+                achievements.add(a);
+                player.addexp(a.getXP());
+                Toast.makeText(getContext(), "Achievement Unlocked :" + a.getDesc(), Toast.LENGTH_LONG).show();
+            }
+        }
+        return achievements;
 
     }
 }

@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +23,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.game.quizee.backend.BackEndManager;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.Player;
@@ -105,8 +102,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                     unSelectCategory(player, category);
                 } else {
                     // instant purchase category
-                        instantCategoryBuyDialog(player, category, view);if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
-                        BackEndManager.updateAchievements(player);
+                    if (!player.alreadyPurchased(category.getCategory()) && category.getCategory().getPrice() > 0 && player.canBuy(category.getCategory())) {
+                        instantCategoryBuyDialog(player, category, view);
                     }else if (player.alreadyPurchased(category.getCategory()) || category.getCategory().getPrice() == 0){
                         // select category if already purchased or is free
                         selectCategory(player, category);
@@ -134,9 +131,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().getAvatarBitmap(sp);
-
+        Bitmap avatarBitmap = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
         if(avatarBitmap != null) {
             avatar.setImageBitmap(avatarBitmap);
         }
@@ -187,12 +182,10 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     private class CategoryListAdapter extends ArrayAdapter<SelectableCategory> {
-        private final List<SelectableCategory> categories;
         private final Context activityContext;
 
         CategoryListAdapter(Activity activityContext, List<SelectableCategory> categories) {
             super(activityContext, R.layout.category_selection_list_item, categories);
-            this.categories=categories;
             this.activityContext = activityContext;
         }
 
