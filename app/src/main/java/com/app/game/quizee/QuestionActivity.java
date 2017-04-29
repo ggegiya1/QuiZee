@@ -107,7 +107,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         gameManager = new GameManager(this, player);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-        gameSounds = prefs.getBoolean("sound_sound_game", false);
+        gameSounds = prefs.getBoolean("sound_game", false);
 
         // power-ups
         addTimeButton = (Button) findViewById(R.id.button_add_time);
@@ -350,14 +350,16 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     //cré le dialog de fin de jeu et laffiche
     private void endDialog() {
         final Player player = getCurrentPlayer();
-        MediaPlayer mp =  MediaPlayer.create(getApplicationContext(),R.raw.endgame);
-        mp.start();
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mmp) {
-                mmp.release();
-            }
-        });
+        if(gameSounds) {
+            MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.endgame);
+            mp.start();
+            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mmp) {
+                    mmp.release();
+                }
+            });
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         player.setNbGamesPlayed(player.getNbGamesPlayed()+1);
         //TODO: Avoid passing root
