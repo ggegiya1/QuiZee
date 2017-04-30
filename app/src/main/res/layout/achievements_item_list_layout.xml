@@ -34,7 +34,8 @@
         android:textSize="14sp"
         android:layout_alignParentTop="true"
         android:textAlignment="viewEnd"
-        android:layout_toLeftOf="@+id/currency_image" />
+        android:layout_toLeftOf="@+id/currency_image"
+        android:layout_alignBottom="@+id/currency_image" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -42,8 +43,8 @@
         android:src="@drawable/ic_currency"
         android:id="@id/currency_image"
         android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/achievement_exp_given" />
+        android:layout_alignBottom="@+id/achievement_item_name"
+        android:layout_toStartOf="@+id/achievement_check" />
 
     <ProgressBar
         android:layout_width="match_parent"
@@ -55,13 +56,14 @@
         android:layout_marginRight="10dp"/>
 
     <TextView
+        android:id="@+id/achievement_exp_given"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:text="10 xp"
-        android:id="@+id/achievement_exp_given"
-        android:textSize="14sp"
         android:textAlignment="viewEnd"
-        android:layout_alignTop="@+id/currency_image"
+        android:textSize="14sp"
+        android:layout_below="@+id/achievement_gold_given"
+        android:layout_alignStart="@+id/achievement_gold_given"
         android:layout_toStartOf="@+id/achievement_check" />
 
     <ImageView

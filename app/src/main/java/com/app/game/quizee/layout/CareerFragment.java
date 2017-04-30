@@ -69,8 +69,8 @@ public class CareerFragment extends Fragment {
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
                 name.setText(achievements[position].getDesc());
-                gold.setText(String.valueOf(achievements[position].getMoney()));
-                xp.setText(String.valueOf(achievements[position].getXP()));
+                gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
+                xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " exp");
                 info.setText(achievements[position].getInformation());
 
                 if (current_player.hasAchievement(achievements[position])){
