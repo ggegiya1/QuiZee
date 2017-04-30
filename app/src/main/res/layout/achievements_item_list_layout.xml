@@ -30,13 +30,13 @@
         android:id="@+id/achievement_gold_given"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableRight="@mipmap/ic_coins"
-        android:text="Gold given"
-        android:textAlignment="viewEnd"
-        android:textSize="14sp"
+        android:layout_alignBottom="@+id/currency_image"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/achievement_check"
-        android:layout_alignBottom="@+id/currency_image" />
+        android:drawableRight="@mipmap/ic_coins"
+        android:text="Gold given"
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@id/currency_image"
@@ -60,12 +60,12 @@
         android:id="@+id/achievement_exp_given"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:text="10 xp"
-        android:textAlignment="viewEnd"
-        android:textSize="14sp"
-        android:layout_below="@+id/achievement_gold_given"
         android:layout_alignStart="@+id/achievement_gold_given"
-        android:layout_toStartOf="@+id/achievement_check" />
+        android:layout_below="@+id/achievement_gold_given"
+        android:layout_toStartOf="@+id/achievement_check"
+        android:text="10 xp"
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/achievement_check"
