@@ -120,6 +120,8 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_navigation"
         app:itemTextColor="@color/bottom_nav_colors_selector"
-        app:itemIconTint="@color/bottom_nav_colors_selector"/>
+        app:itemIconTint="@color/bottom_nav_colors_selector"
+
+        />
 
 </RelativeLayout>
