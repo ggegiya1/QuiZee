@@ -26,7 +26,7 @@
 
         <me.grantland.widget.AutofitTextView
             android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:layout_height="match_parent"
             android:id="@+id/user_name"
             android:text="Hello"
@@ -37,19 +37,25 @@
             android:paddingEnd="5dp"
             android:textSize="20sp"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/level_label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="end|center"
+            android:maxLines="1"
+            android:text="Level"
+            android:textColor="@color/colorSecondary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center|end"
                 android:textSize="15sp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:backgroundTint="@color/yellow"
                 android:background="@android:drawable/star_big_on"
                 android:gravity="center"
@@ -58,7 +64,8 @@
 
             <TextView
                 android:id="@+id/points"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"
                 android:gravity="end|center"
                 android:textColor="@color/colorSecondary"
@@ -66,8 +73,7 @@
                 android:maxLines="1"
                 android:text="99"
                 android:drawableEnd="@mipmap/ic_coins"
-                android:textSize="15sp"/>
-        </LinearLayout>
+                android:textSize="20sp"/>
 
 
 

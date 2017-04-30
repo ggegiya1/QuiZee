@@ -52,7 +52,7 @@
                     android:text="MEDIUM"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:paddingStart="10dp"
@@ -71,21 +71,22 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
-                    android:text="score" />
+                    android:text="@string/score_format" />
 
                 <TextView
                     android:id="@+id/points"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:gravity="center"
+                    android:gravity="center|end"
                     android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:drawableRight="@drawable/ic_currency"/>
+                    android:textSize="20sp"
+                    android:text="0"
+                    android:drawableEnd="@mipmap/ic_coins"/>
 
             </LinearLayout>
         </LinearLayout>
