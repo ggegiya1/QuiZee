@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.app.game.quizee.backend.PlayMusic;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.PlayerManager;
 
 import java.io.ByteArrayOutputStream;
@@ -83,11 +83,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     switch (preference.getKey()) {
                         case "sound_music":
                             Boolean musicBoolean = (Boolean) o;
-                            PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
+                            MusicService mServ = (MusicService) MusicService.getInstance();
                             if(musicBoolean) {
-                                playMusic.updatemusic(getActivity());
+                                mServ.resumeMusic();
                             } else {
-                                playMusic.stopMusic();
+                                mServ.stopMusic();
                             }
                             return true;
                         case "player_name":

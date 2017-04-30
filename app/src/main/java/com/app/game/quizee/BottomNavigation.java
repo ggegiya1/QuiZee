@@ -1,8 +1,12 @@
 package com.app.game.quizee;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,7 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.game.quizee.backend.PlayMusic;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.layout.CareerFragment;
@@ -41,7 +45,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     TextView level;
     ImageView avatarView;
     Bitmap avatar;
-    PlayMusic play;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +64,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
         updateUserInfo();
         setupAvatar();
+        startMusic();
 
-        play = new PlayMusic (getApplication(), getBaseContext());;
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -127,6 +131,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         viewPager.setCurrentItem(1); //fait partir sur le home
     }
 
+    private void startMusic() {
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        startService(music);
+    }
+
     private void setupAvatar() {
         avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
         if(avatar != null) {
@@ -187,6 +197,37 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     protected void onStop(){
         super.onStop();
         PlayerManager.getInstance().onStop();
+    }
+
+    private void connectMusicService() {
+        private boolean mIsBound = false;
+        private MusicService mServ;
+        private ServiceConnection Scon =new ServiceConnection(){
+
+            public void onServiceConnected(ComponentName name, IBinder
+                    binder) {
+                mServ = ((MusicService.ServiceBinderbinder).getService();
+            }
+
+            public void onServiceDisconnected(ComponentName name) {
+                mServ = null;
+            }
+        };
+
+        void doBindService(){
+            bindService(new Intent(this,MusicService.class),
+                    Scon, Context.BIND_AUTO_CREATE);
+            mIsBound = true;
+        }
+
+        void doUnbindService()
+        {
+            if(mIsBound)
+            {
+                unbindService(Scon);
+                mIsBound = false;
+            }
+        }
     }
 
     @Override
