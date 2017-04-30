@@ -237,13 +237,13 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         }else if(PlayerManager.getInstance().getCurrentPlayer().canBuy(category.getCategory())){
             //Player CAN buy category
             holder.categoryPrice.setVisibility(View.VISIBLE);
-            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_currency), null);
+            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.mipmap.ic_coins), null);
             holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
             holder.categoryPrice.setTextColor(getResources().getColor(R.color.colorPrimary));
         } else {
             //Player CANT buy category
             holder.categoryPrice.setVisibility(View.VISIBLE);
-            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_currency), null);
+            holder.categoryPrice.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.mipmap.ic_coins), null);
             holder.categoryPrice.setText(String.valueOf(category.getCategory().getPrice()));
             holder.categoryPrice.setTextColor(Color.RED);
         }

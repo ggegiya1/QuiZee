@@ -236,7 +236,10 @@
             android:layout_height="match_parent"
             android:id="@+id/button_bomb"
             android:text="0"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:layout_weight="0.25"
+            android:backgroundTint="@android:color/holo_red_light"
             android:background="@drawable/button_tertiary_default"/>
 
         <Button
@@ -248,6 +251,9 @@
             android:id="@+id/button_hint"
             android:layout_weight="0.25"
             android:text="0"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:backgroundTint="@android:color/holo_orange_light"
             android:background="@drawable/button_tertiary_default" />
 
         <Button
@@ -257,7 +263,10 @@
             android:layout_margin="5dp"
             android:id="@+id/button_add_time"
             android:drawableStart="@drawable/ic_addtime"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:text="0"
+            android:backgroundTint="@android:color/holo_blue_light"
             android:layout_weight="0.25"
             android:background="@drawable/button_tertiary_default" />
 
@@ -270,6 +279,9 @@
             android:id="@+id/button_question_skip"
             android:layout_weight="0.25"
             android:text="0"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:backgroundTint="@android:color/holo_green_light"
             android:background="@drawable/button_tertiary_default" />
     </LinearLayout>
     <LinearLayout

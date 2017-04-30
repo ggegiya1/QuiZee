@@ -37,7 +37,7 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:textColor="@color/complementaryBackground"
-        android:drawableEnd="@drawable/ic_currency"
+        android:drawableEnd="@mipmap/ic_coins"
         android:gravity="center|end"
         android:layout_weight="0.4" />
 

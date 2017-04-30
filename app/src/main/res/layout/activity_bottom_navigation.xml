@@ -44,6 +44,9 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:textSize="20sp"/>
+
+
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -55,11 +58,10 @@
                     android:layout_height="35dp"
                     android:layout_marginEnd="10dp"
                     android:layout_gravity="center|end"
-                    android:background="@drawable/ic_star"
+                    android:background="@android:drawable/star_big_on"
                     android:backgroundTint="@color/yellow"
                     android:gravity="center"
                     android:text="20"/>
-
 
                 <TextView
                     android:layout_height="match_parent"
@@ -70,7 +72,7 @@
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:text="0"
-                    android:drawableEnd="@drawable/ic_currency_white"
+                    android:drawableEnd="@mipmap/ic_coins"
                     android:textSize="15sp"/>
             </LinearLayout>
 
@@ -83,6 +85,7 @@
                 android:contentDescription="@string/settingsButton_contentDescription"
                 android:id="@+id/settingsButton"
                 android:layout_margin="10dp"
+                android:layout_gravity="center"
                 android:background="@drawable/button_tertiary_style"/>
 
         </LinearLayout>

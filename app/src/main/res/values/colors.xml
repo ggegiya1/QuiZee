@@ -21,4 +21,8 @@
     <color name="transparency">#00ffffff</color>
     <color name="listItemsNormalBackground">#ffffff</color>
     <color name="listDivider">#ced4ff</color>
+    <color name="bombButton">#BA68C8</color>
+    <color name="hintButton">#FFD54F</color>
+    <color name="timeButton">#7986CB</color>
+    <color name="skipButton">#4DB6AC</color>
 </resources>
