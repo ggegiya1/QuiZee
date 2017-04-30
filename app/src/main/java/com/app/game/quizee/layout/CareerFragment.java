@@ -88,11 +88,6 @@ public class CareerFragment extends Fragment {
 
         });
 
-        //TODO aller chercher les informations dachievement programmaticallement
-
-        //AchievementsAdapter adapter = new AchievementsAdapter(getActivity(),  achievements);
-        //statsList.setAdapter(adapter);
-        //achievementsList.setAdapter(adapter);
         return rl;
     }
 
