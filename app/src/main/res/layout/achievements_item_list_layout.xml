@@ -27,24 +27,25 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="Gold given"
         android:id="@+id/achievement_gold_given"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/ic_coins"
+        android:text="Gold given"
+        android:textAlignment="viewEnd"
         android:textSize="14sp"
         android:layout_alignParentTop="true"
-        android:textAlignment="viewEnd"
-        android:layout_toLeftOf="@+id/currency_image"
+        android:layout_toStartOf="@+id/achievement_check"
         android:layout_alignBottom="@+id/currency_image" />
 
     <ImageView
+        android:id="@id/currency_image"
         android:layout_width="wrap_content"
         android:layout_height="18sp"
-        android:src="@mipmap/ic_coins"
-        android:id="@id/currency_image"
-        android:visibility="visible"
         android:layout_alignBottom="@+id/achievement_item_name"
-        android:layout_toStartOf="@+id/achievement_check" />
+        android:layout_toStartOf="@+id/achievement_check"
+        android:src="@mipmap/ic_coins"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:layout_width="match_parent"
