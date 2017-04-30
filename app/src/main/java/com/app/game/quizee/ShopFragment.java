@@ -28,7 +28,10 @@ import java.util.List;
 
 public class ShopFragment extends Fragment {
 
+
     ListView shopListView;
+    ShopAdapter sa;
+
     public ShopFragment() {    }
 
     @Override
@@ -37,7 +40,7 @@ public class ShopFragment extends Fragment {
 
         RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_shop, container, false);
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
-        ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
+        sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
         shopListView.setAdapter(sa);
 
         return ll;
@@ -46,7 +49,7 @@ public class ShopFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        shopListView.deferNotifyDataSetChanged();
+        sa.notifyDataSetChanged();
     }
 
     private class ShopAdapter extends ArrayAdapter<GameItem> {
