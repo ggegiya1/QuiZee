@@ -52,7 +52,7 @@
                     android:text="MEDIUM"
                     android:layout_weight="0.5"
                     android:gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="26sp"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:paddingStart="10dp"
@@ -84,7 +84,7 @@
                     android:gravity="center|end"
                     android:textColor="@color/colorSecondary"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="26sp"
                     android:text="0"
                     android:drawableEnd="@mipmap/ic_coins"/>
 
@@ -132,40 +132,40 @@
             android:id="@+id/question_count"
             android:layout_weight="0.33" />
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <TextView
-        android:text="correct"
-        android:layout_weight="0.33"
-        android:layout_height="match_parent"
-        android:id="@+id/correct_label"
-        android:textSize="12sp"
-        android:textColor="@color/complementaryBackground"
-        android:gravity="center"
-        android:layout_width="0dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:text="correct"
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:id="@+id/correct_label"
+            android:textSize="12sp"
+            android:textColor="@color/complementaryBackground"
+            android:gravity="center"
+            android:layout_width="0dp" />
 
-    <TextView
-        android:text="time left"
-        android:layout_weight="0.33"
-        android:layout_height="match_parent"
-        android:id="@+id/timer_label"
-        android:textSize="12sp"
-        android:textColor="@color/complementaryBackground"
-        android:gravity="center"
-        android:layout_width="0dp" />
+        <TextView
+            android:text="time left"
+            android:layout_weight="0.33"
+            android:layout_height="match_parent"
+            android:id="@+id/timer_label"
+            android:textSize="12sp"
+            android:textColor="@color/complementaryBackground"
+            android:gravity="center"
+            android:layout_width="0dp" />
 
-    <TextView
-        android:text="question"
-        android:layout_width="0dp"
-        android:gravity="center"
-        android:textSize="12sp"
-        android:textColor="@color/complementaryBackground"
-        android:layout_height="match_parent"
-        android:id="@+id/question_count_label"
-        android:layout_weight="0.33" />
-</LinearLayout>
+        <TextView
+            android:text="question"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/complementaryBackground"
+            android:layout_height="match_parent"
+            android:id="@+id/question_count_label"
+            android:layout_weight="0.33" />
+    </LinearLayout>
     <me.grantland.widget.AutofitTextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
