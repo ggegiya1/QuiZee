@@ -126,7 +126,7 @@
         based on your message history
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_title_change_name">Change name</string>
     <string name="pref_default_display_name">New name here</string>
 
     <!-- Example settings for Data & Sync -->
@@ -170,7 +170,7 @@
     <string name="score_format">score: %d</string>
 
     <!-- item Descriptions  -->
-    <string name="description_bomb">Removes 2 wrongs answers</string>
+    <string name="description_bomb">Removes 2 wrong answers</string>
     <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
     <string name="description_add_time">Adds 5 seconds</string>
