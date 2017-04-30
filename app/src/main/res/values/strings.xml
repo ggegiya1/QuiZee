@@ -89,6 +89,7 @@
         <item>PentaQuizee!</item>
         <item>Well Played!</item>
         <item>Good Game!</item>
+        <item>Good Game!</item>
         <item>You only missed one!</item>
         <item>Epic!</item>
     </string-array>
@@ -125,7 +126,7 @@
         based on your message history
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_title_change_name">Change name</string>
     <string name="pref_default_display_name">New name here</string>
 
     <!-- Example settings for Data & Sync -->
@@ -165,11 +166,11 @@
     <string name="loading_question">Loading question&#8230;</string>
     <string name="difficulty">difficulty</string>
 
-    <string name="points_format">points: %d</string>
+    <string name="points_format">money: %d</string>
     <string name="score_format">score: %d</string>
 
     <!-- item Descriptions  -->
-    <string name="description_bomb">Removes 2 wrongs answers</string>
+    <string name="description_bomb">Removes 2 wrong answers</string>
     <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
     <string name="description_add_time">Adds 5 seconds</string>
@@ -180,6 +181,7 @@
     <string name="wrong_answer">WRONG ANSWER</string>
     <string name="pref_sound_game">Game sounds</string>
     <string name="categories_unselect_all">UNSELECT ALL CATEGORIES</string>
+    <string name="skip_question">SKIPPING A QUESTION</string>
 
 
 </resources>

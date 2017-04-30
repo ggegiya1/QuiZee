@@ -38,8 +38,8 @@
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:background="@drawable/ic_star"
-        android:backgroundTint="@color/yellow"
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:background="@android:drawable/star_big_on"
         android:text="0" />
 
     <TextView

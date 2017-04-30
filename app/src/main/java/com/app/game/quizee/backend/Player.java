@@ -1,6 +1,5 @@
 package com.app.game.quizee.backend;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -23,7 +22,8 @@ public class Player extends Observable implements Serializable {
     private String image;
     private boolean online;
     private List<Player> friends;
-
+    private Map<PowerUp, Integer> availablePowerUps = new HashMap<>();
+    private Map<PowerUp, Integer> purchasedPowerUps = new HashMap<>();
 
     //For achievements
     private int nbGamesPlayed;
@@ -33,29 +33,21 @@ public class Player extends Observable implements Serializable {
 
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
+
     private final List<Achievement> achievements = new ArrayList<>();
-    private final List<Skip> skips = new ArrayList<>();
-    private final List<AddTime> addTimes = new ArrayList<>();
-    private final List<Hint> hints = new ArrayList<>();
-    private final List<Bomb> bombs = new ArrayList<>();
 
     private List<Question> correctlyAnswered = new ArrayList<>();
     private List<Question> wronglyAnswered = new ArrayList<>();
 
     private int points;
     private int level;
-    private int currentscore;
+    private int currentScore;
     private int highestScore;
 
 
     private int exp;
     private String avatar;
 
-
-    private int nbBombsBought;
-    private int nbHintsBought;
-    private int nbSkipssBought;
-    private int nbTimeBought;
     private Map<String, Integer> perfCategories = new HashMap<>();
 
     public Player() {
@@ -69,7 +61,7 @@ public class Player extends Observable implements Serializable {
         this.points = points;
         this.nbGamesPlayed = 0;
         this.nbQanswered = 0;
-        this.exp=0;
+        this.exp=exp;
     }
 
     public Player(String playerId, String name, String image, int level){
@@ -93,14 +85,14 @@ public class Player extends Observable implements Serializable {
     }
 
     private void addScore(int score) {
-        currentscore+=score;
+        currentScore +=score;
         if (highestScore < score){
             highestScore = score;
         }
     }
 
     public int getCurrentScore(){
-        return currentscore;
+        return currentScore;
     }
 
     private void addPoints(int points){
@@ -108,7 +100,7 @@ public class Player extends Observable implements Serializable {
     }
 
     private void resetScore() {
-        this.currentscore = 0;
+        this.currentScore = 0;
         setChanged();
         notifyObservers();
     }
@@ -262,53 +254,41 @@ public class Player extends Observable implements Serializable {
         this.categoriesSelected.clear();
     }
 
-
-    public List<Skip> getSkips() {
-        return skips;
+    public void removePowerUp(PowerUp powerUp){
+        Integer current = this.availablePowerUps.get(powerUp);
+        if (current!=null && current > 0){
+            this.availablePowerUps.put(powerUp, --current);
+        }
     }
 
-    public List<AddTime> getAddTimes() {
-        return addTimes;
+    public void addPowerUp(PowerUp powerUp){
+        Integer current = this.availablePowerUps.get(powerUp);
+        Integer max = this.purchasedPowerUps.get(powerUp);
+        this.availablePowerUps.put(powerUp, current == null? 1: ++current);
+        this.purchasedPowerUps.put(powerUp, current == null? 1: ++current);
     }
 
-    public List<Hint> getHints() {
-        return hints;
+    public boolean canPurchase(PowerUp powerUp) {
+        return this.points >= powerUp.getPrice();
     }
 
-    public List<Bomb> getBombs() {
-        return bombs;
-    }
-
-    public boolean canPurchase(GameItem gameItem) {
-        return this.points >= gameItem.getPrice();
-    }
-
-    public boolean purchase(GameItem gameItem) {
-        if (!canPurchase(gameItem)) {
+    public boolean purchase(PowerUp powerUp) {
+        if (!canPurchase(powerUp)) {
             return false;
         }
-        if (gameItem instanceof Bomb) {
-            this.bombs.add((Bomb) gameItem);
-            nbBombsBought+=1;
-        }
-        if (gameItem instanceof Skip) {
-            this.skips.add((Skip) gameItem);
-            nbSkipssBought+=1;
-        }
-        if (gameItem instanceof AddTime) {
-            this.addTimes.add((AddTime) gameItem);
-            nbTimeBought+=1;
-        }
-        if (gameItem instanceof Hint) {
-            this.hints.add((Hint) gameItem);
-            nbHintsBought+=1;
-        }
-
-
-        this.points -= gameItem.getPrice();
+        addPowerUp(powerUp);
+        this.points -= powerUp.getPrice();
         setChanged();
         notifyObservers();
         return true;
+    }
+
+    public void setNbGamesPlayed(int nbGamesPlayed) {
+        this.nbGamesPlayed = nbGamesPlayed;
+    }
+
+    public void setNbQanswered(int nbQanswered) {
+        this.nbQanswered = nbQanswered;
     }
 
     public int getNbGamesPlayed(){
@@ -351,48 +331,14 @@ public class Player extends Observable implements Serializable {
         return perfCategories;
     }
 
-    public int getNumberItemPurchased(Class<? extends GameItem> itemClass){
-        if (itemClass.isAssignableFrom(Bomb.class)){
-            return getBombs().size();
-        }
-        if (itemClass.isAssignableFrom(Skip.class)){
-            return getSkips().size();
-        }
-        if (itemClass.isAssignableFrom(Hint.class)){
-            return getHints().size();
-        }
-        if (itemClass.isAssignableFrom(AddTime.class)){
-            return getAddTimes().size();
-        }
-        return 0;
+    public int getNumberAvailablePowerUps(PowerUp powerUp){
+        Integer current = this.availablePowerUps.get(powerUp);
+        return current == null? 0: current;
     }
 
-    public int getNbBombsBought() {
-        return nbBombsBought;
-    }
-
-    public void setNbBombsBought(int nbBombsBought) {
-        this.nbBombsBought = nbBombsBought;
-    }
-
-    public int getNbHintsBought() {
-        return nbHintsBought;
-    }
-
-    public void setNbHintsBought(int nbHintsBought) {
-        this.nbHintsBought = nbHintsBought;
-    }
-
-    public int getNbSkipssBought() {
-        return nbSkipssBought;
-    }
-
-    public void setNbSkipssBought(int nbSkipssBought) {
-        this.nbSkipssBought = nbSkipssBought;
-    }
-
-    public int getNbTimeBought() {
-        return nbTimeBought;
+    public int getNumberPurchased(PowerUp powerUp){
+        Integer current = this.purchasedPowerUps.get(powerUp);
+        return current == null? 0: current;
     }
 
     public int getExp() {
@@ -403,16 +349,45 @@ public class Player extends Observable implements Serializable {
         this.exp = exp;
     }
 
-    public void setNbTimeBought(int nbTimeBought) {
-        this.nbTimeBought = nbTimeBought;
+
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setNbGamesPlayed(int nbGamesPlayed) {
-        this.nbGamesPlayed = nbGamesPlayed;
+    public void setAvailablePowerUps(Map<PowerUp, Integer> availablePowerUps) {
+        this.availablePowerUps = availablePowerUps;
     }
 
-    public void setNbQanswered(int nbQanswered) {
-        this.nbQanswered = nbQanswered;
+    public void setPurchasedPowerUps(Map<PowerUp, Integer> purchasedPowerUps) {
+        this.purchasedPowerUps = purchasedPowerUps;
+    }
+
+    public static void setPracticePlayer(Player practicePlayer) {
+        Player.practicePlayer = practicePlayer;
+    }
+
+    public void setCorrectlyAnswered(List<Question> correctlyAnswered) {
+        this.correctlyAnswered = correctlyAnswered;
+    }
+
+    public void setWronglyAnswered(List<Question> wronglyAnswered) {
+        this.wronglyAnswered = wronglyAnswered;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setCurrentScore(int currentScore) {
+        this.currentScore = currentScore;
+    }
+
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
+    }
+
+    public void setPerfCategories(Map<String, Integer> perfCategories) {
+        this.perfCategories = perfCategories;
     }
 
     public List<Achievement> updateAchievements(){
@@ -452,18 +427,21 @@ public class Player extends Observable implements Serializable {
                 ", image='" + image + '\'' +
                 ", online=" + online +
                 ", friends=" + friends +
+                ", availablePowerUps=" + availablePowerUps +
+                ", purchasedPowerUps=" + purchasedPowerUps +
+                ", nbGamesPlayed=" + nbGamesPlayed +
+                ", nbQanswered=" + nbQanswered +
                 ", categoriesPurchased=" + categoriesPurchased +
                 ", categoriesSelected=" + categoriesSelected +
                 ", achievements=" + achievements +
-                ", skips=" + skips +
-                ", addTimes=" + addTimes +
-                ", hints=" + hints +
-                ", bombs=" + bombs +
                 ", correctlyAnswered=" + correctlyAnswered +
                 ", wronglyAnswered=" + wronglyAnswered +
                 ", points=" + points +
                 ", level=" + level +
-                ", highscore=" + highestScore +
+                ", currentScore=" + currentScore +
+                ", highestScore=" + highestScore +
+                ", exp=" + exp +
+                ", avatar='" + avatar + '\'' +
                 ", perfCategories=" + perfCategories +
                 '}';
     }

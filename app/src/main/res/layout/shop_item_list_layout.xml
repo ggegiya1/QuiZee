@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="70dp"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     android:background="@drawable/list_selector"
+    android:orientation="horizontal"
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
 
@@ -14,17 +15,45 @@
         android:contentDescription="Shop item"
         android:id="@+id/shop_item_icon"
         android:src="@mipmap/ic_launcher"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
+        android:layout_gravity="center"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/shop_item_name"
-        android:text="Shop item name"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:layout_toEndOf="@id/shop_item_icon" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shop_item_name"
+            android:text="Shop item name"
+            android:textAlignment="viewStart"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textAlignment="viewStart"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:id="@+id/shop_item_description"
+            android:text="item description" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:id="@+id/shop_item_quantity"
+            android:textAlignment="viewEnd"/>
+
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,19 +62,10 @@
         android:id="@+id/shop_item_price"
         android:textSize="18sp"
         android:gravity="center_vertical"
-        android:drawableEnd="@drawable/ic_currency"
-        android:layout_toLeftOf="@+id/shop_buy_button"
+        android:drawableEnd="@mipmap/ic_coins"
         android:layout_marginTop="7dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/shop_item_price"
-        android:textSize="13sp"
-        android:id="@+id/shop_item_quantity"
-        android:textAlignment="viewEnd"
-        android:layout_toLeftOf="@id/shop_buy_button"
-        android:layout_marginRight="3dp"/>
+
 
     <ImageButton
         android:layout_width="40dp"
@@ -53,18 +73,9 @@
         android:src="@drawable/add"
         android:id="@+id/shop_buy_button"
         android:contentDescription="Buy button"
-        android:background="@drawable/button_tertiary_default"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:layout_gravity="center"
+        android:background="@drawable/button_tertiary_default" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:id="@+id/shop_item_description"
-        android:text="item description"
-        android:layout_toLeftOf="@id/shop_item_price"
-        android:layout_below="@id/shop_item_name"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/shop_item_icon"/>
 
-</RelativeLayout>
+
+</LinearLayout>

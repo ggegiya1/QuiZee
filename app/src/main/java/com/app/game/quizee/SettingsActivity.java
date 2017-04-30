@@ -2,9 +2,7 @@ package com.app.game.quizee;
 
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,39 +19,12 @@ import com.app.game.quizee.backend.PlayMusic;
 import com.app.game.quizee.backend.PlayerManager;
 
 import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
-
-    /**
-     * Helper method to determine if the device has an extra-large screen. For
-     * example, 10" tablets are extra-large.
-     */
-    private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
     /**
@@ -62,10 +33,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName)
-                || AccountPreferenceFragment.class.getName().equals(fragmentName)
-                || DisplayPreferenceFragment.class.getName().equals(fragmentName)
-                || SoundPreferenceFragment.class.getName().equals(fragmentName);
+                || GeneralPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -73,95 +41,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
+    public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
-            setHasOptionsMenu(true);
-            //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class SoundPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_sound);
+            addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
 
-            final Preference music = findPreference("sound_music");
-
-            music.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    Boolean musicBoolean = (Boolean) o;
-                    PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
-                    if(musicBoolean) {
-                        playMusic.updatemusic(getActivity());
-                    } else {
-                        playMusic.stopMusic();
-                    }
-                    return true;
-                }
-            });
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DisplayPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_display);
-            setHasOptionsMenu(true);
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class AccountPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_account);
-
-            Preference avatarPref = findPreference("change_avatar");
+            final Preference avatarPref = findPreference("change_avatar");
             avatarPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -170,18 +58,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-            Preference avatarName = findPreference("player_name");
-            avatarName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    String newName = (String) newValue;
-                    PlayerManager.getInstance().getCurrentPlayer().setName(newName);
-                    PlayerManager.getInstance().saveCurrentPlayer();
-                    return false;
-                }
-            });
-
-
+            final Preference avatarName = findPreference("player_name");
+            avatarName.setOnPreferenceChangeListener(preferenceChanged());
 
             setHasOptionsMenu(true);
 
@@ -196,6 +74,35 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     return false;
                 }
             });
+
+            final Preference music = findPreference("sound_music");
+            music.setOnPreferenceChangeListener(preferenceChanged());
+        }
+
+        public Preference.OnPreferenceChangeListener preferenceChanged () {
+
+            return new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    if(preference.getKey().equals("sound_music")) {
+                        Boolean musicBoolean = (Boolean) o;
+                        PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
+                        if(musicBoolean) {
+                            playMusic.updatemusic(getActivity());
+                        } else {
+                            playMusic.stopMusic();
+                        }
+                        return true;
+                    } else if (preference.getKey().equals("player_name")) {
+                        String newName = (String) o;
+                        PlayerManager.getInstance().getCurrentPlayer().setName(newName);
+                        PlayerManager.getInstance().saveCurrentPlayer();
+                        return false;
+                    }
+
+                    return true;
+                }
+            };
         }
 
         @Override

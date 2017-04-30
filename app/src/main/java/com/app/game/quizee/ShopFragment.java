@@ -18,8 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
-import com.app.game.quizee.backend.BackEndManager;
-import com.app.game.quizee.backend.GameItem;
+import com.app.game.quizee.backend.PowerUp;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
@@ -42,7 +41,7 @@ public class ShopFragment extends Fragment implements Observer {
 
         RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_shop, container, false);
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
-        sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
+        sa = new ShopAdapter(getActivity());
         shopListView.setAdapter(sa);
         PlayerManager.getInstance().getCurrentPlayer().addObserver(this);
         return ll;
@@ -54,11 +53,11 @@ public class ShopFragment extends Fragment implements Observer {
         sa.notifyDataSetChanged();
     }
 
-    private class ShopAdapter extends ArrayAdapter<GameItem> {
+    private class ShopAdapter extends ArrayAdapter<PowerUp> {
         private Context context; //context
 
-        ShopAdapter(Activity activityContext, List<GameItem> items){
-            super(activityContext, R.layout.shop_item_list_layout, items);
+        ShopAdapter(Activity activityContext){
+            super(activityContext, R.layout.shop_item_list_layout, PowerUp.values());
             this.context = activityContext;
         }
 
@@ -71,7 +70,7 @@ public class ShopFragment extends Fragment implements Observer {
                 convertView = LayoutInflater.from(context).inflate(R.layout.shop_item_list_layout, parent, false);
             }
 
-            final GameItem rowItem = getItem(position);
+            final PowerUp rowItem = getItem(position);
             //si le row est un power up
             TextView powUpName = (TextView) convertView.findViewById(R.id.shop_item_name);
             TextView powUpPrice = (TextView) convertView.findViewById(R.id.shop_item_price);
@@ -107,7 +106,7 @@ public class ShopFragment extends Fragment implements Observer {
             //ajoute une action lorsque lon achete un power up
 
             powUpDescription.setText(rowItem.getDescription());
-            powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberItemPurchased(rowItem.getClass()));
+            powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberAvailablePowerUps(rowItem));
             powUpName.setText(rowItem.getType());
             powUpPrice.setText(String.valueOf(rowItem.getPrice()));
             powUpIcon.setImageResource(rowItem.getImageId());

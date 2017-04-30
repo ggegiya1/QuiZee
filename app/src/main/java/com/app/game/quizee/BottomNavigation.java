@@ -3,6 +3,7 @@ package com.app.game.quizee;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -143,6 +144,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     //on settings button clicked
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
+        intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
         startActivity(intent);
     }
 
