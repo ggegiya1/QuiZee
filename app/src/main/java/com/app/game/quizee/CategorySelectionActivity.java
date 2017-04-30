@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -204,7 +203,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             if(currentView == null) {
                 currentView = inflater.inflate(R.layout.category_selection_list_item, null);
                 holder = new ViewHolder();
-                holder.itemLayout = (LinearLayout) currentView.findViewById(R.id.category_item_layout);
                 holder.categoryImage = (ImageView) currentView.findViewById(R.id.category_item_icon);
                 holder.categoryName = (AutofitTextView) currentView.findViewById(R.id.category_item_name);
                 holder.categoryPrice = (TextView) currentView.findViewById(R.id.category_item_price);
@@ -223,17 +221,11 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
 
     private void updateItem(ViewHolder holder, SelectableCategory category){
         holder.selectionToggle.setChecked(category.isSelected());
-        if(category.isSelected()) {
-            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_pressed));
-        } else {
-            holder.itemLayout.setBackground(getDrawable(R.drawable.list_item_bg_normal));
-        }
         holder.categoryImage.setImageResource(category.getCategory().getImageId());
         holder.categoryName.setText(category.getCategory().getDisplayName());
         if (category.getCategory().getPrice() == 0) {
             //Category is free
             holder.categoryPrice.setVisibility(View.INVISIBLE);
-            holder.itemLayout.setBackground(getDrawable(R.drawable.list_selector));
         }else if(PlayerManager.getInstance().getCurrentPlayer().alreadyPurchased(category.getCategory())){
             //Player already purchased category
             holder.categoryPrice.setText(R.string.unlocked);
@@ -257,7 +249,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     private static class ViewHolder{
-        LinearLayout itemLayout;
         ImageView categoryImage;
         TextView categoryName;
         TextView categoryPrice;

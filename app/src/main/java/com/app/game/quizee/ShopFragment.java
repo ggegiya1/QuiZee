@@ -30,7 +30,10 @@ import java.util.Observer;
 
 public class ShopFragment extends Fragment implements Observer {
 
+
     ListView shopListView;
+    ShopAdapter sa;
+
     public ShopFragment() {    }
 
     @Override
@@ -39,7 +42,7 @@ public class ShopFragment extends Fragment implements Observer {
 
         RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.fragment_shop, container, false);
         shopListView = (ListView) ll.findViewById(R.id.shop_listview);
-        ShopAdapter sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
+        sa = new ShopAdapter(getActivity(), BackEndManager.mes_item);
         shopListView.setAdapter(sa);
         PlayerManager.getInstance().getCurrentPlayer().addObserver(this);
         return ll;
@@ -48,7 +51,7 @@ public class ShopFragment extends Fragment implements Observer {
     @Override
     public void onResume() {
         super.onResume();
-        shopListView.deferNotifyDataSetChanged();
+        sa.notifyDataSetChanged();
     }
 
     private class ShopAdapter extends ArrayAdapter<GameItem> {
