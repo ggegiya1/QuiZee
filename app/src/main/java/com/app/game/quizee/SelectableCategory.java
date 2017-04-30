@@ -22,8 +22,12 @@ public class SelectableCategory {
         return selected;
     }
 
-    void setSelected(boolean selected) {
-        this.selected = selected;
+    void select() {
+        this.selected = true;
+    }
+
+    void unSelect(){
+        this.selected = false;
     }
 
     public Category getCategory() {
