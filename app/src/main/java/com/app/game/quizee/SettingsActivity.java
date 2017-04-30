@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -47,36 +46,33 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+            setupListeners();
+        }
 
+        private void setupListeners() {
+            findPreference("change_avatar").setOnPreferenceClickListener(preferenceClicked());
+            findPreference("player_name").setOnPreferenceChangeListener(preferenceChanged());
+            findPreference("sound_music").setOnPreferenceChangeListener(preferenceChanged());
+            findPreference("logout").setOnPreferenceClickListener(preferenceClicked());
+        }
 
-            final Preference avatarPref = findPreference("change_avatar");
-            avatarPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        public Preference.OnPreferenceClickListener preferenceClicked () {
+            return new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    pickImage();
-                    return false;
+                    switch (preference.getKey()) {
+                        case "logout" :
+                            PlayerManager.getInstance().logout();
+                            Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            return false;
+                        case "change_avatar":
+                                pickImage();
+                            return false;
+                    }
+                    return true;
                 }
-            });
-
-            final Preference avatarName = findPreference("player_name");
-            avatarName.setOnPreferenceChangeListener(preferenceChanged());
-
-            setHasOptionsMenu(true);
-
-            Preference logout = findPreference("logout");
-            logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    PlayerManager.getInstance().logout();
-                    Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    return false;
-                }
-            });
-
-            final Preference music = findPreference("sound_music");
-            music.setOnPreferenceChangeListener(preferenceChanged());
+            };
         }
 
         public Preference.OnPreferenceChangeListener preferenceChanged () {
@@ -84,22 +80,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if(preference.getKey().equals("sound_music")) {
-                        Boolean musicBoolean = (Boolean) o;
-                        PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
-                        if(musicBoolean) {
-                            playMusic.updatemusic(getActivity());
-                        } else {
-                            playMusic.stopMusic();
-                        }
-                        return true;
-                    } else if (preference.getKey().equals("player_name")) {
-                        String newName = (String) o;
-                        PlayerManager.getInstance().getCurrentPlayer().setName(newName);
-                        PlayerManager.getInstance().saveCurrentPlayer();
-                        return false;
+                    switch (preference.getKey()) {
+                        case "sound_music":
+                            Boolean musicBoolean = (Boolean) o;
+                            PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
+                            if(musicBoolean) {
+                                playMusic.updatemusic(getActivity());
+                            } else {
+                                playMusic.stopMusic();
+                            }
+                            return true;
+                        case "player_name":
+                            String newName = (String) o;
+                            PlayerManager.getInstance().getCurrentPlayer().setName(newName);
+                            PlayerManager.getInstance().saveCurrentPlayer();
+                            return false;
                     }
-
                     return true;
                 }
             };
