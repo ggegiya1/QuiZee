@@ -81,7 +81,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     MyCountDownTimer countDownTimer;
     int questionCount;
     Question currentQuestion;
-    final int PREVENT_CLICK_TIME = 1000; // miliseconds
 
     //Total game scores
     int pscore=0;
@@ -206,7 +205,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     private TriviaApi getTriviaApi(){
         return isPracticeMode?
                 new TriviaApi(Collections.singletonList(Category.any()), QUESTIONS_NUMBER, true):
-                new TriviaApi(getCurrentPlayer().getCategoriesSelected(), QUESTIONS_NUMBER, false);
+                new TriviaApi(getCurrentPlayer().getCategoriesSelected(), QUESTIONS_NUMBER, true);
     }
 
     private void updatePowerUpButtons(){
@@ -505,6 +504,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answer2Button.setClickable(b);
         answer3Button.setClickable(b);
         answer4Button.setClickable(b);
+    }
+
+
+    @Override
+    public void skipQuestion() {
+        updatePowerUpButtons();
+        questionCount--;
+        resultAnimation(questionTextView, getString(R.string.skip_question), Color.GREEN);
     }
 
     @Override

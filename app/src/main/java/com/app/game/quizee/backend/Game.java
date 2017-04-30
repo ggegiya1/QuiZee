@@ -7,6 +7,6 @@ package com.app.game.quizee.backend;
 public interface Game {
     void deleteTwoIncorrectAnswers();
     void addTime();
-    void newQuestion();
+    void skipQuestion();
     void showHint();
 }

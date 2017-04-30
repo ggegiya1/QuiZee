@@ -89,6 +89,7 @@
         <item>PentaQuizee!</item>
         <item>Well Played!</item>
         <item>Good Game!</item>
+        <item>Good Game!</item>
         <item>You only missed one!</item>
         <item>Epic!</item>
     </string-array>
@@ -180,6 +181,7 @@
     <string name="wrong_answer">WRONG ANSWER</string>
     <string name="pref_sound_game">Game sounds</string>
     <string name="categories_unselect_all">UNSELECT ALL CATEGORIES</string>
+    <string name="skip_question">SKIPPING A QUESTION</string>
 
 
 </resources>

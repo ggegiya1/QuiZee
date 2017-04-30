@@ -118,7 +118,7 @@ public enum PowerUp {
 
         @Override
         public void apply(Game game) {
-            game.newQuestion();
+            game.skipQuestion();
         }
 
         @Override
