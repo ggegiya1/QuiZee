@@ -44,51 +44,51 @@
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/colorSecondary"/>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/question_difficulty"
-                    android:text="MEDIUM"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/question_difficulty_label"
+                    android:text="@string/difficulty"
                     android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textAllCaps="true"
+                    android:gravity="end"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/colorSecondary"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/question_difficulty"
+                    android:text="EASY"
+                    android:layout_weight="0.5"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:gravity="start"
+                    android:textSize="20sp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/yellow"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/points"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:textColor="@color/colorSecondary"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="0"
+                android:drawableEnd="@mipmap/ic_coins"/>
 
-
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorSecondary"
-                    android:textStyle="bold"
-                    android:text="@string/score_format" />
-
-                <TextView
-                    android:id="@+id/points"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
-                    android:gravity="center|end"
-                    android:textColor="@color/colorSecondary"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="0"
-                    android:drawableEnd="@mipmap/ic_coins"/>
-
-            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -102,10 +102,10 @@
         android:background="@color/complementaryBackground">
 
         <TextView
-            android:text="1"
+            android:text="0"
             android:layout_weight="0.33"
+            android:id="@+id/score"
             android:layout_height="match_parent"
-            android:id="@+id/correct_answer_count"
             android:textSize="30sp"
             android:textColor="@color/green"
             android:gravity="center"
@@ -137,7 +137,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
     <TextView
-        android:text="correct"
+        android:text="score"
         android:layout_weight="0.33"
         android:layout_height="match_parent"
         android:id="@+id/correct_label"

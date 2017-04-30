@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -67,7 +68,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     TextView pointsView;
 
     //answer buttons
-    TextView correctlyAnswered;
     TextView timerView;
     TextView questionsContView;
 
@@ -151,7 +151,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         pointsView = (TextView) findViewById(R.id.points);
         scoreView = (TextView) findViewById(R.id.score);
 
-        correctlyAnswered = (TextView) findViewById(R.id.correct_answer_count);
         questionsContView = (TextView) findViewById(R.id.question_count);
         timerView = (TextView) findViewById(R.id.timer);
 
@@ -277,7 +276,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                         mp.release();
                     }
                 });
-                correctlyAnswered.setText(String.valueOf(player.getCorrectlyAnswered().size()));
             }
         };
     }
@@ -434,6 +432,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         categoryNameView.setText(question.getCategory().getDisplayName());
         categoryIcon.setImageResource(question.getCategory().getImageId());
         difficulty.setText(question.getDifficulty().name());
+        difficulty.setTextColor(question.getDifficulty().getColor());
+
 
 
         if (isPracticeMode){
@@ -592,7 +592,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void updateScore(Player player) {
-        scoreView.setText(String.format(Locale.ROOT, getResources().getString(R.string.score_format), player.getCurrentScore()));
+        scoreView.setText(String.valueOf(player.getCurrentScore()));
         pointsView.setText(String.valueOf(player.getPoints()));
     }
 

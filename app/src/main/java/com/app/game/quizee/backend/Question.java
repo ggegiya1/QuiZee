@@ -1,5 +1,7 @@
 package com.app.game.quizee.backend;
 
+import android.graphics.Color;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,15 +15,17 @@ import java.util.Random;
 public class Question implements Serializable {
 
     public enum Difficulty implements Serializable{
-        easy (2),
-        medium (4),
-        hard (6),
-        unknown (1);
+        easy (2, Color.GREEN),
+        medium (4, Color.YELLOW),
+        hard (6, Color.RED),
+        unknown (1, Color.WHITE);
 
         private final int valueInt;
+        private final int color;
 
-        Difficulty(int valueInt) {
+        Difficulty(int valueInt, int color) {
             this.valueInt = valueInt;
+            this.color = color;
         }
 
         static Difficulty fromString(String difficulty){
@@ -35,6 +39,10 @@ public class Question implements Serializable {
 
         public int getValueInt() {
             return valueInt;
+        }
+
+        public int getColor() {
+            return color;
         }
     }
 

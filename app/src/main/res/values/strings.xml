@@ -164,7 +164,7 @@
     <string name="free">FREE</string>
     <string name="unlocked">UNLOCKED</string>
     <string name="loading_question">Loading question&#8230;</string>
-    <string name="difficulty">difficulty</string>
+    <string name="difficulty">difficulty:</string>
 
     <string name="points_format">money: %d</string>
     <string name="score_format">score: %d</string>
