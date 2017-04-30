@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
-                    if(preference.getKey() == "sound_music") {
+                    if(preference.getKey().equals("sound_music")) {
                         Boolean musicBoolean = (Boolean) o;
                         PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
                         if(musicBoolean) {
@@ -93,7 +93,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             playMusic.stopMusic();
                         }
                         return true;
-                    } else if (preference.getKey() == "") {
+                    } else if (preference.getKey().equals("player_name")) {
                         String newName = (String) o;
                         PlayerManager.getInstance().getCurrentPlayer().setName(newName);
                         PlayerManager.getInstance().saveCurrentPlayer();
