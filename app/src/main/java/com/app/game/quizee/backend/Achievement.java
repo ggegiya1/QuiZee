@@ -166,12 +166,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getNbBombsBought();
+            return player.getNumberPurchased(PowerUp.BOMB);
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getNbBombsBought() == 5 && !player.hasAchievement(BOMBS_5);
+            return getCurrentValue(player) == 5 && !player.hasAchievement(BOMBS_5);
         }
     },
     SKIPS_5 ("Don't skip class to play!", 20, 5, "Buy 5 skip."){
@@ -182,12 +182,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getNbSkipssBought();
+            return player.getNumberPurchased(PowerUp.SKIP);
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getNbSkipssBought() == 5 && !player.hasAchievement(SKIPS_5);
+            return getCurrentValue(player) == 5 && !player.hasAchievement(SKIPS_5);
         }
     },
     TIME_5 ("Tick tock, time's up", 20, 5, "Buy 5 timeadd."){
@@ -198,12 +198,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getNbTimeBought();
+            return player.getNumberPurchased(PowerUp.ADDTIME);
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getNbTimeBought() == 5 && !player.hasAchievement(TIME_5);
+            return getCurrentValue(player) == 5 && !player.hasAchievement(TIME_5);
         }
     },
     HINTS_5 ("Hint me up, Sherlock", 20, 5, "Buy 5 hints."){
@@ -214,12 +214,12 @@ public enum  Achievement implements Serializable {
 
         @Override
         public int getCurrentValue(Player player) {
-            return player.getNbHintsBought();
+            return player.getNumberPurchased(PowerUp.HINT);
         }
 
         @Override
         public boolean isAchieved(Player player){
-            return player.getNbHintsBought() == 5 && !player.hasAchievement(HINTS_5);
+            return getCurrentValue(player) == 5 && !player.hasAchievement(HINTS_5);
         }
     },
 

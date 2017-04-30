@@ -30,9 +30,9 @@ import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
-import com.app.game.quizee.backend.GameManager;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
+import com.app.game.quizee.backend.PowerUp;
 import com.app.game.quizee.backend.Question;
 
 import java.util.ArrayList;
@@ -48,9 +48,6 @@ import me.grantland.widget.AutofitTextView;
 public class QuestionActivity extends AppCompatActivity implements Game, Observer{
 
     private TriviaApi triviaApi;
-
-    // TODO pass player as parameter on start
-    private GameManager gameManager;
 
     //User interface attributes
     TextView questionTextView;
@@ -102,9 +99,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         isPracticeMode = getIntent().getBooleanExtra("isPracticeMode", false);
-        Player player = getCurrentPlayer();
+        final Player player = getCurrentPlayer();
         player.addObserver(this);
-        gameManager = new GameManager(this, player);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
         gameSounds = prefs.getBoolean("sound_game", false);
@@ -114,7 +110,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         addTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!gameManager.executeTime()){
+                if (!tryPowerUp(player, PowerUp.ADDTIME)){
                     Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -123,7 +119,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!gameManager.executeSkip()){
+                if (!tryPowerUp(player, PowerUp.SKIP)){
                     Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -132,7 +128,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         bombButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!gameManager.executeBomb()){
+                if (!tryPowerUp(player, PowerUp.BOMB)){
                     Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -141,7 +137,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!gameManager.executeHint()){
+                if (!tryPowerUp(player, PowerUp.HINT)){
                     Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -215,10 +211,20 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     private void updatePowerUpButtons(){
         Player player = getCurrentPlayer();
-        addTimeButton.setText(String.valueOf(player.getAddTimes().size()));
-        hintButton.setText(String.valueOf(player.getHints().size()));
-        bombButton.setText(String.valueOf(player.getBombs().size()));
-        skipButton.setText(String.valueOf(player.getSkips().size()));
+        addTimeButton.setText(String.valueOf(player.getNumberAvailablePowerUps(PowerUp.ADDTIME)));
+        hintButton.setText(String.valueOf(player.getNumberAvailablePowerUps(PowerUp.HINT)));
+        bombButton.setText(String.valueOf(player.getNumberAvailablePowerUps(PowerUp.BOMB)));
+        skipButton.setText(String.valueOf(player.getNumberAvailablePowerUps(PowerUp.SKIP)));
+    }
+
+    private boolean tryPowerUp(Player player, PowerUp powerUp){
+        int available = player.getNumberAvailablePowerUps(powerUp);
+        if (available < 1){
+            return false;
+        }
+        powerUp.apply(this);
+        player.removePowerUp(powerUp);
+        return true;
     }
 
     private class QuestionFetcher extends AsyncTask<Object, Object, Question>{
