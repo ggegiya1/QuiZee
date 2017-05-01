@@ -33,9 +33,9 @@ public class CareerFragment extends Fragment {
                 if (arr[j].getProg(player) < arr[index].getProg(player))
                     index = j;
             }
-            Achievement small = arr[index];
+            Achievement big = arr[index];
             arr[index] = arr[i];
-            arr[i] = small;
+            arr[i] = big;
 
         }
         return arr;
