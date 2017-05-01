@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
 import com.app.game.quizee.backend.MusicService;

@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -19,12 +19,14 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
+import com.app.game.quizee.backend.TriviaApi;
 
 import java.util.ArrayList;
 import java.util.Collections;

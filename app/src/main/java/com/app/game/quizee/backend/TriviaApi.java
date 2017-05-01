@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.backend;
 
 import android.text.Html;
 import android.util.Log;
@@ -91,7 +91,7 @@ public class TriviaApi {
      * Return one questions in given category
      * @return
      */
-    Question getQuestion(){
+    public Question getQuestion(){
         // fetch questions when called first time
         if (questions == null){
             fetchQuestions(categories, amount);

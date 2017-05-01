@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 // importé de la page https://github.com/jaisonfdo/BottomNavigation/blob/master/app/src/main/java/droidmentor/bnv_with_viewpager/ViewPagerAdapter.java
 

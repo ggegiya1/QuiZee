@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import com.app.game.quizee.CategorySelectionActivity;
-import com.app.game.quizee.MultiplayerLobbyActivity;
-import com.app.game.quizee.QuestionActivity;
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;

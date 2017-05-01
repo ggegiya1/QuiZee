@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,11 +23,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
-import com.app.game.quizee.layout.CareerFragment;
-import com.app.game.quizee.layout.HomeFragment;
 
 import java.util.Observable;
 import java.util.Observer;

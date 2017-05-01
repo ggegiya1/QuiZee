@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.MusicService;
 
 public class MultiplayerLobbyActivity extends AppCompatActivity {

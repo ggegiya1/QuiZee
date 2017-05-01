@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBackground"
-    tools:context="com.app.game.quizee.MultiplayerLobbyActivity">
+    tools:context="com.app.game.quizee.layout.MultiplayerLobbyActivity">
 
     <include layout="@layout/toolbar_no_settings"/>
 
