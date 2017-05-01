@@ -30,6 +30,7 @@ import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.PowerUp;
@@ -600,5 +601,16 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         return isPracticeMode?
                 Player.defaultPlayer():
                 PlayerManager.getInstance().getCurrentPlayer();
+    }
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }

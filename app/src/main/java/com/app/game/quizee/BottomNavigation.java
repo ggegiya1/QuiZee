@@ -1,8 +1,12 @@
 package com.app.game.quizee;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -19,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.game.quizee.backend.PlayMusic;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.layout.CareerFragment;
@@ -45,7 +49,17 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     TextView level;
     ImageView avatarView;
     Bitmap avatar;
-    PlayMusic play;
+
+    //for music service
+    private boolean mIsBound = false;
+    protected MusicService mServ;
+
+    @Override
+    protected void onPause() {
+        //MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +88,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         avatarView = (ImageView) findViewById(R.id.avatar_main);
 
         updateUserInfo();
-        setupAvatar();
+        startMusic();
 
-        play = new PlayMusic (getApplication(), getBaseContext());
         navigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -142,11 +155,10 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         viewPager.setCurrentItem(1); //fait partir sur le home
     }
 
-    private void setupAvatar() {
-        avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
-        if(avatar != null) {
-            avatarView.setImageBitmap(avatar);
-        }
+    private void startMusic() {
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        startService(music);
     }
 
     private void updateUserInfo() {
@@ -154,6 +166,10 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
+        avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
+        if(avatar != null) {
+            avatarView.setImageBitmap(avatar);
+        }
     }
 
     //on settings button clicked
@@ -164,18 +180,17 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         startActivity(intent);
     }
 
-
     @Override
-    protected void onDestroy() {
-        PlayerManager.getInstance().saveCurrentPlayer();
-        super.onDestroy();
+    public void onRestart() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onRestart();
+
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void onResume() {
         updateUserInfo();
-        setupAvatar();
+        super.onResume();
     }
 
     @Override
@@ -189,7 +204,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-
     }
 
     @Override
@@ -200,8 +214,44 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     @Override
     protected void onStop(){
+        PlayerManager.getInstance().saveCurrentPlayer();
+        MusicService.getInstance().pauseMusic();
         super.onStop();
         PlayerManager.getInstance().onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, MusicService.class));
+        super.onDestroy();
+    }
+
+    private ServiceConnection Scon = new ServiceConnection(){
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = MusicService.ServiceBinder.getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+
+    void doBindService(){
+        bindService(new Intent(this,MusicService.class),
+                Scon,Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
     }
 
     @Override
