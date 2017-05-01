@@ -357,6 +357,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
         final AlertDialog endDialog = builder.create();
+        player.setTotalScore(player.getCurrentScore()+player.getTotalScore());
+        player.setTotalratio(player.getTotalScore()/(player.getNbGamesPlayed()+1));
 
         //felicitations
         pscore = player.getCorrectlyAnswered().size();

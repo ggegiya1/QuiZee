@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,9 +33,10 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     private static final int MAX_TOP_PLAYERS = 20;
     private ListView topList;
     private ContactAdapter contactAdapter;
-
+    private boolean filter_hs;
     // Required empty public constructor
     public TopPlayersFragment() {
+        //findViewById(R.id.highscore_btn).setOnClickListener(this);
     }
 
     @Override
@@ -40,10 +44,12 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                              Bundle savedInstanceState) {
         contactAdapter = new ContactAdapter(getActivity(), new ArrayList<Player>(MAX_TOP_PLAYERS));
         PlayerManager.getInstance().setTopListReceivedCallback(this);
+
         View rl = inflater.inflate(R.layout.fragment_top_players, container, false);
         topList = (ListView) rl.findViewById(R.id.top_players_list);
         topList.setAdapter(contactAdapter);
         PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
+        filter_hs=true;
         return rl;
     }
 
@@ -71,7 +77,6 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         ImageView icon;
         TextView score;
         TextView level;
-        TextView mbtn;
     }
 
     //Adapter inspiré de
@@ -101,16 +106,14 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                 holder.icon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
                 holder.score = (TextView) convertView.findViewById(R.id.contact_score);
                 holder.level = (TextView) convertView.findViewById(R.id.contact_level);
-                holder.mbtn = (TextView) convertView.findViewById(R.id.highscore_btn);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.name.setText(p.getName());
-            holder.score.setText(String.valueOf(p.getTotalScore()/p.getNbGamesPlayed()));
+            holder.score.setText(String.valueOf(p.getTotalratio()));
             holder.level.setText(String.valueOf(p.getLevel()));
             holder.icon.setImageBitmap(p.avatarBitmap());
-
             return convertView;
         }
 

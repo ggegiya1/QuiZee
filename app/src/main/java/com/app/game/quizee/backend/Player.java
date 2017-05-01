@@ -44,13 +44,11 @@ public class Player extends Observable implements Serializable {
     private int currentScore;
     private int highestScore;
 
-    public int getTotalScore() {
-        return totalScore;
-    }
 
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
+
+    //we store this value in the db for sorting access
+    private int totalratio;
+
 
     private int totalScore;
 
@@ -109,7 +107,7 @@ public class Player extends Observable implements Serializable {
     }
 
     private void resetScore() {
-        this.totalScore += this.currentScore;
+        //this.totalScore += this.currentScore;
         this.currentScore = 0;
         setChanged();
         notifyObservers();
@@ -383,7 +381,20 @@ public class Player extends Observable implements Serializable {
     public void setWronglyAnswered(List<Question> wronglyAnswered) {
         this.wronglyAnswered = wronglyAnswered;
     }
+    public int getTotalratio() {
+        return totalratio;
+    }
 
+    public void setTotalratio(int totalratio) {
+        this.totalratio = totalratio;
+    }
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
     public void setLevel(int level) {
         this.level = level;
     }
