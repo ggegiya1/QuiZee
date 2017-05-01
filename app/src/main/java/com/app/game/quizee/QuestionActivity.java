@@ -378,7 +378,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
 
-        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore + " | Score: " + player.getCurrentScore());
+        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore + "  Score: " + player.getCurrentScore());
 
         // IMPORTANT! Save the current player score to be updated in TOP list view
         PlayerManager.getInstance().saveCurrentPlayer();
