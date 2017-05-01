@@ -22,10 +22,12 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     private final IBinder mBinder = new ServiceBinder();
     MediaPlayer mPlayer;
     private int length = 0;
+    private boolean mustRestart;
     static MusicService musicServiceInstance;
 
     public MusicService() {
         musicServiceInstance = this;
+        mustRestart = false;
     }
 
     public static synchronized MusicService getInstance() {
@@ -74,21 +76,25 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     public void pauseMusic() {
-        if(mPlayer != null) {
-            if (mPlayer.isPlaying()) {
-                mPlayer.pause();
-                length = mPlayer.getCurrentPosition();
+        if (!mustRestart) {
+            if (mPlayer != null) {
+                if (mPlayer.isPlaying()) {
+                    mPlayer.pause();
+                    length = mPlayer.getCurrentPosition();
+                }
             }
         }
+        mustRestart = false;
     }
 
-    public void resumeMusic() {
+    public void resumeMusic(boolean mRestart) {
         if (!mPlayer.isPlaying()) {
             mPlayer.seekTo(length);
             mPlayer.start();
         } else {
             updateMusic();
         }
+        mustRestart = mRestart;
     }
 
     public void stopMusic() {
