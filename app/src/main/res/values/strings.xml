@@ -36,7 +36,7 @@
     <!-- Strings related to home activity -->
     <string name="Play">Play</string>
     <string name="quickPlay">Practice</string>
-    <string name="multiPlay">Play with friends</string>
+    <string name="multiPlay">Favorites Categories</string>
 
     <!-- strings related to category selection activity -->
     <string name="categorySelection">SELECT CATEGORIES</string>
@@ -101,8 +101,8 @@
     <string name="shop_you_own">You own</string>
     <string name="shop_power_ups">POWER UPS</string>
     <string name="shop_Caterogies">CATEGORIES</string>
-
-
+    <string name= "buymore">&gt;</string>
+    <string name= "buyless">&lt;</string>
     <!-- strings related to settings -->
     <string name="change_avatar">Change avatar</string>
     <string name="change_name">Change name</string>

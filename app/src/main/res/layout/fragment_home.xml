@@ -24,6 +24,19 @@
 
         <Button
             android:textSize="25sp"
+            android:id="@+id/button_quickPlay"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/quickPlay"
+            android:layout_weight="0.2"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:drawableStart="@drawable/ic_practice"
+            android:background="@drawable/button_tertiary_style"/>
+
+        <Button
+            android:textSize="25sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -31,23 +44,11 @@
             android:layout_weight="0.2"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginBottom="70dp"
             android:layout_marginRight="30dp"
-            android:drawableStart="@drawable/ic_multi_player"
+            android:drawableStart="@drawable/ic_favorites"
             android:background="@drawable/button_tertiary_style"/>
 
-        <Button
-            android:textSize="25sp"
-            android:id="@+id/button_quickPlay"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="@string/quickPlay"
-            android:layout_weight="0.2"
-            android:layout_marginTop="70dp"
-            android:layout_marginBottom="70dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:drawableStart="@drawable/ic_practice"
-            android:background="@drawable/button_tertiary_style"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
 </FrameLayout>
