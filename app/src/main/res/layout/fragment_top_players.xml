@@ -26,25 +26,27 @@
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.21"
                     android:text="" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.1"
                     android:textAlignment="center"
-                    android:text="level" />
+                    android:textSize="20dp"
+                    android:text="Level" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.16"
                     android:textAlignment="center"
                     android:paddingEnd="10dp"
-                    android:text="score" />
+                    android:textSize="20dp"
+                    android:text="Highscore" />
         </LinearLayout>
         <ListView
             android:layout_width="match_parent"

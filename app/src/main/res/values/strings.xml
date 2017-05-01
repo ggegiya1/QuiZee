@@ -167,7 +167,7 @@
     <string name="difficulty">difficulty</string>
 
     <string name="points_format">money: %d</string>
-    <string name="score_format">score: %d</string>
+    <string name="score_format">Score: %d</string>
 
     <!-- item Descriptions  -->
     <string name="description_bomb">Removes 2 wrong answers</string>

@@ -22,7 +22,7 @@
     <me.grantland.widget.AutofitTextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
+        android:layout_weight="0.55"
         android:id="@+id/contact_item_name"
         android:gravity="center"
         android:textColor="@color/colorPrimary"
@@ -32,27 +32,28 @@
         android:textSize="20sp"/>
 
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/contact_level"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_margin="5dp"
+        android:textSize="20sp"
         android:backgroundTint="@android:color/holo_orange_light"
         android:background="@android:drawable/star_big_on"
         android:text="0" />
 
     <TextView
+        android:id="@+id/contact_score"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.2"
-        android:id="@+id/contact_score"
-        android:gravity="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="15sp"
-        android:layout_gravity="center"
+        android:layout_gravity="right"
         android:layout_margin="5dp"
-        android:text="0" />
+        android:layout_weight="0.33"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 
     <!--Button
         android:layout_width="wrap_content"
