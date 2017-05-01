@@ -71,6 +71,10 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         });
     }
 
+    public void start() {
+        mPlayer.start();
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         boolean music = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("sound_music", false);
@@ -78,6 +82,16 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
             mPlayer.start();
         }
         return START_NOT_STICKY;
+    }
+
+    public void inconditionalPauseMusic() {
+        Log.i("Music", "music paused");
+        if (mPlayer != null) {
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+                length = mPlayer.getCurrentPosition();
+            }
+        }
     }
 
     public void pauseMusic() {

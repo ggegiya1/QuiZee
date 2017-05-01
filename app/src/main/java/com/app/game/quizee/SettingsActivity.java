@@ -85,9 +85,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             Boolean musicBoolean = (Boolean) o;
                             MusicService mServ = MusicService.getInstance();
                             if(musicBoolean) {
-                                mServ.updateMusic();
+                                mServ.start();
                             } else {
-                                mServ.stopMusic();
+                                mServ.inconditionalPauseMusic();
                             }
                             return true;
                         case "player_name":
