@@ -54,11 +54,11 @@
                     android:id="@+id/question_difficulty_label"
                     android:text="@string/difficulty"
                     android:layout_weight="0.5"
-                    android:gravity="end"
-                    android:textSize="15sp"
+                    android:gravity="end|center"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingEnd="5dp"
                     android:textColor="@color/colorSecondary"/>
                 <TextView
                     android:layout_width="0dp"
@@ -68,9 +68,9 @@
                     android:layout_weight="0.5"
                     android:textStyle="bold"
                     android:textAllCaps="true"
-                    android:gravity="start"
-                    android:textSize="26sp"
-                    android:paddingStart="10dp"
+                    android:gravity="start|center"
+                    android:textSize="20sp"
+                    android:paddingStart="5dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/yellow"/>
             </LinearLayout>
