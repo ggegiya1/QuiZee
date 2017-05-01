@@ -30,7 +30,7 @@ public class CareerFragment extends Fragment {
         for (int i = 0; i < arr.length - 1; i++){
             int index = i;
             for (int j = i +1; j < arr.length; j++) {
-                if (arr[j].getProg(player) < arr[index].getProg(player))
+                if (arr[j].getProg(player) > arr[index].getProg(player))
                     index = j;
             }
             Achievement big = arr[index];
