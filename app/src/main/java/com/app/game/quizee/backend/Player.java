@@ -44,6 +44,15 @@ public class Player extends Observable implements Serializable {
     private int currentScore;
     private int highestScore;
 
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    private int totalScore;
 
     private int exp;
     private String avatar;
@@ -100,6 +109,7 @@ public class Player extends Observable implements Serializable {
     }
 
     private void resetScore() {
+        this.totalScore += this.currentScore;
         this.currentScore = 0;
         setChanged();
         notifyObservers();
