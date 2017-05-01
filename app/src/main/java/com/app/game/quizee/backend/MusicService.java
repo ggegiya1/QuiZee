@@ -7,7 +7,6 @@ package com.app.game.quizee.backend;
 //La classe est grandement inspiré de https://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
@@ -26,6 +25,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     static MusicService musicServiceInstance;
 
     public MusicService() {
+        musicServiceInstance = this;
     }
 
     public static synchronized MusicService getInstance() {
@@ -35,9 +35,13 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         return musicServiceInstance;
     }
 
-    public class ServiceBinder extends Binder {
-        MusicService getService() {
-            return MusicService.this;
+    public static class ServiceBinder extends Binder {
+
+        public static MusicService getService() {
+            if(musicServiceInstance == null) {
+                return new MusicService();
+            }
+            return musicServiceInstance;
         }
     }
 
@@ -49,6 +53,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     @Override
     public void onCreate() {
         super.onCreate();
+        updateMusic();
         mPlayer.setOnErrorListener(this);
 
         mPlayer.setOnErrorListener(new OnErrorListener() {
@@ -65,7 +70,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPlayer.start();
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public void pauseMusic() {
@@ -84,7 +89,9 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     public void stopMusic() {
-        mPlayer.stop();
+        if(mPlayer.isPlaying()) {
+            mPlayer.stop();
+        }
         mPlayer.release();
         mPlayer = null;
     }
@@ -116,7 +123,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         return false;
     }
 
-    public void randommusic(){
+    public void randomMusic(){
         switch (compteur) {
             case 1:
                 this.mPlayer = MediaPlayer.create(this, R.raw.bg1);
@@ -137,7 +144,13 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
     }
 
-    public void updatemusic(final Context c){
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        onDestroy();
+        super.onTaskRemoved(rootIntent);
+    }
+
+    public void updateMusic(){
         /*if (this.mymedia != null) {
             if (this.mymedia.isPlaying()) {
                 this.mymedia.stop();
@@ -146,13 +159,13 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
             this.mymedia.release();
         }*/
         this.mPlayer = new MediaPlayer();
-        randommusic();
+        randomMusic();
         this.mPlayer.start();
         this.mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
-                updatemusic(c);
+                updateMusic();
             }
         });
     }

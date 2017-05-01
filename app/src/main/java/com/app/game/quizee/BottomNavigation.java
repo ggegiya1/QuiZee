@@ -46,6 +46,10 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     ImageView avatarView;
     Bitmap avatar;
 
+    //for music service
+    private boolean mIsBound = false;
+    protected MusicService mServ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         avatarView = (ImageView) findViewById(R.id.avatar_main);
 
         updateUserInfo();
-        setupAvatar();
         startMusic();
 
         navigation.setOnNavigationItemSelectedListener(
@@ -137,18 +140,15 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         startService(music);
     }
 
-    private void setupAvatar() {
-        avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
-        if(avatar != null) {
-            avatarView.setImageBitmap(avatar);
-        }
-    }
-
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
+        avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
+        if(avatar != null) {
+            avatarView.setImageBitmap(avatar);
+        }
     }
 
     //on settings button clicked
@@ -159,18 +159,10 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         startActivity(intent);
     }
 
-
-    @Override
-    protected void onDestroy() {
-        PlayerManager.getInstance().saveCurrentPlayer();
-        super.onDestroy();
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         updateUserInfo();
-        setupAvatar();
     }
 
     @Override
@@ -195,38 +187,43 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     @Override
     protected void onStop(){
+        PlayerManager.getInstance().saveCurrentPlayer();
         super.onStop();
+        doBindService();
+        stopService(new Intent(this, MusicService.class));
         PlayerManager.getInstance().onStop();
     }
 
-    private void connectMusicService() {
-        private boolean mIsBound = false;
-        private MusicService mServ;
-        private ServiceConnection Scon =new ServiceConnection(){
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, MusicService.class));
+        super.onDestroy();
+    }
 
-            public void onServiceConnected(ComponentName name, IBinder
-                    binder) {
-                mServ = ((MusicService.ServiceBinderbinder).getService();
-            }
+    private ServiceConnection Scon = new ServiceConnection(){
 
-            public void onServiceDisconnected(ComponentName name) {
-                mServ = null;
-            }
-        };
-
-        void doBindService(){
-            bindService(new Intent(this,MusicService.class),
-                    Scon, Context.BIND_AUTO_CREATE);
-            mIsBound = true;
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = MusicService.ServiceBinder.getService();
         }
 
-        void doUnbindService()
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService(){
+        bindService(new Intent(this,MusicService.class),
+                Scon,Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService()
+    {
+        if(mIsBound)
         {
-            if(mIsBound)
-            {
-                unbindService(Scon);
-                mIsBound = false;
-            }
+            unbindService(Scon);
+            mIsBound = false;
         }
     }
 

@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     switch (preference.getKey()) {
                         case "sound_music":
                             Boolean musicBoolean = (Boolean) o;
-                            MusicService mServ = (MusicService) MusicService.getInstance();
+                            MusicService mServ = MusicService.getInstance();
                             if(musicBoolean) {
                                 mServ.resumeMusic();
                             } else {
