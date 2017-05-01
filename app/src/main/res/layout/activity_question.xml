@@ -107,7 +107,7 @@
             android:id="@+id/score"
             android:layout_height="match_parent"
             android:textSize="30sp"
-            android:textColor="@color/green"
+            android:textColor="@color/colorSecondary"
             android:gravity="center"
             android:layout_width="0dp" />
 
