@@ -22,8 +22,8 @@ public class Player extends Observable implements Serializable {
     private String image;
     private boolean online;
     private List<Player> friends;
-    private Map<PowerUp, Integer> availablePowerUps = new HashMap<>();
-    private Map<PowerUp, Integer> purchasedPowerUps = new HashMap<>();
+    private Map<String, Integer> availablePowerUps = new HashMap<>();
+    private Map<String, Integer> purchasedPowerUps = new HashMap<>();
 
     //For achievements
     private int nbGamesPlayed;
@@ -255,17 +255,17 @@ public class Player extends Observable implements Serializable {
     }
 
     public void removePowerUp(PowerUp powerUp){
-        Integer current = this.availablePowerUps.get(powerUp);
+        Integer current = this.availablePowerUps.get(powerUp.getName());
         if (current!=null && current > 0){
-            this.availablePowerUps.put(powerUp, --current);
+            this.availablePowerUps.put(powerUp.getName(), --current);
         }
     }
 
     public void addPowerUp(PowerUp powerUp){
         Integer current = this.availablePowerUps.get(powerUp);
         Integer max = this.purchasedPowerUps.get(powerUp);
-        this.availablePowerUps.put(powerUp, current == null? 1: ++current);
-        this.purchasedPowerUps.put(powerUp, current == null? 1: ++current);
+        this.availablePowerUps.put(powerUp.getName(), current == null? 1: ++current);
+        this.purchasedPowerUps.put(powerUp.getName(), current == null? 1: ++current);
     }
 
     public boolean canPurchase(PowerUp powerUp) {
@@ -354,11 +354,11 @@ public class Player extends Observable implements Serializable {
         this.id = id;
     }
 
-    public void setAvailablePowerUps(Map<PowerUp, Integer> availablePowerUps) {
+    public void setAvailablePowerUps(Map<String, Integer> availablePowerUps) {
         this.availablePowerUps = availablePowerUps;
     }
 
-    public void setPurchasedPowerUps(Map<PowerUp, Integer> purchasedPowerUps) {
+    public void setPurchasedPowerUps(Map<String, Integer> purchasedPowerUps) {
         this.purchasedPowerUps = purchasedPowerUps;
     }
 
@@ -394,12 +394,12 @@ public class Player extends Observable implements Serializable {
         return perfCategories;
     }
 
-    public Map<PowerUp, Integer> getAvailablePowerUps() {
+    public Map<String, Integer> getAvailablePowerUps() {
 
         return availablePowerUps;
     }
 
-    public Map<PowerUp, Integer> getPurchasedPowerUps() {
+    public Map<String, Integer> getPurchasedPowerUps() {
         return purchasedPowerUps;
     }
 
