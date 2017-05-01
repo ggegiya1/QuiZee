@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -169,26 +168,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answerButtons.add(answer4Button);
 
         if (isPracticeMode){
-            hidePowerUpsAndScoreElements();
+            hideScoreElements();
         }
         init();
     }
 
-    private void hidePowerUpsAndScoreElements(){
-        addTimeButton.setVisibility(View.INVISIBLE);
-        skipButton.setVisibility(View.INVISIBLE);
-        bombButton.setVisibility(View.INVISIBLE);
-        hintButton.setVisibility(View.INVISIBLE);
+    private void hideScoreElements(){
         pointsView.setVisibility(View.INVISIBLE);
         scoreView.setVisibility(View.INVISIBLE);
-        TextView skipLabel = (TextView) findViewById(R.id.skip_label);
-        TextView addTimeLabel = (TextView) findViewById(R.id.add_time_label);
-        TextView bombLabel = (TextView) findViewById(R.id.bomb_label);
-        TextView hintLabel = (TextView) findViewById(R.id.hint_label);
-        skipLabel.setVisibility(View.INVISIBLE);
-        bombLabel.setVisibility(View.INVISIBLE);
-        hintLabel.setVisibility(View.INVISIBLE);
-        addTimeLabel.setVisibility(View.INVISIBLE);
     }
 
     public void init() {
