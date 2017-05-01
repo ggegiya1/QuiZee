@@ -183,6 +183,9 @@
     <string name="pref_sound_game">Game sounds</string>
     <string name="categories_unselect_all">UNSELECT ALL CATEGORIES</string>
     <string name="skip_question">SKIPPING A QUESTION</string>
+    <string name="dont_buy">Don\'t Buy</string>
+    <string name="buy_item">How many</string>
+    <string name="buy_item2">do you want?</string>
 
 
 </resources>

@@ -6,21 +6,24 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.game.quizee.backend.Achievement;
-import com.app.game.quizee.backend.PowerUp;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
+import com.app.game.quizee.backend.PowerUp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,14 +88,8 @@ public class ShopFragment extends Fragment implements Observer {
                 buy.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (current_player.purchase(rowItem)) {
-                            Toast.makeText(getContext(), " +1 " + rowItem.getName() + " purchased!", Toast.LENGTH_SHORT).show();
-                            updateAchievements(current_player);
-                            notifyDataSetChanged();
-
-
-                    }
-                }});
+                        buyDialog(rowItem);
+                    }});
             } else  {
                 powUpPrice.setTextColor(Color.RED);
                 buy.setBackground(getResources().getDrawable(R.drawable.button_tertiary_darkest));
@@ -136,5 +133,61 @@ public class ShopFragment extends Fragment implements Observer {
         if (adapter!=null){
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void buyDialog(final PowerUp pUp) {
+        final Player player = PlayerManager.getInstance().getCurrentPlayer();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        View dialogView = getLayoutInflater(getArguments()).inflate(R.layout.shop_dialog,null);
+        builder.setView(dialogView);
+        final AlertDialog buyDialog = builder.create();
+        final NumberPicker shopDialopNumberPicker = (NumberPicker) dialogView.findViewById(R.id.shop_dialog_number_picker);
+        final TextView shopDialogTitle = (TextView) dialogView.findViewById(R.id.shop_dialog_title);
+        shopDialogTitle.setText(getString(R.string.buy_item) + " " + pUp.getName() + " " + getString(R.string.buy_item2));
+        shopDialopNumberPicker.setMinValue(0);
+        shopDialopNumberPicker.setMaxValue(player.getPoints() / pUp.getPrice());
+
+        Button buy = (Button) dialogView.findViewById(R.id.shop_dialog_buy);
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = ((NumberPicker) buyDialog.findViewById(R.id.shop_dialog_number_picker)).getValue();
+                for(int i = 0; i <= quantity; i++) {
+                    player.purchase(pUp);
+                }
+                Toast.makeText(getContext(), " +" +quantity + " " + pUp.getName() + " purchased!", Toast.LENGTH_SHORT).show();
+                updateAchievements(player);
+                sa.notifyDataSetChanged();
+                buyDialog.cancel();
+            }
+        });
+
+        Button dontBuy = (Button) dialogView.findViewById(R.id.shop_dialog_dont_buy);
+        dontBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buyDialog.cancel();
+            }
+        });
+        buyDialog.show();
+        buyDialog.setCancelable(true);
+    }
+
+    //TODO use afther cleaner
+    private View.OnClickListener buttonPressed() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.shop_buy_button:
+                        break;
+                    case R.id.shop_dialog_dont_buy:
+                        break;
+                    case R.id.shop_dialog_buy:
+                        break;
+                }
+            }
+        };
     }
 }

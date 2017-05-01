@@ -83,29 +83,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-
-        <Button
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:text="@string/buyless"
-            android:padding="1dp"
-            />
-
-
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:ems="10"
-            android:inputType="number" />
-
-        <Button
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:text="@string/buymore"
-            android:padding="1dp"
-            />
-
     </LinearLayout>
 </LinearLayout>
 
