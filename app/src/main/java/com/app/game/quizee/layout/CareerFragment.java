@@ -30,7 +30,18 @@ public class CareerFragment extends Fragment {
         for (int i = 0; i < arr.length - 1; i++){
             int index = i;
             for (int j = i +1; j < arr.length; j++) {
-                if (arr[j].getProg(player) > arr[index].getProg(player))
+                if (arr[j].getProg(player) < arr[index].getProg(player))
+                    index = j;
+            }
+            Achievement small = arr[index];
+            arr[index] = arr[i];
+            arr[i] = small;
+
+        }
+        for (int i = 0; i < arr.length - 1; i++){
+            int index = i;
+            for (int j = i +1; j < arr.length; j++) {
+                if (arr[j].getProg(player) > arr[index].getProg(player) && arr[j].getProg(player) < 100)
                     index = j;
             }
             Achievement big = arr[index];
@@ -38,6 +49,7 @@ public class CareerFragment extends Fragment {
             arr[i] = big;
 
         }
+
         return arr;
 
     };
