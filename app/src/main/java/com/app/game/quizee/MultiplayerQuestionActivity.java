@@ -21,6 +21,7 @@ import android.widget.ViewSwitcher;
 
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.Question;
@@ -267,5 +268,17 @@ public class MultiplayerQuestionActivity extends AppCompatActivity{
 
         Ad.setNegativeButton(R.string.no, null);
         Ad.show();
+    }
+
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }

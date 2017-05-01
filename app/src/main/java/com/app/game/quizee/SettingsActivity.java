@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.app.game.quizee.backend.PlayMusic;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.PlayerManager;
 
 import java.io.ByteArrayOutputStream;
@@ -83,11 +83,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     switch (preference.getKey()) {
                         case "sound_music":
                             Boolean musicBoolean = (Boolean) o;
-                            PlayMusic playMusic = PlayMusic.getInstance(getActivity().getApplication(), getActivity().getBaseContext());
+                            MusicService mServ = MusicService.getInstance();
                             if(musicBoolean) {
-                                playMusic.updatemusic(getActivity());
+                                mServ.start();
                             } else {
-                                playMusic.stopMusic();
+                                mServ.inconditionalPauseMusic();
                             }
                             return true;
                         case "player_name":
@@ -117,7 +117,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             intent.setType("image/*");
             intent.putExtra("crop", "true");
-            intent.putExtra("scale", true);
+            intent.putExtra("scale", false);
             intent.putExtra("outputX", 256);
             intent.putExtra("outputY", 256);
             intent.putExtra("aspectX", 1);
@@ -151,5 +151,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }

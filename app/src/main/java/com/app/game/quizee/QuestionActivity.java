@@ -30,6 +30,7 @@ import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Answer;
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.Game;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 import com.app.game.quizee.backend.PowerUp;
@@ -39,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -169,26 +169,14 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answerButtons.add(answer4Button);
 
         if (isPracticeMode){
-            hidePowerUpsAndScoreElements();
+            hideScoreElements();
         }
         init();
     }
 
-    private void hidePowerUpsAndScoreElements(){
-        addTimeButton.setVisibility(View.INVISIBLE);
-        skipButton.setVisibility(View.INVISIBLE);
-        bombButton.setVisibility(View.INVISIBLE);
-        hintButton.setVisibility(View.INVISIBLE);
+    private void hideScoreElements(){
         pointsView.setVisibility(View.INVISIBLE);
         scoreView.setVisibility(View.INVISIBLE);
-        TextView skipLabel = (TextView) findViewById(R.id.skip_label);
-        TextView addTimeLabel = (TextView) findViewById(R.id.add_time_label);
-        TextView bombLabel = (TextView) findViewById(R.id.bomb_label);
-        TextView hintLabel = (TextView) findViewById(R.id.hint_label);
-        skipLabel.setVisibility(View.INVISIBLE);
-        bombLabel.setVisibility(View.INVISIBLE);
-        hintLabel.setVisibility(View.INVISIBLE);
-        addTimeLabel.setVisibility(View.INVISIBLE);
     }
 
     public void init() {
@@ -600,5 +588,16 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         return isPracticeMode?
                 Player.defaultPlayer():
                 PlayerManager.getInstance().getCurrentPlayer();
+    }
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }
