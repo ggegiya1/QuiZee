@@ -51,6 +51,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     protected MusicService mServ;
 
     @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
@@ -185,11 +191,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         updateUserInfo();
     }
 
+
+
     @Override
     protected void onStop(){
         PlayerManager.getInstance().saveCurrentPlayer();
         super.onStop();
-        doBindService();
         stopService(new Intent(this, MusicService.class));
         PlayerManager.getInstance().onStop();
     }

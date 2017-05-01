@@ -216,9 +216,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
             updateItem(holder, category);
             return currentView;
         }
-
-
-
     }
 
     private void updateItem(ViewHolder holder, SelectableCategory category){

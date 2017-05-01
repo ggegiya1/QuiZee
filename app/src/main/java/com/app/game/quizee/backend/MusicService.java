@@ -30,7 +30,7 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
 
     public static synchronized MusicService getInstance() {
         if (musicServiceInstance == null){
-            musicServiceInstance = new MusicService();
+            return new MusicService();
         }
         return musicServiceInstance;
     }
@@ -74,10 +74,11 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     public void pauseMusic() {
-        if (mPlayer.isPlaying()) {
-            mPlayer.pause();
-            length = mPlayer.getCurrentPosition();
-
+        if(mPlayer != null) {
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+                length = mPlayer.getCurrentPosition();
+            }
         }
     }
 
@@ -85,6 +86,8 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         if (!mPlayer.isPlaying()) {
             mPlayer.seekTo(length);
             mPlayer.start();
+        } else {
+            updateMusic();
         }
     }
 
