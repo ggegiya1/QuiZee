@@ -27,23 +27,25 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="Gold given"
         android:id="@+id/achievement_gold_given"
-        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/currency_image"
         android:layout_alignParentTop="true"
-        android:textAlignment="viewEnd"
-        android:layout_toLeftOf="@+id/currency_image" />
+        android:layout_toStartOf="@+id/achievement_check"
+        android:drawableRight="@mipmap/ic_coins"
+        android:text="Gold given"
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <ImageView
+        android:id="@id/currency_image"
         android:layout_width="wrap_content"
         android:layout_height="18sp"
-        android:src="@drawable/ic_currency"
-        android:id="@id/currency_image"
-        android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/achievement_exp_given" />
+        android:layout_alignBottom="@+id/achievement_item_name"
+        android:layout_toStartOf="@+id/achievement_check"
+        android:src="@mipmap/ic_coins"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:layout_width="match_parent"
@@ -55,14 +57,15 @@
         android:layout_marginRight="10dp"/>
 
     <TextView
+        android:id="@+id/achievement_exp_given"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/achievement_gold_given"
+        android:layout_below="@+id/achievement_gold_given"
+        android:layout_toStartOf="@+id/achievement_check"
         android:text="10 xp"
-        android:id="@+id/achievement_exp_given"
-        android:textSize="14sp"
-        android:textAlignment="viewEnd"
-        android:layout_alignTop="@+id/currency_image"
-        android:layout_toStartOf="@+id/achievement_check" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/achievement_check"

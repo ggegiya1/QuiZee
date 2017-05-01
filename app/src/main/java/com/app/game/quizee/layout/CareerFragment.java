@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
@@ -19,12 +20,27 @@ import com.app.game.quizee.backend.PlayerManager;
 
 public class CareerFragment extends Fragment {
 
-    ListView statsList;
     ListView achievementsList;
 
     public CareerFragment() {
         // Required empty public constructor
     }
+    public static Achievement[] sortAchivements(Achievement[] arr, Player player){
+
+        for (int i = 0; i < arr.length - 1; i++){
+            int index = i;
+            for (int j = i +1; j < arr.length; j++) {
+                if (arr[j].getProg(player) > arr[index].getProg(player))
+                    index = j;
+            }
+            Achievement big = arr[index];
+            arr[index] = arr[i];
+            arr[i] = big;
+
+        }
+        return arr;
+
+    };
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -35,6 +51,8 @@ public class CareerFragment extends Fragment {
         achievementsList = (ListView) rl.findViewById(R.id.achievements_list);
 
         final Achievement[] achievements = Achievement.values();
+
+
 
         achievementsList.setAdapter(new BaseAdapter() {
             @Override
@@ -60,6 +78,8 @@ public class CareerFragment extends Fragment {
                 if (convertView == null)
                     convertView = inflater.inflate(R.layout.achievements_item_list_layout, parent, false);
 
+
+                sortAchivements(achievements, current_player);
                 TextView name = (TextView) convertView.findViewById(R.id.achievement_item_name);
                 TextView gold = (TextView) convertView.findViewById(R.id.achievement_gold_given);
                 TextView xp = (TextView) convertView.findViewById(R.id.achievement_exp_given);
@@ -69,8 +89,8 @@ public class CareerFragment extends Fragment {
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
                 name.setText(achievements[position].getDesc());
-                gold.setText(String.valueOf(achievements[position].getMoney()));
-                xp.setText(String.valueOf(achievements[position].getXP()));
+                gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
+                xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
                 info.setText(achievements[position].getInformation());
 
                 if (current_player.hasAchievement(achievements[position])){
@@ -88,11 +108,6 @@ public class CareerFragment extends Fragment {
 
         });
 
-        //TODO aller chercher les informations dachievement programmaticallement
-
-        //AchievementsAdapter adapter = new AchievementsAdapter(getActivity(),  achievements);
-        //statsList.setAdapter(adapter);
-        //achievementsList.setAdapter(adapter);
         return rl;
     }
 

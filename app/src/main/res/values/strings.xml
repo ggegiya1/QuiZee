@@ -36,7 +36,7 @@
     <!-- Strings related to home activity -->
     <string name="Play">Play</string>
     <string name="quickPlay">Practice</string>
-    <string name="multiPlay">Play with friends</string>
+    <string name="multiPlay">Favorites Categories</string>
 
     <!-- strings related to category selection activity -->
     <string name="categorySelection">SELECT CATEGORIES</string>
@@ -101,8 +101,8 @@
     <string name="shop_you_own">You own</string>
     <string name="shop_power_ups">POWER UPS</string>
     <string name="shop_Caterogies">CATEGORIES</string>
-
-
+    <string name= "buymore">&gt;</string>
+    <string name= "buyless">&lt;</string>
     <!-- strings related to settings -->
     <string name="change_avatar">Change avatar</string>
     <string name="change_name">Change name</string>
@@ -162,12 +162,12 @@
     <string name="prompt_user_name">Name</string>
     <string name="exit_button">exit</string>
     <string name="free">FREE</string>
-    <string name="unlocked">UNLOCKED</string>
+    <string name="unlocked">Unlocked</string>
     <string name="loading_question">Loading question&#8230;</string>
-    <string name="difficulty">difficulty</string>
+    <string name="difficulty">Difficulty:</string>
 
     <string name="points_format">money: %d</string>
-    <string name="score_format">score: %d</string>
+    <string name="score_format">Score: %d</string>
 
     <!-- item Descriptions  -->
     <string name="description_bomb">Removes 2 wrong answers</string>
