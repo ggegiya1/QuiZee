@@ -71,6 +71,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         ImageView icon;
         TextView score;
         TextView level;
+        TextView mbtn;
     }
 
     //Adapter inspiré de
@@ -100,12 +101,13 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                 holder.icon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon);
                 holder.score = (TextView) convertView.findViewById(R.id.contact_score);
                 holder.level = (TextView) convertView.findViewById(R.id.contact_level);
+                holder.mbtn = (TextView) convertView.findViewById(R.id.highscore_btn);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.name.setText(p.getName());
-            holder.score.setText(String.valueOf(p.getHighestScore()));
+            holder.score.setText(String.valueOf(p.getTotalScore()/p.getNbGamesPlayed()));
             holder.level.setText(String.valueOf(p.getLevel()));
             holder.icon.setImageBitmap(p.avatarBitmap());
 
