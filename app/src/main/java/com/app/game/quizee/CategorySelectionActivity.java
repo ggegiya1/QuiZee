@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.app.game.quizee.backend.Category;
 import com.app.game.quizee.backend.CategoryManager;
+import com.app.game.quizee.backend.MusicService;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
@@ -265,5 +266,19 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 adapterCategory.notifyDataSetChanged();
             }
         });
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }

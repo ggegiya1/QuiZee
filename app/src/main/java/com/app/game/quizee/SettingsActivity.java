@@ -85,7 +85,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             Boolean musicBoolean = (Boolean) o;
                             MusicService mServ = MusicService.getInstance();
                             if(musicBoolean) {
-                                mServ.resumeMusic();
+                                mServ.updateMusic();
                             } else {
                                 mServ.stopMusic();
                             }
@@ -117,7 +117,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             intent.setType("image/*");
             intent.putExtra("crop", "true");
-            intent.putExtra("scale", true);
+            intent.putExtra("scale", false);
             intent.putExtra("outputX", 256);
             intent.putExtra("outputY", 256);
             intent.putExtra("aspectX", 1);
@@ -151,5 +151,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }

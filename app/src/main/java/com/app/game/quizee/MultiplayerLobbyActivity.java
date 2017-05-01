@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.app.game.quizee.backend.MusicService;
+
 public class MultiplayerLobbyActivity extends AppCompatActivity {
 
     final long requestLength = 10000; //Les requetes pours jouer durent 10 secondes
@@ -140,5 +142,17 @@ public class MultiplayerLobbyActivity extends AppCompatActivity {
             levelTv.setText(Integer.toString(level[position]));
             return rowView;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        MusicService.ServiceBinder.getService().resumeMusic(true);
+        super.onResume();
     }
 }

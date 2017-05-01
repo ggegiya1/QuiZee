@@ -52,7 +52,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     @Override
     protected void onPause() {
-        MusicService.ServiceBinder.getService().pauseMusic();
+        //MusicService.ServiceBinder.getService().pauseMusic();
         super.onPause();
     }
 
@@ -166,11 +166,16 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     @Override
-    public void onResume() {
+    public void onRestart() {
         MusicService.ServiceBinder.getService().resumeMusic(true);
-        Log.i("Music", "music resumed");
-        super.onResume();
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onResume() {
         updateUserInfo();
+        super.onResume();
     }
 
     @Override
@@ -184,7 +189,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-
     }
 
     @Override
@@ -193,18 +197,16 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         updateUserInfo();
     }
 
-
-
     @Override
     protected void onStop(){
         PlayerManager.getInstance().saveCurrentPlayer();
+        MusicService.getInstance().pauseMusic();
         super.onStop();
         PlayerManager.getInstance().onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.i("Music", "music stopped");
         stopService(new Intent(this, MusicService.class));
         super.onDestroy();
     }

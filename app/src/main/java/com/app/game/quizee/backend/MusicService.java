@@ -12,6 +12,8 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.app.game.quizee.R;
@@ -71,11 +73,15 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mPlayer.start();
+        boolean music = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("sound_music", false);
+        if(music) {
+            mPlayer.start();
+        }
         return START_NOT_STICKY;
     }
 
     public void pauseMusic() {
+        Log.i("Music", "music paused");
         if (!mustRestart) {
             if (mPlayer != null) {
                 if (mPlayer.isPlaying()) {
@@ -88,16 +94,21 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     public void resumeMusic(boolean mRestart) {
-        if (!mPlayer.isPlaying()) {
-            mPlayer.seekTo(length);
-            mPlayer.start();
-        } else {
-            updateMusic();
+        boolean music = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("sound_music", false);
+        if(music) {
+            Log.i("Music", "music resumed");
+            if (mPlayer == null) {
+                updateMusic();
+            } else if (!mPlayer.isPlaying()) {
+                mPlayer.seekTo(length);
+                mPlayer.start();
+            }
         }
         mustRestart = mRestart;
     }
 
     public void stopMusic() {
+        Log.i("Music", "music stopped");
         if(mPlayer.isPlaying()) {
             mPlayer.stop();
         }
@@ -153,6 +164,8 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
     }
 
+
+
     @Override
     public void onTaskRemoved(Intent rootIntent){
         onDestroy();
@@ -169,7 +182,10 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }*/
         this.mPlayer = new MediaPlayer();
         randomMusic();
-        this.mPlayer.start();
+        boolean music = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("sound_music", false);
+        if(music) {
+            this.mPlayer.start();
+        }
         this.mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
