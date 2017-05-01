@@ -63,7 +63,8 @@ public class CareerFragment extends Fragment {
         achievementsList = (ListView) rl.findViewById(R.id.achievements_list);
 
         final Achievement[] achievements = Achievement.values();
-
+        final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
+        sortAchivements(achievements, current_player);
 
 
         achievementsList.setAdapter(new BaseAdapter() {
@@ -85,13 +86,13 @@ public class CareerFragment extends Fragment {
             @Override
 
             public View getView(int position, View convertView, ViewGroup parent){
-                final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
+
 
                 if (convertView == null)
                     convertView = inflater.inflate(R.layout.achievements_item_list_layout, parent, false);
 
 
-                sortAchivements(achievements, current_player);
+
                 TextView name = (TextView) convertView.findViewById(R.id.achievement_item_name);
                 TextView gold = (TextView) convertView.findViewById(R.id.achievement_gold_given);
                 TextView xp = (TextView) convertView.findViewById(R.id.achievement_exp_given);
@@ -105,7 +106,7 @@ public class CareerFragment extends Fragment {
                 xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
                 info.setText(achievements[position].getInformation());
 
-                if (current_player.hasAchievement(achievements[position])){
+                if (achievements[position].getProg(current_player) >= 100){
                     check.setImageResource(R.drawable.ic_check);
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);

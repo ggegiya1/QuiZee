@@ -241,6 +241,41 @@ public class PlayerManager{
 
     }
 
+    public void getTopPlayersTotal(int maxTopPlayers) {
+        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
+        Query myTopPostsQuery = playersDatabase.orderByChild("highestScore").limitToLast(maxTopPlayers);
+        myTopPostsQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                topListReceivedCallback.onError(databaseError.getMessage());
+            }
+
+        });
+
+    }
     public void logout() {
         saveCurrentPlayer();
         signOut();
