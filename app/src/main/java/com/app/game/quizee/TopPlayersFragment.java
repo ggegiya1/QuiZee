@@ -107,7 +107,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.name.setText(p.getName());
-            holder.score.setText(String.valueOf(p.getTotalScore()/p.getNbGamesPlayed()));
+            holder.score.setText(String.valueOf(p.getTotalScore()/(p.getNbGamesPlayed()+1)));
             holder.level.setText(String.valueOf(p.getLevel()));
             holder.icon.setImageBitmap(p.avatarBitmap());
 

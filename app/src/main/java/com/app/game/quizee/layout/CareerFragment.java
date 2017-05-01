@@ -106,7 +106,7 @@ public class CareerFragment extends Fragment {
                 xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
                 info.setText(achievements[position].getInformation());
 
-                if (current_player.hasAchievement(achievements[position])){
+                if (achievements[position].getProg(current_player) >= 100){
                     check.setImageResource(R.drawable.ic_check);
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);
