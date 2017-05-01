@@ -390,6 +390,19 @@ public class Player extends Observable implements Serializable {
         this.perfCategories = perfCategories;
     }
 
+    public Map<String, Integer> getPerfCategories() {
+        return perfCategories;
+    }
+
+    public Map<PowerUp, Integer> getAvailablePowerUps() {
+
+        return availablePowerUps;
+    }
+
+    public Map<PowerUp, Integer> getPurchasedPowerUps() {
+        return purchasedPowerUps;
+    }
+
     public List<Achievement> updateAchievements(){
         List<Achievement> achievements = new ArrayList<>();
         for (Achievement a: Achievement.values()){
