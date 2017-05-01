@@ -162,9 +162,9 @@
     <string name="prompt_user_name">Name</string>
     <string name="exit_button">exit</string>
     <string name="free">FREE</string>
-    <string name="unlocked">UNLOCKED</string>
+    <string name="unlocked">Unlocked</string>
     <string name="loading_question">Loading question&#8230;</string>
-    <string name="difficulty">difficulty:</string>
+    <string name="difficulty">Difficulty:</string>
 
     <string name="points_format">money: %d</string>
     <string name="score_format">Score: %d</string>
