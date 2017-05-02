@@ -213,6 +213,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
         powerUp.apply(this);
         player.removePowerUp(powerUp);
+        updatePowerUpButtons();
         return true;
     }
 

@@ -85,7 +85,7 @@
                 android:gravity="center|end"
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
-                android:textSize="26sp"
+                android:textSize="18sp"
                 android:text="0"
                 android:drawableEnd="@mipmap/ic_coins"/>
 
