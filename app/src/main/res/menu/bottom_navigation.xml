@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/navigation_career"
-        android:icon="@drawable/ic_medal2"
+        android:icon="@drawable/ic_medal"
         android:title="@string/title_achievements" />
 
 </menu>
