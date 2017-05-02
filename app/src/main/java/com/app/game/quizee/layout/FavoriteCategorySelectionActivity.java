@@ -67,6 +67,12 @@ public class FavoriteCategorySelectionActivity extends AppCompatActivity impleme
         setupUnselectButton();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PlayerManager.getInstance().getCurrentPlayer().clearSelectedCategories();
+    }
+
     private void addStartButton(final Player player){
         Button startButton = (Button) findViewById(R.id.button_start);
         startButton.setOnClickListener(new View.OnClickListener() {
