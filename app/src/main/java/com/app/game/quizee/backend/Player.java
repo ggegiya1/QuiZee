@@ -14,6 +14,9 @@ import java.util.Observable;
 
 /**
  * Created by Maude on 2017-04-03.
+ *
+ * IMPORTANT! This class will be serialized and stored in Firebase DB in JSON format
+ * To avoid serialization errors, please implement both setter and getter for any new attribute
  */
 
 public class Player extends Observable implements Serializable {
@@ -296,6 +299,7 @@ public class Player extends Observable implements Serializable {
         }
         addPowerUp(powerUp);
         this.points -= powerUp.getPrice();
+        // notify observers to reflect the changes in UI
         setChanged();
         notifyObservers();
         return true;

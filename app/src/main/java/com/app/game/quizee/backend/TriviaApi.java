@@ -26,6 +26,7 @@ import okhttp3.Response;
 
 /**
  * Created by ggegiya1 on 2/15/17.
+ * This class is a wrapper on Open Trivia REST API
  */
 
 public class TriviaApi {
@@ -44,6 +45,9 @@ public class TriviaApi {
         this.httpClient = new OkHttpClient();
     }
 
+    /**
+     * Send a HTTP request to the Trivia API and get JSON response
+     */
     private JSONObject getJSON(int categoryId, double amount) throws IOException, JSONException {
 
         // NOTE:  category id = 0 will return a question in any category
@@ -55,8 +59,7 @@ public class TriviaApi {
     }
 
     /**
-     * Return questions in given category
-     * @return
+     * Populate questions with given category
      */
     private void fetchQuestions(Questions questions, Category category, double amount){
         try {
@@ -70,12 +73,15 @@ public class TriviaApi {
         }
     }
 
-
+    /**
+     * If multiple categories given, then try to fetch equal amount of questions for each category
+     */
     private void fetchQuestions(List<Category> categories, int amount){
         Map<Category, Double> categorySize = new HashMap<>();
         int remainCategories = categories.size();
         double remainAmount = amount;
         double minQuestionsPerCategory;
+        // try to calculate equal amount of questions for each category
         while (remainCategories > 0){
             minQuestionsPerCategory = Math.floor(remainAmount / remainCategories);
             categorySize.put(categories.get(remainCategories - 1), minQuestionsPerCategory);
@@ -88,8 +94,8 @@ public class TriviaApi {
         }
     }
     /**
-     * Return one questions in given category
-     * @return
+     * Get one question.
+     * The method performs a lazy reading, it fetches multiple questions to the cache and then returns them one by one
      */
     public Question getQuestion(){
         // fetch questions when called first time
@@ -104,6 +110,9 @@ public class TriviaApi {
         return questions.nextQuestion();
     }
 
+    /**
+     * Map the JSON response to the Question object
+     */
     private Question fromJson(JSONObject jsonQuestion) throws JSONException{
         Question question = new Question(CategoryManager.getInstance().getCategoryByName(
                 Html.fromHtml(jsonQuestion.getString("category")).toString()),

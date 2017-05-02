@@ -93,7 +93,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     boolean gameSounds;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
-    static final int QUESTIONS_NUMBER = 10;
+    static final int QUESTIONS_NUMBER = 10; // max questions per single game
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +170,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answer4Button.setOnClickListener(answerValidator());
         answerButtons.add(answer4Button);
 
+        // disable score in practice mode
         if (isPracticeMode){
             hideScoreElements();
         }
@@ -240,9 +241,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 Player player = getCurrentPlayer();
                 MediaPlayer mp = new MediaPlayer();
                 if (answer.isCorrect()){
+                    // do not count correct answers in practice mode
                     if (!isPracticeMode) {
                         player.addCorrectAnswer(currentQuestion);
                     }
+                    // animate correct answer
                     onAnswerButtonEffect(v, Color.GREEN);
                     if(gameSounds) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.gooda);
@@ -250,9 +253,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                     }
                     resultAnimation(questionTextView, getString(R.string.correct_answer), Color.GREEN);
                 }else {
+                    // do not count incorrect answers in practice mode
                     if (!isPracticeMode) {
                         player.addIncorrectAnswer(currentQuestion);
                     }
+                    // animate incorrect answer
                     if(gameSounds) {
                         mp = MediaPlayer.create(getApplicationContext(), R.raw.wronga);
                         mp.start();
@@ -271,7 +276,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     private void onAnswerButtonEffect(View button, int color){
-        //TODO: Checker pk c vert-rouge
         button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
@@ -291,6 +295,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         view.startAnimation(animation);
     }
 
+    /**
+     * Animation for correct / incorrect question
+     */
     private void resultAnimation(final TextView view, final String text, final int color){
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from invisible to fully visible
         animation.setDuration(1500);
@@ -327,7 +334,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         view.startAnimation(animation);
     }
 
-
+    /**
+     * Fetch and show the new question
+     */
     public void newQuestion(){
         if(questionCount >= QUESTIONS_NUMBER && !isPracticeMode) {
             countDownTimer.cancel();
@@ -355,7 +364,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         player.setNbGamesPlayed(player.getNbGamesPlayed()+1);
-        //TODO: Avoid passing root
         View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
         builder.setView(dialogView);
         final AlertDialog endDialog = builder.create();
@@ -403,10 +411,13 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         endDialog.setCancelable(false);
     }
 
+    /**
+     * Show the new quesion on the screen
+     * @param question
+     */
     private void setQuestion(Question question){
         questionCount++;
         currentQuestion = question;
-        //Log.d("question", question.toString());
         //change le texte de la question
         fadeInText(questionTextView, question.getTextQuestion());
 
@@ -427,10 +438,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         difficulty.setTextColor(question.getDifficulty().getColor());
 
 
-
         if (isPracticeMode){
+            // in the practice mode show only the number of question answered
             questionsContView.setText(String.valueOf(questionCount));
         }else {
+            // in the practice mode show the ratio of answered / left
             questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
         }
 
@@ -453,7 +465,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         @Override
         @TargetApi(21)
         public void onTick(long millisUntilFinished) {
-
+            // update timer on tick
             timeRemaining = millisUntilFinished;
             timerView.setTextColor(getTimerColor(millisUntilFinished));
             timerView.setText(String.format(Locale.ROOT, "%.2f", (float) millisUntilFinished / 1000));
@@ -473,7 +485,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             resultAnimation(questionTextView, getString(R.string.time_expired), Color.RED);
         }
 
-
+        // change the timer color on progress from green to yellow and from yellow to red
         private int getTimerColor(long millisUntilFinished) {
             float factor = ((float) millisUntilFinished / BASE_TIME_MILLIS);
             if (factor <= 0.5) {
@@ -498,7 +510,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         answer4Button.setClickable(b);
     }
 
-
+    /**
+     * Executed by Skip PowerUp
+     * Skip to the next question and don't count the current question
+     */
     @Override
     public void skipQuestion() {
         updatePowerUpButtons();
@@ -506,6 +521,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         resultAnimation(questionTextView, getString(R.string.skip_question), Color.GREEN);
     }
 
+    /**
+     * Executed by AddTime PowerUp
+     * Add 5 sec time to game time
+     */
     @Override
     public void addTime() {
         updatePowerUpButtons();
@@ -516,7 +535,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         bombButton.setClickable(false);
     }
 
-
+    /**
+     * Executed by Bomb PowerUp
+     * Disable (shadow) two incorrect answers
+     */
     @Override
     public void deleteTwoIncorrectAnswers() {
         updatePowerUpButtons();
@@ -531,11 +553,15 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
+    /**
+     * Executed by Hint PowerUp
+     * Highlight an answer with the high probability of correctness
+     */
     @Override
     public void showHint() {
         updatePowerUpButtons();
         boolean marked = false;
-        int color = getResources().getColor(R.color.green);
+        int color = getResources().getColor(R.color.yellow);
         Random random = new Random(System.nanoTime());
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
@@ -556,7 +582,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
-    //prevents quiting game accidently on back pressed
+    /**
+     * prevents quiting game accidentally on back pressed
+     */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder Ad = new AlertDialog.Builder(this);
@@ -576,6 +604,11 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Ad.show();
     }
 
+    /**
+     * Update the player's score once changed
+     * @param observable Player
+     * @param arg not used
+     */
     @Override
     public void update(Observable observable, Object arg) {
         if (observable instanceof Player){

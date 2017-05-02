@@ -67,16 +67,22 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         setupUnselectButton();
     }
 
+    /**
+     * Start new single player with selected questions once start button is pressed
+     * @param player
+     */
     private void addStartButton(final Player player){
         Button startButton = (Button) findViewById(R.id.button_start);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get selected questions
                 for (SelectableCategory sc: selectableCategories){
                     if (sc.isSelected()){
                         player.addSelectedCategory(sc.getCategory());
                     }
                 }
+                // start the game with the selected questions
                 if (player.getCategoriesSelected().size()>0) {
                     Intent intent = new Intent(v.getContext(), QuestionActivity.class);
                     startActivity(intent);
@@ -87,6 +93,9 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         });
     }
 
+    /**
+     * Visualise the categories list
+     */
     private void addCategoriesList(){
         categoryList = (ListView) findViewById(R.id.category_list);
         categoryList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
@@ -141,7 +150,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         points = (TextView) findViewById(R.id.points);
         level = (TextView) findViewById(R.id.level);
         avatar = (ImageView) findViewById(R.id.avatar);
-        //score = (TextView) findViewById(R.id.score);
         updatePlayerInfo(player);
 
     }
