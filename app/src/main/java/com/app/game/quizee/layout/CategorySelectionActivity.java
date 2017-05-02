@@ -67,6 +67,13 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
         setupUnselectButton();
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PlayerManager.getInstance().getCurrentPlayer().clearSelectedCategories();
+    }
+
     /**
      * Start new single player with selected questions once start button is pressed
      * @param player
