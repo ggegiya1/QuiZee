@@ -74,7 +74,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * setups actions when navigation item is selected
+     * setups actions when navigation item is selected*
      * @return
      */
 
@@ -135,6 +135,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     /**
      * Setups actions on page changes
+     *
      * @return onPageChangeLister
      */
 
@@ -149,11 +150,10 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
                 final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
-                }
-                else {
+                } else {
                     navigation.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d("page", "onPageSelected: "+position);
+                Log.d("page", "onPageSelected: " + position);
                 navigation.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = navigation.getMenu().getItem(position);
                 updateUserInfo();
@@ -171,7 +171,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     private void startMusic() {
         Intent music = new Intent();
-        music.setClass(this,MusicService.class);
+        music.setClass(this, MusicService.class);
         startService(music);
     }
 
@@ -185,19 +185,20 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         points.setText(String.valueOf(player.getPoints()));
         level.setText(String.valueOf(player.getLevel()));
         avatar = PlayerManager.getInstance().getCurrentPlayer().avatarBitmap();
-        if(avatar != null) {
+        if (avatar != null) {
             avatarView.setImageBitmap(avatar);
         }
     }
 
     /**
      * Setups actions when settings Button is clicked
+     *
      * @param v
      */
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-        intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-        intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
+        intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+        intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
         startActivity(intent);
     }
 
@@ -228,7 +229,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     @Override
     public void onBackPressed() {
-        if (!PlayerManager.getInstance().isLoggedIn()){
+        if (!PlayerManager.getInstance().isLoggedIn()) {
             super.onBackPressed();
         }
         // exit on back pressed
@@ -254,7 +255,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
      */
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         PlayerManager.getInstance().saveCurrentPlayer();
         super.onStop();
         PlayerManager.getInstance().onStop();
@@ -272,6 +273,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     /**
      * Updates an element in the toolbar
+     *
      * @param o
      * @param arg
      */
@@ -290,4 +292,5 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         MusicService.ServiceBinder.getService().pauseMusic();
         super.onPause();
     }
+
 }

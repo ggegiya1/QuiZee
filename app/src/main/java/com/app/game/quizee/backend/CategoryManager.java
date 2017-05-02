@@ -34,12 +34,12 @@ public class CategoryManager {
         add(new Category(12, "Entertainment: Music", "Music", 200, R.drawable.music_category_icon));
         add(new Category(15, "Entertainment: Video Games", "Video Games", 500, R.drawable.videogames_category_icon));
         add(new Category(18, "Science: Computers", "Computers", 300, R.drawable.ic_computer));
-        add(new Category(22, "Geography", "Geography", 100, R.drawable.ic_geography));
+        add(new Category(22, "Geography", "Geography", 100, R.drawable.ic_geo));
         add(new Category(23, "History", "History", 150 , R.drawable.ic_history));
         add(new Category(25, "Art", "Art", 50, R.drawable.ic_art));
         add(new Category(10, "Entertainment: Books",    "Books",100, R.drawable.ic_practice));
         add(new Category(11,"Entertainment: Film", "Film",50, R.drawable.ic_movie));
-        add(new Category(13,"Entertainment: Musicals & Theatres", "Musicals & Theatres",50 , R.drawable.ic_movie));
+        add(new Category(13,"Entertainment: Musicals & Theatres", "Musicals & Theatres",50 , R.drawable.ic_theater));
         add(new Category(14,"Entertainment: Television", "Television",100 , R.drawable.ic_television));
         add(new Category(16,"Entertainment: Board Games", "Board Games",100, R.drawable.ic_boardgame));
         add(new Category(17,"Science & Nature", "Science & Nature",200, R.drawable.ic_nature));
