@@ -33,11 +33,18 @@ import java.util.Observer;
 
 public class ShopFragment extends Fragment implements Observer {
 
-
     ListView shopListView;
     ShopAdapter sa;
 
     public ShopFragment() {    }
+
+    /**
+     * Creates the shop fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,11 +58,19 @@ public class ShopFragment extends Fragment implements Observer {
         return ll;
     }
 
+    /**
+     * updates the PowerUps ListView on fragment resume
+     */
+
     @Override
     public void onResume() {
         super.onResume();
         sa.notifyDataSetChanged();
     }
+
+    /**
+     * Defines an adapter for the powerUps ListView
+     */
 
     private class ShopAdapter extends ArrayAdapter<PowerUp> {
         private Context context; //context
@@ -105,7 +120,7 @@ public class ShopFragment extends Fragment implements Observer {
 
             powUpDescription.setText(rowItem.getDescription());
             powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberAvailablePowerUps(rowItem));
-            powUpName.setText(rowItem.getType());
+            powUpName.setText(rowItem.getName());
             powUpPrice.setText(String.valueOf(rowItem.getPrice()));
             powUpIcon.setImageResource(rowItem.getImageId());
 
@@ -113,6 +128,12 @@ public class ShopFragment extends Fragment implements Observer {
         }
 
     }
+
+    /**
+     * Builds a list of achievement
+     * @param player
+     * @return
+     */
 
     public List<Achievement> updateAchievements(Player player){
         List<Achievement> achievements = new ArrayList<>();
@@ -128,6 +149,12 @@ public class ShopFragment extends Fragment implements Observer {
 
     }
 
+    /**
+     * updates an upject in the powerUps listview
+     * @param o
+     * @param arg
+     */
+
     @Override
     public void update(Observable o, Object arg) {
         ShopAdapter adapter = (ShopAdapter)shopListView.getAdapter();
@@ -135,6 +162,11 @@ public class ShopFragment extends Fragment implements Observer {
             adapter.notifyDataSetChanged();
         }
     }
+
+    /**
+     * builds the buy dialog and shows it
+     * @param pUp
+     */
 
     private void buyDialog(final PowerUp pUp) {
         final Player player = PlayerManager.getInstance().getCurrentPlayer();
@@ -168,27 +200,11 @@ public class ShopFragment extends Fragment implements Observer {
         dontBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 buyDialog.cancel();
             }
         });
         buyDialog.show();
         buyDialog.setCancelable(true);
-    }
-
-    //TODO use afther clean
-    private View.OnClickListener buttonPressed() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.shop_buy_button:
-                        break;
-                    case R.id.shop_dialog_dont_buy:
-                        break;
-                    case R.id.shop_dialog_buy:
-                        break;
-                }
-            }
-        };
     }
 }

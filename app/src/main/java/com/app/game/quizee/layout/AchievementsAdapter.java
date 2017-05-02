@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //Adapter inspiré de
@@ -23,8 +22,6 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
 
     public AchievementsAdapter (Activity context, List<Achievement> achievement) {
         super(context, R.layout.top_players_item_list_layout, achievement);
-
-
         this.context=context;
     }
 

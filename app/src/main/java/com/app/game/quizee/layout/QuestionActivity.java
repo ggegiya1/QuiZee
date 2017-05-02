@@ -523,12 +523,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     /**
      * Executed by AddTime PowerUp
-     * Add 5 sec time to game time
+     * Add 10 sec time to game time
      */
     @Override
     public void addTime() {
         updatePowerUpButtons();
-        long newTime = countDownTimer.getTimeRemaining() + 5000;
+        long newTime = countDownTimer.getTimeRemaining() + 10000;
         countDownTimer.cancel();
         countDownTimer = new MyCountDownTimer(newTime, 50);
         countDownTimer.start();
@@ -626,11 +626,20 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 Player.defaultPlayer():
                 PlayerManager.getInstance().getCurrentPlayer();
     }
+
+    /**
+     * used to pause music when Quizee goes on background
+     */
+
     @Override
     protected void onPause() {
         MusicService.ServiceBinder.getService().pauseMusic();
         super.onPause();
     }
+
+    /**
+     * used to resume music when Quizee goes on background
+     */
 
     @Override
     protected void onResume() {
