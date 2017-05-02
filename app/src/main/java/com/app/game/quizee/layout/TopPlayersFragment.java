@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
@@ -33,7 +34,6 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     private static final int MAX_TOP_PLAYERS = 20;
     private ListView topList;
     private ContactAdapter contactAdapter;
-    private boolean filter_hs;
     // Required empty public constructor
     public TopPlayersFragment() {
         //findViewById(R.id.highscore_btn).setOnClickListener(this);
@@ -49,7 +49,6 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         topList = (ListView) rl.findViewById(R.id.top_players_list);
         topList.setAdapter(contactAdapter);
         PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
-        filter_hs=true;
         return rl;
     }
 

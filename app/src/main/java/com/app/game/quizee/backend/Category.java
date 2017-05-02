@@ -14,6 +14,7 @@ public class Category implements Serializable{
     private String displayName;
     private int price;
     private int imageId;
+    private double popularity;
 
     public Category() {
     }
@@ -41,6 +42,18 @@ public class Category implements Serializable{
 
     public int getImageId(){
         return imageId;
+    }
+
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public void played(){
+        this.popularity++;
     }
 
     public static Category any(){

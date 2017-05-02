@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import com.app.game.quizee.backend.Category;
 

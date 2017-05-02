@@ -6,7 +6,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/primaryBackground"
-    tools:context="com.app.game.quizee.LoginActivity">
+    tools:context="com.app.game.quizee.layout.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"

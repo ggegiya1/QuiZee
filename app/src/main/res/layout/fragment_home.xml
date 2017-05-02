@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".layout.HomeFragment">
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,40 +15,57 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="@string/categoriesPlay"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_play"
             android:background="@drawable/button_tertiary_style"/>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Explore, play and unlock more categories"
+            android:gravity="center"/>
         <Button
             android:textSize="25sp"
             android:id="@+id/button_quickPlay"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="@string/quickPlay"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_practice"
             android:background="@drawable/button_tertiary_style"/>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Practice and try power ups"
+            android:gravity="center"/>
         <Button
             android:textSize="25sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="@string/multiPlay"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginBottom="70dp"
+
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_favorites"
             android:background="@drawable/button_tertiary_style"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginBottom="70dp"
+            android:text="Play your favorite categories"
+            android:gravity="center"/>
 
 
-    </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
 </FrameLayout>

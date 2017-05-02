@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 
 import android.app.ProgressDialog;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 

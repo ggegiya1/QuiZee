@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by gia on 23/04/17.
+ * A singleton class, wrapper on Firebase API
+ * Performs user authorisation, reading and storing user profile in the Firebase DB
  */
 
 public class PlayerManager{
@@ -31,12 +33,15 @@ public class PlayerManager{
 
     private Player currentPlayer;
 
-
+    // class to be called when player is logged in
     private PlayerLoggedCallback loggedCallback;
 
+    // class to be called when players top list received
     private TopListReceivedCallback topListReceivedCallback;
 
-
+    /**
+     * @return a player that is currently logged in
+     */
     public Player getCurrentPlayer(){
         if (currentPlayer==null){
             loggedCallback.onFailure("You are not logged in");
@@ -44,10 +49,16 @@ public class PlayerManager{
         return currentPlayer;
     }
 
+    /**
+     * this is a singleton private constructor
+     */
     private PlayerManager() {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * @return singleton instance of the PlayerManager
+     */
     public static synchronized PlayerManager getInstance(){
         if (instance == null){
             instance = new PlayerManager();
@@ -55,6 +66,9 @@ public class PlayerManager{
         return instance;
     }
 
+    /**
+     * Try to get currently authenticated user
+     */
     public void onStart() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user!=null){
@@ -65,11 +79,17 @@ public class PlayerManager{
         }
     }
 
-
+    /**
+     * The method should be called in each activity before close or destroy
+     * Save the current player
+     */
     public void onStop() {
         saveCurrentPlayer();
     }
 
+    /**
+     * Create a new user in QuiZee database with username, email and password
+     */
     public void createAccount(final String userName, String email, String password) {
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -97,6 +117,9 @@ public class PlayerManager{
         });
     }
 
+    /**
+     * Login to an existing account with email and password
+     */
     public void signIn(String email, String password) {
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -126,10 +149,15 @@ public class PlayerManager{
         mAuth.signOut();
     }
 
+
     public boolean isLoggedIn() {
         return this.currentPlayer!=null;
     }
 
+
+    /**
+     * Try to fetch the existing user's profile from the Firebase, or create a new one if not exists
+     */
     private void logInPlayer(final String playerId, final String userName){
         Log.i(TAG, "Logging in as " + playerId);
         final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
@@ -154,6 +182,9 @@ public class PlayerManager{
         });
     }
 
+    /**
+     * Fetch the existing user's profile
+     */
     private void logInPlayer(final String playerId){
         final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         playersDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -241,51 +272,24 @@ public class PlayerManager{
 
     }
 
-    public void getTopPlayersTotal(int maxTopPlayers) {
-        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
-        Query myTopPostsQuery = playersDatabase.orderByChild("highestScore").limitToLast(maxTopPlayers);
-        myTopPostsQuery.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                topListReceivedCallback.onError(databaseError.getMessage());
-            }
-
-        });
-
-    }
     public void logout() {
         saveCurrentPlayer();
         signOut();
     }
 
+
+    /**
+     * All the classes using PlayerManager to login in QuiZee app have to implement this interface
+     */
     public interface PlayerLoggedCallback{
         void onLogin();
         void onFailure(String message);
     }
 
+    /**
+     * All the classes using PlayerManager to read the Players from database should implement this interface
+     */
     public interface TopListReceivedCallback{
         void onError(String message);
         void onItemRead(Player player);

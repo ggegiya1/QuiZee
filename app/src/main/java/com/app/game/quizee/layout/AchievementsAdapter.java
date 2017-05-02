@@ -1,4 +1,4 @@
-package com.app.game.quizee;
+package com.app.game.quizee.layout;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
 
 import java.util.ArrayList;

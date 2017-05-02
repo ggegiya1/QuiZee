@@ -14,6 +14,9 @@ import java.util.Observable;
 
 /**
  * Created by Maude on 2017-04-03.
+ *
+ * IMPORTANT! This class will be serialized and stored in Firebase DB in JSON format
+ * To avoid serialization errors, please implement both setter and getter for any new attribute
  */
 
 public class Player extends Observable implements Serializable {
@@ -33,6 +36,7 @@ public class Player extends Observable implements Serializable {
 
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
+    private final List<Category> categoriesFavorites = new ArrayList<>();
 
     private final List<Achievement> achievements = new ArrayList<>();
 
@@ -82,6 +86,10 @@ public class Player extends Observable implements Serializable {
     public static Player defaultPlayer() {
         if (practicePlayer == null){
             practicePlayer = new Player("1", "Practice Mode", null, 0, 0, 0);
+            practicePlayer.addPowerUp(PowerUp.BOMB);
+            practicePlayer.addPowerUp(PowerUp.SKIP);
+            practicePlayer.addPowerUp(PowerUp.ADDTIME);
+            practicePlayer.addPowerUp(PowerUp.HINT);
         }
         return practicePlayer;
     }
@@ -252,6 +260,11 @@ public class Player extends Observable implements Serializable {
 
     public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
+        // once selected, add the category to the favorites and increase the popularity
+        category.played();
+        if (!this.categoriesFavorites.contains(category)){
+            this.categoriesFavorites.add(category);
+        }
     }
 
     public void removeSelectedCategory(Category category) {
@@ -270,10 +283,13 @@ public class Player extends Observable implements Serializable {
     }
 
     public void addPowerUp(PowerUp powerUp){
-        Integer current = this.availablePowerUps.get(powerUp);
-        Integer max = this.purchasedPowerUps.get(powerUp);
+        Integer current = this.availablePowerUps.get(powerUp.getName());
+        Integer max = this.purchasedPowerUps.get(powerUp.getName());
         this.availablePowerUps.put(powerUp.getName(), current == null? 1: ++current);
-        this.purchasedPowerUps.put(powerUp.getName(), current == null? 1: ++current);
+        this.purchasedPowerUps.put(powerUp.getName(), max == null? 1: ++max);
+        // notify observers to reflect the changes in UI
+        setChanged();
+        notifyObservers();
     }
 
     public boolean canPurchase(PowerUp powerUp) {
@@ -286,8 +302,6 @@ public class Player extends Observable implements Serializable {
         }
         addPowerUp(powerUp);
         this.points -= powerUp.getPrice();
-        setChanged();
-        notifyObservers();
         return true;
     }
 
@@ -340,12 +354,12 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getNumberAvailablePowerUps(PowerUp powerUp){
-        Integer current = this.availablePowerUps.get(powerUp);
+        Integer current = this.availablePowerUps.get(powerUp.getName());
         return current == null? 0: current;
     }
 
     public int getNumberPurchased(PowerUp powerUp){
-        Integer current = this.purchasedPowerUps.get(powerUp);
+        Integer current = this.purchasedPowerUps.get(powerUp.getName());
         return current == null? 0: current;
     }
 
@@ -422,6 +436,15 @@ public class Player extends Observable implements Serializable {
 
     public Map<String, Integer> getPurchasedPowerUps() {
         return purchasedPowerUps;
+    }
+
+    public List<Category> getCategoriesFavorites() {
+        return categoriesFavorites;
+    }
+
+
+    public void addFavoriteCategory(Category category) {
+        this.getCategoriesFavorites().add(category);
     }
 
     public List<Achievement> updateAchievements(){
