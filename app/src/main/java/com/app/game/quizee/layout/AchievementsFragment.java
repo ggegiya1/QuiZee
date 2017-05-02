@@ -11,20 +11,22 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
-public class CareerFragment extends Fragment {
+public class AchievementsFragment extends Fragment {
 
     ListView achievementsList;
 
-    public CareerFragment() {
-        // Required empty public constructor
+    /**
+     * required empty public constructor
+     */
+    public AchievementsFragment() {
     }
+
     public static Achievement[] sortAchivements(Achievement[] arr, Player player){
 
         for (int i = 0; i < arr.length - 1; i++){

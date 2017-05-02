@@ -1,12 +1,9 @@
 package com.app.game.quizee.layout;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,9 +28,8 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     private static final int MAX_TOP_PLAYERS = 20;
     private ListView topList;
     private ContactAdapter contactAdapter;
-    // Required empty public constructor
+
     public TopPlayersFragment() {
-        //findViewById(R.id.highscore_btn).setOnClickListener(this);
     }
 
     @Override

@@ -1,12 +1,8 @@
 package com.app.game.quizee.layout;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceActivity;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -35,7 +31,6 @@ import java.util.Observer;
 public class BottomNavigation extends AppCompatActivity implements Observer {
     //inspiré de https://github.com/jaisonfdo/BottomNavigation
     // pour le view pager et le bottom_navigation
-    public static final int DIALOG_FRAGMENT = 1;
 
     private ViewPager viewPager;
     Fragment homeFragment;
@@ -48,16 +43,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     TextView level;
     ImageView avatarView;
     Bitmap avatar;
-
-    //for music service
-    private boolean mIsBound = false;
-    protected MusicService mServ;
-
-    @Override
-    protected void onPause() {
-        //MusicService.ServiceBinder.getService().pauseMusic();
-        super.onPause();
-    }
+    ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,49 +62,91 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
             // set your width here
             layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, displayMetrics);
             iconView.setLayoutParams(layoutParams);
-
         }
 
+        findViews();
+        updateUserInfo();
+        startMusic();
+        navigation.setOnNavigationItemSelectedListener(navigationItemSelected());
+        viewPager.addOnPageChangeListener(pageChanged());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        setupFragments();
+    }
 
+    /**
+     * setups actions when navigation item is selected
+     * @return
+     */
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelected() {
+        return new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_shop:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.navigation_home:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.navigation_contacts:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.navigation_career:
+                        viewPager.setCurrentItem(3);
+                        break;
+                }
+                updateUserInfo();
+                return false;
+            }
+        };
+    }
+
+    /**
+     * finds the views for later use
+     */
+
+    private void findViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         playerName = (TextView) findViewById(R.id.user_name_main);
         points = (TextView) findViewById(R.id.points_main);
         level = (TextView) findViewById(R.id.level_main);
         avatarView = (ImageView) findViewById(R.id.avatar_main);
+    }
 
-        updateUserInfo();
-        startMusic();
+    /**
+     * setups Fragments for the adapter
+     */
 
-        navigation.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem playMenuItem) {
-                        switch (playMenuItem.getItemId()) {
-                            case R.id.navigation_shop:
-                                viewPager.setCurrentItem(0);
-                                break;
-                            case R.id.navigation_home:
-                                viewPager.setCurrentItem(1);
-                                break;
-                            case R.id.navigation_contacts:
-                                viewPager.setCurrentItem(2);
-                                break;
-                            case R.id.navigation_career:
-                                viewPager.setCurrentItem(3);
-                                break;
-                        }
-                        updateUserInfo();
-                        return false;
-                    }
-                });
+    private void setupFragments() {
+        shopFragment = new ShopFragment();
+        homeFragment = new HomeFragment();
+        contactsFragment = new TopPlayersFragment();
+        careerFragment = new AchievementsFragment();
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        adapter.addFragment(shopFragment);
+        adapter.addFragment(homeFragment);
+        adapter.addFragment(contactsFragment);
+        adapter.addFragment(careerFragment);
+
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1); //fait partir sur le home
+    }
+
+    /**
+     * Setups actions on page changes
+     * @return onPageChangeLister
+     */
+
+    private ViewPager.OnPageChangeListener pageChanged() {
+        return new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
+                final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 }
@@ -133,32 +161,23 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
-        });
-
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        shopFragment = new ShopFragment();
-        homeFragment = new HomeFragment();
-        contactsFragment = new TopPlayersFragment();
-        careerFragment = new CareerFragment();
-
-        adapter.addFragment(shopFragment);
-        adapter.addFragment(homeFragment);
-        adapter.addFragment(contactsFragment);
-        adapter.addFragment(careerFragment);
-
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1); //fait partir sur le home
+        };
     }
+
+    /**
+     * starts music in services
+     */
 
     private void startMusic() {
         Intent music = new Intent();
         music.setClass(this,MusicService.class);
         startService(music);
     }
+
+    /**
+     * Updates the user infor in the toolbar
+     */
 
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
@@ -171,13 +190,20 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         }
     }
 
-    //on settings button clicked
+    /**
+     * Setups actions when settings Button is clicked
+     * @param v
+     */
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
         intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
         startActivity(intent);
     }
+
+    /**
+     * restarts music when activity restarts
+     */
 
     @Override
     public void onRestart() {
@@ -186,11 +212,19 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     }
 
+    /**
+     * updates user info in the toolbar when activity is resumed
+     */
+
     @Override
     protected void onResume() {
         updateUserInfo();
         super.onResume();
     }
+
+    /**
+     * prevents going back to login on back pressed
+     */
 
     @Override
     public void onBackPressed() {
@@ -205,19 +239,30 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         startActivity(intent);
     }
 
+    /**
+     * updates the toolbar when activity is started
+     */
+
     @Override
     protected void onStart() {
         super.onStart();
         updateUserInfo();
     }
 
+    /**
+     * save the player when activity is stopped
+     */
+
     @Override
     protected void onStop(){
         PlayerManager.getInstance().saveCurrentPlayer();
-        MusicService.getInstance().pauseMusic();
         super.onStop();
         PlayerManager.getInstance().onStop();
     }
+
+    /**
+     * Stops music service when application is killed
+     */
 
     @Override
     protected void onDestroy() {
@@ -225,36 +270,24 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         super.onDestroy();
     }
 
-    private ServiceConnection Scon = new ServiceConnection(){
-
-        public void onServiceConnected(ComponentName name, IBinder
-                binder) {
-            mServ = MusicService.ServiceBinder.getService();
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            mServ = null;
-        }
-    };
-
-
-    void doBindService(){
-        bindService(new Intent(this,MusicService.class),
-                Scon,Context.BIND_AUTO_CREATE);
-        mIsBound = true;
-    }
-
-    void doUnbindService()
-    {
-        if(mIsBound)
-        {
-            unbindService(Scon);
-            mIsBound = false;
-        }
-    }
+    /**
+     * Updates an element in the toolbar
+     * @param o
+     * @param arg
+     */
 
     @Override
     public void update(Observable o, Object arg) {
         updateUserInfo();
+    }
+
+    /**
+     * used to pause music when Quizee goes on background
+     */
+
+    @Override
+    protected void onPause() {
+        MusicService.ServiceBinder.getService().pauseMusic();
+        super.onPause();
     }
 }
