@@ -10,7 +10,24 @@ import java.io.Serializable;
 // List of all ava
 public enum  Achievement implements Serializable {
 
-    GAMES_5 ("Welcome aboard!", 50, 5, "Play 5 games on QuiZee."){
+    GAMES_1 ("First try!", 25, 5, "Play 1 games on QuiZee."){
+        @Override
+        public int getMaxValue() {
+            return 1;
+        }
+
+        @Override
+        public int getCurrentValue(Player player) {
+            return player.getNbGamesPlayed();
+        }
+
+        @Override
+        public boolean isAchieved(Player player){
+            return player.getNbGamesPlayed() == 1 && !player.hasAchievement(GAMES_1);
+        }
+    },
+
+    GAMES_5 ("Welcome aboard!", 50, 10, "Play 5 games on QuiZee."){
         @Override
         public int getMaxValue() {
             return 5;
