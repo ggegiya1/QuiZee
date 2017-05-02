@@ -15,12 +15,12 @@
 
     <item
         android:id="@+id/navigation_contacts"
-        android:icon="@drawable/ic_contacts"
+        android:icon="@drawable/ic_podium4"
         android:title="@string/title_top_players" />
 
     <item
         android:id="@+id/navigation_career"
         android:icon="@drawable/ic_medal2"
-        android:title="@string/title_achievements" />
+        android:title="@string/title_achievements"/>
 
 </menu>

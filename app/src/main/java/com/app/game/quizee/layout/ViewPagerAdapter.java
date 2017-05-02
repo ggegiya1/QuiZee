@@ -2,16 +2,12 @@ package com.app.game.quizee.layout;
 
 // importé de la page https://github.com/jaisonfdo/BottomNavigation/blob/master/app/src/main/java/droidmentor/bnv_with_viewpager/ViewPagerAdapter.java
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
-
-        import android.support.v4.app.Fragment;
-        import android.support.v4.app.FragmentManager;
-        import android.support.v4.app.FragmentPagerAdapter;
-
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();

@@ -33,11 +33,18 @@ import java.util.Observer;
 
 public class ShopFragment extends Fragment implements Observer {
 
-
     ListView shopListView;
     ShopAdapter sa;
 
     public ShopFragment() {    }
+
+    /**
+     * Creates the shop fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,11 +58,19 @@ public class ShopFragment extends Fragment implements Observer {
         return ll;
     }
 
+    /**
+     * updates the PowerUps ListView on fragment resume
+     */
+
     @Override
     public void onResume() {
         super.onResume();
         sa.notifyDataSetChanged();
     }
+
+    /**
+     * Defines an adapter for the powerUps ListView
+     */
 
     private class ShopAdapter extends ArrayAdapter<PowerUp> {
         private Context context; //context
@@ -75,11 +90,13 @@ public class ShopFragment extends Fragment implements Observer {
             }
 
             final PowerUp rowItem = getItem(position);
+
+            ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
             //si le row est un power up
             TextView powUpName = (TextView) convertView.findViewById(R.id.shop_item_name);
+            powUpIcon.setBackgroundColor(getResources().getColor(rowItem.getColorRessouce()));
             TextView powUpPrice = (TextView) convertView.findViewById(R.id.shop_item_price);
             final TextView powUpCount = (TextView) convertView.findViewById(R.id.shop_item_quantity);
-            ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
             final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
 
@@ -102,10 +119,15 @@ public class ShopFragment extends Fragment implements Observer {
                 });
             }
             //ajoute une action lorsque lon achete un power up
-
+            int powUpQuantity = current_player.getNumberAvailablePowerUps(rowItem);
             powUpDescription.setText(rowItem.getDescription());
-            powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberAvailablePowerUps(rowItem));
-            powUpName.setText(rowItem.getType());
+            powUpCount.setText(Integer.toString(powUpQuantity));
+            if(powUpQuantity == 0) {
+                powUpCount.setTextColor(Color.RED);
+            }   else {
+                powUpCount.setTextColor(getResources().getColor(R.color.green));
+            }
+            powUpName.setText(rowItem.getName());
             powUpPrice.setText(String.valueOf(rowItem.getPrice()));
             powUpIcon.setImageResource(rowItem.getImageId());
 
@@ -113,6 +135,12 @@ public class ShopFragment extends Fragment implements Observer {
         }
 
     }
+
+    /**
+     * Builds a list of achievement
+     * @param player
+     * @return
+     */
 
     public List<Achievement> updateAchievements(Player player){
         List<Achievement> achievements = new ArrayList<>();
@@ -128,6 +156,12 @@ public class ShopFragment extends Fragment implements Observer {
 
     }
 
+    /**
+     * updates an upject in the powerUps listview
+     * @param o
+     * @param arg
+     */
+
     @Override
     public void update(Observable o, Object arg) {
         ShopAdapter adapter = (ShopAdapter)shopListView.getAdapter();
@@ -135,6 +169,11 @@ public class ShopFragment extends Fragment implements Observer {
             adapter.notifyDataSetChanged();
         }
     }
+
+    /**
+     * builds the buy dialog and shows it
+     * @param pUp
+     */
 
     private void buyDialog(final PowerUp pUp) {
         final Player player = PlayerManager.getInstance().getCurrentPlayer();
@@ -145,10 +184,14 @@ public class ShopFragment extends Fragment implements Observer {
         final AlertDialog buyDialog = builder.create();
         final NumberPicker shopDialopNumberPicker = (NumberPicker) dialogView.findViewById(R.id.shop_dialog_number_picker);
         final TextView shopDialogTitle = (TextView) dialogView.findViewById(R.id.shop_dialog_title);
-        shopDialogTitle.setText(getString(R.string.buy_item) + " " + pUp.getName() + " " + getString(R.string.buy_item2));
-        shopDialopNumberPicker.setMinValue(0);
-        shopDialopNumberPicker.setMaxValue(player.getPoints() / pUp.getPrice());
-
+        shopDialogTitle.setText(getString(R.string.buy_item) + " " + pUp.getName() + "s " + getString(R.string.buy_item2));
+        int maximumBuy = player.getPoints() / pUp.getPrice();
+        shopDialopNumberPicker.setMinValue(1);
+        shopDialopNumberPicker.setValue(Math.max(1, maximumBuy/2));
+        shopDialopNumberPicker.setMaxValue(maximumBuy);
+        ImageView icon = (ImageView) dialogView.findViewById(R.id.shop_dialog_icon);
+        icon.setImageResource(pUp.getImageId());
+        icon.setBackgroundColor(getResources().getColor(pUp.getColorRessouce()));
         Button buy = (Button) dialogView.findViewById(R.id.shop_dialog_buy);
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,27 +211,11 @@ public class ShopFragment extends Fragment implements Observer {
         dontBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 buyDialog.cancel();
             }
         });
         buyDialog.show();
         buyDialog.setCancelable(true);
-    }
-
-    //TODO use afther clean
-    private View.OnClickListener buttonPressed() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.shop_buy_button:
-                        break;
-                    case R.id.shop_dialog_dont_buy:
-                        break;
-                    case R.id.shop_dialog_buy:
-                        break;
-                }
-            }
-        };
     }
 }

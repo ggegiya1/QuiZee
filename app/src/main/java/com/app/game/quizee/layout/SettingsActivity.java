@@ -50,12 +50,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             setupListeners();
         }
 
+        /**
+         * called by OnCreate
+         * adds listeners on buttons
+         */
+
         private void setupListeners() {
             findPreference("change_avatar").setOnPreferenceClickListener(preferenceClicked());
             findPreference("player_name").setOnPreferenceChangeListener(preferenceChanged());
             findPreference("sound_music").setOnPreferenceChangeListener(preferenceChanged());
             findPreference("logout").setOnPreferenceClickListener(preferenceClicked());
         }
+
+        /**
+         * called by setupListeners
+         * used to do actions when preferences are clicked
+         */
 
         public Preference.OnPreferenceClickListener preferenceClicked () {
             return new Preference.OnPreferenceClickListener() {
@@ -75,6 +85,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             };
         }
+
+        /**
+         * called by setupListeners
+         * used to do actions when preferences are changed
+         */
 
         public Preference.OnPreferenceChangeListener preferenceChanged () {
 
@@ -112,6 +127,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             Log.i("settings", item.toString());
             return super.onOptionsItemSelected(item);
         }
+
+        /**
+         * permet de choisir une image
+         *
+         */
+
         //choisir une image: le code vient de http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
         public void pickImage() {
             Intent intent = new Intent(Intent.ACTION_PICK,
@@ -154,11 +175,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
+    /**
+     * used to pause music when Quizee goes on background
+     */
+
     @Override
     protected void onPause() {
         MusicService.ServiceBinder.getService().pauseMusic();
         super.onPause();
     }
+
+    /**
+     * used to resume music when Quizee goes on background
+     */
 
     @Override
     protected void onResume() {

@@ -71,15 +71,15 @@
     <string name="no">No</string>
     <string name="AlertDialog_title">Quit playing?</string>
     <string name="AlertDialog_message">Are you sure you want to stop playing?</string>
-    <string name="addTime_Button">+ 5 sec</string>
+    <string name="addTime_Button">+ 10 sec</string>
     <string name="Hint_Button">hint</string>
-    <string name="Bomb_Button">50/50</string>
+    <string name="Bomb_Button">bomb</string>
     <string name="Skip_Button">skip</string>
-
     <string name="achivements_earned">Achievements obtained</string>
     <string name="goodAnswers">Good answers</string>
     <string name="dont_replay">Leave</string>
     <string name="replay">Replay</string>
+
     <string-array name="game_end_felicitation">
         <item>Noob!</item>
         <item>Better Luck Next Time!</item>
@@ -89,7 +89,7 @@
         <item>PentaQuizee!</item>
         <item>Well Played!</item>
         <item>Good Game!</item>
-        <item>Good Game!</item>
+        <item>Godlike!</item>
         <item>You only missed one!</item>
         <item>Epic!</item>
     </string-array>
@@ -103,6 +103,9 @@
     <string name="shop_Caterogies">CATEGORIES</string>
     <string name= "buymore">&gt;</string>
     <string name= "buyless">&lt;</string>
+    <string name="dont_buy">Don\'t Buy</string>
+    <string name="buy_item">How many</string>
+    <string name="buy_item2">do you want?</string>
 
     <!-- strings related to settings -->
     <string name="change_avatar">Change avatar</string>
@@ -130,18 +133,8 @@
     <string name="pref_title_change_name">Change name</string>
     <string name="pref_default_display_name">New name here</string>
 
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
-
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_notification_friend_accepted">Vibrate on friend request accepted</string>
     <string name="pref_title_notification_gaming_request">Vibrate on gaming request</string>
@@ -166,7 +159,6 @@
     <string name="unlocked">Unlocked</string>
     <string name="loading_question">Loading question&#8230;</string>
     <string name="difficulty">Difficulty:</string>
-
     <string name="points_format">money: %d</string>
     <string name="score_format">Score: %d</string>
 
@@ -174,7 +166,7 @@
     <string name="description_bomb">Removes 2 wrong answers</string>
     <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
-    <string name="description_add_time">Adds 5 seconds</string>
+    <string name="description_add_time">Adds 10 seconds</string>
 
     <!-- game animations -->
     <string name="time_expired">TIME EXPIRED</string>
@@ -183,9 +175,7 @@
     <string name="pref_sound_game">Game sounds</string>
     <string name="categories_unselect_all">UNSELECT ALL CATEGORIES</string>
     <string name="skip_question">SKIPPING A QUESTION</string>
-    <string name="dont_buy">Don\'t Buy</string>
-    <string name="buy_item">How many</string>
-    <string name="buy_item2">do you want?</string>
+
 
 
 </resources>

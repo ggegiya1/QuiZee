@@ -7,6 +7,7 @@ import java.io.Serializable;
  * Created by Maude on 2017-04-03.
  */
 
+// List of all ava
 public enum  Achievement implements Serializable {
 
     GAMES_5 ("Welcome aboard!", 50, 5, "Play 5 games on QuiZee."){

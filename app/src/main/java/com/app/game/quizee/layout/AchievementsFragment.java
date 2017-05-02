@@ -11,20 +11,23 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
 
-public class CareerFragment extends Fragment {
+public class AchievementsFragment extends Fragment {
 
     ListView achievementsList;
 
-    public CareerFragment() {
-        // Required empty public constructor
+    /**
+     * required empty public constructor
+     */
+    public AchievementsFragment() {
     }
+
+    //Method for sorting the achivements. The closest of completing on top, completed at the end
     public static Achievement[] sortAchivements(Achievement[] arr, Player player){
 
         for (int i = 0; i < arr.length - 1; i++){
@@ -62,6 +65,7 @@ public class CareerFragment extends Fragment {
 
         achievementsList = (ListView) rl.findViewById(R.id.achievements_list);
 
+        //Sort the achivements
         final Achievement[] achievements = Achievement.values();
         final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
         sortAchivements(achievements, current_player);
@@ -93,29 +97,33 @@ public class CareerFragment extends Fragment {
 
 
 
+                //Setting up the placeholders for the achivement page
                 TextView name = (TextView) convertView.findViewById(R.id.achievement_item_name);
                 TextView gold = (TextView) convertView.findViewById(R.id.achievement_gold_given);
                 TextView xp = (TextView) convertView.findViewById(R.id.achievement_exp_given);
                 TextView info = (TextView) convertView.findViewById(R.id.achievement_information);
                 ImageView check = (ImageView) convertView.findViewById(R.id.achievement_check);
-                ImageView currency = (ImageView) convertView.findViewById(R.id.currency_image);
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
+                //name
                 name.setText(achievements[position].getDesc());
+                //gold awarded
                 gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
+                //experience awarded
                 xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
+                //information
                 info.setText(achievements[position].getInformation());
 
+                // Icon
                 if (achievements[position].getProg(current_player) >= 100){
                     check.setImageResource(R.drawable.ic_check);
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);
                 }
 
+                //Progress bar
                 bar.setProgress(achievements[position].getProg(current_player));
 
-
-                // FIXME ca s'execute en background et les toasts s'affichent n'importe quand
                 return convertView;
             }
 

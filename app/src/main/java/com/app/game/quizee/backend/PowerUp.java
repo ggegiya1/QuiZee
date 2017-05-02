@@ -17,7 +17,7 @@ public enum PowerUp {
 
         @Override
         public int getPrice() {
-            return 300;
+            return 75;
         }
 
         @Override
@@ -40,11 +40,16 @@ public enum PowerUp {
         public int getDescription() {
             return R.string.description_bomb;
         }
+
+        @Override
+        public int getColorRessouce() {
+            return R.color.bombButton;
+        }
     },
     HINT{
         @Override
         public int getPrice() {
-            return 75;
+            return 40;
         }
 
         @Override
@@ -72,6 +77,11 @@ public enum PowerUp {
         public int getDescription() {
             return R.string.description_hint;
         }
+
+        @Override
+        public int getColorRessouce() {
+            return R.color.hintButton;
+        }
     },
     ADDTIME{
         @Override
@@ -81,12 +91,12 @@ public enum PowerUp {
 
         @Override
         public int getPrice() {
-            return 100;
+            return 50;
         }
 
         @Override
         public String getType() {
-            return "+ 5 dec";
+            return "+ 10 dec";
         }
 
         @Override
@@ -104,11 +114,16 @@ public enum PowerUp {
         public int getDescription() {
             return R.string.description_add_time;
         }
+
+        @Override
+        public int getColorRessouce() {
+            return R.color.timeButton;
+        }
     },
     SKIP{
         @Override
         public int getPrice() {
-            return 100;
+            return 50;
         }
 
         @Override
@@ -136,6 +151,11 @@ public enum PowerUp {
         public int getImageId() {
             return R.drawable.ic_skip;
         }
+
+        @Override
+        public int getColorRessouce() {
+            return R.color.skipButton;
+        }
     };
 
     public abstract int getPrice();
@@ -151,5 +171,7 @@ public enum PowerUp {
     public abstract int getPosition();
 
     public abstract int getDescription();
+
+    public abstract int getColorRessouce();
 
 }

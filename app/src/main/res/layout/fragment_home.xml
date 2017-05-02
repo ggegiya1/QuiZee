@@ -10,12 +10,12 @@
         android:orientation="vertical">
 
         <Button
-            android:textSize="24sp"
+            android:textSize="25sp"
             android:id="@+id/button_Play_Categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/categoriesPlay"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_play"
@@ -27,12 +27,12 @@
             android:text="Explore, play and unlock more categories"
             android:gravity="center"/>
         <Button
-            android:textSize="24sp"
+            android:textSize="25sp"
             android:id="@+id/button_quickPlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/quickPlay"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_practice"
@@ -44,14 +44,13 @@
             android:text="Practice and try power ups"
             android:gravity="center"/>
         <Button
-            android:textSize="24sp"
+            android:textSize="25sp"
             android:id="@+id/button_multiPlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/multiPlay"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="30dp"
-
             android:layout_marginRight="30dp"
             android:drawableStart="@drawable/ic_favorites"
             android:background="@drawable/button_tertiary_style"/>
@@ -59,7 +58,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:layout_marginBottom="70dp"
             android:text="Play your favorite categories"
             android:gravity="center"/>
 

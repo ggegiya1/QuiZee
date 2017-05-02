@@ -47,13 +47,13 @@ public class CategoryManager {
         add(new Category(27,"Animals", "Animals",100 , R.drawable.ic_animals));
         add(new Category(24,"Politics", "Politics",300 , R.drawable.ic_politics));
         add(new Category(19,"Science: Mathematics", "Mathematics",400 ,R.drawable.ic_mathematics));
-        add(new Category(20,"Mythology", "Mythology",0 ,R.drawable.ic_mythology));
-        add(new Category(21,"Sports", "Sports",0 ,R.drawable.ic_sports));
-        add(new Category(28,"Vehicles", "Vehicles",0 ,R.drawable.ic_vehicules));
-        add(new Category(29,"Entertainment: Comics", "Comics",0, R.drawable.ic_comics));
-        add(new Category(31,"Entertainment: Japanese Anime & Manga", "Japanese Anime",0, R.drawable.ic_japanese_anime));
-        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",0, R.drawable.ic_television));
-        add(new Category(30,"Science: Gadgets", "Gadgets",0, R.drawable.ic_gadgets));
+        add(new Category(20,"Mythology", "Mythology",50 ,R.drawable.ic_mythology));
+        add(new Category(21,"Sports", "Sports",50 ,R.drawable.ic_sports));
+        add(new Category(28,"Vehicles", "Vehicles",50 ,R.drawable.ic_vehicules));
+        add(new Category(29,"Entertainment: Comics", "Comics",40, R.drawable.ic_comics));
+        add(new Category(31,"Entertainment: Japanese Anime & Manga", "Japanese Anime",30, R.drawable.ic_japanese_anime));
+        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",20, R.drawable.ic_television));
+        add(new Category(30,"Science: Gadgets", "Gadgets",10, R.drawable.ic_gadgets));
     }
 
     private void add(Category category){
