@@ -36,7 +36,7 @@
     <!-- Strings related to home activity -->
     <string name="Play">Play</string>
     <string name="quickPlay">Practice</string>
-    <string name="multiPlay">Favorites Categories</string>
+    <string name="multiPlay">Favorite Categories</string>
 
     <!-- strings related to category selection activity -->
     <string name="categorySelection">SELECT CATEGORIES</string>

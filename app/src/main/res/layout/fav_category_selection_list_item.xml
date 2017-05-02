@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:padding="3dp"
+    android:id="@+id/category_item_layout"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:background="@drawable/list_item_bg_normal"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/fav_category_item_icon"
+        android:contentDescription="category" />
+
+    <me.grantland.widget.AutofitTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/fav_category_item_name"
+        android:textColor="@color/complementaryBackground"
+        android:textSize="20sp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:maxLines="1"
+        android:layout_weight="1" />
+
+
+
+    <!-- this button is not clickable. it's used to mark item as selected -->
+    <CheckBox
+        android:id="@+id/fav_category_selection_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_weight="1"/>
+
+
+</LinearLayout>

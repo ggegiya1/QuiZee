@@ -33,6 +33,7 @@ public class Player extends Observable implements Serializable {
 
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
+    private final List<Category> categoriesFavorites = new ArrayList<>();
 
     private final List<Achievement> achievements = new ArrayList<>();
 
@@ -82,6 +83,10 @@ public class Player extends Observable implements Serializable {
     public static Player defaultPlayer() {
         if (practicePlayer == null){
             practicePlayer = new Player("1", "Practice Mode", null, 0, 0, 0);
+            practicePlayer.addPowerUp(PowerUp.BOMB);
+            practicePlayer.addPowerUp(PowerUp.SKIP);
+            practicePlayer.addPowerUp(PowerUp.ADDTIME);
+            practicePlayer.addPowerUp(PowerUp.HINT);
         }
         return practicePlayer;
     }
@@ -252,6 +257,11 @@ public class Player extends Observable implements Serializable {
 
     public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
+        // once selected, add the category to the favorites and increase the popularity
+        category.played();
+        if (!this.categoriesFavorites.contains(category)){
+            this.categoriesFavorites.add(category);
+        }
     }
 
     public void removeSelectedCategory(Category category) {
@@ -422,6 +432,15 @@ public class Player extends Observable implements Serializable {
 
     public Map<String, Integer> getPurchasedPowerUps() {
         return purchasedPowerUps;
+    }
+
+    public List<Category> getCategoriesFavorites() {
+        return categoriesFavorites;
+    }
+
+
+    public void addFavoriteCategory(Category category) {
+        this.getCategoriesFavorites().add(category);
     }
 
     public List<Achievement> updateAchievements(){

@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.app.game.quizee.R;
-import com.app.game.quizee.backend.Player;
-import com.app.game.quizee.backend.PlayerManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,10 +18,8 @@ import com.app.game.quizee.backend.PlayerManager;
  */
 public class HomeFragment extends Fragment {
 
-    Player player = PlayerManager.getInstance().getCurrentPlayer();
-
     Button quickPlay;
-    Button multiPlay;
+    Button favoriteCategoryPlay;
     Button categoryPlay;
 
     public HomeFragment() {
@@ -40,11 +36,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
         quickPlay = (Button) fl.findViewById(R.id.button_quickPlay);
-        multiPlay = (Button) fl.findViewById(R.id.button_multiPlay);
+        favoriteCategoryPlay = (Button) fl.findViewById(R.id.button_multiPlay);
         categoryPlay = (Button) fl.findViewById(R.id.button_Play_Categories);
         quickPlay.setOnClickListener(quickPlay());
         categoryPlay.setOnClickListener(categoriesPlay());
-        multiPlay.setOnClickListener(multiPlay());
+        favoriteCategoryPlay.setOnClickListener(favoriteCategoryPlay());
         return fl;
     }
 
@@ -59,11 +55,11 @@ public class HomeFragment extends Fragment {
         };
     }
 
-    private View.OnClickListener multiPlay(){
+    private View.OnClickListener favoriteCategoryPlay(){
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent imulti = new Intent(getContext(), MultiplayerLobbyActivity.class);
+                Intent imulti = new Intent(getContext(), FavoriteCategorySelectionActivity.class);
                 startActivity(imulti);
             }
         };
@@ -75,20 +71,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent icat = new Intent(getContext(), CategorySelectionActivity.class);
                 startActivity(icat);
-            }
-        };
-    }
-
-    //TODO useless??
-    private View.OnClickListener exitHome(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlayerManager.getInstance().onStop();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
             }
         };
     }
