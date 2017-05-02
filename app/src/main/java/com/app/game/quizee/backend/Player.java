@@ -354,12 +354,12 @@ public class Player extends Observable implements Serializable {
     }
 
     public int getNumberAvailablePowerUps(PowerUp powerUp){
-        Integer current = this.availablePowerUps.get(powerUp);
+        Integer current = this.availablePowerUps.get(powerUp.getName());
         return current == null? 0: current;
     }
 
     public int getNumberPurchased(PowerUp powerUp){
-        Integer current = this.purchasedPowerUps.get(powerUp);
+        Integer current = this.purchasedPowerUps.get(powerUp.getName());
         return current == null? 0: current;
     }
 
