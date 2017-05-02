@@ -283,10 +283,13 @@ public class Player extends Observable implements Serializable {
     }
 
     public void addPowerUp(PowerUp powerUp){
-        Integer current = this.availablePowerUps.get(powerUp);
-        Integer max = this.purchasedPowerUps.get(powerUp);
+        Integer current = this.availablePowerUps.get(powerUp.getName());
+        Integer max = this.purchasedPowerUps.get(powerUp.getName());
         this.availablePowerUps.put(powerUp.getName(), current == null? 1: ++current);
-        this.purchasedPowerUps.put(powerUp.getName(), current == null? 1: ++current);
+        this.purchasedPowerUps.put(powerUp.getName(), max == null? 1: ++max);
+        // notify observers to reflect the changes in UI
+        setChanged();
+        notifyObservers();
     }
 
     public boolean canPurchase(PowerUp powerUp) {
@@ -299,9 +302,6 @@ public class Player extends Observable implements Serializable {
         }
         addPowerUp(powerUp);
         this.points -= powerUp.getPrice();
-        // notify observers to reflect the changes in UI
-        setChanged();
-        notifyObservers();
         return true;
     }
 
