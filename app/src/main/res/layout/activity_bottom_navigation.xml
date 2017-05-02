@@ -19,7 +19,9 @@
         android:contentInsetStart="0dp"
         android:contentInsetLeft="0dp"
         android:contentInsetRight="0dp"
-        android:contentInsetEnd="0dp">
+        android:contentInsetEnd="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +38,7 @@
 
             <me.grantland.widget.AutofitTextView
                 android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.4"
                 android:layout_height="match_parent"
                 android:id="@+id/user_name_main"
                 android:text="Hello"
@@ -47,33 +49,36 @@
                 android:paddingEnd="5dp"
                 android:textSize="20sp"/>
 
-            <TextView
-                android:id="@+id/level_label"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:gravity="end|center"
-                android:maxLines="1"
-                android:text="Level"
-                android:textColor="@color/colorSecondary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/level_main"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end|center"
+                    android:background="@android:drawable/star_big_on"
+                    android:backgroundTint="@color/yellow"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/level_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="level"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="15sp"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/level_main"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="end|center"
-                android:background="@android:drawable/star_big_on"
-                android:backgroundTint="@color/yellow"
-                android:gravity="center"
-                android:text="20"
-                android:textSize="20sp" />
+
 
             <TextView
                 android:id="@+id/points_main"
                 android:layout_width="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:drawableEnd="@mipmap/ic_coins"
@@ -81,8 +86,8 @@
                 android:maxLines="1"
                 android:text="0"
                 android:textColor="@color/colorSecondary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <ImageButton
                 android:layout_width="40dp"

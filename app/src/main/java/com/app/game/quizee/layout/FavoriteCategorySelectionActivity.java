@@ -121,7 +121,7 @@ public class FavoriteCategorySelectionActivity extends AppCompatActivity impleme
     private void addPlayerToolBar(Player player){
         playerName = (TextView) findViewById(R.id.user_name);
         points = (TextView) findViewById(R.id.points);
-        level = (TextView) findViewById(R.id.level);
+        level = (TextView) findViewById(R.id.level_main);
         avatar = (ImageView) findViewById(R.id.avatar);
         updatePlayerInfo(player);
 
