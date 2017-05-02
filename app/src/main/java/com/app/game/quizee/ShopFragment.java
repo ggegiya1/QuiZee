@@ -174,7 +174,7 @@ public class ShopFragment extends Fragment implements Observer {
         buyDialog.setCancelable(true);
     }
 
-    //TODO use afther cleaner
+    //TODO use afther clean
     private View.OnClickListener buttonPressed() {
         return new View.OnClickListener() {
             @Override
