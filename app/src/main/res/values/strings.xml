@@ -75,6 +75,7 @@
     <string name="Hint_Button">hint</string>
     <string name="Bomb_Button">bomb</string>
     <string name="Skip_Button">skip</string>
+    <string name="no_achivement_earned">No new achivements</string>
     <string name="achivements_earned">Achievements obtained</string>
     <string name="goodAnswers">Good answers</string>
     <string name="dont_replay">Leave</string>

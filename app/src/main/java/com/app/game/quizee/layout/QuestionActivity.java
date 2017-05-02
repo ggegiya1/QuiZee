@@ -371,6 +371,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         player.setTotalScore(player.getCurrentScore()+player.getTotalScore());
         player.setTotalratio(player.getTotalScore()/(player.getNbGamesPlayed()+1));
 
+        //achievement title
+        TextView achivement_status = (TextView) dialogView.findViewById(R.id.achievement_status);
+
         //felicitations
         pscore = player.getCorrectlyAnswered().size();
         TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
@@ -388,6 +391,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
             AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);
             achievementsEarned.setAdapter(adapter);
+            achivement_status.setText(R.string.achivements_earned);
+        }else{
+            achivement_status.setText(R.string.no_achivement_earned);
         }
 
         Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
