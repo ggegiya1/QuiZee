@@ -90,11 +90,13 @@ public class ShopFragment extends Fragment implements Observer {
             }
 
             final PowerUp rowItem = getItem(position);
+
+            ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
             //si le row est un power up
             TextView powUpName = (TextView) convertView.findViewById(R.id.shop_item_name);
+            powUpIcon.setBackgroundColor(getResources().getColor(rowItem.getColorRessouce()));
             TextView powUpPrice = (TextView) convertView.findViewById(R.id.shop_item_price);
             final TextView powUpCount = (TextView) convertView.findViewById(R.id.shop_item_quantity);
-            ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
             final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
 
@@ -117,9 +119,14 @@ public class ShopFragment extends Fragment implements Observer {
                 });
             }
             //ajoute une action lorsque lon achete un power up
-
+            int powUpQuantity = current_player.getNumberAvailablePowerUps(rowItem);
             powUpDescription.setText(rowItem.getDescription());
-            powUpCount.setText(getText(R.string.shop_you_own).toString() + " " + current_player.getNumberAvailablePowerUps(rowItem));
+            powUpCount.setText(Integer.toString(powUpQuantity));
+            if(powUpQuantity == 0) {
+                powUpCount.setTextColor(Color.RED);
+            }   else {
+                powUpCount.setTextColor(getResources().getColor(R.color.green));
+            }
             powUpName.setText(rowItem.getName());
             powUpPrice.setText(String.valueOf(rowItem.getPrice()));
             powUpIcon.setImageResource(rowItem.getImageId());
@@ -177,10 +184,14 @@ public class ShopFragment extends Fragment implements Observer {
         final AlertDialog buyDialog = builder.create();
         final NumberPicker shopDialopNumberPicker = (NumberPicker) dialogView.findViewById(R.id.shop_dialog_number_picker);
         final TextView shopDialogTitle = (TextView) dialogView.findViewById(R.id.shop_dialog_title);
-        shopDialogTitle.setText(getString(R.string.buy_item) + " " + pUp.getName() + " " + getString(R.string.buy_item2));
-        shopDialopNumberPicker.setMinValue(0);
-        shopDialopNumberPicker.setMaxValue(player.getPoints() / pUp.getPrice());
-
+        shopDialogTitle.setText(getString(R.string.buy_item) + " " + pUp.getName() + "s " + getString(R.string.buy_item2));
+        int maximumBuy = player.getPoints() / pUp.getPrice();
+        shopDialopNumberPicker.setMinValue(1);
+        shopDialopNumberPicker.setValue(Math.max(1, maximumBuy/2));
+        shopDialopNumberPicker.setMaxValue(maximumBuy);
+        ImageView icon = (ImageView) dialogView.findViewById(R.id.shop_dialog_icon);
+        icon.setImageResource(pUp.getImageId());
+        icon.setBackgroundColor(getResources().getColor(pUp.getColorRessouce()));
         Button buy = (Button) dialogView.findViewById(R.id.shop_dialog_buy);
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
