@@ -7,6 +7,7 @@ import java.io.Serializable;
  * Created by Maude on 2017-04-03.
  */
 
+// List of possible achivements
 public enum  Achievement implements Serializable {
 
     GAMES_5 ("Welcome aboard!", 50, 5, "Play 5 games on QuiZee."){
@@ -343,10 +344,6 @@ public enum  Achievement implements Serializable {
     private String information;
     private int exp;
     private int money;
-    private int progress;
-    private int maxProgress;
-    private String key;
-
 
     //constructeur dachievement avec information nominale
     Achievement(String text, int experience, int currency, String a_information) {
@@ -370,17 +367,9 @@ public enum  Achievement implements Serializable {
 
     public String getInformation() {return information;}
 
-    public int getProgress() {return progress;}
-
-    public int getMaxProgress() {return maxProgress;}
-
     public int getMaxValue(){return -1;}
 
     //Setters
-
-    public void setProgress(int pg) {
-        progress = pg;
-    }
 
     public int getProg(Player player){
         return (int)(Math.round((getCurrentValue(player)/(double)getMaxValue())*100));
