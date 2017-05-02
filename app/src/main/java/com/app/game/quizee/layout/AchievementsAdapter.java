@@ -72,9 +72,13 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
             holder.check.setVisibility(View.INVISIBLE);
             holder.pb.setVisibility(View.INVISIBLE);
         }   else {
-
+            if(a.getMaxProgress() == a.getProgress()) {
+                holder.check.setVisibility(View.VISIBLE);
+            }
             holder.check.setVisibility(View.INVISIBLE);
             holder.pb.setVisibility(View.VISIBLE);
+            holder.pb.setProgress((a.getProgress() * 100)/ a.getMaxProgress());
+            holder.information.setText(a.getProgress() + " out of " + a.getMaxProgress());
         }
 
         return convertView;
