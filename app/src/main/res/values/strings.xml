@@ -166,7 +166,7 @@
     <string name="description_bomb">Removes 2 wrong answers</string>
     <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
-    <string name="description_add_time">Adds 5 seconds</string>
+    <string name="description_add_time">Adds 10 seconds</string>
 
     <!-- game animations -->
     <string name="time_expired">TIME EXPIRED</string>
