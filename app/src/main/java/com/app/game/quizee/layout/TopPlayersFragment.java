@@ -95,8 +95,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         }
 
         /**
-         * Returns a row
-         * TODO:WHAT ELSE?
+         * Returns a row to be used
          */
         @NonNull
         @Override
