@@ -300,8 +300,8 @@ public class Player extends Observable implements Serializable {
         if (!canPurchase(powerUp)) {
             return false;
         }
+        setPoints(this.points - powerUp.getPrice());
         addPowerUp(powerUp);
-        this.points -= powerUp.getPrice();
         return true;
     }
 
