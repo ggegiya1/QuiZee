@@ -104,7 +104,6 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             public int compare(Player lhs, Player rhs) {
                 if (isHighScoreSort) {
                     return rhs.getTotalratio() - lhs.getTotalratio();
-
                 }
                 return rhs.getHighestScore() - lhs.getHighestScore();
             }
