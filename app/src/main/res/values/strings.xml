@@ -57,6 +57,8 @@
     <string name="pref_header_about">About</string>
 
     <!-- Strings related to achievements-->
+    <string name="plus">+ </string>
+    <string name="exp"> Xp</string>
     <string name="Career">Achievements</string>
     <string name="achievements">ACHIEVEMENTS</string>
     <string name="statistics">STATISTICS</string>

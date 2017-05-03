@@ -384,6 +384,7 @@ public enum  Achievement implements Serializable {
     public int getXP(){
         return exp;
     }
+    public String getXPString(){return ""+exp;}
     public int getMoney(){
         return money;
     }
