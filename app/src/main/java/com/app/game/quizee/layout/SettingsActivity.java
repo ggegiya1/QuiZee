@@ -113,7 +113,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         /**
-        * TODO: Fait quoi?
+        * Setup on option item selected actions
          */
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
