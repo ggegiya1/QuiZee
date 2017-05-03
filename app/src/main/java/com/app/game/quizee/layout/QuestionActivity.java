@@ -106,69 +106,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
         gameSounds = prefs.getBoolean("sound_game", false);
 
-        // power-ups
-        addTimeButton = (Button) findViewById(R.id.button_add_time);
-        addTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!tryPowerUp(player, PowerUp.ADDTIME)){
-                    Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        skipButton = (Button) findViewById(R.id.button_question_skip);
-        skipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!tryPowerUp(player, PowerUp.SKIP)){
-                    Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        bombButton = (Button) findViewById(R.id.button_bomb);
-        bombButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!tryPowerUp(player, PowerUp.BOMB)){
-                    Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        hintButton = (Button) findViewById(R.id.button_hint);
-        hintButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!tryPowerUp(player, PowerUp.HINT)){
-                    Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
+        addPowerUpButtons();
+        addToolBar();
+        addAnswerButtons();
         questionTextView = (AutofitTextView) findViewById(R.id.text_question);
-
-        categoryNameView = (TextView) findViewById(R.id.caterogy_name);
-        categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
-        difficulty = (TextView) findViewById(R.id.question_difficulty);
-
-        pointsView = (TextView) findViewById(R.id.points);
-        scoreView = (TextView) findViewById(R.id.score);
-
         questionsContView = (TextView) findViewById(R.id.question_count);
         timerView = (TextView) findViewById(R.id.timer);
-
-        answerButtons = new ArrayList<>();
-        answer1Button = (Button) findViewById(R.id.button_response_1);
-        answer1Button.setOnClickListener(answerValidator());
-        answerButtons.add(answer1Button);
-        answer2Button = (Button) findViewById(R.id.button_response_2);
-        answer2Button.setOnClickListener(answerValidator());
-        answerButtons.add(answer2Button);
-        answer3Button = (Button) findViewById(R.id.button_response_3);
-        answer3Button.setOnClickListener(answerValidator());
-        answerButtons.add(answer3Button);
-        answer4Button = (Button) findViewById(R.id.button_response_4);
-        answer4Button.setOnClickListener(answerValidator());
-        answerButtons.add(answer4Button);
 
         // disable score in practice mode
         if (isPracticeMode){
@@ -182,7 +125,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         scoreView.setVisibility(View.INVISIBLE);
     }
 
-    public void init() {
+    private void init() {
         Player player = getCurrentPlayer();
         player.onGameReset();
         questionCount = 0;
@@ -190,6 +133,76 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         Log.i("question.activity", "starting game for player: " + player);
         updateScore(player);
         newQuestion();
+    }
+
+
+    private void addPowerUpButtons(){
+        final Player player = getCurrentPlayer();
+        // power-ups
+        addTimeButton = (Button) findViewById(R.id.button_add_time);
+        addTimeButton.setBackgroundResource(PowerUp.ADDTIME.getColorRessouce());
+        addTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!tryPowerUp(player, PowerUp.ADDTIME)){
+                    Toast.makeText(getApplicationContext(), "No more Time left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        skipButton = (Button) findViewById(R.id.button_question_skip);
+        skipButton.setBackgroundResource(PowerUp.SKIP.getColorRessouce());
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!tryPowerUp(player, PowerUp.SKIP)){
+                    Toast.makeText(getApplicationContext(), "No more Skips left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        bombButton = (Button) findViewById(R.id.button_bomb);
+        bombButton.setBackgroundResource(PowerUp.BOMB.getColorRessouce());
+        bombButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!tryPowerUp(player, PowerUp.BOMB)){
+                    Toast.makeText(getApplicationContext(), "No more Bombs left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        hintButton = (Button) findViewById(R.id.button_hint);
+        hintButton.setBackgroundResource(PowerUp.HINT.getColorRessouce());
+        hintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!tryPowerUp(player, PowerUp.HINT)){
+                    Toast.makeText(getApplicationContext(), "No more Hints left\nYou can buy one in store", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void addAnswerButtons(){
+        answerButtons = new ArrayList<>();
+        answer1Button = (Button) findViewById(R.id.button_response_1);
+        answer1Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer1Button);
+        answer2Button = (Button) findViewById(R.id.button_response_2);
+        answer2Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer2Button);
+        answer3Button = (Button) findViewById(R.id.button_response_3);
+        answer3Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer3Button);
+        answer4Button = (Button) findViewById(R.id.button_response_4);
+        answer4Button.setOnClickListener(answerValidator());
+        answerButtons.add(answer4Button);
+    }
+
+    private void addToolBar(){
+        categoryNameView = (TextView) findViewById(R.id.caterogy_name);
+        categoryIcon = (ImageView) findViewById(R.id.caterogy_Icon);
+        difficulty = (TextView) findViewById(R.id.question_difficulty);
+        pointsView = (TextView) findViewById(R.id.points);
+        scoreView = (TextView) findViewById(R.id.score);
     }
 
     private TriviaApi getTriviaApi(){
@@ -509,6 +522,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
+    /**
+     * make game buttons clickable or not
+     * @param b
+     */
     public void setButtonsClickable(boolean b) {
         bombButton.setClickable(b);
         addTimeButton.setClickable(b);

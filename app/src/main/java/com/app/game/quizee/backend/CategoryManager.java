@@ -44,7 +44,7 @@ public class CategoryManager {
         add(new Category(13,"Entertainment: Musicals & Theatres", "Musicals & Theatres",50 , R.drawable.ic_theater));
         add(new Category(14,"Entertainment: Television", "Television",100 , R.drawable.ic_television));
         add(new Category(16,"Entertainment: Board Games", "Board Games",100, R.drawable.ic_boardgame));
-        add(new Category(17,"Science & Nature", "Science & Nature",200, R.drawable.ic_nature));
+        add(new Category(17,"Science & Nature", "Science & Nature",200, R.drawable.ic_science));
         add(new Category(26,"Celebrities", "Celebrities",200 , R.drawable.ic_celebrities));
         add(new Category(27,"Animals", "Animals",100 , R.drawable.ic_animals));
         add(new Category(24,"Politics", "Politics",300 , R.drawable.ic_politics));
@@ -54,7 +54,7 @@ public class CategoryManager {
         add(new Category(28,"Vehicles", "Vehicles",50 ,R.drawable.ic_vehicules));
         add(new Category(29,"Entertainment: Comics", "Comics",40, R.drawable.ic_comics));
         add(new Category(31,"Entertainment: Japanese Anime & Manga", "Japanese Anime",30, R.drawable.ic_japanese_anime));
-        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",20, R.drawable.ic_television));
+        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",20, R.drawable.ic_bonhomme));
         add(new Category(30,"Science: Gadgets", "Gadgets",10, R.drawable.ic_gadgets));
     }
 
