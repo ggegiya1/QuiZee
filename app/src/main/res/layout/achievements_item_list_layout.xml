@@ -35,10 +35,7 @@
         android:textSize="14sp"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/currency_image" />
-        <!--android:drawableRight="@mipmap/ic_coins"-->
-        android:text="Gold given"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+
 
     <ImageView
         android:id="@id/currency_image"
