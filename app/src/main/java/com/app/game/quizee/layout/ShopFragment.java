@@ -73,7 +73,7 @@ public class ShopFragment extends Fragment implements Observer {
         }
 
         /**
-         * TODO: FAIT QUOI, DÉCRIRE
+         * inflates a view to return it as a row to buy a power up
          */
         @NonNull
         @Override
@@ -131,7 +131,7 @@ public class ShopFragment extends Fragment implements Observer {
 
     /**
      * Builds a list of achievement
-     * TODO: what for
+     * to update them
      */
     public List<Achievement> updateAchievements(Player player){
         List<Achievement> achievements = new ArrayList<>();
@@ -144,7 +144,6 @@ public class ShopFragment extends Fragment implements Observer {
             }
         }
         return achievements;
-
     }
 
     /**
@@ -160,7 +159,7 @@ public class ShopFragment extends Fragment implements Observer {
 
     /**
      * Builds the buy dialog and shows it
-     * TODO: GIVE MORE DETAILS
+     * shows the power up icon and suggests a buy amount
      */
     private void buyDialog(final PowerUp pUp) {
         final Player player = PlayerManager.getInstance().getCurrentPlayer();

@@ -38,7 +38,6 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
             convertView = inflater.inflate(R.layout.achievements_item_list_layout, null, true);
             holder = new ViewHolder();
             holder.achievementName = (TextView) convertView.findViewById(R.id.achievement_item_name);
-            holder.achievementIcon = (ImageView) convertView.findViewById(R.id.contact_avatar_icon); //TODO remove?
             holder.expGiven = (TextView) convertView.findViewById(R.id.achievement_exp_given);
             holder.goldGiven = (TextView) convertView.findViewById(R.id.achievement_gold_given);
             holder.check = (ImageView) convertView.findViewById(R.id.achievement_check);
