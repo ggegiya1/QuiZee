@@ -62,10 +62,10 @@
         android:layout_alignBottom="@+id/achievement_check"
         android:layout_alignStart="@+id/achievement_gold_given"
         android:layout_below="@+id/achievement_gold_given"
-        android:layout_toStartOf="@+id/achievement_check"
+
         android:lines="1"
         android:text="10 xp"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textSize="14sp" />
 
     <ImageView
