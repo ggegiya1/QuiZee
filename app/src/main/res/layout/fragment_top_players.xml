@@ -28,7 +28,7 @@
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.20"
                 android:text="@string/top_players_icon_labels"
                 android:textSize="15sp"/>
 
@@ -36,14 +36,14 @@
                     android:layout_marginLeft="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.23"
                     android:textSize="15sp"
                     android:text="Name"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.15"
+                    android:layout_weight="0.17"
                     android:layout_marginLeft="10dp"
                     android:textAlignment="center"
                     android:textSize="15sp"
@@ -62,7 +62,7 @@
                     android:id="@+id/sort_spinner"
                     android:layout_width="0dp"
                     android:textSize="15sp"
-                    android:layout_weight="0.35"
+                    android:layout_weight="0.31"
                     android:layout_height="match_parent" />
 
         </LinearLayout>

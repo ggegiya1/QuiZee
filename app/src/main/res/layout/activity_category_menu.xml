@@ -26,11 +26,12 @@
 
     <android.support.v7.widget.AppCompatButton
         android:layout_below="@id/categories_title"
-        android:textAllCaps="false"
+        android:textAllCaps="true"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
+        android:textSize="19dp"
         android:id="@+id/unselectButton"
         android:text="@string/categories_unselect_all"
         android:background="@drawable/button_tertiary_style"/>

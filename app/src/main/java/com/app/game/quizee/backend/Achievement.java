@@ -361,8 +361,6 @@ public enum  Achievement implements Serializable {
     private int money;
     private int progress;
     private int maxProgress;
-    //TODO: Check if used
-    private String key;
 
     /**
      *Achievement constructor with nominal information
