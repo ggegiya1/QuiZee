@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.app.game.quizee.R;
-
 public class HomeFragment extends Fragment {
 
     Button quickPlay;
@@ -18,20 +17,14 @@ public class HomeFragment extends Fragment {
     Button categoryPlay;
 
     /**
-     * Required empty puclic constructor
+     * Required empty public constructor
      */
-
     public HomeFragment() {
     }
 
     /**
-     * obtain view and set on click listeners
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * Obtain view and set on click listeners
      */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,10 +39,8 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * defines onclick actions
-     * @return
+     * Defines onclick actions for the 3 buttons on the screen
      */
-
     private View.OnClickListener buttonPressed(){
         return new View.OnClickListener() {
             @Override

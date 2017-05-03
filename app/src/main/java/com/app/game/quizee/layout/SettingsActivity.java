@@ -1,6 +1,4 @@
 package com.app.game.quizee.layout;
-
-
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -51,10 +49,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         /**
-         * called by OnCreate
+         * Called by OnCreate
          * adds listeners on buttons
          */
-
         private void setupListeners() {
             findPreference("change_avatar").setOnPreferenceClickListener(preferenceClicked());
             findPreference("player_name").setOnPreferenceChangeListener(preferenceChanged());
@@ -63,10 +60,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         /**
-         * called by setupListeners
-         * used to do actions when preferences are clicked
+         * Called by setupListeners
+         * Used to do actions when preferences are clicked
          */
-
         public Preference.OnPreferenceClickListener preferenceClicked () {
             return new Preference.OnPreferenceClickListener() {
                 @Override
@@ -87,10 +83,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         /**
-         * called by setupListeners
-         * used to do actions when preferences are changed
+         * Called by setupListeners
+         * Used to do actions when preferences are changed
          */
-
         public Preference.OnPreferenceChangeListener preferenceChanged () {
 
             return new Preference.OnPreferenceChangeListener() {
@@ -117,6 +112,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             };
         }
 
+        /**
+        * TODO: Fait quoi?
+         */
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
@@ -129,10 +127,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         /**
-         * lets the user pick an image for a new avatar
+         * Lets the user pick an image for a new avatar
+         * Code comes from : http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
          */
 
-        //choisir une image: le code vient de http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
         public void pickImage() {
             Intent intent = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -147,6 +145,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             startActivityForResult(intent, 1);
         }
 
+        /**
+         * Bitmap to string comes from : http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
+         */
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (resultCode != RESULT_OK) {
@@ -157,8 +158,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 if (extras != null) {
                     //Get image
                     Bitmap newAvatar = extras.getParcelable("data");
-                    //la conversion du bitmap en string vient de
-                    // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
                     if (newAvatar!=null){
                         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
                         newAvatar.compress(Bitmap.CompressFormat.PNG,100, baos);
@@ -175,9 +174,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * used to pause music when Quizee goes on background
+     * Used to pause music when Quizee goes on background
      */
-
     @Override
     protected void onPause() {
         MusicService.ServiceBinder.getService().pauseMusic();
@@ -185,9 +183,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     /**
-     * used to resume music when Quizee goes on background
+     * Used to resume music when Quizee goes on background
      */
-
     @Override
     protected void onResume() {
         MusicService.ServiceBinder.getService().resumeMusic(true);

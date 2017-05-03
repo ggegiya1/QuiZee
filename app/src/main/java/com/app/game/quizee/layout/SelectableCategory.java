@@ -1,10 +1,5 @@
 package com.app.game.quizee.layout;
-
 import com.app.game.quizee.backend.Category;
-
-/**
- * Created by gia on 18/04/17.
- */
 
 /**
  * Decorator class to keep Category unchanged

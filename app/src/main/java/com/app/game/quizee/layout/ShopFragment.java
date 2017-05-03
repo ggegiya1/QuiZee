@@ -1,5 +1,4 @@
 package com.app.game.quizee.layout;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -40,12 +39,7 @@ public class ShopFragment extends Fragment implements Observer {
 
     /**
      * Creates the shop fragment
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,9 +53,8 @@ public class ShopFragment extends Fragment implements Observer {
     }
 
     /**
-     * updates the PowerUps ListView on fragment resume
+     * Updates the PowerUps ListView on fragment resume
      */
-
     @Override
     public void onResume() {
         super.onResume();
@@ -71,7 +64,6 @@ public class ShopFragment extends Fragment implements Observer {
     /**
      * Defines an adapter for the powerUps ListView
      */
-
     private class ShopAdapter extends ArrayAdapter<PowerUp> {
         private Context context; //context
 
@@ -80,6 +72,9 @@ public class ShopFragment extends Fragment implements Observer {
             this.context = activityContext;
         }
 
+        /**
+         * TODO: FAIT QUOI, DÉCRIRE
+         */
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -136,10 +131,8 @@ public class ShopFragment extends Fragment implements Observer {
 
     /**
      * Builds a list of achievement
-     * @param player
-     * @return
+     * TODO: what for
      */
-
     public List<Achievement> updateAchievements(Player player){
         List<Achievement> achievements = new ArrayList<>();
         for (Achievement a: Achievement.values()){
@@ -155,11 +148,8 @@ public class ShopFragment extends Fragment implements Observer {
     }
 
     /**
-     * updates an upject in the powerUps listview
-     * @param o
-     * @param arg
+     * Updates an opject in the power-ups listview
      */
-
     @Override
     public void update(Observable o, Object arg) {
         ShopAdapter adapter = (ShopAdapter)shopListView.getAdapter();
@@ -169,10 +159,9 @@ public class ShopFragment extends Fragment implements Observer {
     }
 
     /**
-     * builds the buy dialog and shows it
-     * @param pUp
+     * Builds the buy dialog and shows it
+     * TODO: GIVE MORE DETAILS
      */
-
     private void buyDialog(final PowerUp pUp) {
         final Player player = PlayerManager.getInstance().getCurrentPlayer();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

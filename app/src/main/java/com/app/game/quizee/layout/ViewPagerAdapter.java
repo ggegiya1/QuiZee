@@ -1,6 +1,5 @@
 package com.app.game.quizee.layout;
 // Imported from the page https://github.com/jaisonfdo/BottomNavigation/blob/master/app/src/main/java/droidmentor/bnv_with_viewpager/ViewPagerAdapter.java
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
