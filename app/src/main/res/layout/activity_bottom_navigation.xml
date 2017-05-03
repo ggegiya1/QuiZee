@@ -12,7 +12,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="58dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:background="@color/colorPrimaryDark"
@@ -54,23 +54,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/level_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Level"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="17sp"/>
+
+                <TextView
                     android:id="@+id/level_main"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
                     android:layout_gravity="end|center"
                     android:background="@android:drawable/star_big_on"
                     android:backgroundTint="@color/yellow"
                     android:gravity="center"
                     android:text="0"
                     android:textSize="20sp" />
-                <TextView
-                    android:id="@+id/level_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="level"
-                    android:textColor="@color/colorSecondary"
-                    android:textSize="15sp"/>
             </LinearLayout>
 
 

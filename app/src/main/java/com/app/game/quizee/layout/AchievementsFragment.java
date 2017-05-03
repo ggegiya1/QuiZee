@@ -27,7 +27,7 @@ public class AchievementsFragment extends Fragment {
     /**
      *  Method for sorting the achievements. The closest of completing on top, completed at the end
      */
-    public static Achievement[] sortAchivements(Achievement[] arr, Player player){
+    public static Achievement[] sortAchievements(Achievement[] arr, Player player){
 
         for (int i = 0; i < arr.length - 1; i++){
             int index = i;
@@ -67,7 +67,7 @@ public class AchievementsFragment extends Fragment {
          */
         final Achievement[] achievements = Achievement.values();
         final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
-        sortAchivements(achievements, current_player);
+        sortAchievements(achievements, current_player);
 
         /**
          *  Creates the adapter for the achievement page
