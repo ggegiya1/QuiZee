@@ -38,7 +38,7 @@
     <string name="multiPlay">Favorite Categories</string>
 
     <!-- strings related to category selection activity -->
-    <string name="categorySelection">SELECT CATEGORIES</string>
+    <string name="categorySelection">Select your categories</string>
     <string name="categoriesPlay">Play</string>
     <string name="buy_category">Buy Category</string>
     <string name="discard">Discard</string>
@@ -46,7 +46,10 @@
     <!-- Strings related to top players-->
     <string name="top_players">TOP PLAYERS</string>
     <string name="friends">Friends</string>
-    <string name="filter">By highscore</string>
+    <string name="filter1">Filter by : Total score</string>
+    <string name="filter2">Filter by : Highscore</string>
+    <string name="filter3">Highscore</string>
+    <string name="filter4">Total score</string>
 
     <!-- Strings related to multiplayer-->
     <string name="pref_title_reset_account">Reset account</string>
@@ -165,8 +168,8 @@
     <string name="correct_answer">!!! CORRECT ANSWER !!!</string>
     <string name="wrong_answer">WRONG ANSWER</string>
     <string name="pref_sound_game">Game sounds</string>
-    <string name="categories_unselect_all">UNSELECT ALL CATEGORIES</string>
-    <string name="skip_question">SKIPPING A QUESTION</string>
+    <string name="categories_unselect_all">Unselect ALL categories</string>
+    <string name="skip_question">Skipping a question..</string>
     <string name="top_players_icon_labels">Icon</string>
 
 

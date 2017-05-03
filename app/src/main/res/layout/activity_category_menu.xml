@@ -24,8 +24,9 @@
         android:textColor="@color/colorSecondary"
         android:background="@drawable/button_primary_default"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:layout_below="@id/categories_title"
+        android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"

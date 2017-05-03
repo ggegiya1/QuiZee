@@ -18,15 +18,15 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-        <Button
+    <android.support.v7.widget.AppCompatButton
             android:id="@+id/highscore_btn"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textSize="16dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="@string/filter" />
+            android:text="@string/filter1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,6 +59,7 @@
                     android:text="Level" />
 
                 <TextView
+                    android:id="@+id/highscoretext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.16"

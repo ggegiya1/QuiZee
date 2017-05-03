@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     private static final int MAX_TOP_PLAYERS = 20;
     private ListView topList;
     private ContactAdapter contactAdapter;
-
+    private boolean myswitch=false;
     public TopPlayersFragment() {}
 
     /**
@@ -44,10 +45,34 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         View rl = inflater.inflate(R.layout.fragment_top_players, container, false);
         topList = (ListView) rl.findViewById(R.id.top_players_list);
         topList.setAdapter(contactAdapter);
-        PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
+        final Button monbtn = (Button) rl.findViewById(R.id.highscore_btn);
+        final TextView hsview = (TextView) rl.findViewById(R.id.highscoretext);
+        monbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myswitch){
+                    clickswitch(myswitch,monbtn,hsview);
+                    myswitch=false;
+                }else{
+                    clickswitch(myswitch,monbtn,hsview);
+                    myswitch=true;
+                }
+            }
+        });
+        clickswitch (myswitch,monbtn,hsview);
         return rl;
     }
-
+    private void clickswitch(boolean total, Button monbtn, TextView hs){
+        if (total){
+            monbtn.setText(getResources().getString(R.string.filter1));
+            PlayerManager.getInstance().getTopPlayersTotal(MAX_TOP_PLAYERS);
+            hs.setText(getResources().getString(R.string.filter3));
+        }else{
+            monbtn.setText(getResources().getString(R.string.filter2));
+            PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
+            hs.setText(getResources().getString(R.string.filter4));
+        }
+    }
     @Override
     public void onError(String message) {
         Toast.makeText(getContext(), "Database error: " + message, Toast.LENGTH_SHORT).show();
@@ -95,7 +120,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         }
 
         /**
-         * Returns a row to be used in contact acapter
+         * Returns a row to be used in contact adapter
          */
         @NonNull
         @Override

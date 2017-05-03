@@ -57,7 +57,7 @@
 
     <TextView
         android:id="@+id/achievement_exp_given"
-        android:layout_width="30dp"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/achievement_gold_given"
         android:layout_below="@+id/achievement_gold_given"
