@@ -65,7 +65,6 @@ public class AchievementsFragment extends Fragment {
         /**
          * Creates the achievement array and sorts it
          */
-
         final Achievement[] achievements = Achievement.values();
         final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
         sortAchivements(achievements, current_player);
@@ -103,13 +102,14 @@ public class AchievementsFragment extends Fragment {
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
                 /**
-                 * bar.setProgress(achievements[position].getProg(current_player));
+                 * Setters
                  */
                 name.setText(achievements[position].getDesc());
                 gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
                 xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
                 info.setText(achievements[position].getInformation());
                 bar.setProgress(achievements[position].getProg(current_player));
+
                 /**
                  * Sets the done/not done icon
                  */
