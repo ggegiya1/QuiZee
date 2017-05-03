@@ -51,6 +51,9 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         return rl;
     }
 
+    /**
+     * Spinner is used to select a sort by highscore or by an average total score
+     */
     private void createSpinner(View view){
         Spinner spinner = (Spinner) view.findViewById(R.id.sort_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
@@ -79,7 +82,6 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
     }
 
-
     private void sortByTotalScore(){
         isHighScoreSort = false;
         PlayerManager.getInstance().getTopPlayersTotal(MAX_TOP_PLAYERS);
@@ -91,8 +93,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     }
 
     /**
-     * TODO: WHAT?
-     * @param player
+     * Compare two players using 2 different attributes (highestscore and totalratio)
      */
     @Override
     public void onItemRead(Player player) {
@@ -136,6 +137,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
 
         /**
          * Returns a row to be used in contact adapter
+         * The row returned depends of the sort chosen
          */
         @NonNull
         @Override

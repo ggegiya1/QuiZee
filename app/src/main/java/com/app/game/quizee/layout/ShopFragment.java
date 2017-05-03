@@ -73,13 +73,13 @@ public class ShopFragment extends Fragment implements Observer {
         }
 
         /**
-         * inflates a view to return it as a row to buy a power up
+         * Inflates a view to return it as a row to buy a power up
          */
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
-            // inflate the layout for each list row
+            // Inflate the layout for each list row
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(R.layout.shop_item_list_layout, parent, false);
             }
@@ -93,6 +93,7 @@ public class ShopFragment extends Fragment implements Observer {
             ImageButton buy = (ImageButton) convertView.findViewById(R.id.shop_buy_button);
             final TextView powUpDescription = (TextView) convertView.findViewById(R.id.shop_item_description);
 
+            //Add actions regarding if the player can buy the item or not
             if(current_player.canPurchase(rowItem)) {
                 powUpPrice.setTextColor(getResources().getColor(R.color.black));
                 buy.setBackground(getResources().getDrawable(R.drawable.button_tertiary_default));
@@ -111,10 +112,11 @@ public class ShopFragment extends Fragment implements Observer {
                     }
                 });
             }
-            //ajoute une action lorsque lon achete un power up
             int powUpQuantity = current_player.getNumberAvailablePowerUps(rowItem);
             powUpDescription.setText(rowItem.getDescription());
             powUpCount.setText(Integer.toString(powUpQuantity));
+
+            //Change the color depending on the amount of item the user owns
             if(powUpQuantity == 0) {
                 powUpCount.setTextColor(Color.RED);
             }   else {
@@ -130,8 +132,8 @@ public class ShopFragment extends Fragment implements Observer {
     }
 
     /**
-     * Builds a list of achievement
-     * to update them
+     * Builds a list of achievement to update
+     * the ones who were just achieved in the shop
      */
     public List<Achievement> updateAchievements(Player player){
         List<Achievement> achievements = new ArrayList<>();
