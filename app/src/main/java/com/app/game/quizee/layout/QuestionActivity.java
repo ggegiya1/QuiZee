@@ -461,7 +461,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
 
-    //custom countdownTimer class pour la progress bar et le temps pour repondre
+    /**
+     *  custom countdownTimer class for the remaining time to answer
+     */
+
     private class MyCountDownTimer extends CountDownTimer {
         private long timeRemaining;
 
