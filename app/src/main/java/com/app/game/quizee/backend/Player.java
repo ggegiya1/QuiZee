@@ -65,7 +65,8 @@ public class Player extends Observable implements Serializable {
      * Different constructors of class Player
      * Used for various reasons throughout the application
      */
-    public Player() {}
+    public Player() {
+    }
 
     public Player(String playerId, String name, String image, int level, int points, int exp){
         this.id = playerId;
@@ -155,27 +156,19 @@ public class Player extends Observable implements Serializable {
         return this.getPoints() >= category.getPrice();
     }
 
+
     public boolean alreadyPurchased(Category category){
         return  categoriesPurchased.contains(category);
     }
 
-    /**
-     * The player has got a good answer, we add it to the list
-     * We then update the categories from his preferences
-     * We recalculate the player's score, money and exp accordingly
-     */
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
         this.nbQanswered +=1;
-        updatePerformCategory(question.getCategory());
         addScore(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1));
         addPoints(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
         addexp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
     }
 
-    /**
-     * If the player has 1000 or over exp, we update his level and reset his exp
-     */
     public void addexp(int exp){
         this.exp += exp;
         if (this.exp >= 1000){
@@ -183,25 +176,11 @@ public class Player extends Observable implements Serializable {
             this.exp=0;
         }
     }
-
     public void addmoney(int mon){
         this.points+=mon;
     }
-
     public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
-    }
-
-    /**
-     * TODO: Fix the 2 pref categories stuffs
-     */
-    private void updatePerformCategory(Category category){
-        Integer value = this.prefCategories.get(category.getName());
-        if (value == null){
-            value = 0;
-        }
-        this.prefCategories.put(category.getName(), ++value);
-
     }
 
     public boolean hasAchievement(Achievement achievement){
@@ -213,11 +192,11 @@ public class Player extends Observable implements Serializable {
             this.achievements.add(achievement);
         }
     }
-    /**
-     * The conversion of string to bitmap comes from
-     * http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
-     */
+
+
     public Bitmap avatarBitmap() {
+        //la conversion de string en bitmap vient de
+        // http://stackoverflow.com/questions/13562429/how-many-ways-to-convert-bitmap-to-string-and-vice-versa
         if (avatar!=null){
             try {
                 byte [] encodeByte= Base64.decode(avatar,Base64.DEFAULT);
@@ -230,25 +209,24 @@ public class Player extends Observable implements Serializable {
         return null;
     }
 
-    /**
-     * once selected, add the category to the favorites and increase the popularity
-     */
+
     public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
+        // once selected, add the category to the favorites and increase the popularity
         category.played();
         if (!this.categoriesFavorites.contains(category)){
             this.categoriesFavorites.add(category);
         }
     }
 
+    public void removeSelectedCategory(Category category) {
+        this.categoriesSelected.remove(category);
+    }
+
     public void clearSelectedCategories() {
         this.categoriesSelected.clear();
     }
 
-    /**
-     * Remove a power-up from the player's amount
-     * Only call during a game
-     */
     public void removePowerUp(PowerUp powerUp){
         Integer current = this.availablePowerUps.get(powerUp.getName());
         if (current!=null && current > 0){
@@ -256,18 +234,12 @@ public class Player extends Observable implements Serializable {
         }
     }
 
-    /**
-     * Add a power-up to the player's amount
-     * Only called from the shop
-     * Max is the total amount of that power-up purchased since the beginning
-     * Current is the amount of that power-up the player holds right now
-     */
     public void addPowerUp(PowerUp powerUp){
         Integer current = this.availablePowerUps.get(powerUp.getName());
         Integer max = this.purchasedPowerUps.get(powerUp.getName());
         this.availablePowerUps.put(powerUp.getName(), current == null? 1: ++current);
         this.purchasedPowerUps.put(powerUp.getName(), max == null? 1: ++max);
-        // Notify observers to reflect the changes in UI
+        // notify observers to reflect the changes in UI
         setChanged();
         notifyObservers();
     }
@@ -276,10 +248,6 @@ public class Player extends Observable implements Serializable {
         return this.points >= powerUp.getPrice();
     }
 
-    /**
-     * If the player has enough money to buy the power-up,
-     * We lower his money and add the power-up to his list
-     */
     public boolean purchase(PowerUp powerUp) {
         if (!canPurchase(powerUp)) {
             return false;
@@ -287,6 +255,10 @@ public class Player extends Observable implements Serializable {
         setPoints(this.points - powerUp.getPrice());
         addPowerUp(powerUp);
         return true;
+    }
+
+    public void addFavoriteCategory(Category category) {
+        this.getCategoriesFavorites().add(category);
     }
 
     /**
@@ -500,7 +472,6 @@ public class Player extends Observable implements Serializable {
                 ", highestScore=" + highestScore +
                 ", exp=" + exp +
                 ", avatar='" + avatar + '\'' +
-                ", prefCategories=" + prefCategories +
                 '}';
     }
 }
