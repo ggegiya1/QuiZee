@@ -39,11 +39,8 @@ import java.util.Observer;
 
 import me.grantland.widget.AutofitTextView;
 
-
 public class CategorySelectionActivity extends AppCompatActivity implements Observer{
-
     private static final String TAG = "category.selection";
-
     private final CategoryManager categoryManager = CategoryManager.getInstance();
     CategoryListAdapter adapterCategory;
     ListView categoryList;
@@ -54,10 +51,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     List<SelectableCategory> selectableCategories;
 
     /**
-     * creates the Category selection view
-     * @param savedInstanceState
+     * Creates the Category selection view
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +68,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * get the current player and clear the selected categories
+     * Get the current player and clear the selected categories
      */
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -86,9 +80,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
 
     /**
      * Start new single player with selected questions once start button is pressed
-     * @param player
      */
-
     private void addStartButton(final Player player){
         Button startButton = (Button) findViewById(R.id.button_start);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +106,6 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     /**
      * Visualise the categories list
      */
-
     private void addCategoriesList(){
         categoryList = (ListView) findViewById(R.id.category_list);
         categoryList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
@@ -157,32 +148,24 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * tells if the player can purchase the category
-     * @param player
-     * @param category
+     * Tells if the player can purchase the category
      * @return true if the category can be bought
      */
-
     private boolean purchaseAllowed(Player player, Category category){
         return !player.alreadyPurchased(category) && category.getPrice() > 0 && player.canBuy(category);
     }
 
     /**
-     * tells if the player can select the category
-     * @param player
-     * @param category
+     * Tells if the player can select the category
      * @return true if the category can be selected
      */
-
     private boolean selectAllowed(Player player, Category category){
         return player.alreadyPurchased(category) || category.getPrice() == 0;
     }
 
     /**
-     * adds the player to the toolbar
-     * @param player
+     * Adds the player to the toolbar
      */
-
     private void addPlayerToolBar(Player player){
         playerName = (TextView) findViewById(R.id.user_name);
         points = (TextView) findViewById(R.id.points);
@@ -193,10 +176,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * updates the toolbar to show the player info
-     * @param player
+     * Updates the toolbar to show the player info
      */
-
     private void updatePlayerInfo(Player player){
         playerName.setText(player.getName());
         points.setText(String.valueOf(player.getPoints()));
@@ -208,21 +189,15 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * update an unique user info
-     * @param o
-     * @param arg
+     * Update an unique user info if it changed
      */
-
     @Override
     public void update(Observable o, Object arg) {
-        // update player info if changed
         updatePlayerInfo((Player)o);
     }
 
     /**
-     * buy a category and select it
-     * @param player
-     * @param category
+     * Buy a category and select it
      */
     private void buyAndSelectCategory(Player player, SelectableCategory category){
         player.buyCategory(category.getCategory());
@@ -230,12 +205,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * builds the instant buy dialog and shows it
-     * @param player
-     * @param category
-     * @param rowView
+     * Builds the instant buy dialog and shows it
      */
-
     private void instantCategoryBuyDialog(final Player player, final SelectableCategory category, final View rowView){
         AlertDialog.Builder builder = new AlertDialog.Builder(categoryList.getContext());
         final ViewHolder viewHolder = (ViewHolder)rowView.getTag();
@@ -259,31 +230,22 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * an adapter for the category listview
+     * An adapter for the category listview
      */
-
     private class CategoryListAdapter extends ArrayAdapter<SelectableCategory> {
         private final Context activityContext;
 
         /**
          * Constructor
-         * @param activityContext
-         * @param categories
          */
-
         CategoryListAdapter(Activity activityContext, List<SelectableCategory> categories) {
             super(activityContext, R.layout.category_selection_list_item, categories);
             this.activityContext = activityContext;
         }
 
         /**
-         * returns a view to be used as a row
-         * @param position
-         * @param currentView
-         * @param parent
-         * @return
+         * Returns a view to be used as a row
          */
-
         @NonNull
         @Override
         public View getView(int position, View currentView, @NonNull final ViewGroup parent) {
@@ -307,11 +269,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * updates a row
-     * @param holder
-     * @param category
+     * Updates a row regarding if the category was purchased or if it's available
      */
-
     private void updateItem(ViewHolder holder, SelectableCategory category){
         holder.selectionToggle.setChecked(category.isSelected());
         holder.categoryImage.setImageResource(category.getCategory().getImageId());
@@ -342,9 +301,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * holds a view to be recycled for better performance
+     * Holds a view to be recycled for better performance
      */
-
     private static class ViewHolder{
         ImageView categoryImage;
         TextView categoryName;
@@ -353,9 +311,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * setups the unselect button
+     * Setups the unselect button for the categories selection
      */
-
     public void setupUnselectButton() {
         Button unselect = (Button) findViewById(R.id.unselectButton);
         unselect.setOnClickListener(new View.OnClickListener() {
@@ -370,9 +327,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * pauses music when the activity pauses
+     * Pauses music when the activity pauses
      */
-
     @Override
     protected void onPause() {
         MusicService.ServiceBinder.getService().pauseMusic();
@@ -380,9 +336,8 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     }
 
     /**
-     * resumes music when activity resumes
+     * Resumes music when activity resumes
      */
-
     @Override
     protected void onResume() {
         MusicService.ServiceBinder.getService().resumeMusic(true);

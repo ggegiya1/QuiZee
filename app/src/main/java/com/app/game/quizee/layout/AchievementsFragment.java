@@ -1,5 +1,4 @@
 package com.app.game.quizee.layout;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Player;
@@ -20,17 +18,15 @@ import com.app.game.quizee.backend.PlayerManager;
 public class AchievementsFragment extends Fragment {
 
     ListView achievementsList;
-
     /**
-     * required empty public constructor
+     * Required empty public constructor
      */
     public AchievementsFragment() {
     }
 
     /**
-     *  Method for sorting the achivements. The closest of completing on top, completed at the end
+     *  Method for sorting the achievements. The closest of completing on top, completed at the end
      */
-
     public static Achievement[] sortAchivements(Achievement[] arr, Player player){
 
         for (int i = 0; i < arr.length - 1; i++){
@@ -55,69 +51,44 @@ public class AchievementsFragment extends Fragment {
             arr[i] = big;
 
         }
-
         return arr;
 
     };
 
-    /**
-     * defines what happends when the view is created
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /**
-         * Inflate the layout for this fragment
-         */
 
         RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.fragment_achievements, container, false);
-
         achievementsList = (ListView) rl.findViewById(R.id.achievements_list);
 
-        /**
-         * creates the achivement array and sorts it
-         */
-
+        // Creates the achievement array and sorts it
         final Achievement[] achievements = Achievement.values();
         final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
         sortAchivements(achievements, current_player);
 
-        /**
-         * creating the adapter for the achievement page
-         */
+        // Creates the adapter for the achievement page
         achievementsList.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
                 return achievements.length;
             }
-
             @Override
             public Object getItem(int position) {
                 return null;
             }
-
             @Override
             public long getItemId(int position) {
                 return 0;
             }
 
+            /**
+             * Manipulation fo the View elements for the achievement page
+             */
             @Override
-
             public View getView(int position, View convertView, ViewGroup parent){
-
-
                 if (convertView == null)
                     convertView = inflater.inflate(R.layout.achievements_item_list_layout, parent, false);
-
-
-                /**
-                 * Manipulation fo the View elements for the achivement page
-                 */
 
                 TextView name = (TextView) convertView.findViewById(R.id.achievement_item_name);
                 TextView gold = (TextView) convertView.findViewById(R.id.achievement_gold_given);
@@ -126,37 +97,19 @@ public class AchievementsFragment extends Fragment {
                 ImageView check = (ImageView) convertView.findViewById(R.id.achievement_check);
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
-                /**
-                 * Setting the name
-                 */
+                //Setters
                 name.setText(achievements[position].getDesc());
-                /**
-                 * Setting the gold
-                 */
                 gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
-                /**
-                 * Setting the experience
-                 */
                 xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
-                /**
-                 * Setting the information
-                 */
                 info.setText(achievements[position].getInformation());
 
-                /**
-                 * Setting the not done/complete icon
-                 */
+                //Sets the done/not done icon
                 if (achievements[position].getProg(current_player) >= 100){
                     check.setImageResource(R.drawable.ic_check);
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);
                 }
-
-                /**
-                 * Setting the progress bar
-                 */
                 bar.setProgress(achievements[position].getProg(current_player));
-
                 return convertView;
             }
 

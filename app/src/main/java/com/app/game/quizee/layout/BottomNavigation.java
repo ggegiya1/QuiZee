@@ -27,11 +27,12 @@ import com.app.game.quizee.backend.PlayerManager;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * inspired from https://github.com/jaisonfdo/BottomNavigation
+ * for the view_pager and bottom navigation
+ */
 
 public class BottomNavigation extends AppCompatActivity implements Observer {
-    //inspiré de https://github.com/jaisonfdo/BottomNavigation
-    // pour le view pager et le bottom_navigation
-
     private ViewPager viewPager;
     Fragment homeFragment;
     Fragment contactsFragment;
@@ -47,9 +48,7 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     /**
      * Creates the view, calls methods to set on clicks listener and setup bottom navigation
-     * @param savedInstanceState
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +78,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * setups actions when navigation item is selected*
-     * @return
+     * Setups actions when navigation item is selected*
      */
-
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelected() {
         return new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -108,9 +105,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * finds the views for later use
+     * Finds the views for later use
      */
-
     private void findViews() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         playerName = (TextView) findViewById(R.id.user_name_main);
@@ -120,9 +116,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * setups Fragments for the adapter
+     * Setups Fragments for the adapter
      */
-
     private void setupFragments() {
         shopFragment = new ShopFragment();
         homeFragment = new HomeFragment();
@@ -135,14 +130,12 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         adapter.addFragment(careerFragment);
 
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1); //fait partir sur le home
+        viewPager.setCurrentItem(1); //make it start on home
     }
 
     /**
      * Setups actions on page changes
-     * @return onPageChangeLister
      */
-
     private ViewPager.OnPageChangeListener pageChanged() {
         return new ViewPager.OnPageChangeListener() {
             @Override
@@ -170,9 +163,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * starts music in services
+     * Starts music in services
      */
-
     private void startMusic() {
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
@@ -180,9 +172,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Updates the user infor in the toolbar
+     * Updates the user info in the toolbar
      */
-
     private void updateUserInfo() {
         Player player = PlayerManager.getInstance().getCurrentPlayer();
         playerName.setText(player.getName());
@@ -196,8 +187,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     /**
      * Setups actions when settings Button is clicked
-     *
-     * @param v
      */
     public void settingsActivity(View v) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -207,9 +196,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * restarts music when activity restarts
+     * Restarts music when the activity restarts
      */
-
     @Override
     public void onRestart() {
         MusicService.ServiceBinder.getService().resumeMusic(true);
@@ -218,9 +206,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * updates user info in the toolbar when activity is resumed
+     * Updates user info in the toolbar when activity is resumed
      */
-
     @Override
     protected void onResume() {
         updateUserInfo();
@@ -228,9 +215,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * prevents going back to login on back pressed
+     * Prevents going back to login on back pressed
      */
-
     @Override
     public void onBackPressed() {
         if (!PlayerManager.getInstance().isLoggedIn()) {
@@ -245,9 +231,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * updates the toolbar when activity is started
+     * Updates the toolbar when activity is started
      */
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -255,9 +240,8 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     }
 
     /**
-     * save the player when activity is stopped
+     * Save the player when the activity is stopped
      */
-
     @Override
     protected void onStop() {
         PlayerManager.getInstance().saveCurrentPlayer();
@@ -268,7 +252,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     /**
      * Stops music service when application is killed
      */
-
     @Override
     protected void onDestroy() {
         stopService(new Intent(this, MusicService.class));
@@ -277,20 +260,15 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     /**
      * Updates an element in the toolbar
-     *
-     * @param o
-     * @param arg
      */
-
     @Override
     public void update(Observable o, Object arg) {
         updateUserInfo();
     }
 
     /**
-     * used to pause music when Quizee goes on background
+     * Used to pause music when Quizee goes on background
      */
-
     @Override
     protected void onPause() {
         MusicService.ServiceBinder.getService().pauseMusic();

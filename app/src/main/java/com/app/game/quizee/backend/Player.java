@@ -41,6 +41,7 @@ public class Player extends Observable implements Serializable {
     private int highestScore;
     private final List<Achievement> achievements = new ArrayList<>();
     private static  Player practicePlayer;
+
     /**
      * Stored in the DB for sorting access
      */
@@ -218,7 +219,7 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
-     * once selected, add the category to the favorites and increase the popularity
+     * Once selected, add the category to the favorites and increase the popularity
      */
     public void addSelectedCategory(Category category) {
         this.categoriesSelected.add(category);
