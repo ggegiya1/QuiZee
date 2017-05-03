@@ -105,7 +105,8 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     /**
-     *TODO
+     * pauses music if allowed by last resume music call to make sure music wont stop
+     * between activities
      */
     public void pauseMusic() {
         if (!mustRestart) {
@@ -113,6 +114,13 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
         mustRestart = false;
     }
+
+    /**
+     * resumes music and tells pause music if it show pause the next time it is called
+     * to make sure music wont stop
+     * between activities
+     * @param mRestart
+     */
 
     public void resumeMusic(boolean mRestart) {
         boolean music = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("sound_music", false);
@@ -128,6 +136,10 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         mustRestart = mRestart;
     }
 
+    /**
+     * stops music
+     */
+
     public void stopMusic() {
         Log.i("Music", "music stopped");
         if(mPlayer.isPlaying()) {
@@ -136,6 +148,10 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         mPlayer.release();
         mPlayer = null;
     }
+
+    /**
+     * release the player when the activity it is binded to is destroyed
+     */
 
     @Override
     public void onDestroy() {
@@ -150,6 +166,15 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
     }
 
+    /**
+     * defines what should happend when the is an error with the mediaplayer
+     * (release it)
+     * @param mp
+     * @param what
+     * @param extra
+     * @return
+     */
+
     public boolean onError(MediaPlayer mp, int what, int extra) {
 
         Toast.makeText(this, "music player failed", Toast.LENGTH_SHORT).show();
@@ -163,6 +188,10 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
         return false;
     }
+
+    /**
+     * plays a random music
+     */
 
     public void randomMusic(){
         switch (compteur) {
@@ -186,12 +215,20 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
 
+    /**
+     * releases the player when the task is removed
+     * @param rootIntent
+     */
 
     @Override
     public void onTaskRemoved(Intent rootIntent){
         onDestroy();
         super.onTaskRemoved(rootIntent);
     }
+
+    /**
+     * updates the music and starts a new random music
+     */
 
     public void updateMusic(){
         this.mPlayer = new MediaPlayer();

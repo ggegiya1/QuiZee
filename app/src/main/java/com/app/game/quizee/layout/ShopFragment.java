@@ -195,7 +195,7 @@ public class ShopFragment extends Fragment implements Observer {
             @Override
             public void onClick(View v) {
                 int quantity = ((NumberPicker) buyDialog.findViewById(R.id.shop_dialog_number_picker)).getValue();
-                for(int i = 0; i <= quantity; i++) {
+                for(int i = 0; i < quantity; i++) {
                     player.purchase(pUp);
                 }
                 Toast.makeText(getContext(), " +" +quantity + " " + pUp.getName() + " purchased!", Toast.LENGTH_SHORT).show();

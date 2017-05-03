@@ -32,6 +32,14 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     public TopPlayersFragment() {
     }
 
+    /**
+     * creates the view to show top players
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +56,6 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     @Override
     public void onError(String message) {
         Toast.makeText(getContext(), "Database error: " + message, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -64,6 +71,10 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         });
     }
 
+    /**
+     * holds a view to be recycled later for better performance
+     */
+
     private static class ViewHolder {
         TextView name;
         ImageView icon;
@@ -71,17 +82,33 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         TextView level;
     }
 
-    //Adapter inspiré de
-    // http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
+    /**Adapter inspiré de
+    * http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
+     * An adapter for the contact list
+     */
+
     private class ContactAdapter extends ArrayAdapter<Player>{
 
         Activity context;
+
+        /**
+         * contact adapter constructor
+         * @param context
+         * @param players
+         */
 
         ContactAdapter (Activity context, List<Player> players) {
             super(context, R.layout.top_players_item_list_layout, new ArrayList<Player>(players));
             this.context = context;
         }
 
+        /**
+         * returns a row
+         * @param position
+         * @param convertView
+         * @param parent
+         * @return
+         */
         @NonNull
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {

@@ -129,7 +129,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
 
         /**
-         * permet de choisir une image
+         * lets the user pick an image for a new avatar
          */
 
         //choisir une image: le code vient de http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
