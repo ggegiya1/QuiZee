@@ -21,7 +21,9 @@ public enum  Achievement implements Serializable {
         }
 
         @Override
-        //Allow us to check if the achievement has been unlocked
+        /**
+        *Allow us to check if the achievement has been unlocked
+        */
         public boolean isAchieved(Player player){
             return player.getNbGamesPlayed() == 1 && !player.hasAchievement(GAMES_1);
         }
