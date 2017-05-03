@@ -45,6 +45,11 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
     Bitmap avatar;
     ViewPagerAdapter adapter;
 
+    /**
+     * Creates the view, calls methods to set on clicks listener and setup bottom navigation
+     * @param savedInstanceState
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +140,6 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
 
     /**
      * Setups actions on page changes
-     *
      * @return onPageChangeLister
      */
 

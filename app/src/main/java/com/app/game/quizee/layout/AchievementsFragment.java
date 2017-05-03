@@ -27,7 +27,10 @@ public class AchievementsFragment extends Fragment {
     public AchievementsFragment() {
     }
 
-    //Method for sorting the achivements. The closest of completing on top, completed at the end
+    /**
+     *  Method for sorting the achivements. The closest of completing on top, completed at the end
+     */
+
     public static Achievement[] sortAchivements(Achievement[] arr, Player player){
 
         for (int i = 0; i < arr.length - 1; i++){
@@ -56,6 +59,14 @@ public class AchievementsFragment extends Fragment {
         return arr;
 
     };
+
+    /**
+     * defines what happends when the view is created
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
