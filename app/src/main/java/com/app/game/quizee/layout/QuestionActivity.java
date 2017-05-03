@@ -289,6 +289,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         };
     }
 
+
+    /**
+     * Add flashing animation to the specified button
+     */
     private void onAnswerButtonEffect(View button, int color){
         button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
@@ -300,6 +304,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         button.startAnimation(animation);
     }
 
+    /**
+     * Add Fade-In animation to the text view. Used when changing one text to another
+     */
     private void fadeInText(final TextView view, String text){
         final Animation animation = new AlphaAnimation(0, 1);
         animation.setDuration(300);
@@ -310,7 +317,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     /**
-     * Animation for correct / incorrect question
+     * Show animation for correct / incorrect question
+     * Launch the next question
      */
     private void resultAnimation(final TextView view, final String text, final int color){
         final Animation animation = new AlphaAnimation(1, 0); // Change alpha from invisible to fully visible
@@ -350,6 +358,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     /**
      * Fetch and show the new question
+     * Validate if the max number of question have been played and the end of the game has been reached
      */
     public void newQuestion(){
         if(questionCount >= QUESTIONS_NUMBER && !isPracticeMode) {
@@ -363,7 +372,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
 
-    //cré le dialog de fin de jeu et laffiche
+    /**
+     * Create and show the end dialog with stats and achievements
+     */
     private void endDialog() {
         final Player player = getCurrentPlayer();
         if(gameSounds) {
