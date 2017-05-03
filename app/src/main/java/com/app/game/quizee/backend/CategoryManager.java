@@ -54,7 +54,7 @@ public class CategoryManager {
         add(new Category(28,"Vehicles", "Vehicles",50 ,R.drawable.ic_vehicules));
         add(new Category(29,"Entertainment: Comics", "Comics",40, R.drawable.ic_comics));
         add(new Category(31,"Entertainment: Japanese Anime & Manga", "Japanese Anime",30, R.drawable.ic_japanese_anime));
-        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",20, R.drawable.ic_television));
+        add(new Category(32,"Entertainment: Cartoon & Animations", "Cartoon",20, R.drawable.ic_bonhomme));
         add(new Category(30,"Science: Gadgets", "Gadgets",10, R.drawable.ic_gadgets));
     }
 
