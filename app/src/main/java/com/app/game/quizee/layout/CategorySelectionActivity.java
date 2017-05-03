@@ -120,7 +120,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
                 return Double.compare(o1.getCategory().getPrice(), o2.getCategory().getPrice());
             }
         });
-         adapterCategory = new CategoryListAdapter(this, selectableCategories);
+        adapterCategory = new CategoryListAdapter(this, selectableCategories);
         categoryList.setAdapter(adapterCategory);
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -202,6 +202,7 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     private void buyAndSelectCategory(Player player, SelectableCategory category){
         player.buyCategory(category.getCategory());
         category.select();
+        PlayerManager.getInstance().savePlayer(player);
     }
 
     /**
