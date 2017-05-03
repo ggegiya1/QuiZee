@@ -29,7 +29,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     private static final int MAX_TOP_PLAYERS = 20;
     private ListView topList;
     private ContactAdapter contactAdapter;
-    private boolean myswitch=false;
+    private boolean myswitch=true;
     public TopPlayersFragment() {}
 
     /**
@@ -47,30 +47,31 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         topList.setAdapter(contactAdapter);
         final Button monbtn = (Button) rl.findViewById(R.id.highscore_btn);
         final TextView hsview = (TextView) rl.findViewById(R.id.highscoretext);
+        clickswitch (myswitch,monbtn,hsview);
         monbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clickswitch(myswitch,monbtn,hsview);
                 if (myswitch){
-                    clickswitch(myswitch,monbtn,hsview);
                     myswitch=false;
                 }else{
-                    clickswitch(myswitch,monbtn,hsview);
                     myswitch=true;
                 }
             }
         });
-        clickswitch (myswitch,monbtn,hsview);
         return rl;
     }
     private void clickswitch(boolean total, Button monbtn, TextView hs){
         if (total){
-            monbtn.setText(getResources().getString(R.string.filter1));
-            PlayerManager.getInstance().getTopPlayersTotal(MAX_TOP_PLAYERS);
-            hs.setText(getResources().getString(R.string.filter3));
-        }else{
+            //We want the total score
             monbtn.setText(getResources().getString(R.string.filter2));
-            PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
+            PlayerManager.getInstance().getTopPlayersTotal(MAX_TOP_PLAYERS);
             hs.setText(getResources().getString(R.string.filter4));
+        }else{
+            //We want the high score
+            monbtn.setText(getResources().getString(R.string.filter1));
+            PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
+            hs.setText(getResources().getString(R.string.filter3));
         }
     }
     @Override
@@ -90,6 +91,10 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         contactAdapter.sort(new Comparator<Player>() {
             @Override
             public int compare(Player lhs, Player rhs) {
+                if (myswitch) {
+                    return rhs.getTotalratio() - lhs.getTotalratio();
+
+                }
                 return rhs.getHighestScore() - lhs.getHighestScore();
             }
         });
@@ -143,7 +148,11 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.name.setText(p.getName());
-            holder.score.setText(String.valueOf(p.getTotalratio()));
+            if (myswitch){
+                holder.score.setText(String.valueOf(p.getTotalratio()));
+            }else{
+                holder.score.setText(String.valueOf(p.getHighestScore()));
+            }
             holder.level.setText(String.valueOf(p.getLevel()));
             holder.icon.setImageBitmap(p.avatarBitmap());
             return convertView;
