@@ -62,12 +62,17 @@ public class AchievementsFragment extends Fragment {
         RelativeLayout rl = (RelativeLayout) inflater.inflate(R.layout.fragment_achievements, container, false);
         achievementsList = (ListView) rl.findViewById(R.id.achievements_list);
 
-        // Creates the achievement array and sorts it
+        /**
+         * Creates the achievement array and sorts it
+         */
+
         final Achievement[] achievements = Achievement.values();
         final Player current_player = PlayerManager.getInstance().getCurrentPlayer();
         sortAchivements(achievements, current_player);
 
-        // Creates the adapter for the achievement page
+        /**
+         *  Creates the adapter for the achievement page
+         */
         achievementsList.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -97,19 +102,23 @@ public class AchievementsFragment extends Fragment {
                 ImageView check = (ImageView) convertView.findViewById(R.id.achievement_check);
                 ProgressBar bar = (ProgressBar) convertView.findViewById(R.id.achievement_progress);
 
-                //Setters
+                /**
+                 * bar.setProgress(achievements[position].getProg(current_player));
+                 */
                 name.setText(achievements[position].getDesc());
                 gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
                 xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
                 info.setText(achievements[position].getInformation());
-
-                //Sets the done/not done icon
+                bar.setProgress(achievements[position].getProg(current_player));
+                /**
+                 * Sets the done/not done icon
+                 */
                 if (achievements[position].getProg(current_player) >= 100){
                     check.setImageResource(R.drawable.ic_check);
                 }else{
                     check.setImageResource(R.drawable.ic_not_done);
                 }
-                bar.setProgress(achievements[position].getProg(current_player));
+
                 return convertView;
             }
 
