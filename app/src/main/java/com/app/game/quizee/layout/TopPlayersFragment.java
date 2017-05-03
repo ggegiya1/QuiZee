@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,15 +25,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class TopPlayersFragment extends Fragment implements PlayerManager.TopListReceivedCallback{
+public class TopPlayersFragment extends Fragment implements PlayerManager.TopListReceivedCallback, AdapterView.OnItemSelectedListener{
 
     private static final String TAG = "contact.fragment";
     private static final int MAX_TOP_PLAYERS = 20;
-    private ListView topList;
     private ContactAdapter contactAdapter;
-    private boolean myswitch=true;
+    private boolean isHighScoreSort;
+
     public TopPlayersFragment() {}
-    private boolean firstime = true;
+
     /**
      * Creates the view to show top players
      * Calculates a max amount of players to show following the variable MAX_TOP_PLAYERS
@@ -43,40 +45,46 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         PlayerManager.getInstance().setTopListReceivedCallback(this);
 
         View rl = inflater.inflate(R.layout.fragment_top_players, container, false);
-        topList = (ListView) rl.findViewById(R.id.top_players_list);
+        ListView topList = (ListView) rl.findViewById(R.id.top_players_list);
         topList.setAdapter(contactAdapter);
-        final Button monbtn = (Button) rl.findViewById(R.id.highscore_btn);
-        final TextView hsview = (TextView) rl.findViewById(R.id.highscoretext);
-        clickswitch (false, myswitch,monbtn,hsview);
-        monbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (firstime){
-                    monbtn.setText(getResources().getString(R.string.filter1));
-                    hsview.setText(getResources().getString(R.string.filter3));
-                    PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
-                    firstime=false;
-                }else {
-                    clickswitch(false, myswitch, monbtn, hsview);
-                    myswitch = !myswitch;
-                }
-            }
-        });
+        createSpinner(rl);
         return rl;
     }
-    private void clickswitch(boolean first, boolean total, Button monbtn, TextView hs){
-            if (total) {
-                //We want the total score
-                monbtn.setText(getResources().getString(R.string.filter2));
-                PlayerManager.getInstance().getTopPlayersTotal(MAX_TOP_PLAYERS);
-                hs.setText(getResources().getString(R.string.filter4));
-            } else {
-                //We want the high score
-                monbtn.setText(getResources().getString(R.string.filter1));
-                PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
-                hs.setText(getResources().getString(R.string.filter3));
-            }
+
+    private void createSpinner(View view){
+        Spinner spinner = (Spinner) view.findViewById(R.id.sort_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
+                R.array.sort_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        String selected = (String)parent.getItemAtPosition(pos);
+        if ("High Score".equals(selected)){
+            sortByHighScore();
+        }else {
+            sortByTotalScore();
+        }
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
+    private void sortByHighScore(){
+        isHighScoreSort = true;
+        PlayerManager.getInstance().getTopPlayers(MAX_TOP_PLAYERS);
+    }
+
+
+    private void sortByTotalScore(){
+        isHighScoreSort = false;
+        PlayerManager.getInstance().getTopPlayersTotal(MAX_TOP_PLAYERS);
+    }
+
     @Override
     public void onError(String message) {
         Toast.makeText(getContext(), "Database error: " + message, Toast.LENGTH_SHORT).show();
@@ -94,9 +102,8 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         contactAdapter.sort(new Comparator<Player>() {
             @Override
             public int compare(Player lhs, Player rhs) {
-                if (myswitch) {
+                if (isHighScoreSort) {
                     return rhs.getTotalratio() - lhs.getTotalratio();
-
                 }
                 return rhs.getHighestScore() - lhs.getHighestScore();
             }
@@ -134,7 +141,9 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         @Override
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             LayoutInflater inflater=context.getLayoutInflater();
+
             ViewHolder holder;
+
             Player p = getItem(position);
 
             if(convertView == null) {
@@ -149,7 +158,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.name.setText(p.getName());
-            if (myswitch){
+            if (isHighScoreSort){
                 holder.score.setText(String.valueOf(p.getTotalratio()));
             }else{
                 holder.score.setText(String.valueOf(p.getHighestScore()));
