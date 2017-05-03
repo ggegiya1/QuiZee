@@ -509,6 +509,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         }
     }
 
+    /**
+     * make game buttons clickable or not
+     * @param b
+     */
     public void setButtonsClickable(boolean b) {
         bombButton.setClickable(b);
         addTimeButton.setClickable(b);
