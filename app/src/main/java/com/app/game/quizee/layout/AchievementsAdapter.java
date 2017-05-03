@@ -14,8 +14,11 @@ import com.app.game.quizee.backend.Achievement;
 
 import java.util.List;
 
-//Adapter inspiré de
-// http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
+    /**
+    * Adapter inspiré de
+    * http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
+    **/
+
 public class AchievementsAdapter extends ArrayAdapter<Achievement> {
 
     Activity context;
@@ -83,6 +86,10 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
 
         return convertView;
     }
+
+    /**
+     * holds a view for later use to improve performance
+     */
 
     private static class ViewHolder {
         TextView achievementName;

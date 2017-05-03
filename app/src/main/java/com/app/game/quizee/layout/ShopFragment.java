@@ -90,9 +90,7 @@ public class ShopFragment extends Fragment implements Observer {
             }
 
             final PowerUp rowItem = getItem(position);
-
             ImageView powUpIcon = (ImageView) convertView.findViewById(R.id.shop_item_icon);
-            //si le row est un power up
             TextView powUpName = (TextView) convertView.findViewById(R.id.shop_item_name);
             powUpIcon.setBackgroundColor(getResources().getColor(rowItem.getColorRessouce()));
             TextView powUpPrice = (TextView) convertView.findViewById(R.id.shop_item_price);

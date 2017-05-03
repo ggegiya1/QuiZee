@@ -45,7 +45,7 @@
             android:gravity="center"/>
         <Button
             android:textSize="25sp"
-            android:id="@+id/button_multiPlay"
+            android:id="@+id/button_choseFavorites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/multiPlay"

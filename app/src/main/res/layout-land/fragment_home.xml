@@ -24,7 +24,7 @@
 
         <Button
             android:textSize="25sp"
-            android:id="@+id/button_multiPlay"
+            android:id="@+id/button_choseFavorites"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:text="@string/multiPlay"
