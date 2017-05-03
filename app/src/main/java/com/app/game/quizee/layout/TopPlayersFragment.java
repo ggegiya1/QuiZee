@@ -95,7 +95,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
         }
 
         /**
-         * Returns a row to be used
+         * Returns a row to be used in contact acapter
          */
         @NonNull
         @Override
