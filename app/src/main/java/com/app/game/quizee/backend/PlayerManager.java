@@ -276,6 +276,9 @@ public class PlayerManager{
         });
 
     }
+    /**
+     * Query the database to get the players by their total score
+     */
     public void getTopPlayersTotal(int maxTopPlayers) {
         final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         Query myTopPostsQuery = playersDatabase.orderByChild("totalratio").limitToLast(maxTopPlayers);
@@ -311,11 +314,11 @@ public class PlayerManager{
         });
 
     }
+
     public void logout() {
         saveCurrentPlayer();
         signOut();
     }
-
 
     /**
      * All the classes using PlayerManager to login in QuiZee app have to implement this interface

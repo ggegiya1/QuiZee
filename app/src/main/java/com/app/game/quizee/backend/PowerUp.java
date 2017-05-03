@@ -1,10 +1,8 @@
 package com.app.game.quizee.backend;
-
 import com.app.game.quizee.R;
 
-
 /**
- * Power-ups
+ * Enumeration of the different power-ups objects and their attributes
  */
 
 public enum PowerUp {
@@ -158,20 +156,22 @@ public enum PowerUp {
         }
     };
 
-    public abstract int getPrice();
-
-    public abstract String getType();
-
-    public abstract int getImageId();
-
-    public abstract String getName();
-
+    /**
+     * Used to implement Game interface
+     */
     public abstract void apply(Game game);
 
+    /**
+     * Getters
+     */
+    public abstract int getPrice();
+    public abstract String getType();
+    public abstract int getImageId();
+    public abstract String getName();
     public abstract int getPosition();
-
     public abstract int getDescription();
-
     public abstract int getColorRessouce();
+
+
 
 }

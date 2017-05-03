@@ -1,30 +1,14 @@
 package com.app.game.quizee.backend;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
+/**
+ * This class creates a queue of Question object and can further add a question to it
+ */
 public class Questions {
-
     private final Queue<Question> questions = new ConcurrentLinkedQueue<>();
 
-    public Questions() {
-    }
-
-    public Questions(List<Question> questions) {
-        if (questions != null){
-            this.questions.addAll(questions);
-        }
-    }
-
-    public void withQuestions(Collection<Question> questions){
-        if (questions != null){
-            this.questions.addAll(questions);
-        }
-    }
+    public Questions() {}
 
     public void withQuestion(Question question){
         if (question != null){
@@ -35,7 +19,6 @@ public class Questions {
     public Question nextQuestion() {
         return questions.poll();
     }
-
     public boolean isEmpty(){
         return questions.isEmpty();
     }

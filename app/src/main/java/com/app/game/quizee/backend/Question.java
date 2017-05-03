@@ -7,9 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-
 public class Question implements Serializable {
 
+    /**
+     * Enumeration for the difficulties of the questions, their color and their value
+     */
     public enum Difficulty implements Serializable{
         easy (2, Color.GREEN),
         medium (4, Color.YELLOW),
@@ -19,11 +21,17 @@ public class Question implements Serializable {
         private final int valueInt;
         private final int color;
 
+        /**
+         * Constructor of the Difficulty class
+         */
         Difficulty(int valueInt, int color) {
             this.valueInt = valueInt;
             this.color = color;
         }
 
+        /**
+         * Return the difficulty object associated with it's name
+         */
         static Difficulty fromString(String difficulty){
             for (Difficulty d: Difficulty.values()){
                 if (d.name().equalsIgnoreCase(difficulty)){
@@ -33,21 +41,29 @@ public class Question implements Serializable {
             return unknown;
         }
 
+        /**
+         * Getters
+         */
         public int getValueInt() {
             return valueInt;
         }
-
         public int getColor() {
             return color;
         }
     }
 
+    /**
+     * Attributes of Question class
+     */
     private Category category;
     private String text_question;
     private Difficulty difficulty;
     private List<Answer> answers;
     private long timeRemained;
 
+    /**
+     * Empty constructor
+     */
     public Question() {
         difficulty = Difficulty.unknown;
     }
@@ -59,18 +75,14 @@ public class Question implements Serializable {
         this.answers = new ArrayList<>();
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public String getTextQuestion() {
-        return text_question;
-    }
 
     public void addAnswer(Answer answer){
         this.answers.add(answer);
     }
 
+    /**
+     * Return the possible answers for the question and mix them if needed
+     */
     public List<Answer> getAnswers(boolean shuffle){
         List<Answer> answers = new ArrayList<>(this.answers);
         if (shuffle){
@@ -80,20 +92,30 @@ public class Question implements Serializable {
         return answers;
     }
 
+    /**
+     * Getters
+     */
     public long getTimeRemained() {
         return timeRemained;
     }
-
-    public void setTimeRemained(long timeRemained) {
-        this.timeRemained = timeRemained;
+    public Category getCategory() {
+        return category;
     }
-
+    public String getTextQuestion() {
+        return text_question;
+    }
     public int getDifficultyScore(){
         return this.difficulty.getValueInt();
     }
-
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    /**
+     * Setters
+     */
+    public void setTimeRemained(long timeRemained) {
+        this.timeRemained = timeRemained;
     }
 
     @Override
