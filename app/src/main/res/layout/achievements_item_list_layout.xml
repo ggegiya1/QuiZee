@@ -57,15 +57,16 @@
 
     <TextView
         android:id="@+id/achievement_exp_given"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/achievement_check"
         android:layout_alignStart="@+id/achievement_gold_given"
         android:layout_below="@+id/achievement_gold_given"
         android:layout_toStartOf="@+id/achievement_check"
+        android:lines="1"
         android:text="10 xp"
-        android:textAlignment="center"
-        android:textSize="14sp"
-        android:layout_alignBottom="@+id/achievement_information" />
+        android:textAlignment="textStart"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/achievement_check"

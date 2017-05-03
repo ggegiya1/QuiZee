@@ -104,9 +104,10 @@ public class AchievementsFragment extends Fragment {
                 /**
                  * Setters
                  */
+
                 name.setText(achievements[position].getDesc());
                 gold.setText(String.valueOf("+ " + achievements[position].getMoney()));
-                xp.setText(String.valueOf("+ "+ achievements[position].getXP()) + " Exp");
+                xp.setText(achievements[position].getXPString()+ " exp");
                 info.setText(achievements[position].getInformation());
                 bar.setProgress(achievements[position].getProg(current_player));
 
