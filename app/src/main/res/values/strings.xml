@@ -176,7 +176,7 @@
 
     <string-array name="sort_type">
         <item>High Score</item>
-        <item>Total Score</item>
+        <item>Average</item>
     </string-array>
 
 </resources>

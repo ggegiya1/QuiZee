@@ -30,7 +30,7 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
     private static final String TAG = "contact.fragment";
     private static final int MAX_TOP_PLAYERS = 20;
     private ContactAdapter contactAdapter;
-    private boolean isHighScoreSort;
+    private boolean isHighScoreSort = true;
 
     public TopPlayersFragment() {}
 
@@ -103,10 +103,9 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             @Override
             public int compare(Player lhs, Player rhs) {
                 if (isHighScoreSort) {
-                    return rhs.getTotalratio() - lhs.getTotalratio();
-
+                    return rhs.getHighestScore() - lhs.getHighestScore();
                 }
-                return rhs.getHighestScore() - lhs.getHighestScore();
+                return rhs.getTotalratio() - lhs.getTotalratio();
             }
         });
     }
@@ -160,9 +159,9 @@ public class TopPlayersFragment extends Fragment implements PlayerManager.TopLis
             }
             holder.name.setText(p.getName());
             if (isHighScoreSort){
-                holder.score.setText(String.valueOf(p.getTotalratio()));
-            }else{
                 holder.score.setText(String.valueOf(p.getHighestScore()));
+            }else{
+                holder.score.setText(String.valueOf(p.getTotalratio()));
             }
             holder.level.setText(String.valueOf(p.getLevel()));
             holder.icon.setImageBitmap(p.avatarBitmap());
