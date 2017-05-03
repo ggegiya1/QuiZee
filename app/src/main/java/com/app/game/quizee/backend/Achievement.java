@@ -2,7 +2,7 @@ package com.app.game.quizee.backend;
 import java.io.Serializable;
 
 /**
- *Enumeration of all achievements
+ *Enumeration of all the achievements
  */
 public enum  Achievement implements Serializable {
 
