@@ -17,47 +17,54 @@ import java.util.Observable;
  */
 
 public class Player extends Observable implements Serializable {
+    /**
+     * Player's attributes
+     */
     private String id;
     private String name;
     private String image;
+    private String avatar;
     private boolean online;
     private List<Player> friends;
     private Map<String, Integer> availablePowerUps = new HashMap<>();
     private Map<String, Integer> purchasedPowerUps = new HashMap<>();
+    private int points;
+    private int level;
 
-    //For achievements
+
+    /**
+     * Variables for achievements and ranking
+     */
     private int nbGamesPlayed;
     private int nbQanswered;
-
+    private int currentScore;
+    private int highestScore;
+    private final List<Achievement> achievements = new ArrayList<>();
     private static  Player practicePlayer;
+    /**
+     * Stored in the DB for sorting access
+     */
+    private int totalratio;
+    private int totalScore;
+    private int exp;
 
+    /**
+     * Category management
+     */
     private final List<Category> categoriesPurchased = new ArrayList<>();
     private final List<Category> categoriesSelected = new ArrayList<>();
     private final List<Category> categoriesFavorites = new ArrayList<>();
 
-    private final List<Achievement> achievements = new ArrayList<>();
-
+    /**
+     * Game variables
+     */
     private List<Question> correctlyAnswered = new ArrayList<>();
     private List<Question> wronglyAnswered = new ArrayList<>();
 
-    private int points;
-    private int level;
-    private int currentScore;
-    private int highestScore;
-
-
-
-    //we store this value in the db for sorting access
-    private int totalratio;
-
-
-    private int totalScore;
-
-    private int exp;
-    private String avatar;
-
-    private Map<String, Integer> perfCategories = new HashMap<>();
-
+    /**
+     * Different constructors of class Player
+     * Used for various reasons throughout the application
+     */
     public Player() {
     }
 
@@ -80,6 +87,9 @@ public class Player extends Observable implements Serializable {
         this(playerId, name, null, 0, 0, 0);
     }
 
+    /**
+     * Creates a player with 1 power-up of each
+     */
     public static Player defaultPlayer() {
         if (practicePlayer == null){
             practicePlayer = new Player("1", "Practice Mode", null, 0, 0, 0);
@@ -90,97 +100,64 @@ public class Player extends Observable implements Serializable {
         }
         return practicePlayer;
     }
+
+    /**
+     * We clear the amount of good/bad question answered and the score
+     */
     public void onGameReset(){
         this.resetScore();
         this.correctlyAnswered.clear();
         this.wronglyAnswered.clear();
     }
 
+    /**
+     * Add the score in param to our current score
+     * If the current score beats our highscore, we update it
+     */
     private void addScore(int score) {
         currentScore +=score;
-        if (highestScore < score){
-            highestScore = score;
+        if (highestScore < currentScore){
+            highestScore = currentScore;
         }
     }
 
-    public int getCurrentScore(){
-        return currentScore;
-    }
-
+    /**
+     * Add the money to the total amount of money the player owns
+     */
     private void addPoints(int points){
         setPoints(this.points + points);
     }
 
+    /**
+     * Put the current score back to 0 and change it on the UI
+     */
     private void resetScore() {
-        //this.totalScore += this.currentScore;
         this.currentScore = 0;
         setChanged();
         notifyObservers();
     }
 
-    public void setPoints(int points){
-        this.points = points;
-        setChanged();
-        notifyObservers();
-    }
-
+    /**
+     * Check if the player has enough money to buy the category.
+     * If so, we deduce the cost, add the category to the categories he bought
+     * And update his achievements if necessary
+     */
     public boolean buyCategory(Category category) {
-        if (category.getPrice() > this.getPoints()) {
-            return false;
+        if (canBuy(category){
+            setPoints(this.points - category.getPrice());
+            categoriesPurchased.add(category);
+            updateAchievements();
+            return true;
         }
-        setPoints(this.points - category.getPrice());
-        categoriesPurchased.add(category);
-        updateAchievements();
-        return true;
     }
 
     public boolean canBuy(Category category) {
         return this.getPoints() >= category.getPrice();
     }
 
-    public List<Category> getCategoriesPurchased() {
-        return categoriesPurchased;
-    }
 
     public boolean alreadyPurchased(Category category){
         return  categoriesPurchased.contains(category);
-    }
-
-    public List<Achievement> getAchievements() {
-        return achievements;
-    }
-
-    public List<Player> getFriends() {
-        return friends;
-    }
-
-    public boolean isFriend(Player p) {
-        return friends.contains(p);
-    }
-
-    public boolean isOnline() {
-        return online;
-    }
-
-    public void addFriend(Player p) {
-        friends.add(p);
-    }
-
-    //Getters
-    public int getLevel() {
-        return level;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImage() {
-        return image;
     }
 
     public void addCorrectAnswer(Question question) {
@@ -199,17 +176,22 @@ public class Player extends Observable implements Serializable {
             this.exp=0;
         }
     }
-
+    public void addmoney(int mon){
+        this.points+=mon;
+    }
     public void addIncorrectAnswer(Question question) {
         this.wronglyAnswered.add(question);
     }
 
+    /**
+     * TODO: Fix the 2 pref categories stuffs
+     */
     private void updatePerformCategory(Category category){
-        Integer value = this.perfCategories.get(category.getName());
+        Integer value = this.prefCategories.get(category.getName());
         if (value == null){
             value = 0;
         }
-        this.perfCategories.put(category.getName(), ++value);
+        this.prefCategories.put(category.getName(), ++value);
 
     }
 
@@ -221,21 +203,6 @@ public class Player extends Observable implements Serializable {
         if (!this.achievements.contains(achievement)){
             this.achievements.add(achievement);
         }
-    }
-    public int getPoints(){
-        return points;
-    }
-
-    public List<Category> getCategoriesSelected(){
-        return this.categoriesSelected;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
 
@@ -302,59 +269,139 @@ public class Player extends Observable implements Serializable {
         return true;
     }
 
+    public void addFavoriteCategory(Category category) {
+        this.getCategoriesFavorites().add(category);
+    }
+
+    /**
+     *Setters
+     */
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
     public void setNbGamesPlayed(int nbGamesPlayed) {
         this.nbGamesPlayed = nbGamesPlayed;
     }
-
     public void setNbQanswered(int nbQanswered) {
         this.nbQanswered = nbQanswered;
     }
-
-    public int getNbGamesPlayed(){
-        return this.nbGamesPlayed;
-    }
-
-    public int getNbQanswered(){
-        return this.nbQanswered;
-    }
-
-    public void setName(String name) {
+        public void setName(String name) {
         this.name = name;
     }
-
     public void setImage(String image) {
         this.image = image;
     }
-
     public void setOnline(boolean online) {
         this.online = online;
     }
-
     public void setFriends(List<Player> friends) {
         this.friends = friends;
     }
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setAvailablePowerUps(Map<String, Integer> availablePowerUps) {
+        this.availablePowerUps = availablePowerUps;
+    }
+    public void setPurchasedPowerUps(Map<String, Integer> purchasedPowerUps) {
+        this.purchasedPowerUps = purchasedPowerUps;
+    }
+    public static void setPracticePlayer(Player practicePlayer) {
+        Player.practicePlayer = practicePlayer;
+    }
+    public void setCorrectlyAnswered(List<Question> correctlyAnswered) {
+        this.correctlyAnswered = correctlyAnswered;
+    }
+    public void setWronglyAnswered(List<Question> wronglyAnswered) {
+        this.wronglyAnswered = wronglyAnswered;
+    }
+    public void setTotalratio(int totalratio) {
+        this.totalratio = totalratio;
+    }
+    /**
+     * Modify the money of the player and update the amount visually
+     */
+    public void setPoints(int points){
+        this.points = points;
+        setChanged();
+        notifyObservers();
+    }
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+    public void setLevel(int level) {
+        this.level = level;
+    }
+    public void setCurrentScore(int currentScore) {
+        this.currentScore = currentScore;
+    }
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
+    }
 
+    /**
+     *Getters
+     */
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+    public List<Category> getCategoriesPurchased() {
+        return categoriesPurchased;
+    }
+    public int getLevel() {
+        return level;
+    }
+    public String getId() {
+        return id;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getImage() {
+        return image;
+    }
+    public int getPoints(){
+        return points;
+    }
+    public List<Category> getCategoriesSelected(){
+        return this.categoriesSelected;
+    }
+    public String getAvatar() {
+        return avatar;
+    }
+    public int getNbGamesPlayed(){
+        return this.nbGamesPlayed;
+    }
+    public int getNbQanswered(){
+        return this.nbQanswered;
+    }
+    public int getCurrentScore(){
+        return currentScore;
+    }
     public List<Question> getCorrectlyAnswered() {
         return correctlyAnswered;
     }
-
     public List<Question> getWronglyAnswered() {
         return wronglyAnswered;
     }
-
     public int getHighestScore() {
         return highestScore;
     }
 
-    public Map<String, Integer> getPrefCategories() {
-        return perfCategories;
-    }
-
+    /**
+     *Return 0 or the number of powerups that the player can buy
+     */
     public int getNumberAvailablePowerUps(PowerUp powerUp){
         Integer current = this.availablePowerUps.get(powerUp.getName());
         return current == null? 0: current;
     }
 
+    /**
+     *Return 0 or the number of powerups bought by the player
+     */
     public int getNumberPurchased(PowerUp powerUp){
         Integer current = this.purchasedPowerUps.get(powerUp.getName());
         return current == null? 0: current;
@@ -363,87 +410,28 @@ public class Player extends Observable implements Serializable {
     public int getExp() {
         return exp;
     }
-
-    public void setExp(int exp) {
-        this.exp = exp;
-    }
-
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setAvailablePowerUps(Map<String, Integer> availablePowerUps) {
-        this.availablePowerUps = availablePowerUps;
-    }
-
-    public void setPurchasedPowerUps(Map<String, Integer> purchasedPowerUps) {
-        this.purchasedPowerUps = purchasedPowerUps;
-    }
-
-    public static void setPracticePlayer(Player practicePlayer) {
-        Player.practicePlayer = practicePlayer;
-    }
-
-    public void setCorrectlyAnswered(List<Question> correctlyAnswered) {
-        this.correctlyAnswered = correctlyAnswered;
-    }
-
-    public void setWronglyAnswered(List<Question> wronglyAnswered) {
-        this.wronglyAnswered = wronglyAnswered;
-    }
     public int getTotalratio() {
         return totalratio;
-    }
-
-    public void setTotalratio(int totalratio) {
-        this.totalratio = totalratio;
     }
     public int getTotalScore() {
         return totalScore;
     }
-
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public void setCurrentScore(int currentScore) {
-        this.currentScore = currentScore;
-    }
-
-    public void setHighestScore(int highestScore) {
-        this.highestScore = highestScore;
-    }
-
-    public void setPerfCategories(Map<String, Integer> perfCategories) {
-        this.perfCategories = perfCategories;
-    }
-
-    public Map<String, Integer> getPerfCategories() {
-        return perfCategories;
-    }
-
     public Map<String, Integer> getAvailablePowerUps() {
-
         return availablePowerUps;
     }
-
     public Map<String, Integer> getPurchasedPowerUps() {
         return purchasedPowerUps;
     }
-
     public List<Category> getCategoriesFavorites() {
         return categoriesFavorites;
     }
 
-
-    public void addFavoriteCategory(Category category) {
-        this.getCategoriesFavorites().add(category);
-    }
-
+    /**
+     * For every achievement, check if it is already achieved
+     * If not, we add the achievement to the player's achievements list
+     * We then add the achievement to an array list which will be returned
+     * We finally add the exp and money related to the player
+     */
     public List<Achievement> updateAchievements(){
         List<Achievement> achievements = new ArrayList<>();
         for (Achievement a: Achievement.values()){
@@ -451,21 +439,21 @@ public class Player extends Observable implements Serializable {
                 this.addAchievement(a);
                 achievements.add(a);
                 this.addexp(a.getXP());
+                this.addmoney(a.getMoney());
             }
         }
         return achievements;
     }
 
-
+    /**
+     * Allow to compare two Players using object comparison
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Player player = (Player) o;
-
         return id != null ? id.equals(player.id) : player.id == null;
-
     }
 
     @Override
@@ -496,7 +484,7 @@ public class Player extends Observable implements Serializable {
                 ", highestScore=" + highestScore +
                 ", exp=" + exp +
                 ", avatar='" + avatar + '\'' +
-                ", perfCategories=" + perfCategories +
+                ", prefCategories=" + prefCategories +
                 '}';
     }
 }

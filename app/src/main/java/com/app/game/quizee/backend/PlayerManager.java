@@ -1,5 +1,4 @@
 package com.app.game.quizee.backend;
-
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -18,7 +17,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 /**
- * Created by gia on 23/04/17.
  * A singleton class, wrapper on Firebase API
  * Performs user authorisation, reading and storing user profile in the Firebase DB
  */
@@ -33,10 +31,14 @@ public class PlayerManager{
 
     private Player currentPlayer;
 
-    // class to be called when player is logged in
+    /**
+     * Class to be called when player is logged in
+     */
     private PlayerLoggedCallback loggedCallback;
 
-    // class to be called when players top list received
+    /**
+     * Class to be called when players top list received
+     */
     private TopListReceivedCallback topListReceivedCallback;
 
     /**
@@ -50,7 +52,7 @@ public class PlayerManager{
     }
 
     /**
-     * this is a singleton private constructor
+     * This is a singleton private constructor
      */
     private PlayerManager() {
         mAuth = FirebaseAuth.getInstance();
@@ -205,17 +207,19 @@ public class PlayerManager{
             }
         });
     }
-
+    /**
+     * The next 2 methods save 2 different types of players in the database
+     * The current one and the one given in param
+     */
     public void saveCurrentPlayer() {
         Player player = getCurrentPlayer();
-        // do not store the practice player
+        // Do not store the practice player
         if (player != null && player!=Player.defaultPlayer()){
             Log.i(TAG, "Saving player: " + player);
             final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
             playersDatabase.child(player.getId()).setValue(player);
         }
     }
-
 
     public void savePlayer(Player player) {
         Log.i(TAG, "Saving player: " + player);
@@ -227,15 +231,16 @@ public class PlayerManager{
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-
     public void setLoggedCallback(PlayerLoggedCallback loggedCallback) {
         this.loggedCallback = loggedCallback;
     }
-
     public void setTopListReceivedCallback(TopListReceivedCallback topListReceivedCallback) {
         this.topListReceivedCallback = topListReceivedCallback;
     }
 
+    /**
+     * Query the database to get the players by their highestscore
+     */
     public void getTopPlayers(int maxTopPlayers) {
         final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
         Query myTopPostsQuery = playersDatabase.orderByChild("highestScore").limitToLast(maxTopPlayers);
@@ -271,8 +276,41 @@ public class PlayerManager{
         });
 
     }
+    public void getTopPlayersTotal(int maxTopPlayers) {
+        final DatabaseReference playersDatabase = FirebaseDatabase.getInstance().getReference().child("players");
+        Query myTopPostsQuery = playersDatabase.orderByChild("totalratio").limitToLast(maxTopPlayers);
+        myTopPostsQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
 
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                topListReceivedCallback.onItemRead(dataSnapshot.getValue(Player.class));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                topListReceivedCallback.onError(databaseError.getMessage());
+            }
+
+        });
+
+    }
     public void logout() {
         saveCurrentPlayer();
         signOut();

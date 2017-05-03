@@ -32,6 +32,9 @@ public class TriviaApi {
     private final int amount;
     private final boolean repeatForever;
 
+    /**
+     * Constructor of class TriviaAPI
+     */
     public TriviaApi(Collection<Category> categories, int amount, boolean repeatForever) {
         this.categories = new ArrayList<>(categories);
         this.amount = amount;

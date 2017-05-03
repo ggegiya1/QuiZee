@@ -359,6 +359,7 @@ public enum  Achievement implements Serializable {
     private int money;
     private int progress;
     private int maxProgress;
+    //TODO: Check if used
     private String key;
 
     /**
@@ -390,15 +391,23 @@ public enum  Achievement implements Serializable {
     public int getMaxValue(){return -1;}
 
     /**
+     *Calculate the progression of the player for the progress bar
+     */
+    public int getProg(Player player){
+        return (int)(Math.round((getCurrentValue(player)/(double)getMaxValue())*100));
+    }
+    public int getCurrentValue(Player player){return -1;}
+
+    /**
      *Setters
      */
     public void setProgress(int pg) {
         progress = pg;
     }
-    public int getProg(Player player){
-        return (int)(Math.round((getCurrentValue(player)/(double)getMaxValue())*100));
-    }
-    public int getCurrentValue(Player player){return -1;}
+
+    /**
+     *Return whether an achiev was done or not
+     */
     public boolean isAchieved(Player player){
         return false;
     }
