@@ -1,5 +1,4 @@
 package com.app.game.quizee.backend;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,9 +6,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * Created by gia on 15/04/17.
- */
 
 public class Questions {
 

@@ -1,5 +1,4 @@
 package com.app.game.quizee.backend;
-
 import android.graphics.Color;
 
 import java.io.Serializable;
@@ -8,9 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by ggegiya1 on 2/15/17.
- */
 
 public class Question implements Serializable {
 

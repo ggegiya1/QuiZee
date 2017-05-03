@@ -1,5 +1,4 @@
 package com.app.game.quizee.layout;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,8 @@ import com.app.game.quizee.R;
 import com.app.game.quizee.backend.Achievement;
 
 import java.util.List;
-
     /**
-    * Adapter inspiré de
+    * Adapter inspired from
     * http://www.androidinterview.com/android-custom-listview-with-image-and-text-using-arrayadapter/
     **/
 
@@ -88,9 +86,8 @@ public class AchievementsAdapter extends ArrayAdapter<Achievement> {
     }
 
     /**
-     * holds a view for later use to improve performance
+     * Holds a view for later use to improve performance
      */
-
     private static class ViewHolder {
         TextView achievementName;
         ImageView achievementIcon;
