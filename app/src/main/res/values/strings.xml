@@ -21,7 +21,6 @@
     <string name="loading">Loading …</string>
 
     <!-- Strings related to bottom bottom_navigation activity -->
-
     <string name="title_activity_bottom__navigation">Bottom_Navigation</string>
     <string name="title_home">Home</string>
     <string name="title_top_players">Top players</string>
@@ -44,21 +43,17 @@
     <string name="buy_category">Buy Category</string>
     <string name="discard">Discard</string>
 
-    <!-- Strings related to contacts-->
-    <string name="hint_search_friends">SEARCH A FRIEND</string>
-    <string name="search_results">Search results</string>
+    <!-- Strings related to top players-->
     <string name="top_players">TOP PLAYERS</string>
     <string name="friends">Friends</string>
     <string name="filter">By highscore</string>
+
     <!-- Strings related to multiplayer-->
-    <string name="VS">VS</string>
-    <string name="pref_title_notification_friend_request_accepted">Friend request accepted notification</string>
-    <string name="pref_title_gaming_request_notifications">Gaming request notification</string>
     <string name="pref_title_reset_account">Reset account</string>
     <string name="pref_header_account">Account</string>
     <string name="pref_header_about">About</string>
 
-    <!-- Strings related to achivements-->
+    <!-- Strings related to achievements-->
     <string name="Career">Achievements</string>
     <string name="achievements">ACHIEVEMENTS</string>
     <string name="statistics">STATISTICS</string>
@@ -75,7 +70,7 @@
     <string name="Hint_Button">hint</string>
     <string name="Bomb_Button">bomb</string>
     <string name="Skip_Button">skip</string>
-    <string name="no_achivement_earned">No new achivements</string>
+    <string name="no_achivement_earned">No new achievements</string>
     <string name="achivements_earned">Achievements obtained</string>
     <string name="goodAnswers">Good answers</string>
     <string name="dont_replay">Leave</string>
@@ -95,7 +90,7 @@
         <item>Epic!</item>
     </string-array>
 
-    <!-- String related to shop -->
+    <!-- Strings related to shop -->
     <string name="AlertDialog_shop">Buy category?</string>
     <string name="dontbuy">Dont buy</string>
     <string name="buy">Buy</string>
@@ -108,19 +103,15 @@
     <string name="buy_item">How many</string>
     <string name="buy_item2">do you want?</string>
 
-    <!-- strings related to settings -->
+    <!-- Strings related to settings -->
     <string name="change_avatar">Change avatar</string>
     <string name="change_name">Change name</string>
     <string name="change_password">Change password</string>
     <string name="category_icon">Caterory icon</string>
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
-
-    <!-- Strings related to Settings -->
     <string name="logout">Logout</string>
     <string name="pref_sound_activate">Activate sounds</string>
     <string name="pref_notification_activate">Activate notifications</string>
@@ -163,13 +154,13 @@
     <string name="points_format">money: %d</string>
     <string name="score_format">Score: %d</string>
 
-    <!-- item Descriptions  -->
+    <!-- Item descriptions  -->
     <string name="description_bomb">Removes 2 wrong answers</string>
     <string name="description_hint">Gives a probable good answer</string>
     <string name="description_skip">Skips to the next questions</string>
     <string name="description_add_time">Adds 10 seconds</string>
 
-    <!-- game animations -->
+    <!-- Game animations -->
     <string name="time_expired">TIME EXPIRED</string>
     <string name="correct_answer">!!! CORRECT ANSWER !!!</string>
     <string name="wrong_answer">WRONG ANSWER</string>
