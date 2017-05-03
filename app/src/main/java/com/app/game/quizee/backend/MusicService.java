@@ -1,11 +1,4 @@
 package com.app.game.quizee.backend;
-
-/**
- * Created by trist on 2017-04-30.
- */
-
-//La classe est grandement inspiré de https://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
-
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -17,9 +10,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.app.game.quizee.R;
-
+/**
+ *The class is greatly inspired of https://www.codeproject.com/Articles/258176/Adding-Background-Music-to-Android-App
+ * Allow us to manage the music in game
+ */
 public class MusicService extends Service  implements MediaPlayer.OnErrorListener {
 
+    //Count to switch the music
     int compteur=1;
     private final IBinder mBinder = new ServiceBinder();
     MediaPlayer mPlayer;
@@ -27,11 +24,17 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     private boolean mustRestart;
     static MusicService musicServiceInstance;
 
+    /**
+     *Constructor of class MusicService
+     */
     public MusicService() {
         musicServiceInstance = this;
         mustRestart = false;
     }
 
+    /**
+     *Allow to use the class without outside instanciation
+     */
     public static synchronized MusicService getInstance() {
         if (musicServiceInstance == null){
             return new MusicService();
@@ -39,8 +42,11 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         return musicServiceInstance;
     }
 
+    /**
+     *Allow interprocess communication within Android
+     * Used to stop the music when the app is closed
+     */
     public static class ServiceBinder extends Binder {
-
         public static MusicService getService() {
             if(musicServiceInstance == null) {
                 return new MusicService();
@@ -54,17 +60,18 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         return mBinder;
     }
 
+    /**
+     *Start the music and get ready to catch errors
+     */
     @Override
     public void onCreate() {
         super.onCreate();
         updateMusic();
         mPlayer.setOnErrorListener(this);
-
         mPlayer.setOnErrorListener(new OnErrorListener() {
 
             public boolean onError(MediaPlayer mp, int what, int
                     extra) {
-
                 onError(mPlayer, what, extra);
                 return true;
             }
@@ -84,6 +91,9 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         return START_NOT_STICKY;
     }
 
+    /**
+     *Force the pause as long as the mediaplayer exists
+     */
     public void inconditionalPauseMusic() {
         Log.i("Music", "music paused");
         if (mPlayer != null) {
@@ -94,15 +104,12 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
         }
     }
 
+    /**
+     *TODO
+     */
     public void pauseMusic() {
-        Log.i("Music", "music paused");
         if (!mustRestart) {
-            if (mPlayer != null) {
-                if (mPlayer.isPlaying()) {
-                    mPlayer.pause();
-                    length = mPlayer.getCurrentPosition();
-                }
-            }
+            inconditionalPauseMusic();
         }
         mustRestart = false;
     }
@@ -187,13 +194,6 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     public void updateMusic(){
-        /*if (this.mymedia != null) {
-            if (this.mymedia.isPlaying()) {
-                this.mymedia.stop();
-                this.mymedia.reset();
-            }
-            this.mymedia.release();
-        }*/
         this.mPlayer = new MediaPlayer();
         randomMusic();
         boolean music = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("sound_music", false);

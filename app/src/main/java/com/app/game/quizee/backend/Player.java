@@ -1,5 +1,4 @@
 package com.app.game.quizee.backend;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -13,8 +12,6 @@ import java.util.Map;
 import java.util.Observable;
 
 /**
- * Created by Maude on 2017-04-03.
- *
  * IMPORTANT! This class will be serialized and stored in Firebase DB in JSON format
  * To avoid serialization errors, please implement both setter and getter for any new attribute
  */

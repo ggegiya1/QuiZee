@@ -1,15 +1,14 @@
 package com.app.game.quizee.backend;
-
-
 import java.io.Serializable;
 
 /**
- * Created by Maude on 2017-04-03.
+ *Enumeration of all achievements
  */
-
-// List of all ava
 public enum  Achievement implements Serializable {
 
+    /**
+     *Description, exp given, gold given, explanation
+     */
     GAMES_1 ("First try!", 25, 5, "Play 1 games on QuiZee."){
         @Override
         public int getMaxValue() {
@@ -22,6 +21,7 @@ public enum  Achievement implements Serializable {
         }
 
         @Override
+        //Allow us to check if the achievement has been unlocked
         public boolean isAchieved(Player player){
             return player.getNbGamesPlayed() == 1 && !player.hasAchievement(GAMES_1);
         }
@@ -240,8 +240,6 @@ public enum  Achievement implements Serializable {
             return getCurrentValue(player) == 5 && !player.hasAchievement(HINTS_5);
         }
     },
-
-    //TODO: Achiev achat categorie
     CATEGORY_1 ("Knowledge is expandable", 20, 5, "Buy 1 category."){
         @Override
         public int getMaxValue() {
@@ -258,7 +256,6 @@ public enum  Achievement implements Serializable {
             return player.getCategoriesPurchased().size() == 1 && !player.hasAchievement(CATEGORY_1);
         }
     },
-
     CATEGORY_10 ("This fella likes to learn!", 20, 5, "Buy 10 categories."){
         @Override
         public int getMaxValue() {
@@ -275,7 +272,6 @@ public enum  Achievement implements Serializable {
             return player.getCategoriesPurchased().size() == 10 && !player.hasAchievement(CATEGORY_10);
         }
     },
-
     CATEGORY_ALL ("Ain't no subject he can't deal", 120, 200, "Buy all categories."){
         @Override
         public int getMaxValue() {
@@ -365,8 +361,9 @@ public enum  Achievement implements Serializable {
     private int maxProgress;
     private String key;
 
-
-    //constructeur dachievement avec information nominale
+    /**
+     *Achievement constructor with nominal information
+     */
     Achievement(String text, int experience, int currency, String a_information) {
         description = text;
         exp = experience;
@@ -374,38 +371,34 @@ public enum  Achievement implements Serializable {
         information = a_information;
 
     }
-    //Getters
+
+    /**
+     *Getters
+     */
     public String getDesc(){
         return description;
     }
-
     public int getXP(){
         return exp;
     }
     public int getMoney(){
         return money;
     }
-
     public String getInformation() {return information;}
-
     public int getProgress() {return progress;}
-
     public int getMaxProgress() {return maxProgress;}
-
     public int getMaxValue(){return -1;}
 
-    //Setters
-
+    /**
+     *Setters
+     */
     public void setProgress(int pg) {
         progress = pg;
     }
-
     public int getProg(Player player){
         return (int)(Math.round((getCurrentValue(player)/(double)getMaxValue())*100));
     }
-
     public int getCurrentValue(Player player){return -1;}
-
     public boolean isAchieved(Player player){
         return false;
     }

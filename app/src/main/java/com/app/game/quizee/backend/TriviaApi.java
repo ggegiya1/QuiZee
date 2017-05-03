@@ -1,5 +1,4 @@
 package com.app.game.quizee.backend;
-
 import android.text.Html;
 import android.util.Log;
 
@@ -23,11 +22,6 @@ import java.util.Map;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-/**
- * Created by ggegiya1 on 2/15/17.
- * This class is a wrapper on Open Trivia REST API
- */
 
 public class TriviaApi {
 

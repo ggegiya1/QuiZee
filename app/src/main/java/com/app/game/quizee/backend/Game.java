@@ -1,9 +1,8 @@
 package com.app.game.quizee.backend;
 
 /**
- * Created by ggegiya1 on 2017-04-22.
+ *Interface to manage a game, implements the methods for power-ups
  */
-
 public interface Game {
     void deleteTwoIncorrectAnswers();
     void addTime();
