@@ -174,5 +174,9 @@
     <string name="skip_question">Skipping a question..</string>
     <string name="top_players_icon_labels">Icon</string>
 
+    <string-array name="sort_type">
+        <item>High Score</item>
+        <item>Total Score</item>
+    </string-array>
 
 </resources>
