@@ -79,7 +79,9 @@ public class CategorySelectionActivity extends AppCompatActivity implements Obse
     @Override
     protected void onStart() {
         super.onStart();
+        // redraw the list according the current player's state
         PlayerManager.getInstance().getCurrentPlayer().clearSelectedCategories();
+        adapterCategory.notifyDataSetChanged();
     }
 
     /**
