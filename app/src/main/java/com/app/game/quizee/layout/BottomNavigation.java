@@ -292,5 +292,4 @@ public class BottomNavigation extends AppCompatActivity implements Observer {
         MusicService.ServiceBinder.getService().pauseMusic();
         super.onPause();
     }
-
 }

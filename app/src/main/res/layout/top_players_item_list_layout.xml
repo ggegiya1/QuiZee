@@ -55,41 +55,4 @@
         android:textColor="@color/colorPrimary"
         android:textSize="30sp" />
 
-    <!--Button
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="follow me"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/yellow"
-        android:background="@android:drawable/btn_default_small"
-        android:id="@+id/contact_follow_toggle"/-->
-
-    <!--Button
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/play_request_button"
-        android:text="Play"
-        android:background="@drawable/button_tertiary_default"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/-->
-
-    <!--ProgressBar
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/play_request_progressbar"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:progress="1"/-->
-
-    <!--ImageView
-        android:id="@+id/contact_is_connected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:drawable/btn_star"
-        android:backgroundTint="@color/green"
-        android:contentDescription="Contact availble"
-        android:gravity="center" /-->
-
 </LinearLayout>

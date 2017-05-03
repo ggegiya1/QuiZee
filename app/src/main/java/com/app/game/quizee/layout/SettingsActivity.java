@@ -130,7 +130,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         /**
          * permet de choisir une image
-         *
          */
 
         //choisir une image: le code vient de http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
