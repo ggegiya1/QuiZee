@@ -56,7 +56,6 @@ public class FavoriteCategorySelectionActivity extends AppCompatActivity impleme
 
     /**
      * Create and initialise the activity view
-     * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
