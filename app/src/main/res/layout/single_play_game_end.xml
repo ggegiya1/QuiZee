@@ -3,21 +3,21 @@
     android:orientation="vertical"
     android:layout_width="250dp"
     android:layout_height="600dp"
-    android:minHeight="300dp"
+    android:minHeight="500dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:id="@+id/end_single_play_summary">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:id="@+id/end_felicitations"
         android:text="Hello"
         android:textStyle="bold"
         android:textColor="@color/primaryBackground"
         android:gravity="center"
         android:textSize="20sp"
-        android:layout_weight="0.10"
+        android:layout_weight="0.1"
         android:background="@drawable/button_primary_default"/>
 
     <TextView
@@ -26,13 +26,13 @@
         android:id="@+id/end_good_answers"
         android:gravity="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:layout_weight="0.5"/>
 
     <TextView
         android:id="@+id/achievement_status"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:textSize="20sp"
         android:gravity="center"
         android:textColor="@color/primaryBackground"
