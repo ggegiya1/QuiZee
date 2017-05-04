@@ -97,7 +97,9 @@ public class EndDialog {
         String text = "Score: " + score.getTotalScore() + "\n" +
                 "Good answers: " + player.getCorrectlyAnswered().size() + "\n";
         for (Question.Difficulty d: Question.Difficulty.values()){
-            text += d.name() + ": " + score.getAnswers(d) + "(+" + score.getScore(d) + "pts)\n";
+            if (score.getAnswers(d)>0){
+                text += d.name() + ": " + score.getAnswers(d) + "(+" + score.getScore(d) + "pts)\n";
+            }
         }
         text += "Time bonus: " + (int)(score.getTimeLeft()/1000) + "sec (+" + score.getTimeBonus() + "pts)";
         textView.setText(text);

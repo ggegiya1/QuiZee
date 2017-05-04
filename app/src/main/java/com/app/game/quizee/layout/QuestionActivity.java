@@ -623,7 +623,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
 
     private void updateScore(Player player) {
-        scoreView.setText(String.valueOf(player.getCurrentScore()));
+        scoreView.setText(String.valueOf(player.getCorrectlyAnswered().size()));
         pointsView.setText(String.valueOf(player.getPoints()));
     }
 

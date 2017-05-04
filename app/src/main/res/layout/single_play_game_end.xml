@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="250dp"
-    android:layout_height="400dp"
+    android:layout_height="500dp"
     android:minHeight="300dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/end_achievements_earned"
-        android:layout_weight="0.30"/>
+        android:layout_weight="0.40"/>
 
     <LinearLayout
         android:layout_width="match_parent"
