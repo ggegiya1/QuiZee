@@ -190,6 +190,7 @@ public class ShopFragment extends Fragment implements Observer {
                 }
                 Toast.makeText(getContext(), " +" +quantity + " " + pUp.getName() + " purchased!", Toast.LENGTH_SHORT).show();
                 updateAchievements(player);
+                PlayerManager.getInstance().savePlayer(player);
                 sa.notifyDataSetChanged();
                 buyDialog.cancel();
             }
