@@ -71,7 +71,7 @@ public class PlayerManager{
     /**
      * Try to get currently authenticated user
      */
-    public void onStart() {
+    public void loginWithCurrentUser() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user!=null){
             String playerId = user.getUid();
@@ -324,7 +324,15 @@ public class PlayerManager{
      * All the classes using PlayerManager to login in QuiZee app have to implement this interface
      */
     public interface PlayerLoggedCallback{
+        /**
+         * Callback method to be called by authentication service when successfully logged in
+         */
         void onLogin();
+
+        /**
+         * Callback method to be called by authentication service if an error occurred or the login failed
+         * @param message failure description
+         */
         void onFailure(String message);
     }
 

@@ -84,17 +84,19 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     int questionCount;
     Question currentQuestion;
 
-    //Total game scores
-    int pscore=0;
-
     boolean isPracticeMode;
 
     SharedPreferences prefs;
     boolean gameSounds;
+    EndDialog endDialog;
 
     static final int BASE_TIME_MILLIS = 15000; // temps entre les questions en milisecondes
     static final int QUESTIONS_NUMBER = 10; // max questions per single game
 
+    /**
+     * Create and initialize the main view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +119,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         if (isPracticeMode){
             hideScoreElements();
         }
+        endDialog = new EndDialog(this);
         init();
     }
 
@@ -125,7 +128,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         scoreView.setVisibility(View.INVISIBLE);
     }
 
-    private void init() {
+    @Override
+    public void init() {
         Player player = getCurrentPlayer();
         player.onGameReset();
         questionCount = 0;
@@ -377,6 +381,7 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
      */
     private void endDialog() {
         final Player player = getCurrentPlayer();
+        // play endgame sound
         if(gameSounds) {
             MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.endgame);
             mp.start();
@@ -387,64 +392,12 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
                 }
             });
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        player.setNbGamesPlayed(player.getNbGamesPlayed()+1);
-        View dialogView = getLayoutInflater().inflate(R.layout.single_play_game_end,null);
-        builder.setView(dialogView);
-        final AlertDialog endDialog = builder.create();
-        player.setTotalScore(player.getCurrentScore()+player.getTotalScore());
-        player.setTotalratio(player.getTotalScore()/(player.getNbGamesPlayed()+1));
-
-        //achievement title
-        TextView achivement_status = (TextView) dialogView.findViewById(R.id.achievement_status);
-
-        //felicitations
-        pscore = player.getCorrectlyAnswered().size();
-        TextView felicitations = (TextView) dialogView.findViewById(R.id.end_felicitations);
-        String fel[] = getResources().getStringArray(R.array.game_end_felicitation);
-        felicitations.setText(fel[pscore]);
-
-        TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
-
-        goodAnswersTv.setText(getString(R.string.goodAnswers) + ": " + pscore + "  Score: " + player.getCurrentScore());
-
-        // IMPORTANT! Save the current player score to be updated in TOP list view
-        PlayerManager.getInstance().saveCurrentPlayer();
-        List<Achievement> achievements = player.updateAchievements();
-        if (!achievements.isEmpty()){
-            ListView achievementsEarned = (ListView) dialogView.findViewById(R.id.end_achievements_earned);
-            AchievementsAdapter adapter = new AchievementsAdapter(this,  achievements);
-            achievementsEarned.setAdapter(adapter);
-            achivement_status.setText(R.string.achivements_earned);
-        }else{
-            achivement_status.setText(R.string.no_achivement_earned);
-        }
-
-        Button replay = (Button) dialogView.findViewById(R.id.end_play_again_button_yes);
-        replay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endDialog.cancel();
-                init();
-            }
-        });
-
-        Button dontReplay = (Button) dialogView.findViewById(R.id.end_play_again_button_no);
-        dontReplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endDialog.cancel();
-                player.onGameReset();
-                finish();
-            }
-        });
-        endDialog.show();
-        endDialog.setCancelable(false);
+        // show end dialog
+        endDialog.show(this, player);
     }
 
     /**
-     * Show the new quesion on the screen
-     * @param question
+     * Update question text and answer buttons with the new question
      */
     private void setQuestion(Question question){
         questionCount++;
@@ -477,6 +430,13 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             questionsContView.setText(String.format("%s/%s", questionCount, QUESTIONS_NUMBER));
         }
 
+        runCountDownTimer();
+    }
+
+    /**
+     * Start countdown timer
+     */
+    private void runCountDownTimer(){
         if (countDownTimer != null) {
             countDownTimer.cancel();}
         countDownTimer = new MyCountDownTimer(BASE_TIME_MILLIS, 100);
@@ -484,11 +444,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
         setButtonsClickable(true);
     }
 
-
     /**
-     *  custom countdownTimer class for the remaining time to answer
+     *  Custom countdownTimer class to get the remaining time to answer
      */
-
     private class MyCountDownTimer extends CountDownTimer {
         private long timeRemaining;
 
@@ -496,6 +454,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             super(startTime, timeBetweenTicks);
         }
 
+        /**
+         * Update the timer view on each tick
+         * @param millisUntilFinished
+         */
         @Override
         @TargetApi(21)
         public void onTick(long millisUntilFinished) {
@@ -505,6 +467,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             timerView.setText(String.format(Locale.ROOT, "%.2f", (float) millisUntilFinished / 1000));
         }
 
+        /**
+         * Get remaining time to respond to the current question
+         * @return remaining time in milliseconds
+         */
         public long getTimeRemaining() {
             return timeRemaining;
         }
@@ -519,7 +485,9 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
             resultAnimation(questionTextView, getString(R.string.time_expired), Color.RED);
         }
 
-        // change the timer color on progress from green to yellow and from yellow to red
+        /**
+         * Calculate the timer color on progress from green to yellow and from yellow to red
+         */
         private int getTimerColor(long millisUntilFinished) {
             float factor = ((float) millisUntilFinished / BASE_TIME_MILLIS);
             if (factor <= 0.5) {
@@ -534,7 +502,8 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     }
 
     /**
-     * make game buttons clickable or not
+     * Toggle the buttons
+     * The buttons should be disabled during the response validation and animations
      * @param b
      */
     public void setButtonsClickable(boolean b) {
@@ -554,18 +523,16 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
      */
     @Override
     public void skipQuestion() {
-        updatePowerUpButtons();
         questionCount--;
         resultAnimation(questionTextView, getString(R.string.skip_question), Color.GREEN);
     }
 
     /**
      * Executed by AddTime PowerUp
-     * Add 10 sec time to game time
+     * Adds 5 sec extra time to the game
      */
     @Override
     public void addTime() {
-        updatePowerUpButtons();
         long newTime = countDownTimer.getTimeRemaining() + 10000;
         countDownTimer.cancel();
         countDownTimer = new MyCountDownTimer(newTime, 50);
@@ -575,11 +542,10 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     /**
      * Executed by Bomb PowerUp
-     * Disable (shadow) two incorrect answers
+     * Disables (shadows) two incorrect answers
      */
     @Override
     public void deleteTwoIncorrectAnswers() {
-        updatePowerUpButtons();
         int marked = 0;
         for(Button button: answerButtons){
             if (!((Answer)button.getTag()).isCorrect() && marked<2){
@@ -593,35 +559,35 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
 
     /**
      * Executed by Hint PowerUp
-     * Highlight an answer with the high probability of correctness
+     * Highlights an highly probable answer
      */
     @Override
     public void showHint() {
-        updatePowerUpButtons();
-        boolean marked = false;
-        int color = getResources().getColor(R.color.yellow);
-        Random random = new Random(System.nanoTime());
-        final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+        Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
         animation.setDuration(500); // duration - half a second
         animation.setRepeatCount(Animation.INFINITE); // Repeat animation infinitely
         animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
-        for(Button button: answerButtons){
-            if (((Answer)button.getTag()).isCorrect() && random.nextBoolean()){
-                button.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-                button.startAnimation(animation);
-                marked = true;
-                break;
-            }
-        }
-        if (! marked){
-            Button randomButton = answerButtons.get(random.nextInt(4));
-            randomButton.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            randomButton.startAnimation(animation);
-        }
+        // Highlight the probable good answer
+        Button probableAnswer = getProbableAnswer();
+        probableAnswer.getBackground().setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
+        probableAnswer.startAnimation(animation);
     }
 
     /**
-     * prevents quiting game accidentally on back pressed
+     * @return a highly probable answer
+     */
+    private Button getProbableAnswer(){
+        Random random = new Random(System.nanoTime());
+        for(Button button: answerButtons){
+            if (((Answer)button.getTag()).isCorrect() && random.nextBoolean()){
+                return button;
+            }
+        }
+        return answerButtons.get(random.nextInt(4));
+    }
+
+    /**
+     * Prevents quiting game accidentally on back pressed
      */
     @Override
     public void onBackPressed() {
@@ -651,14 +617,19 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     public void update(Observable observable, Object arg) {
         if (observable instanceof Player){
             updateScore((Player) observable);
+            updatePowerUpButtons();
         }
     }
+
 
     private void updateScore(Player player) {
         scoreView.setText(String.valueOf(player.getCurrentScore()));
         pointsView.setText(String.valueOf(player.getPoints()));
     }
 
+    /**
+     * @return currently active player
+     */
     private Player getCurrentPlayer(){
         return isPracticeMode?
                 Player.defaultPlayer():
@@ -668,7 +639,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     /**
      * used to pause music when Quizee goes on background
      */
-
     @Override
     protected void onPause() {
         MusicService.ServiceBinder.getService().pauseMusic();
@@ -678,7 +648,6 @@ public class QuestionActivity extends AppCompatActivity implements Game, Observe
     /**
      * used to resume music when Quizee goes on background
      */
-
     @Override
     protected void onResume() {
         MusicService.ServiceBinder.getService().resumeMusic(true);

@@ -30,6 +30,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public ProgressDialog mProgressDialog;
 
+    /**
+     * A progress dialog to show when interacting with login service
+     */
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -47,44 +50,58 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-
+    /**
+     * Create and initialise the login screen
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setupAuthenticationService();
+        createLoginForm();
+        createLoginButtons();
+    }
+
+    private void setupAuthenticationService(){
         playerManager = PlayerManager.getInstance();
         playerManager.setLoggedCallback(this);
+    }
 
-        // Views
+    private void createLoginForm(){
         mEmailField = (EditText) findViewById(R.id.email);
         mPasswordField = (EditText) findViewById(R.id.password);
         mUserNameField = (EditText) findViewById(R.id.user_name);
+    }
 
-        // Buttons
+    private void createLoginButtons(){
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.register_button).setOnClickListener(this);
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        playerManager.onStart();
+        playerManager.loginWithCurrentUser();
     }
 
 
     @Override
     public void onStop(){
         super.onStop();
-        playerManager.onStop();
+        playerManager.saveCurrentPlayer();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        playerManager.onStop();
+        playerManager.saveCurrentPlayer();
     }
 
+    /**
+     * Validates that email and password fields are not empty
+     * @return true is the email and password field are not empty
+     */
     private boolean validateForm() {
         boolean valid = true;
 
@@ -107,9 +124,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return valid;
     }
 
+
+    /**
+     * Login or create user on click
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         showProgressDialog();
+        // special account to use for debug
         if (mUserNameField.getText().toString().equals("test")){
             playerManager.setCurrentPlayer(Player.defaultPlayer());
             onLogin();
@@ -119,6 +142,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             hideProgressDialog();
             return;
         }
+        // login or create a new user if the form is validated
         int i = v.getId();
         if (i == R.id.register_button) {
             playerManager.createAccount(mUserNameField.getText().toString(), mEmailField.getText().toString(), mPasswordField.getText().toString());
@@ -128,6 +152,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+    /**
+     * Callback method to be called by authentication service when successfully logged in
+     */
     @Override
     public void onLogin() {
         // start game once logged in
@@ -137,6 +165,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
+    /**
+     * Callback method to be called by authentication service if an error occurred or the login failed
+     * @param message failure description
+     */
     @Override
     public void onFailure(String message) {
         hideProgressDialog();

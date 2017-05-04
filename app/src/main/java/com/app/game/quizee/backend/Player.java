@@ -199,6 +199,8 @@ public class Player extends Observable implements Serializable {
     public void addAchievement(Achievement achievement){
         if (!this.achievements.contains(achievement)){
             this.achievements.add(achievement);
+            setChanged();
+            notifyObservers();
         }
     }
     /**
@@ -241,6 +243,8 @@ public class Player extends Observable implements Serializable {
         Integer current = this.availablePowerUps.get(powerUp.getName());
         if (current!=null && current > 0){
             this.availablePowerUps.put(powerUp.getName(), --current);
+            setChanged();
+            notifyObservers();
         }
     }
 
@@ -324,6 +328,8 @@ public class Player extends Observable implements Serializable {
     }
     public void setTotalratio(int totalratio) {
         this.totalratio = totalratio;
+        setChanged();
+        notifyObservers();
     }
     /**
      * Modify the money of the player and update the amount visually
@@ -335,6 +341,8 @@ public class Player extends Observable implements Serializable {
     }
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
+        setChanged();
+        notifyObservers();
     }
     public void setLevel(int level) {
         this.level = level;

@@ -8,4 +8,6 @@ public interface Game {
     void addTime();
     void skipQuestion();
     void showHint();
+    void init();
+    void finish();
 }
