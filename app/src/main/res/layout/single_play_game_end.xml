@@ -26,8 +26,8 @@
         android:id="@+id/end_good_answers"
         android:gravity="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:layout_weight="0.1"/>
+        android:textSize="18sp"
+        android:layout_weight="0.5"/>
 
     <TextView
         android:id="@+id/achievement_status"
