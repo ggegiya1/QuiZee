@@ -98,10 +98,10 @@ public class EndDialog {
                 "Good answers: " + player.getCorrectlyAnswered().size() + "\n";
         for (Question.Difficulty d: Question.Difficulty.values()){
             if (score.getAnswers(d)>0){
-                text += d.name() + ": " + score.getAnswers(d) + "(+" + score.getScore(d) + "pts)\n";
+                text += d.name() + ": " + score.getAnswers(d) + "(" + score.getScore(d) + "pts)\n";
             }
         }
-        text += "Time bonus: " + (int)(score.getTimeLeft()/1000) + "sec (+" + score.getTimeBonus() + "pts)";
+        text += "Time bonus: " + (int)(score.getTimeLeft()/1000) + "sec (" + score.getTimeBonus() + "pts)";
         textView.setText(text);
         player.addScore(score.getTotalScore());
         player.addmoney(score.getTotalScore());
