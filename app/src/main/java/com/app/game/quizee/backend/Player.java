@@ -114,7 +114,7 @@ public class Player extends Observable implements Serializable {
      * Add the score in param to our current score
      * If the current score beats our highscore, we update it
      */
-    private void addScore(int score) {
+    public void addScore(int score) {
         currentScore +=score;
         if (highestScore < currentScore){
             highestScore = currentScore;
@@ -168,9 +168,6 @@ public class Player extends Observable implements Serializable {
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
         this.nbQanswered +=1;
-        addScore(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 1000) + 1));
-        addPoints(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
-        addexp(question.getDifficultyScore() * ((int) (question.getTimeRemained() / 2000) + 1));
     }
 
     /**

@@ -14,6 +14,8 @@ import com.app.game.quizee.backend.Achievement;
 import com.app.game.quizee.backend.Game;
 import com.app.game.quizee.backend.Player;
 import com.app.game.quizee.backend.PlayerManager;
+import com.app.game.quizee.backend.Question;
+import com.app.game.quizee.backend.Score;
 
 import java.util.List;
 
@@ -54,8 +56,7 @@ public class EndDialog {
 
         TextView goodAnswersTv = (TextView) dialogView.findViewById(R.id.end_good_answers);
 
-        goodAnswersTv.setText(parentView.getString(R.string.goodAnswers) + ": " + correctlyAnswered + "  Score: " + player.getCurrentScore());
-
+        populateScoreView(goodAnswersTv, player);
         // IMPORTANT! Save the current player score to be updated in TOP list view
         PlayerManager.getInstance().saveCurrentPlayer();
         List<Achievement> achievements = player.updateAchievements();
@@ -90,4 +91,29 @@ public class EndDialog {
         endDialog.setCancelable(false);
     }
 
+
+    private void populateScoreView(TextView textView, Player player){
+        Score score = calculateScore(player);
+        String text = "Score: " + score.getTotalScore() + "\n" +
+                "Good answers: " + player.getCorrectlyAnswered().size() + "\n";
+        for (Question.Difficulty d: Question.Difficulty.values()){
+            text += d.name() + ": " + score.getAnswers(d) + "(+" + score.getScore(d) + "pts)\n";
+        }
+        text += "Time bonus: " + (int)(score.getTimeLeft()/1000) + "sec (+" + score.getTimeBonus() + "pts)";
+        textView.setText(text);
+        player.addScore(score.getTotalScore());
+        player.addmoney(score.getTotalScore());
+        player.addexp(score.getTotalScore());
+    }
+
+    private Score calculateScore(Player player){
+        Score score = new Score();
+        long timeLeft = 0;
+        for (Question q: player.getCorrectlyAnswered()){
+            score.addAnswer(q.getDifficulty());
+            timeLeft += q.getTimeRemained();
+        }
+        score.setTimeLeft(timeLeft);
+        return score;
+    }
 }
