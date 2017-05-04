@@ -33,6 +33,7 @@ public class Score {
         for (Question.Difficulty d: Question.Difficulty.values()){
             total += getScore(d);
         }
+        total += getTimeBonus();
         return total;
     }
 
