@@ -168,6 +168,8 @@ public class Player extends Observable implements Serializable {
     public void addCorrectAnswer(Question question) {
         this.correctlyAnswered.add(question);
         this.nbQanswered +=1;
+        setChanged();
+        notifyObservers();
     }
 
     /**
