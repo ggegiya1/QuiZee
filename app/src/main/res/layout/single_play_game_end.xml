@@ -27,7 +27,7 @@
         android:gravity="center"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.2"/>
 
     <TextView
         android:id="@+id/achievement_status"
